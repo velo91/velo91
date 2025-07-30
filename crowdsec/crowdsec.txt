@@ -1,1 +1,73 @@
+### INSTALL CROWDSEC
+curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
+sudo apt install crowdsec crowdsec-firewall-bouncer-iptables
+# change port 8080 to 7777
+sudo nano /etc/crowdsec/config.yaml
+sudo nano /etc/crowdsec/local_api_credentials.yaml
+sudo nano /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
+sudo systemctl restart crowdsec && sudo systemctl restart crowdsec-firewall-bouncer
+sudo systemctl status crowdsec && sudo systemctl status crowdsec-firewall-bouncer
+# make sure no error:
+sudo journalctl -u crowdsec -n 20
+sudo cscli parsers list
+sudo cscli scenarios list
+sudo cscli bouncers list
+sudo cscli collections list
+sudo cscli metrics
+sudo cscli decisions list
 
+### ADD THIRD PARTY BLOCKLIST
+# create account at https://app.crowdsec.net
+# once logged in, find the Enroll Command button, and paste it into your terminal:
+sudo cscli console enroll -e context [your_engine_id]
+# after a moment, a notification will appear on the website. click "Accept" enroll.
+# your server will be linked and appear on the dashboard. reload the Crowdsec service.
+sudo cscli console enable manual
+sudo systemctl restart crowdsec && sudo systemctl restart crowdsec-firewall-bouncer
+# go to the Blocklist Catalog to browse what's available. you can add up to 3 on a free account. here are my recommended blocklists for newcomers:
+Firehol cruzit.com list
+Firehol BotScout list
+Firehol greensnow.co list
+# to add one, click Subscribe. choose Ban as the default action to take.
+
+### CREATE WHITELIST WITH s02-enrich
+nano /etc/crowdsec/parsers/s02-enrich/mywhitelists.yaml
+==================
+name: my/whitelist
+description: "Custom whitelist IP agar tidak dianalisis"
+whitelist:
+  reason: "trusted ip"
+  ip:
+    # ip A
+    - "X.X.X.X"
+    # ip B
+    - "X.X.X.X"
+    # ip C
+    - "X.X.X.X"
+==================
+sudo systemctl reload crowdsec
+sudo cscli parsers list | grep whitelist
+
+### USEFUL COMMAND
+# ip
+sudo cscli decisions add --reason "permanent malicious ip" --duration 1000d --ip <IP>
+sudo cscli decisions list --scope ip --value <IP>
+sudo cscli decisions list --ip <IP>
+sudo cscli decisions delete --ip <IP>
+# range (subnet)
+sudo cscli decisions add --reason "permanent malicious subnet" --duration 1000d --range <SUBNET.0/24>
+sudo cscli decisions list --scope range --value <SUBNET.0/24>
+sudo cscli decisions list --range <SUBNET.0/24>
+sudo cscli decisions delete --range <SUBNET.0/24>
+# ssh scenario
+sudo cscli decisions list --scenario crowdsecurity/ssh-bf
+sudo cscli decisions list | grep ssh
+sudo cscli scenarios list | grep ssh
+sudo cscli decisions add --reason "manual ssh brute force" --scenario crowdsecurity/ssh-bf --duration 4h --ip <IP>
+sudo cscli decisions list --ip <IP>
+sudo cscli decisions delete --ip <IP>
+
+### CRON JOB
+# autoblock naughty IP range (not Indonesia/Google) every 2 minute
+# > untuk overwrite, >> untuk append
+*/2 * * * * /usr/bin/python3 /var/www/logs/check_log_error_ipinfo_crowdsec.py > /var/www/logs/ipinfo_error.log 2>&1 && /usr/bin/python3 /var/www/logs/check_log_access_ipinfo_crowdsec.py > /var/www/logs/ipinfo_access.log
