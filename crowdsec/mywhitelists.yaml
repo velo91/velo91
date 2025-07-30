@@ -1,0 +1,16 @@
+name: my/whitelist
+description: "Custom whitelist IP agar tidak dianalisis"
+whitelist:
+  reason: "trusted ip"
+  ip:
+    # ip A
+    - "X.X.X.X"
+
+    # ip B
+    - "X.X.X.X"
+
+    # ip C
+    - "X.X.X.X"
+
+    # ip D
+    - "X.X.X.X"
