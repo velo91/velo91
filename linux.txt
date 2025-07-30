@@ -1,0 +1,1370 @@
+##################################
+# Set DNS Record
+# For app with www CNAME, like: www.[YOUR_DOMAIN]
+##################################
+A-------@-----------[YOUR_IP_SERVER] ---> if you use control panel, change @ to * (plesk) or _ (cpanel)
+A-------data--------[YOUR_IP_SERVER]
+A-------dev---------[YOUR_IP_SERVER]
+A-------file--------[YOUR_IP_SERVER]
+A-------ktm---------[YOUR_IP_SERVER]
+A-------mail--------[YOUR_IP_SERVER]
+A-------struktur----[YOUR_IP_SERVER]
+CNAME---www---------[YOUR_DOMAIN]
+MX------@-----------mail.[YOUR_DOMAIN]-----10
+TXT-----@-----------v=spf1 a mx -all
+TXT-----_dmarc------v=DMARC1;p=none
+# if you don't use control panel, set the nameserver
+NS-----ns1.kilatdomain.net
+NS-----ns2.kilatdomain.net
+NS-----ns3.kilatdomain.net
+NS-----ns4.kilatdomain.net
+
+##################################
+# Set DNS Record
+# For app with non-www subdomain, like: siakad.[YOUR_DOMAIN]
+##################################
+A-------@------------------------------------[YOUR_IP_SERVER] ---> if you use control panel, change @ to * (plesk) or _ (cpanel)
+A-------[YOUR_SUBDOMAIN_WITH_TLD]------------[YOUR_IP_SERVER]
+A-------data---------------------------------[YOUR_IP_SERVER]
+A-------dev----------------------------------[YOUR_IP_SERVER]
+A-------file---------------------------------[YOUR_IP_SERVER]
+A-------mail.[YOUR_SUBDOMAIN_WITH_TLD]-------[YOUR_IP_SERVER]
+A-------struktur-----------------------------[YOUR_IP_SERVER]
+MX------[YOUR_SUBDOMAIN_WITH_TLD]------------mail.[YOUR_SUBDOMAIN_WITH_TLD]-----10
+TXT-----[YOUR_SUBDOMAIN_WITH_TLD]------------v=spf1 a mx -all
+TXT-----_dmarc.[YOUR_SUBDOMAIN_WITH_TLD]-----v=DMARC1;p=none
+# if you don't use control panel, set the nameserver
+NS-----ns1.kilatdomain.net
+NS-----ns2.kilatdomain.net
+NS-----ns3.kilatdomain.net
+NS-----ns4.kilatdomain.net
+
+##################################
+# Check IP Domain
+##################################
+dig [domain] +short
+ping [domain]
+whois [domain] | grep Server
+dig @ns1.kilatdomain.net [domain] +short
+dig @ns2.kilatdomain.net [domain] +short
+dig @ns3.kilatdomain.net [domain] +short
+dig @ns4.kilatdomain.net [domain] +short
+
+##################################
+# Be root
+##################################
+sudo -i
+
+##################################
+# Optional: Set hostname
+##################################
+hostnamectl set-hostname [YOUR_DOMAIN] && hostname
+or
+hostnamectl set-hostname [YOUR_SUBDOMAIN_WITH_TLD] && hostname
+
+##################################
+# Update packages
+##################################
+sudo apt update && apt upgrade -y && apt autoremove -y --purge && apt autoclean -y
+# Restart services during package upgrades without asking? choose "Yes"
+# configuring openssh-server? choose "Install the package maintainer's version"
+
+##################################
+# Useful packages
+##################################
+reboot
+sudo apt update && sudo apt install software-properties-common ghostscript neofetch curl wget git zip unzip rar unrar gnupg gnupg2 ca-certificates lsb-release apt-transport-https fail2ban haveged htop nload nmap nmon ntp pigz tree ccze mycli libpcre3 libpcre3-dev zlib1g zlib1g-dev
+
+# GEOLITE (GAK PAKAI LAGI KARENA PERFORMANCE ISSUE)
+sudo add-apt-repository ppa:maxmind/ppa
+sudo apt update
+sudo apt install geoipupdate mmdb-bin geoip-bin geoip-database libgeoip1 libgeoip-dev libmaxminddb0 libmaxminddb-dev
+# GeoLite2 is geolocation free service. This data is less accurate than the paid service, GeoIP2.
+# check GeoIP version
+geoipupdate --version
+# get GeoIP id and key at https://www.maxmind.com/en/my_license_key in menu Manage License Keys
+# Old versions of our GeoIP Update program use a different license key format. Will this key be used for GeoIP Update? [Yes]
+# Generate a license key and config file for use with geopipupdate version 3.1.1 or newer [Confirm]
+# configure GeoIP with id and key
+nano /etc/GeoIP.conf
+	AccountID 999999
+	LicenseKey 000000000000
+	EditionIDs GeoLite2-ASN GeoLite2-City GeoLite2-Country
+# update
+geoipupdate -v
+# follow instruction at: https://github.com/leev/ngx_http_geoip2_module
+
+# configure timezone. Select: Asia->Jakarta
+systemctl enable ntp && dpkg-reconfigure tzdata && date
+
+# increase history size
+export HISTSIZE=10000
+
+# open_files limits
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/security.limits.conf > /etc/security/limits.conf
+sysctl -w fs.file-max=500000
+sysctl -p
+nano /etc/sysctl.conf
+# add this line: fs.file-max=500000
+# apply the setting: sysctl -p
+
+# IP hardening
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/50-ip-sec.conf > /etc/sysctl.d/50-ip-sec.conf && sysctl --system
+
+##################################
+# Secure shared memory
+##################################
+nano /etc/fstab
+# paste it at last line:
+none /run/shm tmpfs defaults,ro 0 0
+	# you may ignore it: if you want that memory space mounted in read/write mode, change that line with this:
+	none /run/shm tmpfs rw,noexec,nosuid,nodev 0 0
+
+##################################
+# Add swap space equals to RAM size
+##################################
+# check has swap enabled, if output is empty, it means that your system does not have swap space enabled
+swapon --show
+# creating a file which will be used for swap
+fallocate -l 4G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile && swapon --show
+# make the change permanent
+nano /etc/fstab
+# paste it at last line:
+/swapfile swap swap defaults 0 0
+# check again
+swapon --show
+
+##################################
+# How to change swap size
+##################################
+swapoff -a
+rm /swapfile
+fallocate -l 8G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile && swapon --show
+
+##################################
+# Display current CPU usage as a percentage
+##################################
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/cpustat.sh > /etc/cpustat.sh
+chmod +x /etc/cpustat.sh && chmod 0755 /etc/cpustat.sh
+cp /etc/cpustat.sh /usr/bin/.
+cpustat.sh
+
+##################################
+# Display current processes of the most RAM consuming
+##################################
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/ramstat.sh > /etc/ramstat.sh
+chmod +x /etc/ramstat.sh && chmod 0755 /etc/ramstat.sh
+cp /etc/ramstat.sh /usr/bin/.
+ramstat.sh
+
+##################################
+# Add new user with root privilages
+##################################
+NEW_USER="......." && adduser ${NEW_USER} && usermod -aG sudo ${NEW_USER} && usermod -aG www-data ${NEW_USER} && usermod -aG admin ${NEW_USER} && groups ${NEW_USER} && id ${NEW_USER}
+# TYPE root password and just ENTER when fill user profile
+	### if you want to delete the user from group, run this command: gpasswd -d linuxsec sudo
+	### if you want to delete the user, run this command: sudo deluser [USERNAME]
+	### if you want to delete the user and its home directory and mail spool, use the --remove-home flag: sudo deluser --remove-home [USERNAME]
+
+##################################
+# Generate ssh public key
+##################################
+mkdir -p /home/[NEW_USER]/.ssh && chmod 700 /home/[NEW_USER]/.ssh
+cd /home/[NEW_USER]/.ssh && ssh-keygen -t rsa
+# type: [NEW_USER]
+# just leave blank the passphrase
+mv [NEW_USER].pub authorized_keys && chmod 600 authorized_keys && rm /home/[NEW_USER]/.ssh/[NEW_USER]
+# edit ssh
+nano /etc/ssh/sshd_config
+# set:
+	Port 10022
+	LogLevel VERBOSE
+	LoginGraceTime 10
+	PermitRootLogin no
+	PasswordAuthentication yes
+	KbdInteractiveAuthentication no
+	UsePAM yes
+	X11Forwarding no
+	PrintMotd yes
+	ClientAliveInterval 120
+	ClientAliveCountMax 720
+	AcceptEnv LANG LC_*
+	Subsystem sftp  /usr/lib/openssh/sftp-server
+service ssh restart && echo "Please login ssh with new created user and configured port" && exit && exit
+
+##################################
+# Firewall with ufw
+##################################
+sudo apt install -y ufw
+
+# define firewall rules
+ufw logging low
+ufw default allow outgoing
+ufw default deny incoming
+
+# smtp
+	#ufw allow 25
+	#ufw allow 465
+	#ufw allow 587
+# pop3
+	#ufw allow 110
+	#ufw allow 995
+# imap
+	#ufw allow 143
+	#ufw allow 993
+
+# ssh
+CURRENT_SSH_PORT=$(grep "Port " /etc/ssh/sshd_config | awk -F " " '{print $2}') && echo $CURRENT_SSH_PORT && ufw allow $CURRENT_SSH_PORT
+
+# nginx
+ufw allow http
+ufw allow https
+
+ufw show added
+ufw enable
+# Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+service ssh restart
+
+### if you want to delete a rule, just type: ufw delete [allow/deny] [PORT_NUMBER]
+
+##################################
+# Install Postfix with OpenDKIM
+##################################
+
+### Create A and MX Record
+A-----[YOUR_SUBDOMAIN_WITH_TLD]----------14400-----[YOUR_IP_SERVER]
+A-----mail.[YOUR_SUBDOMAIN_WITH_TLD]-----14400-----[YOUR_IP_SERVER]
+MX----[YOUR_SUBDOMAIN_WITH_TLD]----------14400-----mail.[YOUR_SUBDOMAIN_WITH_TLD]-----10
+
+### Install Postfix
+sudo apt update && sudo apt install postfix -y
+# general type of mail configuration: Internet Site
+# enter your domain name for the system mail name, i.e. the domain name after @ symbol: [YOUR_DOMAIN_OR_YOUR_SUBDOMAIN_WITH_TLD] ---> salam.stitdarsa.ac.id
+
+### Configure Postfix
+sudo postconf -e "myhostname = [YOUR_DOMAIN_OR_YOUR_SUBDOMAIN_WITH_TLD]" -----> sudo postconf -e "myhostname = salam.stitdarsa.ac.id"
+sudo postconf -e "mydomain = [YOUR_DOMAIN_OR_YOUR_SUBDOMAIN_WITH_TLD]" -----> sudo postconf -e "mydomain = salam.stitdarsa.ac.id"
+nano /etc/mailname -----> salam.stitdarsa.ac.id
+sudo systemctl restart postfix
+
+### Set PTR Record
+opening a support ticket, ask technical support to add PTR record with IP = [SERVER_IP_ADDR] and target domain = [YOUR_DOMAIN_OR_YOUR_SUBDOMAIN_WITH_TLD]
+# then check
+host [SERVER_IP_ADDR]
+
+### Install and Configure OpenDKIM
+sudo apt install opendkim opendkim-tools -y
+sudo adduser postfix opendkim
+nano /etc/opendkim.conf
+# find the following lines:
+	#Canonicalization     simple
+	#Mode                 sv
+	#SubDomains           no
+# uncomment them, change "simple" to "relaxed/simple", change "sv" to "s"
+# add the following lines at the end of this file. (On Ubuntu 22.04, the UserID is already set to opendkim)
+# Map domains in From addresses to keys used to sign messages
+	KeyTable                refile:/etc/opendkim/key.table
+	SigningTable            refile:/etc/opendkim/signing.table
+	
+	# A set of internal hosts whose mail should be signed
+	InternalHosts           /etc/opendkim/trusted.hosts
+
+### Create Signing Table, key Table and Trusted Hosts File
+sudo mkdir /etc/opendkim && sudo chown -R opendkim:opendkim /etc/opendkim
+sudo mkdir /etc/opendkim/keys && sudo chmod go-rw /etc/opendkim/keys
+nano /etc/opendkim/signing.table
+# add the following line to the file
+	*@[YOUR_SUBDOMAIN_WITH_TLD] mail._domainkey.[YOUR_SUBDOMAIN_WITH_TLD]
+nano /etc/opendkim/key.table
+# add the following line to the file
+	mail._domainkey.[YOUR_SUBDOMAIN_WITH_TLD] [YOUR_SUBDOMAIN_WITH_TLD]:mail:/etc/opendkim/keys/[YOUR_SUBDOMAIN_WITH_TLD]/mail.private
+nano /etc/opendkim/trusted.hosts
+# add the following line to the file
+	127.0.0.1
+	localhost
+	192.168.0.1/24
+	*.[YOUR_SUBDOMAIN_WITH_TLD]
+
+### Generate Private/Public Keypair
+sudo mkdir /etc/opendkim/keys/[YOUR_SUBDOMAIN_WITH_TLD]
+sudo opendkim-genkey -b 2048 -d [YOUR_SUBDOMAIN_WITH_TLD] -D /etc/opendkim/keys/[YOUR_SUBDOMAIN_WITH_TLD] -s mail -v
+sudo chmod 600 /etc/opendkim/keys/[YOUR_SUBDOMAIN_WITH_TLD]/mail.private
+sudo chown opendkim:opendkim /etc/opendkim/keys/[YOUR_SUBDOMAIN_WITH_TLD]/mail.*
+
+### Add Public Key in DNS Records
+cat /etc/opendkim/keys/[YOUR_SUBDOMAIN_WITH_TLD]/mail.txt
+# copy everything and paste into the value field. Delete all double quotes and white spaces
+
+### Create TXT record with name "mail._domainkey.[YOUR_SUBDOMAIN_NO_DOMAIN_NO_TLD]" and paste to it's value
+TXT-----mail._domainkey.[YOUR_SUBDOMAIN_NO_DOMAIN_NO_TLD]-----v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArWBHrWVg1idKnon+ES5f2QVDhaAQKGUlifr4wasudzPZuRd5rY38falQ4YfNeJtgSl+Aq5psc/M/qts68jyr7/gAHdKV2eVAQ4NaAGWHSJHmrm8lbGHSoKRPgIMAziTCBa5qk8iRb1YdFWMR73rBdvpdXPPCv0hR74Gs1FNi/oOYiY6FM3iX0BI7aLeJKbHn3a40ZbsMNFFt/RB6IXZYy9y6lSzJPRBnD46yTSLKujYPSEX+X3Jj+XvyPVABjxAupsB9Mn1+olrhX229DukUvyvlLyokQkT4eSuNmX9kG3S4tDpDrBQrBY/Ca+eX0XdKO8KaKyiocJVCZ2fMw91znwIDAQAB
+
+# once the DNS record is published, enter the following command on your Ubuntu server to test your key.
+sudo opendkim-testkey -d [YOUR_SUBDOMAIN_NO_DOMAIN_NO_TLD] -s mail -vvv
+# if everything is OK, you will see
+key OK
+# if you see key not secure message, don’t panic. This is because DNSSEC isn’t enabled on your domain name.
+
+### Connect Postfix with OpenDKIM
+nano /etc/opendkim.conf
+# find the following line:
+	Socket                  local:/run/opendkim/opendkim.sock
+# give comment at that line
+# uncomment this line: (If you can't find this line, just add it)
+	Socket                  local:/var/spool/postfix/opendkim/opendkim.sock
+sudo mkdir /var/spool/postfix/opendkim && sudo chown opendkim:postfix /var/spool/postfix/opendkim
+nano /etc/default/opendkim
+# if you can find the following line:
+	SOCKET=local:$RUNDIR/opendkim.sock
+# change it to:
+	SOCKET=local:/var/spool/postfix/opendkim/opendkim.sock
+nano /etc/postfix/main.cf
+# add the following lines at the end of this file to connect Postfix with OpenDKIM:
+	# Milter configuration
+	milter_default_action = accept
+	milter_protocol = 6
+	smtpd_milters = local:opendkim/opendkim.sock
+	non_smtpd_milters = $smtpd_milters
+sudo systemctl restart opendkim postfix
+
+### Create SPF and DMARC Record
+TXT-----[YOUR_SUBDOMAIN_WITH_TLD]------------14400-----v=spf1 a mx -all
+TXT-----_dmarc.[YOUR_SUBDOMAIN_WITH_TLD]-----14400-----v=DMARC1; p=none
+
+### Enable TLS Encryption for Outgoing Emails
+nano /etc/postfix/main.cf
+# add the following two lines at the end of this file:
+	smtp_tls_security_level = may
+	smtp_tls_loglevel = 1
+sudo systemctl restart postfix
+
+### Check DKIM status in Gmail inbox
+echo "From: no-reply@[YOUR_SUBDOMAIN_WITH_TLD]
+To: [YOUR_EMAIL]
+Subject: Test email
+This is a test email."| sendmail -t
+
+### If you click the show original button in Gmail, you should see "dkim=pass"
+
+### Testing Sender Score at https://www.mail-tester.com
+echo "From: no-reply@[YOUR_SUBDOMAIN_WITH_TLD]
+To: ......<paste_here>......
+Subject: Test email
+This is a test email."| sendmail -t
+
+Note: Mail Tester result may be 8.1/10. Don't worry, it's the highest score for you because your domain isn't listed in Pyzor Whitelist.
+
+### Optional: Set the From Address, From Name and Return-Path
+# you can set custom From address, From name and Return-Path in your website/web application. Let’s use WordPress as an example. You can add the following lines in your WordPress theme’s functions.php file to override the default From address, From name and return-path. Replace the red text as necessary.
+// Function to change From email address
+function wpb_sender_email( $original_email_address ) {
+    return 'no-reply@example.com';
+}
+// Function to change sender name
+function wpb_sender_name( $original_email_from ) {
+    return 'Sender Name Here';
+}
+// Set return-path the same as From address
+function fix_my_email_return_path( $phpmailer ) {
+    $phpmailer->Sender = $phpmailer->From;
+}
+// Hooking up our functions to WordPress filters
+add_filter( 'wp_mail_from', 'wpb_sender_email' );
+add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
+add_action( 'phpmailer_init', 'fix_my_email_return_path' );
+
+### Configure Postfix Send-only SMTP Server For Multiple Domains
+# if your server hosts multiple websites, you just need to create SPF and DMARC record for your other domains, which is very easy to do, and configure OpenDKIM for your other domains. To configure OpenDKIM for other domains, you need to add the other domains in the signing table, key table and trusted hosts file like below.
+nano /etc/opendkim/signing.table
+	*@[YOUR_SUBDOMAIN_WITH_TLD] mail._domainkey.[YOUR_SUBDOMAIN_WITH_TLD]
+	*@[YOUR_SUBDOMAIN_2_WITH_TLD] mail._domainkey.[YOUR_SUBDOMAIN_2_WITH_TLD]
+	*@[YOUR_SUBDOMAIN_3_WITH_TLD] mail._domainkey.[YOUR_SUBDOMAIN_3_WITH_TLD]
+nano /etc/opendkim/key.table
+	mail._domainkey.[YOUR_SUBDOMAIN_WITH_TLD] [YOUR_SUBDOMAIN_WITH_TLD]:mail:/etc/opendkim/keys/[YOUR_SUBDOMAIN_WITH_TLD]/mail.private
+	mail._domainkey.[YOUR_SUBDOMAIN_2_WITH_TLD] [YOUR_SUBDOMAIN_2_WITH_TLD]:mail:/etc/opendkim/keys/[YOUR_SUBDOMAIN_2_WITH_TLD]/mail.private
+	mail._domainkey.[YOUR_SUBDOMAIN_3_WITH_TLD] [YOUR_SUBDOMAIN_3_WITH_TLD]:mail:/etc/opendkim/keys/[YOUR_SUBDOMAIN_3_WITH_TLD]/mail.private
+nano /etc/opendkim/trusted.hosts
+	127.0.0.1
+	localhost
+	192.168.0.1/24
+	*.[YOUR_SUBDOMAIN_WITH_TLD]
+	*.[YOUR_SUBDOMAIN_2_WITH_TLD]
+	*.[YOUR_SUBDOMAIN_3_WITH_TLD]
+# then generate the DKIM Private/Public keypair by following the same steps as mentioned above for other domains and add the DKIM public key in DNS. Restart OpenDKIM and you are done. Don’t forget to test your sender score.
+
+##################################
+# Install Imagick (latest version)
+# >= v7 to able converting process of WEBP format when user upload from any apps
+##################################
+sudo apt install webp && cd /opt && git clone https://github.com/SoftCreatR/imei && cd imei && chmod +x imei.sh && ./imei.sh && identify -version
+
+sudo apt upgrade
+
+##################################
+# Install Nginx
+##################################
+sudo apt install -y nginx-extras && nginx -v
+
+# Set up server configuration
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/stub_status.conf > /etc/nginx/conf.d/stub_status.conf
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/useragents.rules > /etc/nginx/useragents.rules
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/general.conf > /etc/nginx/general.conf
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/nginx.conf > /etc/nginx/nginx.conf
+# make sure this line appear in the http block of nginx.conf:
+nano /etc/nginx/nginx.conf
+	include /etc/nginx/useragents.rules;
+curl -sSL ........................ > /etc/nginx/sites-available/example.com
+# make sure these lines appear in the server block :
+	if ($badagent) { return 403; }
+
+# Add error.log owner
+chown www-data:www-data /var/log/nginx/error.log
+
+# Set up custom error page
+mkdir /var/www/errorpage && cd /var/www/errorpage
+wget https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/errorpage/400.html
+wget https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/errorpage/401.html
+wget https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/errorpage/403.html
+wget https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/errorpage/404.html
+wget https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/errorpage/500.html
+wget https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/errorpage/502.html
+wget https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/errorpage/503.html
+wget https://raw.githubusercontent.com/achyaryalyal/fastron/master/nginx/errorpage/504.html
+chown -R www-data:www-data /var/www/errorpage
+
+# [You can ignore it]
+# Create a password file for Restricting Access with HTTP Basic Authentication
+# sudo apt install apache2-utils
+# htpasswd -c /etc/nginx/conf.d/.htpasswd [USER]
+
+# Create a symbolic link to activate server block
+sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
+nginx -t
+nginx -s reload
+
+# Add Nginx Brotli as dynamic module
+# Brotli works only with HTTPS, so you need to install SSL certificate first, see "Install Let's Encrypt"
+cd /opt && git clone https://github.com/google/ngx_brotli.git && cd ngx_brotli && git submodule update --init && cd .. && ls
+nginx -v
+wget http://nginx.org/download/nginx-[VERSION].tar.gz
+tar -xvzf nginx-[VERSION].tar.gz
+cd nginx-[VERSION]
+./configure --with-compat --add-dynamic-module=/opt/ngx_brotli
+make
+make install
+cp objs/*.so /etc/nginx/ && chmod 644 /etc/nginx/*.so && rm -rf /opt/ng*
+nano /etc/nginx/nginx.conf
+#add it before event {}: load_module /etc/nginx/ngx_http_brotli_filter_module.so;
+#add it before event {}: load_module /etc/nginx/ngx_http_brotli_static_module.so;
+#comment gzip line
+#add it before gzip line:
+    brotli on;
+    brotli_static on;
+    brotli_types *;
+nginx -t
+nginx -s reload
+
+[CAUTION] if error "bind() to 0.0.0.0:80 failed (98: Address already in use)" occurs, so just kill running nginx to restart it. Paste code below:
+sudo pkill -f nginx
+sudo systemctl start nginx
+
+# Installing & Managing Nginx Amplify Agent
+https://amplify.nginx.com/docs/guide-installing-and-managing-nginx-amplify-agent.html
+
+##################################
+# Add Cronjob
+##################################
+crontab -e
+# see the cronjob at the bottom of this page
+
+##################################
+# Install Crowdsec: a free, modern, and collaborative behavior detection engine coupled with a global IP reputation network.
+##################################
+curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
+sudo apt install crowdsec crowdsec-firewall-bouncer-iptables
+# change port 8080 to 7777
+sudo nano /etc/crowdsec/config.yaml
+sudo nano /etc/crowdsec/local_api_credentials.yaml
+sudo nano /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
+sudo systemctl restart crowdsec && sudo systemctl restart crowdsec-firewall-bouncer
+sudo systemctl status crowdsec && sudo systemctl status crowdsec-firewall-bouncer
+# make sure no error:
+sudo journalctl -u crowdsec -n 20
+sudo cscli parsers list
+sudo cscli scenarios list
+sudo cscli bouncers list
+sudo cscli collections list
+sudo cscli metrics
+sudo cscli decisions list
+### Optional: Add Third-Party Blocklists to Crowdsec
+# create account at https://app.crowdsec.net
+# once logged in, find the Enroll Command button, and paste it into your terminal:
+sudo cscli console enroll -e context [your_engine_id]
+# after a moment, a notification will appear on the website. click Accept enroll.
+# your server will be linked and appear on the dashboard. reload the Crowdsec service.
+# go to the Blocklist Catalog to browse what's available. you can add up to 3 on a free account. here are my recommended blocklists for newcomers:
+Firehol cruzit.com list
+Firehol BotScout list
+Firehol greensnow.co list
+# to add one, click Subscribe. choose Ban as the default action to take.
+###
+# create whitelist
+nano /etc/crowdsec/parsers/s02-enrich/mywhitelists.yaml
+==================
+name: my/whitelist
+description: "Custom whitelist IP agar tidak dianalisis"
+whitelist:
+  reason: "trusted ip"
+  ip:
+    # ip A
+    - "X.X.X.X"
+    # ip B
+    - "X.X.X.X"
+    # ip C
+    - "X.X.X.X"
+==================
+sudo systemctl reload crowdsec
+sudo cscli parsers list | grep whitelist
+### useful command:
+# ip
+sudo cscli decisions add --reason "permanent malicious ip" --duration 1000d --ip <IP>
+sudo cscli decisions list --scope ip --value <IP>
+sudo cscli decisions list --ip <IP>
+sudo cscli decisions delete --ip <IP>
+# range (subnet)
+sudo cscli decisions add --reason "permanent malicious subnet" --duration 1000d --range <SUBNET.0/24>
+sudo cscli decisions list --scope range --value <SUBNET.0/24>
+sudo cscli decisions list --range <SUBNET.0/24>
+sudo cscli decisions delete --range <SUBNET.0/24>
+# ssh scenario
+sudo cscli decisions list --scenario crowdsecurity/ssh-bf
+sudo cscli decisions list | grep ssh
+sudo cscli scenarios list | grep ssh
+sudo cscli decisions add --reason "manual ssh brute force" --scenario crowdsecurity/ssh-bf --duration 4h --ip <IP>
+sudo cscli decisions list --ip <IP>
+sudo cscli decisions delete --ip <IP>
+
+##################################
+# Configure Fail2ban (NOT USED, YOU CAN USE CROWDSEC)
+##################################
+cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/fail2ban/jail.local > /etc/fail2ban/jail.local
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/fail2ban/nginx-botsearch.conf > /etc/fail2ban/filter.d/nginx-botsearch.conf
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/fail2ban/nginx-http-auth.conf > /etc/fail2ban/filter.d/nginx-http-auth.conf
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/fail2ban/nginx-limit-req.conf > /etc/fail2ban/filter.d/nginx-limit-req.conf
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/fail2ban/wordpress.conf > /etc/fail2ban/filter.d/wordpress.conf
+chmod 664 /etc/fail2ban/filter.d/*.conf
+service fail2ban restart && fail2ban-client status
+# use systemd to make sure fail2ban run automatically after reboot without cronjob
+sudo systemctl enable fail2ban && sudo systemctl is-enabled fail2ban
+# show status of all fail2ban jails at once
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/fail2ban/fail2ban-allstatus.sh > /etc/fail2ban/fail2ban-allstatus.sh
+chmod +x /etc/fail2ban/fail2ban-allstatus.sh && chmod 0755 /etc/fail2ban/fail2ban-allstatus.sh
+cp /etc/fail2ban/fail2ban-allstatus.sh /usr/bin/.
+fail2ban-allstatus.sh
+	# troubleshoot: if you can't edit unwritable jail.local file so you must force your root filesystem to remount as rw
+	mount -o remount,rw /etc/fail2ban/jail.local
+
+##################################
+# Install MariaDB 10.6.7
+##################################
+sudo apt install mariadb-server
+
+# check version
+dpkg -l | grep mariadb
+
+curl -sSL https://github.com/achyaryalyal/fastron/raw/master/mariadb/my.cnf > /etc/mysql/my.cnf
+
+sudo mysql_secure_installation
+	# Switch to unix_socket authentication [Y/n]? n
+	# Change the root password? y
+	# Remove anonymous users? y
+	# Disallow root login remotely? y
+	# Remove test database and access to it? y
+	# Reload privilege tables now? y
+
+# increase mariadb open_files_limit
+mkdir /etc/systemd/system/mariadb.service.d/
+nano /etc/systemd/system/mariadb.service.d/limitnofile.conf
+# add this line:
+	[Service]
+	LimitNOFILE=1048576
+systemctl daemon-reload
+service mysql restart
+nano /etc/mysql/mariadb.conf.d/50-server.cnf
+# under [mysqld], add:
+	open_files_limit = 102400
+nano /etc/sysctl.conf
+# add this line:
+	fs.nr_open=1048576
+# then make it active with command
+sysctl -p
+
+# optimize and repair databases
+mysqlcheck -u root -p --auto-repair -o --optimize --all-databases
+
+	# you may ignore it:
+	# Mariabackup is part of MariaDB Server starting with MariaDB 10.1.23
+	# install
+	sudo apt install mariadb-backup
+	# backup
+	mariabackup --backup --target-dir=/tmp/mariadb/backup/ --user=backupuser --password=backup123
+	# restore
+	mariabackup --prepare --target-dir=/tmp/mariadb/backup/
+	mariabackup --copy-back --target-dir=/tmp/mariadb/backup/
+	chown -R mysql:mysql /var/lib/mysql/
+
+##################################
+# Install php8.1-fpm
+##################################
+# by default Ubuntu 22.04 has the latest PHP 8.1 repository added
+apt -y install php8.1-fpm php8.1 php8.1-common php8.1-mysql php8.1-xml php8.1-xmlrpc php8.1-curl php8.1-dev php8.1-gd php8.1-imagick php8.1-cli php8.1-ldap php8.1-imap php8.1-mbstring php8.1-opcache php8.1-soap php8.1-sqlite3 php8.1-sybase php8.1-xsl php8.1-zip php8.1-intl php8.1-bcmath php8.1-bz2 php8.1-xdebug unzip libssl-dev libpng-dev libgd-dev dh-php dh-make && service php8.1-fpm restart && php -v
+
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/php8.1-fpm/php.ini > /etc/php/8.1/fpm/php.ini
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/php8.1-fpm/www.conf > /etc/php/8.1/fpm/pool.d/www.conf
+chown www-data:www-data /var/log/php8.1-fpm.log
+chmod 1733 -R /var/lib/php/sessions
+
+# edit imagick policy for pdf file in order to convert PDF-to-image with Imagick
+nano /etc/ImageMagick-6/policy.xml
+# change line
+<policy domain="coder" rights="none" pattern="PDF" />
+# to be:
+<policy domain="coder" rights="read|write" pattern="PDF" />
+
+# restart web server and php
+service nginx restart && service php8.1-fpm restart && php -v
+
+# allowing script php run "landscape-sysinfo" with shell_exec
+mkdir -p /var/www/.landscape && chmod -R og+rwX /var/www/.landscape
+
+# if have many version of php & you want to switch the default version to other php version.
+# then, check default version: update-alternatives --config php && php -v
+
+##################################
+# Install PhpMyAdmin 5.2.0
+# https://www.phpmyadmin.net/downloads/
+##################################
+cd /var/www && date=$(date +%Y-%m-%d_%H-%M) && mv phpmyadmin phpmyadmin_old_${date}
+
+mkdir -p /var/www/phpmyadmin && cd /var/www/phpmyadmin && wget https://files.phpmyadmin.net/phpMyAdmin/5.2.0/phpMyAdmin-5.2.0-english.zip && unzip phpMyAdmin-5.2.0-english.zip && mv phpMyAdmin-5.2.0-english*/* . && rm -rf phpMyAdmin-* && mv config.sample.inc.php config.inc.php && chown -R www-data:www-data /var/www/phpmyadmin
+
+# custom config
+sed -i "s/$cfg\['blowfish_secret'\] =.*/$cfg\['blowfish_secret'\] = '5DS+D0TOqIn-ebPHX+cH7DoDrKadU3zw';\n\$cfg\['LoginCookieValidity'\] = '7200';/" /var/www/phpmyadmin/config.inc.php
+sed -i "s/$i++;/$i++;\n\$cfg\['Servers'\]\[\$i\]\['hide_db'\] = 'mysql|information_schema|performance_schema|test|phpmyadmin|sys';/" /var/www/phpmyadmin/config.inc.php
+sed -i "$ a \$cfg['DefaultCharset'] = 'utf8';" /var/www/phpmyadmin/config.inc.php
+sed -i "$ a \$cfg['DefaultConnectionCollation'] = 'utf8mb4_general_ci';" /var/www/phpmyadmin/config.inc.php
+sed -i "$ a \$cfg['MaxNavigationItems'] = 1000;" /var/www/phpmyadmin/config.inc.php
+sed -i "$ a \$cfg['NavigationTreeEnableGrouping'] = false;" /var/www/phpmyadmin/config.inc.php
+sed -i "$ a \$cfg['NavigationDisplayLogo'] = false;" /var/www/phpmyadmin/config.inc.php
+sed -i "$ a \$cfg['TitleTable'] = 'Data | @DATABASE@ / @TABLE@';" /var/www/phpmyadmin/config.inc.php
+sed -i "$ a \$cfg['TitleDatabase'] = 'Data | @DATABASE@';" /var/www/phpmyadmin/config.inc.php
+sed -i "$ a \$cfg['TitleServer'] = 'Data';" /var/www/phpmyadmin/config.inc.php
+sed -i "$ a \$cfg['TitleDefault'] = 'Data';" /var/www/phpmyadmin/config.inc.php
+
+nano +79 /var/www/phpmyadmin/templates/login/form.twig
+
+# search label for="input_username" and find <input>, change type "text" to "password"
+
+nano +16 /var/www/phpmyadmin/libraries/classes/Controllers/LogoutController.php
+
+# search "Redirect to other authenticated server"
+# replace this line: './index.php?route=/' . Url::getCommonRaw(['server' => $server], '&')
+# with :
+	'./index.php?route=/&key='.md5(time()).'&token='.md5(time()) . Url::getCommonRaw(['server' => $server], '&')
+
+# create server block: data-phpmyadmin
+curl -sSL https://github.com/achyaryalyal/fastron/raw/master/nginx/data-phpmyadmin > /etc/nginx/sites-available/data-phpmyadmin && sudo ln -s /etc/nginx/sites-available/data-phpmyadmin /etc/nginx/sites-enabled/
+
+# test before reload
+nginx -t
+nginx -s reload
+
+# Go to data.[DOMAIN]/index.php
+
+##################################
+# Install Let's Encrypt
+##################################
+sudo apt install -y certbot
+
+# HTTPS: create Diffie-Hellman keys
+openssl dhparam -dsaparam -out /etc/nginx/dhparam.pem 4096
+
+# obtain certificate for domain and CNAME (use --dry-run for testing)
+certbot certonly --email [YOUR_EMAIL] --agree-tos --rsa-key-size 4096 --webroot -w /var/www/[YOUR_DIRECTORY] -d example.com -d www.example.com
+
+# obtain certificate for a subdomain (use --dry-run for testing)
+certbot certonly --email [YOUR_EMAIL] --agree-tos --rsa-key-size 4096 --webroot -w /var/www/[YOUR_DIRECTORY] -d [SUBDOMAIN].example.com
+# example subdomain non-wordpress
+certbot certonly --email [YOUR_EMAIL] --agree-tos --rsa-key-size 4096 --webroot -w /var/www/master -d [SUBDOMAIN].example.com
+# example subdomain wordpress
+certbot certonly --email [YOUR_EMAIL] --agree-tos --rsa-key-size 4096 --webroot -w /var/www/master/wordpress/stkipbbg-[SUBDOMAIN] -d [SUBDOMAIN].example.com
+
+# certbot is auto run renewal, if you want to test it, just use renew subcommand (use --dry-run for testing)
+certbot renew --dry-run
+# if success, run without --dry-run
+certbot renew
+# to test renew spesific certificate use --cert-name
+certbot renew --dry-run --cert-name [SUBDOMAIN].example.com
+
+# configure nginx server block
+# to perform SSL
+
+# testing SSL grade
+# open https://www.ssllabs.com/ssltest
+
+# if you see any warning or error about ciphers
+# generate new ciphers at https://ssl-config.mozilla.org/
+
+# Let's Encrypt's certificates are only valid for 90 days. Certbot will automatically run twice a day and renew any certificate that is within thirty days of expiration. To test the renewal process is working correctly, you can use "dry-run" option:
+certbot renew --dry-run
+# If you see no errors, you're all set. When necessary, Certbot will renew your certificates and reload Nginx to pick up the changes. If the automated renewal process ever fails, Let’s Encrypt will send a message to the email you specified, warning you when your certificate is about to expire.
+
+# Finding SSL certificate expiration date from a PEM encoded certificate file
+openssl x509 -enddate -noout -in /etc/nginx/ssl/domain.cer
+openssl x509 -enddate -noout -in /etc/letsencrypt/live/domain/fullchain.pem;
+
+##################################
+# Install Monit 5.31.0
+##################################
+sudo apt install -y monit && monit --version
+
+nano /etc/monit/monitrc
+
+# uncomment httpd like following lines
+set httpd port 2812 and
+  use address localhost
+  allow localhost
+  allow admin:monit
+
+sudo monit -t
+sudo monit reload
+
+sudo systemctl enable monit
+sudo /lib/systemd/systemd-sysv-install enable monit
+
+sudo systemctl restart monit && sudo monit status && sudo monit summary
+
+# for nginx (not apache):
+sudo ln -s /etc/monit/conf-available/nginx /etc/monit/conf-enabled/
+
+# for apache (not nginx):
+sudo ln -s /etc/monit/conf-available/apache2 /etc/monit/conf-enabled/
+
+# for mysql (not mariadb):
+sudo ln -s /etc/monit/conf-available/mysql /etc/monit/conf-enabled/
+
+# for mariadb (not mysql):
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/monit/mariadb > /etc/monit/conf-available/mariadb
+sudo ln -s /etc/monit/conf-available/mariadb /etc/monit/conf-enabled/
+
+sudo monit -t
+sudo monit reload
+sudo monit status && sudo monit summary
+
+
+##################################
+# Install Rclone 1.59.2
+##################################
+### METHOD 1 ###
+curl https://rclone.org/install.sh | sudo bash && rclone version
+rclone config
+
+### METHOD 2 ###
+cd /opt
+# Fetch and unpack
+curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
+unzip rclone-current-linux-amd64.zip
+cd rclone-*-linux-amd64
+# Copy binary file
+sudo cp rclone /usr/bin/
+sudo chown root:root /usr/bin/rclone
+sudo chmod 755 /usr/bin/rclone
+# Install manpage
+sudo mkdir -p /usr/local/share/man/man1
+sudo cp rclone.1 /usr/local/share/man/man1/
+sudo mandb
+# Run setup
+rclone config
+
+### MAKE YOUR OWN client_id ###
+https://rclone.org/drive/#making-your-own-client-id
+# It is strongly recommended to use your own client ID as the default rclone ID is heavily used.
+# Sometimes Google ask you to "submit your app for verification" and then wait a few weeks for their response
+# But in practice, you can go right ahead and use the client ID and client secret with rclone, the only issue will be a very scary confirmation screen shown when you connect via your browser for rclone to be able to get its token-id
+# If you don't want to go through verification process, you can choose Internal type (not External). But with Internal mode, your app is limited to Google Workspace users within your organization
+
+### HOW TO SETUP ###
+# enter "n" for New Remote Storage
+# give it a name. ex: AMC
+# enter the number for Google Drive
+# just leave blank the client_id & client_secret
+# enter "1" for Full Access
+# just leave blank the service_account_file
+# enter "y" for Advanced Config
+# just leave blank the token, auth_url, token url
+# paste folder ID from folder URL to root_folder_id. ex: 3Hty4Fkfvb3294xxxxxxxxxxxxxxxxxxf
+# just leave blank the auth_owner_only
+# enter "true" for use_trash
+# just leave blank the copy_shortcut_content, skip_gdocs, skip_checksum_gphotos, shared_with_me, trashed_only, starred_only, export_formats, import_formats, allow_import_name_change, list_chunk, impersonate, upload_cutoff
+# enter "64M" for chunk_size
+# just leave blank the acknowledge_abuse, keep_revision_forever, v2_download_min_size, pacer_min_sleep, pacer_burst, server_side_across_configs, disable_http2, stop_on_upload_limit, stop_on_download_limit, skip_shortcuts, skip_dangling_shortcuts, resource_key, encoding, 
+# enter "n" for Edit Advanced Config
+# Use web browser to automatically authenticate rclone with remote?
+# y if the machine running rclone has a web browser you can use
+# n if running rclone on a (remote) machine without web browser access --> right choice for linux server
+# For this to work, you will need rclone available on a machine that has a web browser available
+# paste it to other linux machine have rclone: rclone authorize "drive" "___??___"
+# copy and paste config_token
+# enter "n" for Shared Drive (Team Drive)
+# enter "y" for Yes This is OK
+# enter "q" for Quit Config
+
+### HOW TO USE ###
+# list all remotes: rclone listremotes
+# list file: rclone ls AMC:
+# list dir: rclone lsd AMC:
+# list file & dir: rclone lsf AMC:
+# storage info: rclone about AMC:
+# make dir: rclone mkdir AMC:Data
+# copy file to destination: rclone copy hello.txt AMC:Data
+# copy file to local: rclone copy AMC:Data/hello.txt /path/to/local/
+# copy folder to local: rclone copy AMC:Data /path/to/local/
+# delete all file, not dir: rclone delete AMC:Data
+# delete single file: rclone deletefile AMC:Data:info.txt
+# delete empty dir: rclone rmdir AMC:Data
+# delete file & dir: rclone purge AMC:Data
+# sync source to destination: rclone sync hello.txt AMC:Data
+# move source to destination: rclone move hello.txt AMC:Data
+# print total size & number of objects: rclone size AMC:Data
+# mount example 1: rclone mount AMC:Data /path/to/local/mount --allow-non-empty --allow-other --vfs-cache-mode writes &
+# mount example 2: rclone mount spada-storage-mounting: /home/bbg-spada/htdocs/spadadata/filedir-google-drive --allow-non-empty --allow-other --dir-cache-time 72h --buffer-size 512M --drive-chunk-size 256M --vfs-cache-mode full --vfs-cache-max-age 168h --vfs-cache-max-size 10G --vfs-read-chunk-size 128M --vfs-read-chunk-size-limit 1G &
+	# NOTE: adjust --vfs-cache-max-size to 15-20% of your total local disk capacity
+# unmount: fusermount -u /path/to/local/mount
+# this is the path you mounted the storage to, if you don't know the path, run: mount | grep rclone
+
+########## Rclone: Restore Project Backup From Remote To Specific Path ##########
+# make sure the machine no run any sync task or mount task on the project
+mkdir /var/www/restore-me && cd /var/www/restore-me
+rclone copy AMC:project/any-file.zip /var/www/restore-me && unzip any-file.zip
+mv /var/www/[TARGET_DIR_NAME] /var/www/[TARGET_DIR_NAME]_OLD && mv /var/www/restore-me /var/www/[TARGET_DIR_NAME]
+chown -R www-data:www-data /var/www/[TARGET_DIR_NAME] && chmod -R 775 /var/www/[TARGET_DIR_NAME]
+
+########## Rclone: Mount Drive On Boot ##########
+nano /mount-google-drive.sh
+# paste it
+	#!/bin/bash
+	/usr/bin/rclone mount bbg-cabinet-mounting:cabinet-master /var/www/master/cabinet --allow-non-empty --allow-other --dir-cache-time 168h --buffer-size 64M --fast-list --drive-pacer-burst 200 --drive-pacer-min-sleep 10ms --drive-chunk-size 256M --vfs-cache-mode full --vfs-cache-max-age 168h --vfs-cache-max-size 10G --vfs-read-chunk-size 256M --vfs-read-chunk-size-limit 1G &
+	/usr/bin/rclone mount bbg-cabinet-mounting:cabinet-development /var/www/development/cabinet --allow-non-empty --allow-other --dir-cache-time 168h --buffer-size 64M --fast-list --drive-pacer-burst 200 --drive-pacer-min-sleep 10ms --drive-chunk-size 256M --vfs-cache-mode full --vfs-cache-max-age 168h --vfs-cache-max-size 10G --vfs-read-chunk-size 256M --vfs-read-chunk-size-limit 1G &
+	# NOTE: adjust --vfs-cache-max-size to 15-20% of your total local disk capacity
+# make it executable
+chmod +x /mount-google-drive.sh
+# add to cronjob
+crontab -e
+# see the cronjob at the bottom of this page
+
+########## Rclone: Troubleshoot if not mounted ###########
+# run single command of rclone mount: bash /mount-google-drive.sh
+# and error appears: Failed to create file system for "______:______": didn't find section in config file
+# because file config has been deleted, it caused by an unclean shutdown. please remember, rclone will re-write the config file on re-auth, so if you had an unclean shutdown just after that, so the file could go missing conceivably.
+# run: rclone config file
+# nano fot that file and you will see nothing in config file
+# so the solution is you must CREATE NEW REMOTE STORAGE
+# and test list dir: rclone lsd AMC:
+
+########## Rclone: Prefetch/Preload files into VFS cache in background process ###########
+$ nohup find /path/to/mount/folder-you-want-to-prefetch-files -type f -exec cat {} \; > /dev/null 2>&1 &
+# check background process:
+$ pgrep -a find && ps -ef | grep "cat "
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Install Code Server - VS Code in the browser (GAK PERLU)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+$ sudo curl -fsSL https://code-server.dev/install.sh | sh
+$ sudo systemctl enable --now code-server@$USER
+	#restart for ubuntu-20.04: service code-server@$USER restart
+	#restart for ubuntu-18.04: systemctl daemon-reload && service code-server@$USER restart
+	#uninstall: rm -rf ~/.local/share/code-server ~/.config/code-server && sudo apt remove code-server
+# prepare a subdomain like code.domain.com with no root just proxy to http://localhost:8080; and then enable https with letsencrypt
+$ sudo certbot --non-interactive --redirect --agree-tos --nginx -d [SUBDOMAIN].example.com -m [YOUR_EMAIL]
+# test nginx & reload nginx
+# if error happen, just restart code server
+# open subdomain on browser
+$ cat ~/.config/code-server/config.yaml
+# enter the password
+# setting:
+	editor > word wrap: ON
+	editor > minimap: OFF
+	editor > font size: 13
+	editor > font family: 'Ubuntu Mono', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'
+	workbench > editor > show tabs: YES
+	workbench > editor > enable preview: NO
+# icon:
+	seti-icons
+# theme
+	Theme - Seti-Monokai (must install dependency: Monokai++)
+# modify favicon
+$ cd /usr/lib/code-server/src/browser/media && rm favicon.ico && wget https://raw.githubusercontent.com/achyaryalyal/fastron/master/mylinux/code-server/favicon.ico
+# modify login page
+$ cd /usr/lib/code-server/src/browser/media && wget https://raw.githubusercontent.com/achyaryalyal/fastron/master/mylinux/code-server/app-icon.png
+$ nano /usr/lib/code-server/src/browser/pages/login.html
+# add meta tag
+    <meta name="robots" content="noindex, nofollow">
+# change title to
+    <title>VS Code</title>
+# change html in <div class="header">....</div>
+          <center><img src="{{CS_STATIC_BASE}}/src/browser/media/app-icon.png"></center>
+          <!--<h1 class="main">Welcome to code-server</h1>-->
+          <!--<div class="sub">Please log in below. {{PASSWORD_MSG}}</div>-->
+# exit and save
+# install extension manually from terminal: code-server --install-extension ms-vscode.test-adapter-converter-0.1.2.vsix
+# you can download [FILE].vsix from https://marketplace.visualstudio.com/
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Install Composer (GAK PERLU)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+$ sudo apt update && sudo apt install php-cli unzip
+$ cd ~ && curl -sS https://getcomposer.org/installer -o composer-setup.php
+$ HASH=`curl -sS https://composer.github.io/installer.sig` && echo $HASH
+# Output
+# e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a
+$ php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+# Installer verified
+$ sudo php composer-setup.php --install-dir=/usr/bin --filename=composer
+# To test your installation, run:
+$ composer
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Create Laravel Project using Composer (GAK PERLU)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# prepare a domain or subdomain for project and then enable https with letsencrypt
+$ cd /var/www
+$ composer create-project --prefer-dist laravel/laravel [PROJECT_NAME]
+# continue as root/super user [yes]? yes
+$ sudo chmod -R 755 /var/www/[PROJECT_NAME]
+$ sudo chown -R www-data:www-data /var/www/[PROJECT_NAME]
+$ cd [PROJECT_NAME]
+$ composer install
+# continue as root/super user [yes]? yes
+$ php artisan
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Configure Laravel Project (GAK PERLU)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+$ nano .env
+# In case you are installing Laravel in a development environment, you can leave the APP_DEBUG option enabled, as this will give you important debug information while testing the application from a browser. The APP_ENV variable should be set to "development" in this case.
+# In case you are installing Laravel in a production environment, you should disable the APP_DEBUG option, because it shows to the final user sensitive information about your application. The APP_ENV in this case should be set to "production"
+	APP_NAME: Application name, used for notifications and messages.
+	APP_ENV: Current application environment.
+	APP_KEY: Used for generating salts and hashes, this unique key is automatically created when installing Laravel via Composer, so you don’t need to change it.
+	APP_DEBUG: Whether or not to show debug information at client side.
+	APP_URL: Base URL for the application, used for generating application links.
+	DB_DATABASE: Database name.
+	DB_USERNAME: Username to connect to the database.
+	DB_PASSWORD: Password to connect to the database.
+# save and exit
+# edit nginx server block and point root to public directory of your project
+$ nano /etc/nginx/sites-available/[YOUR_SERVER_BLOCK]
+	root /var/www/[PROJECT_NAME]/public;
+# save and exit
+# test nginx & reload nginx
+# acccess your project domain or subdomain on the browser
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Install S3FS for mounting S3 (GAK PERLU)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+sudo apt update
+sudo apt install -y fuse automake autotools-dev g++ git libcurl4-openssl-dev libfuse-dev libssl-dev libxml2-dev make pkg-config
+cd /opt && git clone https://github.com/s3fs-fuse/s3fs-fuse.git && cd s3fs-fuse && ./autogen.sh && ./configure && make && sudo make install
+
+# create "bucket" on your cloud storage account with CrossFTP, more info at https://kb.cloudkilat.com/informasi-umum/cara-akses-kilat-storage-baru-menggunakan-crossftp
+
+# create "directory" on your VM
+mkdir /tmp/cache /path/to/mountpoint
+chmod 775 /tmp/cache /path/to/mountpoint
+chown www-data:www-data /path/to/mountpoint
+
+# create credential file
+echo ACCESS_KEY:SECRET_KEY > /etc/.passwd-s3fs
+chmod 600 /etc/.passwd-s3fs
+
+# mount cloud storage to cloud VM
+s3fs [BUCKET_NAME] /path/to/mountpoint -o passwd_file=/etc/.passwd-s3fs -o allow_other -o nonempty -o ensure_diskfree=30000 -o use_path_request_style -o url=http://s3-id-jkt-1.kilatstorage.id/ -o use_cache=/tmp/cache
+
+# NOTE 1:
+# always use "http" not https because https just give memory leaks of RAM.
+# The publicly facing files are still accessible over https, although we we are not storing anything very sensitive anyway.
+# This does mean that data is being transmitted from one amazon server to another unencrypted, so take this into consideration when deciding.
+# Now s3fs uses only a little of memory, even while actively moving data to our s3 bucket.
+
+# NOTE 2:
+# ensure_diskfree=30000 grants that cache folder (i.e. /tmp/cache) will increase in size but it will be always ensured at least 10GB of disk free.
+
+# check cloud storage has mounted to cloud VM
+df -h
+
+# test write/upload a file, then check with DragonDisk
+echo HELLO > s3fs.txt
+
+# mount automatically on reboot
+nano /etc/fstab
+
+# please read NOTE 1 & 2
+# this command is for paste into fstab, if you want to use this command in terminal just try the step about "mount cloud storage to cloud VM" with -o parameter
+s3fs#[BUCKET_NAME] /path/to/mountpoint fuse _netdev,passwd_file=/etc/.passwd-s3fs,allow_other,nonempty,ensure_diskfree=30000,use_path_request_style,url=http://s3-id-jkt-1.kilatstorage.id/,use_cache=/tmp/cache 0 0
+# mine:
+s3fs#bbg-master-cabinet /var/www/master/cabinet fuse _netdev,passwd_file=/etc/.passwd-s3fs,allow_other,nonempty,ensure_diskfree=30000,use_path_request_style,url=http://s3-id-jkt-1.kilatstorage.id/,use_cache=/tmp/cache 0 0
+s3fs#bbg-development-cabinet /var/www/development/cabinet fuse _netdev,passwd_file=/etc/.passwd-s3fs,allow_other,nonempty,ensure_diskfree=30000,use_path_request_style,url=http://s3-id-jkt-1.kilatstorage.id/,use_cache=/tmp/cache 0 0
+
+# if you want to test fstab mounting result:
+mount -a && df -h
+
+# anyway, if you want to unmount:
+umount -i /path/to/mountpoint
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Install S5CMD (a very fast S3 and local filesystem execution tool) for showing S3 disk space summary (GAK PERLU)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+sudo -i
+
+# build s5cmd from source after have Go 1.13+ installed
+snap install go --classic && go version && go get -u github.com/peak/s5cmd && cp /root/go/bin/s5cmd /usr/bin/.
+
+# create credentials
+cd /root && mkdir -p .aws && cd .aws && nano credentials
+  [default]
+  aws_access_key_id = XXXXXXX
+  aws_secret_access_key = YYYYYYYY
+
+# make configuration for www-data, so you can run s5cmd with php
+cp -a /root/.aws /var/www/ && chown -R www-data:www-data /var/www/.aws
+
+# count objects and determine total size
+s5cmd --endpoint-url [S3_ENDPOINT] du --humanize s3://[S3_BUCKET_NAME]/*
+
+# list objects in bucket
+s5cmd --endpoint-url [S3_ENDPOINT] ls s3://[S3_BUCKET_NAME]
+
+# more documentation about s5cmd at https://github.com/peak/s5cmd/blob/master/README.md
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Install Clamav (GAK PERLU)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+sudo apt install clamav clamav-daemon clamav-freshclam && clamdscan -V
+sudo /etc/init.d/clamav-freshclam stop
+sudo freshclam
+sudo /etc/init.d/clamav-freshclam start
+
+# enable notify and schedule the scan
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/clamscan_daily.sh > /clamscan_daily.sh
+chmod +x /clamscan_daily.sh && chmod 0755 /clamscan_daily.sh
+
+# add script to crontab
+	# Let’s create a hard link as below:
+	ln /clamscan_daily.sh /etc/cron.daily/clamscan_daily
+	# Check to make sure that the hard link was created:
+	# ls -li /etc/cron.daily/clamscan_daily
+
+# if you get the following error: LibClamAV Error: cli_loaddb(): No supported database files found in /var/lib/clamav/
+# just update the database manually:
+freshclam -v
+
+# if you get the following error: Clamd was NOT notified
+# just restart the daemon
+service clamav-daemon restart
+
+##################################
+##################################
+######### TIPS AND TRICK #########
+##################################
+##################################
+
+#####################################################################################
+######## Change Ubuntu 22.04 LTS Repository to a Local Indonesian Repository ########
+#####################################################################################
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
+sudo nano /etc/apt/sources.list 
+deb http://kartolo.sby.datautama.net.id/ubuntu/ jammy main restricted universe multiverse
+deb http://kartolo.sby.datautama.net.id/ubuntu/ jammy-updates main restricted universe multiverse
+deb http://kartolo.sby.datautama.net.id/ubuntu/ jammy-security main restricted universe multiverse
+deb http://kartolo.sby.datautama.net.id/ubuntu/ jammy-backports main restricted universe multiverse
+deb http://kartolo.sby.datautama.net.id/ubuntu/ jammy-proposed main restricted universe multiverse
+
+#####################################################################################
+######## Change Ubuntu 24.04 LTS Repository to a Local Indonesian Repository ########
+#####################################################################################
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
+sudo nano /etc/apt/sources.list 
+deb http://kartolo.sby.datautama.net.id/ubuntu/ noble main restricted universe multiverse
+deb http://kartolo.sby.datautama.net.id/ubuntu/ noble-updates main restricted universe multiverse
+deb http://kartolo.sby.datautama.net.id/ubuntu/ noble-security main restricted universe multiverse
+deb http://kartolo.sby.datautama.net.id/ubuntu/ noble-backports main restricted universe multiverse
+deb http://kartolo.sby.datautama.net.id/ubuntu/ noble-proposed main restricted universe multiverse
+
+###################################
+######## Switch APT Mirror ########
+###################################
+sudo apt update
+sudo apt install python3-pip
+pip3 --version
+sudo pip3 install apt-mirror-updater
+apt-mirror-updater --list-mirrors
+sudo apt-mirror-updater -c "[PASTE_MIRROR_URL_HERE]"
+
+###################################
+########## Make Zip File ##########
+###################################
+# no pswd:
+zip -r [final_file_name].zip [any_file/dir_1] [any_file/dir_2] [any_file/dir_3]
+# with pswd prompted:
+zip -re [type_pswd_here] [final_file_name].zip [any_file/dir_1] [any_file/dir_2] [any_file/dir_3]
+# with pswd entered directly:
+zip -P [type_pswd_here] [final_file_name].zip [any_file/dir_1] [any_file/dir_2] [any_file/dir_3]
+# unzip:
+unzip [file_name].zip
+
+###################################
+########## Make Tar File ##########
+###################################
+# note: to turn off the output from tar commands, just remove -v parameter (verbose mode)
+# compress:
+tar -cvzf [final_file_name].tar.gz [any_file/dir_1] [any_file/dir_2] [any_file/dir_3]
+# compress with exclude:
+tar -cvzf [final_file_name].tar.gz [any_file/dir_1] --exclude=[any_file/dir_2] --exclude=[any_file/dir_3]
+# compress with exclude by extension:
+tar -cvzf [final_file_name].tar.gz [any_file/dir_1] --exclude=*.mp4
+# encrypt tar file (appends a .cpt extension):
+ccrypt [final_file_name].tar.gz
+# decrypt tar file with .cpt extension:
+ccrypt --decrypt [final_file_name].tar.cpt
+# extract:
+tar -xvzf [final_file_name].tar.gz
+# extract to given directory:
+tar -xvzf [final_file_name].tar.gz -C /tmp/
+
+####################################
+######### NANO jump to EOF #########
+####################################
+nano +99999 file
+# most useful commands:
+CTRL + A => Lets you jump to the beginning of the line.
+CTRL + E => Lets you to jump to the end of the line.
+CTRL + Y => Scrolls page down.
+CTRL + V => Scrolls page up.
+CTRL + G => A Help window will pop out and show you all the available commands.
+CTRL + O => To save the file. Nano will ask you to edit or verify the desired file name.
+CTRL + W => Search for a specified phrase in your text. Press ALT + W to search for the same phrase again.
+CTRL + K => It cuts the entire selected line to the cut buffer (similar to clipboard).
+CTRL + U => To paste the text from the cut buffer into the selected line.
+CTRL + J => Justifies the current paragraph.
+CTRL + C => Shows the current cursor position in the text (line/column/character).
+CTRL + R => Opens a file and inserts it at the current cursor position.
+CTRL + X => To exit Nano text editor. It prompts a save request if you made any changes to the file.
+CTRL + \ => Replaces string or a regular expression.
+CTRL + T => Invokes the spell checker, if available.
+CTRL + _ => Lets you go to the specified line and column number.
+ALT  + A => To select text. You can combine this command with CTRL + K to cut a specific part of the text to the cut buffer.
+
+######################################
+######### clear bash history #########
+######################################
+history -c && > ~/.bash_history
+
+###############################################
+######### check disk & mounted result #########
+###############################################
+df -h
+
+############################################################
+######### check disk usage (sorted human readable) #########
+############################################################
+cd [PATH] && du -hx --max-depth=1 | sort -u
+OR
+du -hx --max-depth=1 [PATH] | sort -u
+OR
+du -x --max-depth=1 [PATH] | sort -n | awk '{ print $2 }' | xargs du -hx --max-depth=0
+
+##############################################################
+######### copy files only (not folder) #######################
+######### automatically replace old file #####################
+######### and mkdir target folder/subfolder if not exist #####
+##############################################################
+cd /path/to/source && cp -fr * /path/to/target
+
+#############################################
+######### recursively search string #########
+#############################################
+cd [DIRECTORY]
+# show string inside file
+grep -nr "YOUR_STRING" [optional]
+# hide string inside file
+grep -nr "YOUR_STRING" [optional] | awk -F':' '{print $1":"$2}'
+
+#########################################################
+######### recursively search string and sort it #########
+#########################################################
+cd [DIRECTORY]
+grep -nr "YOUR_STRING" | sort -u
+
+#########################################################
+######### recursively search string and replace #########
+#########################################################
+cd [DIRECTORY]
+grep -rl "NEW_STRING" | xargs sed -i "s/NEW_STRING/OLD_STRING/g"
+
+################################
+######### curl (basic) #########
+################################
+# -I (i uppercase) show server response
+curl -I https://www.example.com
+# -l (L lowercase) show page source code
+curl -l https://www.example.com
+
+########################################
+######### curl with user agent #########
+########################################
+curl -I https://www.example.com -A "360Spider" --> must 403
+curl -I https://www.example.com -A "Googlebot" --> must 200
+
+###########################################
+######### safe with chown & chmod #########
+###########################################
+sudo chown www-data:www-data -R /var/www
+cd /var/www
+sudo find . -type f -exec chmod 664 {} \;
+sudo find . -type d -exec chmod 775 {} \;
+
+##########################################
+######### unban IP with Fail2Ban #########
+##########################################
+fail2ban-client set [YOUR_JAIL_NAME] unbanip [IP_ADDR]
+
+###############################################
+######### whitelisting IP in Fail2Ban #########
+###############################################
+nano +54 /etc/fail2ban/jail.local
+ignoreip = 127.0.0.1/8 ::1 .... .... ....
+service fail2ban restart
+
+############################
+######### Cron Job #########
+############################
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+  0  0  *  *  * root /sbin/hwclock -w   # synchronize hardware & system clock every day at 00:00 am
+  1  0  *  *  0 root /sbin/shutdown -r now "weekly reboot"   # reboot every sunday at 00:01 am
+
+# update GeoIP databases every sunday at 02:00 AM
+####00  2  *  *  0 /usr/bin/geoipupdate -v
+
+# re-ownership php session directory every day at 03:00 AM
+00  3  *  *  * chown -R www-data:www-data /var/lib/php/sessions
+ 
+# optimize all mysql databases every sunday at 03:30 AM
+30  3  *  *  0 mysqlcheck --all-databases --optimize --skip-write-binlog
+
+# reboot server every day at 04:00 AM
+00  4  *  *  * /sbin/shutdown -r now
+
+# mount drive on boot
+@reboot sh /mount-google-drive.sh
+
+###################################
+######### Export Database #########
+###################################
+# export no gzip
+date=$(date +%Y-%m-%d_%H-%M) && mysqldump -u root -p [DB_NAME] > /path/to/destination/[DB_NAME]_DB_${date}.sql
+# export and gzip (-9 is highest compression)
+date=$(date +%Y-%m-%d_%H-%M) && mysqldump -u root -p [DB_NAME] | gzip -9 > /path/to/destination/[DB_NAME]_DB_${date}.sql.gz
+###################################
+######### Import Database #########
+# make sure the database is EMPTY #
+###################################
+# import no extract
+mysql -u root -p [DB_NAME] < file.sql
+# import with extract
+gunzip < file.sql.gz | mysql -u root -p [DB_NAME]
+
+#########################################
+######### Force HTTPS Wordpress #########
+#########################################
+edit wp-config.php file
+UPDATE wp_blogs SET domain = REPLACE(domain, "http://www.example.com", "https://www.example.com");
+UPDATE wp_options SET option_value = REPLACE(option_value, "http://www.example.com", "https://www.example.com");
+UPDATE wp_site SET domain = REPLACE(domain, "http://www.example.com", "https://www.example.com");
+UPDATE wp_sitemeta SET meta_value = REPLACE(meta_value, "http://www.example.com", "https://www.example.com);
+
+########################################
+######### Force HTTP Wordpress #########
+########################################
+edit wp-config.php file
+UPDATE wp_blogs SET domain = REPLACE(domain, "https://www.example.com", "http://www.example.com");
+UPDATE wp_options SET option_value = REPLACE(option_value, "https://www.example.com", "http://www.example.com");
+UPDATE wp_site SET domain = REPLACE(domain, "https://www.example.com", "http://www.example.com");
+UPDATE wp_sitemeta SET meta_value = REPLACE(meta_value, "https://www.example.com", "http://www.example.com");
+
+#####################################################################
+######### Download a directory from another server with SCP #########
+#####################################################################
+scp -P [PORT_SSH] -r user@IP_SERVER:/path/from/remote/source /path/to/local/destination
+# pass password to scp with sshpass: sudo apt install sshpass
+sshpass -p "password" scp -P [PORT_SSH] -r user@IP_SERVER:/path/from/remote/source /path/to/local/destination
+sshpass -f "/path/to/passwordfile" scp -P [PORT_SSH] -r user@IP_SERVER:/path/from/remote/source /path/to/local/destination
+
+#################################################################
+######### Upload a directory to another server with SCP #########
+#################################################################
+scp -P [PORT_SSH] -r /path/local/source user@IP_SERVER:/path/to/remote/destination
+# pass password to scp with sshpass: sudo apt install sshpass
+sshpass -p "password" scp -P [PORT_SSH] -r /path/local/source user@IP_SERVER:/path/to/remote/destination
+sshpass -f "/path/to/passwordfile" scp -P [PORT_SSH] -r /path/local/source user@IP_SERVER:/path/to/remote/destination
+
+##############################################
+######### Auto List Every 10 Seconds #########
+##############################################
+while true; do clear; date; ls -lah; sleep 1; printf "■■■■"; sleep 1; printf "■■■■■"; sleep 1; printf "■■■■"; sleep 1; printf "■■■■■"; sleep 1; printf "■■■■"; sleep 1; printf "■■■■"; sleep 1; printf "■■■■"; sleep 1; printf "■■■■■"; sleep 1; printf "■■■■"; sleep 1; printf "■■■■"; done;
+
+#######################################
+######### Flooding with SIEGE #########
+#######################################
+sudo apt install siege
+siege -c 200 -b -t30s 'https://example.com'
+
+######################################
+######### Flooding with CURL #########
+######################################
+curl -s 'https://example.com/wp-login.php?[1-100]'
+
+#######################################
+######### Flooding with DOSER #########
+# https://github.com/Quitten/doser.py #
+#######################################
+# command 999 threads sends GET requests:
+python doser.py -t 999 -g 'https://example.com'
+# command 999 threads sends POST requests with json data:
+python doser.py -t 999 -p 'https://example.com' -ah 'Content-Type: application/json' -d '{"json": "payload"}'
+######### Flooding with SLOWHTTPTEST #########
+sudo apt install slowhttptest
+slowhttptest -c 1000 -H -g -o slowhttp -i 10 -r 200 -t GET -u http://domain.com/index.php -x 24 -p 2
+#don't trust always the service available message, just try accessing the real website from a browser and you will see if it works or not
+
+#######################################################################
+######### Display a summary of all services currently running #########
+#######################################################################
+systemctl -t service --state=active --no-pager --no-legend | egrep '^*\.service.*running' | awk 'BEGIN { FS = " ";} {for (i = 2; i <= 4; i++) { $i = "" }; print}'
+systemctl status --no-pager --full
+systemctl list-unit-files --state=enabled --no-pager
+systemctl --type=service --state=active list-units --no-pager
+systemctl --type=service --state=running list-units --no-pager
+
+#############################################
+######### List user on linux system #########
+#############################################
+awk -F: '{ print $1}' /etc/passwd
+
+:)
