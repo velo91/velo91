@@ -71,3 +71,103 @@ sudo cscli decisions delete --ip <IP>
 # autoblock naughty IP range (not Indonesia/Google) every 2 minute
 # > untuk overwrite, >> untuk append
 */2 * * * * /usr/bin/python3 /var/www/logs/check_log_error_ipinfo_crowdsec.py > /var/www/logs/ipinfo_error.log 2>&1 && /usr/bin/python3 /var/www/logs/check_log_access_ipinfo_crowdsec.py > /var/www/logs/ipinfo_access.log
+
+### BOUNCER MULTI SERVER
+Tujuan:
+Server A: Menjadi sumber utama (LAPI), tempat semua decision tercatat.
+Server B: Tetap mendeteksi log sendiri, dan juga menyalin list dari Server A dan memblokir IP yang sama.
+Asumsi:
+Port 7777 di Server A sudah terbuka dan bisa diakses dari Server B
+CrowdSec dan bouncer firewall sudah terpasang di Server A & B
+Kekurangan:
+1) Saat kamu mengubah listen_uri menjadi 0.0.0.0:7777 maka kamu mengubah LAPI (Local API) menjadi terbuka ke publik (bind ke semua interface).
+CrowdSec agent (yang jalan di server yang sama) sekarang mengakses LAPI seolah-olah "remote", dan tidak lagi mengaktifkan enrichment (seperti ASN/Negara/Org).
+Karena fitur enrichment hanya aktif kalau agent lokal bicara ke LAPI via localhost.
+Jadi saat menampilkan list decision maka tidak akan ada lagi info Country dan ASN.
+2) Waktu bantime di server B tetap maksimal 24 hari, sekalipun di server A lebih dari itu. Kecuali server B reboot, maka waktu bantime akan reset jadi 24 hari lagi.
+#
+# di Server A: Buat API Key untuk Server B
+sudo cscli bouncers add server-b
+# simpan key yang tampil untuk digunakan di server B nanti.
+#
+# di Server A: Pastikan LAPI bind ke 0.0.0.0
+sudo nano /etc/crowdsec/config.yaml
+# edit listen_uri
+    listen_uri: 0.0.0.0:7777
+# restart CrowdSec
+sudo systemctl restart crowdsec
+# cek apakah sudah listen di semua IP:
+sudo ss -ltnp | grep 7777
+# harus terlihat seperti:
+LISTEN 0 4096 0.0.0.0:7777 ...
+atau
+LISTEN 0 4096 *:7777 ...
+#
+# di Server A: Pastikan firewall izinkan port 7777
+sudo ufw allow 7777/tcp
+#
+# di Server B: Test koneksi ke Server A pakai telnet
+telnet [IP_SERVER_A] 7777
+# kalau berhasil, muncul Escape character is '^]'. tinggal tekan Ctrl + ] lalu ketik quit
+#
+# di Server B: Test koneksi ke Server A pakai curl yang disertai API Key
+curl -H "X-Api-Key: <API_KEY_DARI_SERVER_A>" http://<IP-SERVER-A>:7777/v1/decisions
+# jika berhasil, akan muncul data JSON list IP yang diblokir
+#
+# di Server B: Buat file konfigurasi bouncer
+sudo nano /etc/crowdsec/bouncers/from-server-a.yaml
+	api_url: http://[IP_SERVER_A]:7777/
+	api_key: "[API_KEY_DARI_SERVER_A]"
+	update_frequency: 30s
+	log_level: info
+	mode: iptables
+#
+# jalankan bouncer pakai config tadi
+sudo crowdsec-firewall-bouncer -c /etc/crowdsec/bouncers/from-server-a.yaml -t
+# kalau terlalu banyak error, stop dulu:
+sudo systemctl stop crowdsec-firewall-bouncer
+# kemudian coba lagi tanpa -t
+sudo crowdsec-firewall-bouncer -c /etc/crowdsec/bouncers/from-server-a.yaml
+# kalau sudah ada tulisan:
+	INFO[0002] Using API key auth                           
+	INFO[0002] Processing new and deleted decisions . . . 
+# artinya koneksi ke server A sukses, dan IP-IP dari server A sudah mulai diterapkan di iptables server B.
+# bisa cek di server B dengan:
+sudo iptables -L CROWDSEC_CHAIN -v -n
+sudo ipset list
+sudo ipset list crowdsec-blacklists-1
+# menjalankan otomatis saat boot:
+sudo systemctl enable crowdsec-firewall-bouncer
+# Server B kalau pakai "sudo cscli decisions list" tidak masuk list blokir dari Server A karena perintah ini cuma tampilin blokir lokal
+# kalau mau lihat list blokir dari Server A pakai sudo ipset list
+sudo iptables -L CROWDSEC_CHAIN -v -n
+sudo ipset list
+sudo ipset list crowdsec-blacklists-1
+#
+# aktifkan monit untuk bouncer ini
+# pastikan monit sudah terinstall
+# buat file konfigurasi baru
+nano conf-enabled/crowdsec-from-server002
+	check process crowdsec_from_server002
+	  matching "from-server002.yaml"
+	  start program = "/usr/bin/crowdsec-firewall-bouncer -c /etc/crowdsec/bouncers/from-server002.yaml &"
+	  stop program  = "/usr/bin/pkill -f 'from-server002.yaml'"
+sudo monit -t
+sudo monit reload
+sudo monit status crowdsec_from_server002
+# tidak apa-apa jika statusnya "Execution failed | Does not exist" karena tujuan kita pake monit hanya untuk memicu perintah start program dengan parameter '&' bisa berjalan bukan supaya selalu berjalan setiap saat
+# bahkan tidak apa-apa jika tidak ada hasil di:
+	ps aux | grep from-server002.yaml
+# yang penting bisa /* CrowdSec: cscli */ nampak di:
+	sudo iptables -L CROWDSEC_CHAIN -v -n
+# kalau belum tersedia, tunggu aja sampai muncul /* CrowdSec: cscli */
+
+### UPDATE KOMPONEN CROWDSEC
+sudo cscli hub update
+sudo cscli collections upgrade --all
+sudo cscli parsers upgrade --all
+sudo cscli postoverflows upgrade --all
+sudo cscli scenarios upgrade --all
+# reload agar config baru aktif
+sudo systemctl reload crowdsec
+sudo systemctl status crowdsec
