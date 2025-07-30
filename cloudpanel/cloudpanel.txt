@@ -1,0 +1,1112 @@
+==================
+CREATE VM & LOGIN
+==================
+# setup hostname
+# generate ssh key, download .pem file and move to ~/.ssh
+# setup permission: chmod 400 /path/to/your-key.pem
+# create username and password for sudo
+# after you get public ip, login ssh using a private key: ssh -i /path/to/your-key.pem -p 22 username@ip
+
+==================
+CREATE NEW SSH KEY FOR CLOUDPANEL ADMIN
+==================
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/[KEY_NAME]
+ssh-keygen -p -m PEM -f ~/.ssh/[KEY_NAME]
+mv ~/.ssh/[KEY_NAME] ~/.ssh/[KEY_NAME].pem
+cat ~/.ssh/[KEY_NAME].pub
+# copy and paste to: menu "ssh key"
+# sync key pair to: section "ssh access"
+
+==================
+UPDATE & UPGRADE SYSTEM
+==================
+# For the installation, you need an empty server with Ubuntu 24.04 or 22.04 or Debian 12 or 11 with root access
+# Before running the installer, we need to update the system and install the required packages
+apt update && apt -y upgrade && apt -y install curl wget sudo && apt -y autoremove && reboot
+
+==================
+INSTALL CLOUDPANEL
+==================
+# Run the installer with your preferred Database Engine
+	# Ubuntu 24.04 LTS with MariaDB 10.11
+	curl -sS https://installer.cloudpanel.io/ce/v2/install.sh -o install.sh; \
+	echo "a3ba69a8102345127b4ae0e28cfe89daca675cbc63cd39225133cdd2fa02ad36 install.sh" | \
+	sha256sum -c && sudo DB_ENGINE=MARIADB_10.11 bash install.sh
+	# Ubuntu 24.04 LTS with MariaDB 11.4
+	curl -sS https://installer.cloudpanel.io/ce/v2/install.sh -o install.sh; \
+	echo "a3ba69a8102345127b4ae0e28cfe89daca675cbc63cd39225133cdd2fa02ad36 install.sh" | \
+	sha256sum -c && sudo DB_ENGINE=MARIADB_11.4 bash install.sh
+# You can now access CloudPanel via Browser: https://yourIpAddress:8443
+# Ignore the self-signed certificate warning and click on Advanced and Proceed to continue to CloudPanel
+
+============
+SET TIMEZONE
+============
+# Go to Admin Area > Instance > Setting > Timezone > Asia/Jakarta > Save
+# It's recommended to reboot the instance after changing the timezone
+
+=================
+REBOOT CLOUDPANEL
+=================
+# Reboot server from CloudPanel
+# Go to Admin Area > Instance > Reboot (at top right)
+
+=================
+CHANGE TO DNS CLOUDFLARE & GOOGLE
+=================
+# This ensures your server is not using your ISP's slow DNS or the OpenVZ/VirtIO default.
+# Usually, /etc/resolv.conf is where you can configure the resolver IPs that your system is using. BUT, if you use systemd-resolved utility and the resolver IPs configuration is in /etc/systemd/resolved.conf, consider the steps below:
+sudo nano /etc/systemd/resolved.conf
+# use this setting:
+[Resolve]
+DNS=1.1.1.1#cloudflare-dns.com 1.0.0.1#cloudflare-dns.com 2606:4700:4700::1111#cloudflare-dns.com 2606:4700:4700::1001#cloudflare-dns.com
+FallbackDNS=8.8.8.8#dns.google 8.8.4.4#dns.google 2001:4860:4860::8888#dns.google 2001:4860:4860::8844#dns.google
+DNSOverTLS=yes
+DNSStubListener=yes
+Cache=yes
+# restart & check
+sudo resolvectl status && sudo resolvectl statistics
+sudo systemctl restart systemd-resolved
+sudo resolvectl flush-caches
+sudo resolvectl status && sudo resolvectl statistics
+
+=============================
+CLOUDPANEL WITH CUSTOM DOMAIN
+=============================
+# Set CloudPanel custom domain
+# Go to Admin Area > Settings > General > Domain Name > Save
+# make sure DNS record has pointed to this server
+
+=================
+UPDATE CLOUDPANEL
+=================
+clp-update
+
+=========
+GPG ERROR
+=========
+# TROUBLESHOOT "W: GPG error: https://dl.yarnpkg.com/debian stable InRelease: The following signatures were invalid"
+sudo apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
+sudo apt update
+
+====================================================
+[BETTER NOT CHANGE] NGINX WARNING ON TEST CONFIG: "ssl_stapling" ignored
+====================================================
+nginx -t
+# nginx: [warn] "ssl_stapling" ignored, issuer certificate not found for certificate
+nano /etc/nginx/nginx.conf
+# set off OCSP Stapling
+	ssl_stapling off;
+	ssl_stapling_verify off;
+nginx -t
+nginx -s reload
+
+====================================================
+NGINX CUSTOM LOG FORMAT FOR SORTING WITH $time_iso8601
+====================================================
+nano /etc/nginx/nginx.conf
+# edit log format
+    log_format main '$time_iso8601 $server_name $remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
+    log_format cloudflare '$time_iso8601 $server_name $http_cf_connecting_ip - $remote_user [$time_local] "$request" '
+                          '$status $body_bytes_sent "$http_referer" '
+                          '"$http_user_agent" "$http_x_forwarded_for"';
+nginx -t
+nginx -s reload
+
+====================================================
+NGINX ADD RESOLVER CLOUDFLARE & GOOGLE
+====================================================
+nano /etc/nginx/nginx.conf
+# add this line after http {
+	resolver 1.1.1.1 8.8.8.8 valid=300s;
+nginx -t
+nginx -s reload
+
+=======================================================================
+NGINX WARNING ON TEST CONFIG: could not build optimal server_names_hash
+=======================================================================
+nginx -t
+# nginx: [warn] could not build optimal server_names_hash, you should increase either server_names_hash_max_size: 512 or server_names_hash_bucket_size: 64; ignoring server_names_hash_bucket_size
+nano /etc/nginx/nginx.conf
+# add this line under Basic Setting
+	server_names_hash_bucket_size 256;
+	server_names_hash_max_size 1024;
+	variables_hash_max_size 2048;  
+	variables_hash_bucket_size 128;
+nginx -t
+nginx -s reload
+
+=====================
+EXTEND SWAP FILE SIZE
+=====================
+# check swap status
+swapon --show
+# disable and remove existing
+dphys-swapfile swapoff && dphys-swapfile uninstall
+# edit CONF_SWAPSIZE and CONF_MAXSWAP to desired size in MB, ex: 4096 for 4GB
+nano /etc/dphys-swapfile
+# create and enable it
+dphys-swapfile setup && dphys-swapfile swapon && swapon --show
+###
+# change swappiness value because default 60 is aggressive
+# fine-tuning swappiness in Linux can improve system performance
+sudo sysctl vm.swappiness=20
+# make it permanent after reboot: sudo nano /etc/sysctl.conf
+# add this line, exit, save: vm.swappiness = 20
+# apply: sudo sysctl -p
+
+=======================================
+DISPLAY CURRENT SWAP CONSUMING PROCESSES
+=======================================
+sudo apt update && sudo apt install smem
+sudo smem -ars swap -c "name user swap command" | head -n 17
+
+=======================================
+DISPLAY CURRENT RAM CONSUMING PROCESSES
+=======================================
+ps aux --sort=-%mem | head -n 5 | awk '{print $4"%", "\t"$1, "\t"$11}'
+###curl -sSL https://raw.githubusercontent.com/velo91/velo91/master/ramstat.sh > /etc/ramstat.sh
+###chmod +x /etc/ramstat.sh && chmod 0755 /etc/ramstat.sh
+###cp /etc/ramstat.sh /usr/bin/.
+###ramstat.sh
+
+====================================
+DISPLAY CURRENT CPU USAGE PERCENTAGE
+====================================
+grep 'cpu[0-9]' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5); printf "%s\t %.0f%%\n", $1, usage}'
+ps -eo pcpu,comm,user:20,cmd --sort=-pcpu | awk '{print $1"%", "\t"$2" ("$3") "$4}' | head -n 15
+###curl -sSL https://raw.githubusercontent.com/velo91/velo91/master/cpustat.sh > /etc/cpustat.sh
+###chmod +x /etc/cpustat.sh && chmod 0755 /etc/cpustat.sh
+###cp /etc/cpustat.sh /usr/bin/.
+###cpustat.sh
+
+====================================
+NGINX DENY IP
+====================================
+cd /etc/nginx && mkdir daftarblokir && cd daftarblokir
+# put downloaden asn file for nginx deny at https://www.ip2location.com/free/visitor-blocker-asn
+# give comment on #location / {
+# give comment on #}
+nano /etc/nginx/nginx.conf
+	# Include blocklist deny IP
+	include /etc/nginx/daftarblokir/custom_deny_ip.conf;
+	include /etc/nginx/daftarblokir/asn_deny_14061_ipv4_digital_ocean.conf;
+	include /etc/nginx/daftarblokir/asn_deny_14061_ipv6_digital_ocean.conf;
+# compare nginx log with file deny IP
+cd /var/www/logs
+wget https://raw.githubusercontent.com/velo91/velo91/refs/heads/master/nginx/cek_ip_access_belum_deny.py && chmod +x cek_ip_access_belum_deny.py
+	/usr/bin/python3 /var/www/logs/cek_ip_access_belum_deny.py
+wget https://raw.githubusercontent.com/velo91/velo91/refs/heads/master/nginx/cek_ip_access_sudah_dan_belum_deny.py && chmod +x cek_ip_access_sudah_dan_belum_deny.py
+	/usr/bin/python3 /var/www/logs/cek_ip_access_sudah_dan_belum_deny.py
+wget https://raw.githubusercontent.com/velo91/velo91/refs/heads/master/nginx/cek_ip_error_belum_deny.py && chmod +x cek_ip_error_belum_deny.py
+	/usr/bin/python3 /var/www/logs/cek_ip_error_belum_deny.py
+wget https://raw.githubusercontent.com/velo91/velo91/refs/heads/master/nginx/cek_ip_error_sudah_dan_belum_deny.py && chmod +x cek_ip_error_sudah_dan_belum_deny.py
+	/usr/bin/python3 /var/www/logs/cek_ip_error_sudah_dan_belum_deny.py
+
+=======
+IMAGICK
+=======
+# edit imagick policy for pdf file in order to convert PDF-to-image with Imagick, the version could be -6 or -7
+nano /etc/ImageMagick-6/policy.xml
+# change line
+	<policy domain="coder" rights="none" pattern="PDF" />
+# to be:
+	<policy domain="coder" rights="read|write" pattern="PDF" />
+# then restart web nginx and php
+
+==============
+REDIS + SOME IMAGE LIBRARY
+==============
+sudo apt install redis-server libpng-dev libgd-dev jpegoptim optipng pngquant gifsicle webp libavif-bin
+
+=======
+MARIADB
+=======
+# Tune up CloudPanel MariaDB
+nano /etc/mysql/mariadb.conf.d/100-cloudpanel.cnf
+# add this line after [mysqld]
+	sql_mode = "NO_ENGINE_SUBSTITUTION"
+# set thread_cache_size from 32 to 128
+# set table_open_cache from 2048 to 500000
+# set innodb_buffer_pool_size from 512M to 2G
+# set innodb_log_file_size from 1G to 256M
+# set innodb_log_buffer_size from 10M to 512M
+# set myisam_sort_buffer_size from 128M to 512M
+# set open_files_limit from 65535 to 500000
+# set table_open_cache from 2048 to 500000
+systemctl restart mariadb
+# make sure no strict mode in query result "SELECT @@SQL_MODE, @@GLOBAL.SQL_MODE;" to make your coding no more warning/error
+###
+# MAKE SURE NO [ERROR] & [WARNING] in systemctl status mariadb
+# to prevent "[Warning] Could not increase number of max_open_files to more than XXX (request: YYY)"
+# you must set open_files limits
+	$ curl -sSL https://raw.githubusercontent.com/velo91/velo91/master/security.limits.conf > /etc/security/limits.conf
+	$ sysctl -w fs.file-max=500000
+	$ sysctl -p
+	$ nano /etc/sysctl.conf
+	# add this line: fs.file-max=500000
+	# apply the setting:
+	$ sysctl -p
+# and adjust mariadb LimitNOFILE in:
+	$ egrep -r LimitNOFILE /lib/systemd/system/m* 
+	or
+	$ egrep -r LimitNOFILE /etc/systemd/system/m*
+	# adjust the value: LimitNOFILE=YYY ====> YYY is what you get in "request: YYY" on "systemctl status mariadb"
+	$ systemctl daemon-reload
+	$ systemctl restart mariadb
+###
+# OPTIONAL: enable slow query log to find out SQL queries that are slowing down your dynamic web app
+# remove comment on line:
+	slow_query_log = 1
+	slow_query_log_file = /var/log/mysql/slow.log
+	long_query_time = 2
+# add this line:
+	log_queries_not_using_indexes = 1
+systemctl restart mariadb
+# view your slow query log:
+	sudo tail -f /var/log/mysql/slow.log
+
+=======
+FULL BACKUP & FULL RESTORE WITH MARIADB BACKUP
+=======
+# install mariadb-backup, you must use a version of mariadb-backup that is compatible with current mariadb-server version
+	$ sudo apt install mariadb-backup
+# full backup and restore
+	$ mariadb-backup --backup --target-dir=/var/mariadb/backup/ --user=mariadb-backup --password=mypassword
+	$ ls /var/mariadb/backup/
+# restoring the backup
+# step 1: stop the MariaDB Server process.
+	$ systemctl stop mariadb
+# step 2: ensure that the datadir is empty.
+# step 3: preparing the backup for restoration to make the data files consistent.
+	$ mariadb-backup --prepare --target-dir=/var/mariadb/backup/
+# step 3: restore.
+	$ mariadb-backup --copy-back --target-dir=/var/mariadb/backup/
+# step 4: fix the file permissions.
+	$ chown -R mysql:mysql /var/lib/mysql/
+# step 5: start the MariaDB Server process.
+	$ systemctl start mariadb
+
+=======
+MANUAL UPGRADE MARIADB
+=======
+# doing full backup like above step
+# install prerequisites packet:
+	$ sudo apt update && sudo apt install curl apt-transport-https
+# check installed mariadb version
+	$ sudo apt list --installed | grep "^mariadb"
+###
+# NOTE: doing upgrade must step by step
+# migrate from one LTS to next one, so you arrived to latest LTS version.
+# read this: https://mariadb.com/docs/server/server-management/install-and-upgrade-mariadb/upgrading/upgrading-from-to-specific-versions
+# check supported mariadb upgrade version with supported OS version at:
+	https://mariadb.com/downloads/
+	https://mariadb.org/download/
+###
+# read https://mariadb.com/docs/server/server-management/install-and-upgrade-mariadb/installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage
+# run download script, to provide options to the script, you must tell your to expect them by executing bash with the options -s --, for example:
+	$ curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version=10.11
+	$ sudo apt upgrade maridb-server mariadb-client mariadb-backup
+	$ sudo apt list --installed | grep "^mariadb"
+	$ sudo mariadb --version
+# check your data in database (need restore or not)
+
+================
+MYSQLTUNNER (a script written in Perl that will assist you with your MySQL configuration and make recommendations for increased performance and stability)
+================
+$ cd /opt && wget https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl && chmod +x /opt/mysqltuner.pl
+$ sudo perl /opt/mysqltuner.pl --host 127.0.0.1 --user root --pass [MYSQL_PSWD]
+
+================
+BACKUP & RESTORE
+================
+# CloudPanel creates a dump of each backup database every midnight. To disable autobackup task, just comment out the line
+nano /etc/cron.d/clp
+#15 3 * * * clp /usr/bin/bash -c "/usr/bin/clpctl db:backup --ignoreDatabases='db1,db2' --retentionPeriod=7" &> /dev/null
+#15 4 * * * clp /home/clp/scripts/create_backup.sh &> /dev/null
+
+# Backup site manually
+site_user="______" && site_domain="______" && date=$(date +%Y-%m-%d_%H-%M) && cd /home/${site_user}/htdocs/ && tar -czf ${site_domain}-${date}.tar.gz ${site_domain} && mv ${site_domain}-${date}.tar.gz /home/${site_user}/backups/ && cd /home/${site_user}/backups/ && chown ${site_user}:${site_user} ${site_domain}-${date}.tar.gz && ls -lah
+
+# Backup (export) database manually
+site_user="______" && site_db="______" && date=$(date +%Y-%m-%d_%H-%M) && cd /home/${site_user}/backups/databases/ && bash clpctl db:export --databaseName=${site_db} --file=${site_db}-${date}.sql.gz && chown ${site_user}:${site_user} ${site_db}-${date}.sql.gz && ls -lah
+
+# Restore (import) database
+clpctl db:import --databaseName=my-database --file=dump.sql.gz
+
+# Database show master credentials
+clpctl db:show:master-credentials
+
+# Troubleshoot: clpctl: 5: printf: %q: invalid directive
+# just run the command with `bash`, for example:
+# bash clpctl db:show:master-credentials
+
+==========
+PHPMYADMIN
+==========
+# Access https://yourIpAddress/phpmyadmin/index.php and login with any credential
+# Create user with no global privileges, but check all in database privileges except GRANT
+nano /home/clp/htdocs/app/files/public/phpmyadmin/config.inc.php
+# comment out this line to allow create database manually
+	//$cfg['ShowCreateDb'] = false;
+# put this line to change maximum viewable tables from default 250
+	$cfg['MaxTableList'] = 600;
+# Manual import database:
+	gunzip < file.sql.gz | mysql -u [DB_USER] -p [DB_NAME]
+	mysql -u [DB_USER] -p [DB_NAME] < file.sql
+
+===========================
+ANOTHER PROJECT IN /var/www
+===========================
+# Yes, you can handle it but make sure the owner is clp:clp (not www-data:www-data)
+# Make sure server block for that domain/subdomain in /etc/nginx/sites-enabled ends with "____.conf"
+
+===============================================
+ANOTHER PROJECT SUBDOMAIN TLS/SSL USING ACME.SH
+===============================================
+# Verify it's installed: acme.sh --version
+# Install acme.sh WITH NO API
+curl https://get.acme.sh | sh -s email=[YOUR_EMAIL_DOMAIN_HERE]
+# Set ACME client maintained by Let's Encrypt (not ZeroSSL by default since August-1st 2021)
+acme.sh --server letsencrypt --set-default-ca
+### Issue certificate use nginx mode ###
+acme.sh --issue --nginx -d example.com -d www.example.com -d cp.example.com
+# Use example.key for ssl_certificate_key
+# Use fullchain.cer for ssl_certificate
+
+=============
+NGINX LOGGING
+=============
+# Keep nginx logs of last 30 days for project in /var/www
+nano /etc/logrotate.d/nginx
+# Add this line, make sure "7" in rotate:
+/var/www/cloud/logs/nginx/*.log {
+    su root root
+    daily
+    missingok
+    rotate 7 
+    dateext
+    dateformat -%Y-%m-%d
+    create 0660 clp clp
+    postrotate
+      /etc/init.d/nginx reload &> /dev/null || true
+    endscript
+}
+# Execute it
+logrotate /etc/logrotate.d/nginx
+
+# Maximize worker_connections
+nano /etc/nginx/nginx.conf
+	worker_connections 20000;
+# Disable logging for requests with HTTP status codes 2xx (Success) and 3xx (Redirection)
+nano /etc/nginx/nginx.conf
+    ##
+    # Logging Settings
+    ##
+    map $status $loggable { # excludes requests with HTTP status codes 2xx (Success) and 3xx (Redirection)
+        ~^[23]  0;
+        default 1;
+    }
+    access_log /var/log/nginx/access.log main if=$loggable;
+    error_log /var/log/nginx/error.log;
+nginx -t
+nginx -s reload
+
+======
+RCLONE
+======
+# create a symbolic link rclone.conf to clp user
+# to prevent log NOTICE: Config file "/home/clp/.config/rclone/rclone.conf" not found
+# make sure rclone.conf file has been created at /root/.config/rclone/
+# run this command:
+ln -s /root/.config/rclone/rclone.conf /home/clp/.config/rclone/
+### MAKE YOUR OWN client_id ###
+https://rclone.org/drive/#making-your-own-client-id
+# It is strongly recommended to use your own client ID as the default rclone ID is heavily used.
+# Sometimes Google ask you to "submit your app for verification" and then wait a few weeks for their response
+# But in practice, you can go right ahead and use the client ID and client secret with rclone, the only issue will be a very scary confirmation screen shown when you connect via your browser for rclone to be able to get its token-id
+# If you don't want to go through verification process, you can choose Internal type (not External). But with Internal mode, your app is limited to Google Workspace users within your organization
+###
+	# If you want to Prefetch/Preload files into VFS cache in background process, run this command:
+	$ nohup find /path/to/mount/folder-you-want-to-prefetch-files -type f -exec cat {} \; > /dev/null 2>&1 &
+	# check background process:
+	$ pgrep -a find && ps -ef | grep "cat "
+
+===============
+EDIT SSH CONFIG
+# access CloudPanel menu Adnmin Area > Security
+# change SSH port from 22 to 10022 in ipv4, type "SSH" at description
+===============
+nano /etc/ssh/sshd_config
+# set:
+	Port 10022
+	ClientAliveInterval 120
+	ClientAliveCountMax 720
+service ssh restart
+
+##################################
+# Install CrowdSec: a free, modern, and collaborative behavior detection engine coupled with a global IP reputation network.
+# access CloudPanel menu Adnmin Area > Security
+# open custom port 7777 in ipv4, type "CrowdSec" at description
+##################################
+curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
+sudo apt install crowdsec crowdsec-firewall-bouncer-iptables
+# change port 8080 to 7777
+sudo nano /etc/crowdsec/config.yaml
+sudo nano /etc/crowdsec/local_api_credentials.yaml
+sudo nano /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
+sudo systemctl restart crowdsec && sudo systemctl restart crowdsec-firewall-bouncer
+sudo systemctl status crowdsec && sudo systemctl status crowdsec-firewall-bouncer
+# make sure no error:
+sudo journalctl -u crowdsec -n 20
+sudo cscli parsers list
+sudo cscli scenarios list
+sudo cscli bouncers list
+sudo cscli collections list
+sudo cscli metrics
+sudo cscli decisions list
+### Optional: Add Third-Party Blocklists to Crowdsec
+# create account at https://app.crowdsec.net
+# once logged in, find the Enroll Command button, and paste it into your terminal:
+sudo cscli console enroll -e context [your_engine_id]
+# after a moment, a notification will appear on the website. click "Accept" enroll.
+# your server will be linked and appear on the dashboard. reload the Crowdsec service.
+sudo cscli console enable manual
+sudo systemctl restart crowdsec && sudo systemctl restart crowdsec-firewall-bouncer
+# go to the Blocklist Catalog to browse what's available. you can add up to 3 on a free account. here are my recommended blocklists for newcomers:
+Firehol cruzit.com list
+Firehol BotScout list
+Firehol greensnow.co list
+# to add one, click Subscribe. choose Ban as the default action to take.
+###
+# create whitelist
+nano /etc/crowdsec/parsers/s02-enrich/mywhitelists.yaml
+==================
+name: my/whitelist
+description: "Custom whitelist IP agar tidak dianalisis"
+whitelist:
+  reason: "trusted ip"
+  ip:
+    # ip A
+    - "X.X.X.X"
+    # ip B
+    - "X.X.X.X"
+    # ip C
+    - "X.X.X.X"
+==================
+sudo systemctl reload crowdsec
+sudo cscli parsers list | grep whitelist
+### useful command:
+# ip
+sudo cscli decisions add --reason "permanent malicious ip" --duration 1000d --ip <IP>
+sudo cscli decisions list --scope ip --value <IP>
+sudo cscli decisions list --ip <IP>
+sudo cscli decisions delete --ip <IP>
+# range (subnet)
+sudo cscli decisions add --reason "permanent malicious subnet" --duration 1000d --range <SUBNET.0/24>
+sudo cscli decisions list --scope range --value <SUBNET.0/24>
+sudo cscli decisions list --range <SUBNET.0/24>
+sudo cscli decisions delete --range <SUBNET.0/24>
+# ssh scenario
+sudo cscli decisions list --scenario crowdsecurity/ssh-bf
+sudo cscli decisions list | grep ssh
+sudo cscli scenarios list | grep ssh
+sudo cscli decisions add --reason "manual ssh brute force" --scenario crowdsecurity/ssh-bf --duration 4h --ip <IP>
+sudo cscli decisions list --ip <IP>
+sudo cscli decisions delete --ip <IP>
+### add cron job
+# autoblock naughty IP range (not Indonesia/Google) every 5 minute
+*/5 * * * * /usr/bin/python3 /var/www/logs/read_log_error_check_ipinfo_run_crowdsec.py > /var/www/logs/ipinfo_error.log 2>&1 && /usr/bin/python3 /var/www/logs/read_log_access_check_ipinfo_run_crowdsec.py > /var/www/logs/ipinfo_access.log
+
+===========================
+INSTALL MONIT AT CLOUDPANEL
+===========================
+sudo apt install -y monit && monit --version
+nano /etc/monit/monitrc
+# uncomment httpd like following lines
+	set httpd port 2812 and
+	  use address localhost
+  	  allow localhost
+  	  allow admin:monit
+sudo monit -t
+sudo monit reload
+sudo systemctl enable monit
+sudo /lib/systemd/systemd-sysv-install enable monit
+sudo systemctl restart monit && sudo monit status && sudo monit summary
+# for nginx (not apache):
+sudo ln -s /etc/monit/conf-available/nginx /etc/monit/conf-enabled/
+# for apache (not nginx):
+sudo ln -s /etc/monit/conf-available/apache2 /etc/monit/conf-enabled/
+# for mysql (not mariadb):
+sudo ln -s /etc/monit/conf-available/mysql /etc/monit/conf-enabled/
+# for mariadb (not mysql):
+curl -sSL https://raw.githubusercontent.com/velo91/velo91/master/monit/mariadb > /etc/monit/conf-available/mariadb
+sudo ln -s /etc/monit/conf-available/mariadb /etc/monit/conf-enabled/
+# test config, reload, check status & summary
+sudo monit -t
+sudo monit reload
+sudo monit status && sudo monit summary
+
+===============================
+INSTALL WORDPRESS AT CLOUDPANEL
+===============================
+# Click on + Add Site and then click on Create a WordPress Site
+# Enter the Domain Name, Site Title, Admin User Name, Admin Password, and Admin E-Mail and click on Create
+# Done. The WordPress Site has been created
+# In "Vhost", don't put rate limit because it's culprit for some services like /lib/ajax/service.php?sesskey=.... which makes dashboard dialog box error undefined 503
+# In "Vhost", add this before location / {:
+  # START HARDENING
+  if ($request_method !~ ^(GET|POST)$ ) {
+    return 444;
+  }
+  location = /robots.txt {
+    allow all;
+    log_not_found off;
+    access_log off;
+    try_files $uri /index.php?$args;
+  }
+  location ~* ^/(wp-content)/(.*?)\.(zip|gz|tar|bzip2|7z)\$ {
+    deny all;
+  }
+  location ~* .(pl|cgi|py|sh|lua|asp)$ {
+   return 444;
+  }
+  location ~* /(wp-config.php|readme.html|license.txt|nginx.conf) {
+   deny all;
+  }
+  location = /wp-config.txt {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
+  location /wp-content/uploads/ {
+    location ~ \.php$ {
+    #Prevent Direct Access Of PHP Files From Web Browsers
+      deny all;
+    }
+    # webp rewrite rules
+    location ~ \.(png|jpe?g)$ {
+      add_header Vary "Accept-Encoding";
+      add_header "Access-Control-Allow-Origin" "*";
+      add_header Cache-Control "public, no-transform";
+      access_log off;
+      log_not_found off;
+      expires max;
+      try_files $uri  $uri =404;
+    }
+  }
+  location /xmlrpc.php {
+    deny all;
+    access_log off;
+    log_not_found off;
+    return 444;
+  }
+  location ~ /.*/xmlrpc.php$ {
+    deny all;
+  }
+  location ~* ^/wp-json/wp/v2/users {
+    deny all;
+    error_page 403 =404 / ;
+  }
+  location ~* ^/wp-content/plugins/.+\.(txt|log|md)$ {
+    deny all;
+    error_page 403 =404 / ;
+  }
+  location ^~ /wp-admin/install.php {
+    deny all;
+    error_page 403 =404 / ;
+  }
+  location ^~ /wp-admin/upgrade.php {
+    deny all;
+    error_page 403 =404 / ;
+  }
+  location ~* /(?:uploads|files)/.*\.php$ {
+    deny all;
+  }
+  location ~ /\.(svn|git)/* {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
+  location ~ /\.ht {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
+  location ~ /\.user.ini {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
+  location ~* ^/wp-content/uploads/.*.(html|htm|shtml|php|js|swf)$ {
+    deny all;
+  }
+  location ~* ^/(?:wp-content|wp-includes)/.*\.php$ {
+    deny all;
+  }
+  location ~* ^/wp-content/uploads/.*\.(?:s?html?|php|js|swf)$ {
+    deny all;
+  }
+  # SPECIAL
+  location ~/(nologin|nologin/) {return 403; error_page 403 /wp-nologin.php;} # WPS HIDE LOGIN /....
+  location ~/(wp-login|wp-login/) {return 403; error_page 403 /wp-nologin.php;} # AKTIFKAN SETELAH DIARAHKAN KE /....
+  location = /wp-login.php {return 403; error_page 403 /wp-nologin.php;} # AKTIFKAN SETELAH DIARAHKAN KE /....
+  # END HARDENING
+# In "PHP Settings"
+	make sure version=PHP 8.2
+	make sure max_input_vars=10000
+	date.timezone=Asia/Jakarta;
+	display_errors=off;
+	disable_functions=pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,pcntl_unshare,gzinflate,phpinfo;
+# wp-cron.php script executes a complex process, such as copying files or optimising images, this can cause the execution of the page to happen more slowly whilst this processes. To avoid this, WordPress can be configured to disable wp-cron.php from executing on page load and instead, have the server trigger this command periodically. We highly recommend running wp-cron via linux crontab rather than WordPress’s default way, irrespective of size or traffic of your site. So, you must disable wp-cron at the WordPress wp-config.php, just add this:
+  define('DISABLE_WP_CRON', true);
+# In "Cron Jobs", add cron job every hourly: /usr/bin/php8.2 /[YOUR_WORDPRESS_PATH]/wp-cron.php >/dev/null 2>&1
+
+============================
+INSTALL MOODLE AT CLOUDPANEL
+============================
+# Click on + Add Site and then click on Create a PHP Site
+# Select the Application Moodle 4, enter Domain Name, Site User, Site User Password, and click on Create
+# Creating a Moodle Project (v4.5 support PHP 8.3)
+cd /opt && curl -sL https://github.com/moodle/moodle/archive/refs/tags/v4.5.4.tar.gz | tar xfz -
+cp -R /opt/moodle-4.5.4/* /home/[USER_NAME]/htdocs/[SITE_DOMAIN]/
+rm -rf /opt/moodle-*
+sudo apt update
+# sudo apt install unoconv => for moodle document converter, you can enable and fill the path: /usr/bin/unoconv
+# php installed, you can allow cron scripts can be executed from admin web interface, you can enable and fill the path: /usr/bin/php
+# du installed, pages that display directory contents will run much faster for directories with a lot of files, you can enable and fill the path: /usr/bin/du
+# sudo apt install aspell => for moodle spell-checking within the editor, you can enable and fill the path: /usr/bin/aspell
+# sudo apt install graphviz => to be able to generate graphics from DOT files, you can enable and fill the path: /usr/bin/dot
+# gs installed, you can fill the path: /usr/bin/gs
+# sudo apt install poppler-utils => PDF rendering library which includes the tool pdftoppm for converting PDF files to PNG, you can enable and fill the path: /usr/bin/pdftoppm
+# python installed => path to your executable Python binary, you can enable and fill the path: /usr/bin/python3
+# In "PHP Settings"
+	make sure version=PHP 8.3;
+	make sure max_execution_time=3m; // prevent fatal error during upgrade: Maximum execution time of 30 seconds exceeded
+	make sure max_input_vars=100000;
+	date.timezone=Asia/Jakarta;
+	display_errors=off;
+	disable_functions=pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,pcntl_unshare,gzinflate,phpinfo;
+# In "Vhost", don't put rate limit because it's culprit for some services like /lib/ajax/service.php?sesskey=.... which makes dashboard dialog box error undefined 503
+# In "Vhost", add this before {{settings}}:
+  # START HARDENING
+  add_header Strict-Transport-Security "max-age=31536000; includeSubdomains; preload";
+  # END HARDENING
+# In "Vhost", make sure use php fastcgi like in moodle documentation, and adjust memory limit:
+  location ~ \.php$ { # https://docs.moodle.org/405/en/Nginx#FastCGI_Configuration
+    # Split the path info based on URI.
+    fastcgi_split_path_info ^(.+\.php)(/.*)$;
+    # Note: Store the original path_info. It will be wiped out in a moment by try_files.
+    set $path_info $fastcgi_path_info;
+    # Look for the php file. If not round then jump to @routed.
+    try_files $fastcgi_script_name $fastcgi_script_name/;
+    # File was found - pass to fastcgi.
+    fastcgi_pass   127.0.0.1:18521;
+    include        fastcgi_params;
+    # Re-apply the path_info after including fastcgi_params.
+    fastcgi_param PATH_INFO $path_info;
+    fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+    fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+    #include fastcgi_params;
+    fastcgi_intercept_errors on;
+    fastcgi_index index.php;
+    #fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    #try_files $uri =404;
+    fastcgi_read_timeout 3600;
+    fastcgi_send_timeout 3600;
+    fastcgi_param HTTPS $fastcgi_https;
+    #fastcgi_pass 127.0.0.1:18521;
+    fastcgi_param PHP_VALUE "
+error_log=/home/bbg-spada/logs/php/error.log;
+memory_limit=2G;
+max_execution_time=180;
+max_input_time=60;
+max_input_vars=100000;
+post_max_size=32M;
+upload_max_filesize=32M;
+date.timezone=Asia/Jakarta;
+display_errors=off;
+disable_functions=pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,pcntl_unshare,gzinflate,phpinfo;";
+  }
+# In "Databases", create a database
+# In "SSL/TLS", create and install Let's Encrypt Certificate
+# In "Cron Jobs", add cron job every minute: /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/cron.php
+# In "Cron Jobs", add cron job every hourly: /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/scheduled_task.php --execute="\core\task\file_trash_cleanup_task"
+# In "Cron Jobs", add cron job every day: /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/kill_all_sessions.php
+	curl -sSL https://raw.githubusercontent.com/velo91/velo91/master/moodle/script-moodle-list-old-files.php > /[YOUR_MOODLE_PATH]/admin/script-moodle-list-old-files.php
+	curl -sSL https://raw.githubusercontent.com/velo91/velo91/master/moodle/script-moodle-delete-old-files.sh > /[YOUR_MOODLE_PATH]/admin/script-moodle-delete-old-files.sh
+	chmod +x /[YOUR_MOODLE_PATH]/admin/script-moodle-delete-old-files.sh
+	chmod 0755 /[YOUR_MOODLE_PATH]/admin/script-moodle-delete-old-files.sh
+# In "Cron Jobs", add cron job every week: sh /[YOUR_MOODLE_PATH]/admin/script-moodle-delete-old-files.sh
+# Open your site in the browser, and go through the Moodle Installer. Choose MariaDB as database engine. Make sure Your server environment meets all minimum requirements
+# Disable "Automated backup setup" in Administration -> Courses -> Backups -> Automated backup setup
+# Disable "Recycle bin" in Administration -> Plugins -> Admin tools -> Recycle bin
+# Set a retention period for "Standard log" under Site administration -> Plugins -> Logging -> Standard log -> change Keep logs for 120 days & uncheck Log guest access
+# Edit config.php and set dbsession to 0 to prevent use database `mdl_sessions` for session information -> $CFG->dbsessions = 0;
+# Make sure onluy Standard log is Enable in Administration -> Plugins -> Logging -> Manage log stores
+# Make sure this file exist on wwwroot: favicon.ico, apple-touch-icon-120x120-precomposed.png, apple-touch-icon-120x120.png, apple-touch-icon-precomposed.png, apple-touch-icon.png
+# You can check used moodledata directory size with this script and access https://[DOMAIN.COM]/admin/script-moodle-directory-size.php
+	curl -sSL https://raw.githubusercontent.com/velo91/velo91/master/moodle/script-moodle-directory-size.php > /[YOUR_MOODLE_PATH]/admin/script-moodle-directory-size.php
+# nano /[YOUR_MOODLE_PATH]/course/edit_form.php
+# $mform->addElement('text', 'shortname', get_string('shortnamecourse'), 'maxlength="100" size="20"');
+# change to:
+# $mform->addElement('text', 'shortname', 'Course code dari OPEN SIMKA', 'maxlength="100" minlength="16" size="20"');
+# ADDITIONAL FOR MOUNTING "FILEDIR" WITH GOOGLE DRIVE
+nano /home/bbg-spada/mount-spada-google-drive.sh
+# paste it
+	#!/bin/bash
+	/usr/bin/rclone mount spada-storage-mounting: /home/bbg-spada/htdocs/spadadata/filedir --allow-non-empty --allow-other --dir-cache-time 168h --buffer-size 64M --fast-list --drive-pacer-burst 200 --drive-pacer-min-sleep 10ms --drive-chunk-size 256M --vfs-cache-mode full --vfs-cache-max-age 168h --vfs-cache-max-size 10G --vfs-read-chunk-size 256M --vfs-read-chunk-size-limit 1G &
+	# NOTE: adjust --vfs-cache-max-size to 15-20% of your total local disk capacity
+# make it executable
+chmod +x /home/bbg-spada/mount-spada-google-drive.sh
+# add to cronjob
+crontab -e
+	# mount drive on boot
+	@reboot sh /home/bbg-spada/mount-spada-google-drive.sh
+# TROUBLESHOOT: Fix – broken page issue after Moodle 3.x installation on Nginx web server => https://dartinnovations.com/fix-broken-page-issue-after-moodle-3-x-installation-on-nginx-web-server/
+
+===========================
+INSTALL SLIMS AT CLOUDPANEL
+===========================
+# Click on + Add Site and then click on Create a PHP Site
+# Select the Application Slims 4, enter Domain Name, Site User, Site User Password, and click on Create
+# Creating a Slims Project (v9.5.2 support PHP 8)
+# make sure, you have installed YAZ [optional]
+apt install php-dev php-pear yaz libyaz5 libyaz-dev libnet-z3950-zoom-perl
+pecl channel-update pecl.php.net
+pecl install yaz
+# In "PHP Settings"
+	make sure version=PHP 8.1; // because 8.2 still deprecated: Creation of dynamic property cache_config::$configlockmappings
+	make sure max_input_vars=10000;
+	date.timezone=Asia/Jakarta;
+	display_errors=off;
+	disable_functions=pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,pcntl_unshare,gzinflate,phpinfo;
+# In "Vhost", don't put rate limit because it's culprit for some services like /lib/ajax/service.php?sesskey=.... which makes dashboard dialog box error undefined 503
+# In "Vhost", add this before location / {:
+	error_page 404 https://$host;
+	try_files $uri $uri/ =404;
+# In "Databases", create a database
+# In "SSL/TLS", create and install Let's Encrypt Certificate
+# add this script after "use SLiMS\{Opac,Plugins};" line in root "index.php":
+// anti fake phishing report
+if(isset($_GET)) {
+  foreach($_GET as $get_value) {
+    if($get_value=='') {
+      header("Location: //".$_SERVER['SERVER_NAME']);
+    }
+  }
+}
+# to customize theme: Login Admin > Tema > Default > Customize
+# to activate all default plugin: Login > Sistem > Plugin
+# to add/edit content: Login > Sistem > Konten
+# to activate visitor link, just leave empty in: Login Admin > Sistem > Pengaturan Sistem > IP Yang Diizinkan
+# plugin to re-index table 'loan_history' at SLiMS 9 Bulian:
+  link download : https://github.com/drajathasan/slims-loan-history-helper
+  Cara :
+  1. Unduh Source Code, ekstrak di Folder Plugin, aktifkan plugin di menu Sistem –> Plugin
+  2. Klik tombol "Buat Ulang" index di menu Sistem –> Indeks Sejarah Peminjaman
+  3. Untuk hasilnya cek di menu Sirkulasi –> Sejarah Peminjaman
+# to fix empty sejarah peminjaman, edit file load_history.php at "/admin/modules/reporting/customs/"
+  change line:
+    if ((isset($_GET['membershipType'])) AND ($_GET['membershipType'] != 'All')) {
+        $membershipType = utility::filterData('membershipType', 'get', true, true, true);
+        $criteria .= ' AND member_type_name LIKE \''.$membershipType.'\'';
+    }else{
+        $criteria .= ' AND member_type_name LIKE \'%%\'';
+    }
+  replace to:
+    if ((isset($_GET['membershipType']))) {
+    	if($_GET['membershipType'] == 'All' || $_GET['membershipType'] == 'Semua') {
+          	$criteria .= ' AND member_type_name LIKE \'%%\'';	
+        }
+      	else {
+          	$membershipType = utility::filterData('membershipType', 'get', true, true, true);
+	        $criteria .= ' AND member_type_name LIKE \''.$membershipType.'\'';
+        }
+    }else{
+        $criteria .= ' AND member_type_name LIKE \'%%\'';
+    }
+# to show visitor link, edit file /template/default/parts/_navbar.php line 26, add this array:
+  'visitor' => [
+    'text' => __('Check-In Pengunjung'),
+    'url' => 'index.php?p=visitor'
+  ],
+  'login' => [
+    'text' => __('Login Sistem'),
+    'url' => 'index.php?p=login'
+  ],
+# to edit quote in visitor page, edit file /template/default/visitor_template.php, edit some array value in "this.quotes" line 134
+  this.quotes = {
+    content: "Dengan ilmu, logika menjadi tajam. Dan dengan akhlak, hati menjadi lembut.",
+    author: "UBBG Library"
+  }
+# replace
+  <p class="lead">
+# with
+  <p class="lead" style="color:darkgray;">
+# replace
+  <label for="exampleInputPassword1"><?= __('Institution')?></label>
+# with
+  <label for="exampleInputPassword1">Nama Institusi <span style="color:orange">(hanya diisi bila Anda berasal dari luar kampus UBBG)</span></label>
+# add comment to:
+  <!--<small id="emailHelp" class="form-text text-muted"><?= __('Enough fill your member ID if you are member of ').$sysconf['library_name']; ?></small>-->
+# to edit text button in visitor page, edit same file, change "Masuk" to "Check-In"
+# add comment to:
+  <!--<div class="text-right invisible">
+    <small class="text-grey-dark"><?= __('Powered by ')?> <code>SLiMS</code></small>
+  </div>-->
+# to change slider image, upload or replace photo in directory: "/template/default/assets/images" and edit file "/template/default/assets/js/vegas.js.php"
+# to disable slider image dark masking dan add transparent background menu, edit file "/template/default/parts/_navbar.php" add this script before <nav class
+  <style>
+  .navbar.navbar-expand-lg.navbar-dark.bg-transparent {background-color:#1d4b79c2!important;}
+  .navbar-dark .navbar-nav .nav-link {font-weight:bold;}
+  .navbar-collapse.collapsing, .navbar-collapse.collapse.show {background-color:#083D62;}
+  .c-header .mask {background:none!important;}
+  .bg-grey-lightest {background-color:#E5F4FF!important;}
+  .topic li {background:#fff;}
+  .topic li:hover {background:#ECD53C;}
+  .container .flex-wrap a {background:#fff;}
+  .container .flex-wrap a:hover {background:#ECD53C;}
+  .bg-grey-darkest {background-color:#083D62;}
+  </style>
+# to remove support-us section at footer, edit file "/template/default/parts/footer.php" line 70 and give comment out
+# add style to "/template/default/visitor_template.php"
+  <style>
+  .bg-white {background-color:#e5f4ffd9!important;}
+  .form-control {font-size:1.3rem!important;}
+  </style>
+###
+# if createthumb.php has error, edit width=120 to 150 at /api/v1/helpers/Image.php
+# if "/admin/modules/system/biblio_indexes.php?action=detail&detail=update&ajaxload=1" has error 500, give comment on /admin/modules/system/biblio_indexes.php at line 316: $this->makeIndex($biblio_id); =====> //$this->makeIndex($biblio_id);
+
+===================================================
+INSTALL IDE ATHEOS 5.5.6 https://github.com/Atheos/Atheos
+===================================================
+# open ide directory: cd [APP_PATH]/ide
+# or create ide directory: cd [APP_PATH] && mkdir ide && cd ide
+# BACKUP OLD: date=$(date +%Y-%m-%d_%H-%M) && mv atheos atheos_old_${date}
+# check last version at https://github.com/Atheos/Atheos/tags and COPY the latest tar.gz link
+wget [LINK_TAR_GZ]
+ls
+tar -xvzf [FILE_TAR_GZ]
+ls
+mv [FOLDER_EXTRACTED] atheos
+ls
+rm [FILE_TAR_GZ]
+ls
+#
+nano +12 atheos/index.php
+# [TIDAK PERLU] add this to index.php line 12:
+	if(!isset($_GET['key']) && !isset($_GET['token'])) {
+		http_response_code(403);
+		die('Forbidden');
+	}
+#
+nano +111 atheos/index.php
+# replace this line: <span id="current_file"></span>
+	<span id="current_file" style="user-select:all;"></span>
+# change value to 0
+nano +133 atheos/components/install/process.php
+	define("LIFETIME", 0); // 0 means "until the browser is closed"
+#
+nano +79 traits/checks.php
+# comment out session_unset and session_destroy to prevent an unexpected logout
+	//session_unset();
+	//session_destroy();
+	//Common::send("error", "Security violation.");
+#
+nano +118 atheos/components/user/init.js
+# comment out this line to prevent an unexpected logout
+	//log('connection lost');
+	//atheos.user.logout();
+#
+nano +300 atheos/components/editor/init.js
+# replace this line: path = (path.length < 30) ? path : '...' + path.substr(path.length - 30);
+	path = (path.length < 60) ? path : '...' + path.substr(path.length - 60);
+#
+nano +103 atheos/public/components.min.js
+# search "useWrapMode:" and change value !1 to 1
+	useWrapMode:1
+#
+nano atheos/theme/main.min.css
+# replace this line: *{scrollbar-width:thin;
+	*{scrollbar-width:initial;
+# set permissions on dirs & files, owner according to project, for /var/www the owner must clp:clp
+chown -R clp:clp atheos && chmod -R 775 atheos
+# Visit [IP_OR_DOMAIN]/app/ide/atheos/index.php with key & token params
+# Setup it
+# fill `Project` with PROJECT
+# fill `Absolute Path` with folder path you want to manage, make sure that folder owner same with atheos folder owner, if you want to manage /var/www so run: "chown -R clp:clp /var/www" or change to www-data:www-data for non cloudpanel
+# leave blank in `Custom Domain`
+# `Development Mode` enabled
+# `Anonymous Analytics` enabled
+# `Timezone` GMT+07:00
+# click "Install"
+# Login to [IP_OR_DOMAIN]/app/ide/atheos/index.php with key & token params
+# SETTING: Editor Settings
+    ## Theme: Monokai
+    ## Font Size: 14px
+    ## Enable Code Ligatures: Enabled
+    ## Highlight Active Line: Enabled
+    ## Print Margin: Disabled
+    ## Print Margin Column: 80
+    ## Indent Guides: Enabled
+    ## Show Fold Widgets: Enabled
+    ## Line Wrap: Enabled
+    ## Soft Tabs: Enabled
+    ## Tab Size: 4
+# SETTING: System Settings
+    ## Active File Loop Behavior: Loop only active tabs
+    ## Sidebar Hover Duration: 300ms (default)
+    ## Show Hidden Files: True
+    ## Filemanager Trigger: Single Click
+    ## Left Sidebar Trigger: Hover
+    ## Right Sidebar Trigger: Hover
+    ## ProjectDock Trigger: Single Click
+# PLUGIN: AutoAlign, Beautify, Messaging, Minimap, Winddown, Terminal
+    # after install plugin, refresh this file from URL to flush cache
+	atheos/public/plugins.min.js
+	atheos/public/plugins.min.css
+
+=======================================
+DOWNLOAD FILE FROM GOOGLE DRIVE
+=======================================
+$ sudo apt update
+$ sudo apt install python3-pip
+$ pip3 --version
+# sudo pip3 install gdown
+# gdown [URL]
+# gdown https://drive.google.com/uc?id=0B9P1L--7Wd2vU3VUVlFnbTgtS2c
+
+=======================================
+DOWNLOAD FILE OR DIRECTORY FROM ANOTHER SERVER WITH SCP
+=======================================
+scp -P [PORT_SSH] -r user@IP_SERVER:/path/from/remote/source /path/to/local/destination
+# pass password to scp with sshpass: sudo apt install sshpass
+sshpass -p "password" scp -P [PORT_SSH] -r user@IP_SERVER:/path/from/remote/source /path/to/local/destination
+sshpass -f "/path/to/passwordfile" scp -P [PORT_SSH] -r user@IP_SERVER:/path/from/remote/source /path/to/local/destination
+
+=======================================
+UPLOAD FILE OR DIRECTORY TO ANOTHER SERVER WITH SCP
+=======================================
+scp -P [PORT_SSH] -r /path/local/source user@IP_SERVER:/path/to/remote/destination
+# pass password to scp with sshpass: sudo apt install sshpass
+sshpass -p "password" scp -P [PORT_SSH] -r /path/local/source user@IP_SERVER:/path/to/remote/destination
+sshpass -f "/path/to/passwordfile" scp -P [PORT_SSH] -r /path/local/source user@IP_SERVER:/path/to/remote/destination
+
+===================================================
+WILDCARD TLS/SSL USING ACME.SH & CLOUDFLARE DNS API
+===================================================
+# Login Cloudflare
+# Make sure on SSL overview, the minimum is "Full"
+# Go to My Profile > API Tokens > Create Token > Edit Zone DNS > Use template
+# Permissions = Edit; Zone Resources = Select your domain; click "Continue to summary"; click "Create token"
+# Verify it's installed: acme.sh --version
+# Install wildcard cert with --force (replace old cert) and without --ocsp-must-staple (no longer supported)
+curl https://get.acme.sh | sh -s email=[YOUR_EMAIL_DOMAIN_HERE]
+export CF_Token="[YOUR_CLOUDFLARE_DNS_API_KEY_HERE]"
+acme.sh --issue --force --dns dns_cf --keylength 4096 -d [YOUR_DOMAIN_HERE] -d '*.[YOUR_DOMAIN_HERE]'
+# Your Cloudflare DNS API key is stored in /root/.acme.sh/account.conf file and we can see it using the cat
+cat /root/.acme.sh/account.conf
+# Display the content of the CSR
+DOMAIN="[YOUR_DOMAIN_HERE]" && CONFIG_ROOT="/root/.acme.sh/${DOMAIN}" && acme.sh --showcsr --csr "${CONFIG_ROOT}/$DOMAIN.csr"
+# Set ACME client maintained by Let's Encrypt (not ZeroSSL by default since August-1st 2021)
+acme.sh --server letsencrypt --set-default-ca
+# Issue a cert (CRT file) from existing CSR
+DOMAIN="[YOUR_DOMAIN_HERE]" && CONFIG_ROOT="/root/.acme.sh/${DOMAIN}" && acme.sh --signcsr --csr "${CONFIG_ROOT}/$DOMAIN.csr" --dns dns_cf
+# Installing Let's Encrypt wildcard certificate
+DOMAIN="[YOUR_DOMAIN_HERE]" && CONFIG_ROOT="/root/.acme.sh/${DOMAIN}" && acme.sh -d "$DOMAIN" --install-cert --reloadcmd "systemctl reload nginx" --fullchain-file "${CONFIG_ROOT}/fullchain.cer" --key-file "${CONFIG_ROOT}/$DOMAIN.key" --cert-file "${CONFIG_ROOT}/$DOMAIN.cer"
+# It's automatically configure a cron jobs to renew our wildcard based certificate
+crontab -l
+	# automatic certificates renewal every day at 00:35 WIB
+	35 0 * * * "/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh" > /dev/null
+###
+# we can also do the "manual" TLS/SSL cert renewal:
+$ acme.sh --renew --force --dns dns_cf --keylength 4096 -d [YOUR_DOMAIN_HERE] -d '*.[YOUR_DOMAIN_HERE]'
+
+============================
+Plus Minus CloudPanel
+============================
+Intinya CloudPanel cocok untuk control panel turunan (bukan control panel induk) karena di CloudPanel tidak ada fitur manajemen DNS
+- edit DNS record -> TIDAK BISA namun bisa menggunakan DNS dari Cloudflare
+- tes kirim email dengan script php murni -> TIDAK BISA karena tidak ada mail server, sebab control panel ini memang fokusnya mengutamakan performa web server dan database server agar lebih ringan dan lincah tanpa dibebani oleh mail server
+- htaccess -> TIDAK BISA, harus convert dulu ke nginx rule melalui situs https://winginx.com/en/htaccess kemudian simpan rule tersebut di bagian Vhost tepat di bawah {{settings}}
+- ganti versi php -> BISA
+- edit php.ini -> BISA
+- tambah domain / subdomain -> BISA, tinggal pilih isinya berupa wordpress / any php site / any node.js site / just static html site / any python site
+- sertifikat ssl -> BISA, tinggal create and install sertifikat letsencrypt di bagian "SSL/TLS"
+- akses phpmyadmin -> BISA
+- tambah module / ekstensi php -> SUDAH LENGKAP, gak ada yang perlu ditambah
+- install wordpress -> BISA dan support multisite
+- install moodle -> BISA
+- install slims -> BISA
+- install ojs -> tidak bisa karena ojs lebih ke apache/litespeed
+
+=====================================
+Buat Akses SSH untuk Programmer di VS Code
+=====================================
+# Pastikan sudah membuat dan menyimpan password ssh di Cloudpanel > Sites > Pilih situs > tab Settings > kolom Site User Settings > Ketik password > Save
+# Install Extension Remote-SSH
+	- Buka Aplikasi VS Code.
+	- Masuk menu Menu Extensions.
+	- Cari "Remote – SSH" pada pencarian.
+	- Klik Install.
+# Akses Remote SSH melalui Visual Studio Code
+	- Masuk Menu "Remote Explorer" (di sidebar paling kiri, yang ada lambang monitor dengan koneksi ssh)
+	- Pada SSH TARGETS klik tombol configure (yang ada lambang gerigi)
+	- Kemudian pada SSH configuration file pilih ~.ssh\config
+	- Masukan konfigurasi SSH untuk server, contoh format sebagai berikut :
+		Host [MY_SUBDOMAIN]
+		    HostName [IP_ADDRESS_SSH]
+		    User [USER_SSH]
+		    Port [PORT_SSH]
+	- Kemudian simpan, nantinya konfigurasi server akan muncul di list SSH.
+	- Selanjutnya untuk melakukan koneksi ssh ke server, klik tanda "➜" (Connect in Current Window).
+	- Akan muncul pilihan Linux/Windows, pilih Linux.
+	- Akan muncul form untuk mengisikan password ssh, isikan passwordnya.
+	- Jika password valid dan koneksi ssh pada VS Code sudah berhasil maka Host tersebut akan berwarna hijau dan akan muncul tab Welcome yang ada New File, Open File, Open Folder.
+	- Klik "Open Folder" untuk membuka folder project, sekarang Anda dapat mengedit file, maupun mengelola file secara langsung melalui aplikasi VS Code.
+
+=====================================
+Install LFM (Last File Manager)
+=====================================
+$ sudo apt install lfm
+#################### Key -> Action ####################
+!          ->   ⭐ tab_close
+#          ->   ⭐ show_dirs_size		-> loading scan directory size
+,          ->   ⭐ panes_swap
+.          ->   ⭐ panes_cycle_view
+/          ->   ⭐ find_grep
+:          ->   ⭐ tab_new
+<          ->   ⭐ tab_left
+=          ->   ⭐ pane_other_tab_equal
+>          ->   ⭐ tab_right
+@          ->   ⭐ exec_on_file			->   type: nano
+backspace  ->   ⭐ cursor_pageup
+down       ->   ⭐ cursor_down
+end        ->   ⭐ cursor_end
+enter      ->   ⭐ dir_enter
+f12        ->   ⭐ file_menu
+f2         ->   ⭐ rename_file
+f5         ->   ⭐ copy_file
+f6         ->   ⭐ move_file
+f7         ->   ⭐ make_dir
+f8         ->   ⭐ delete_file
+f9         ->   ⭐ main_menu
+g          ->   ⭐ goto
+h          ->   ⭐ help_menu
+i          ->   ⭐ show_file_info
+l          ->   ⭐ link_create
+left       ->   ⭐ dir_up
+pagedown   ->   ⭐ cursor_pagedown
+pageup     ->   ⭐ cursor_pageup
+q          ->   ⭐ quit_chdir
+right      ->   ⭐ dir_enter
+s          ->   ⭐ sort_files			->   by date: D or d		by size: S or s		by name: N or n		by extension: E or e
+spc        ->   ⭐ cursor_pagedown
+t          ->   ⭐ touch_file
+tab        ->   ⭐ pane_change_focus
+up         ->   ⭐ cursor_up
