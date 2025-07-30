@@ -1,0 +1,48 @@
+[mysqld]
+sql_mode = "NO_ENGINE_SUBSTITUTION"
+pid-file = /var/run/mysqld/mysqld.pid
+socket = /var/run/mysqld/mysqld.sock
+log-error = /var/log/mysql/error.log
+datadir = /home/mysql/
+innodb_file_per_table
+character-set-server = utf8mb4
+collation-server  = utf8mb4_general_ci
+init-connect = 'SET NAMES utf8mb4'
+performance_schema = ON
+
+;slow_query_log = 1
+;slow_query_log_file = /var/log/mysql/slow.log
+;long_query_time = 2
+;log_queries_not_using_indexes = 1
+
+thread_cache_size = 128
+sort_buffer_size = 8M
+innodb = force
+;innodb_buffer_pool_size ideally 50% total RAM +1GB by real-world, not 70% as suggested by mysqltunner for dedicated database servers.
+innodb_buffer_pool_size = 9G
+innodb_log_file_size = 1G
+innodb_stats_on_metadata = OFF
+innodb_buffer_pool_instances = 8
+innodb_log_buffer_size = 64M
+innodb_flush_log_at_trx_commit = 2
+;innodb_thread_concurrency usually number of cores x2. Try using 16 if you have 8 cores, or using 8 if you have 4 cores.
+innodb_thread_concurrency = 16
+innodb_print_all_deadlocks = 1
+join_buffer_size = 2M
+tmp_table_size = 256M
+key_buffer_size = 8M
+max_allowed_packet = 64M
+max_heap_table_size = 256M
+read_rnd_buffer_size = 16M
+read_buffer_size = 2M
+bulk_insert_buffer_size = 64M
+;so far the peak of SHOW STATUS LIKE 'Max_used_connections'; there are 185 connections, that's when hit by DDoS, so don't set it to 512, just set it to 300
+max_connections = 300
+myisam_sort_buffer_size = 8M
+explicit_defaults_for_timestamp = 1
+open_files_limit = 32768
+;table_definition_cache depends on traffic, 8192 is safe if there are many tables and heavy traffic.
+table_definition_cache = 8192
+table_open_cache = 8192
+log_bin_trust_function_creators = 1
+disable_log_bin
