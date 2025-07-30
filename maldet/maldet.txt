@@ -1,0 +1,88 @@
+### INSTALL MALDET
+cd /tmp
+wget http://www.rfxn.com/downloads/maldetect-current.tar.gz
+tar -xvzf maldetect-current.tar.gz
+cd maldetect-*
+./install.sh
+
+# file eksekusi berada di?
+which maldet
+	/usr/local/sbin/maldet
+whereis maldetect && whereis maldet
+	maldetect: /usr/local/maldetect
+	maldet: /usr/local/sbin/maldet
+
+# ubah config:
+nano /usr/local/maldetect/conf.maldet
+
+	# Jangan karantina otomatis
+	# The default quarantine action for malware hits
+	# [0 = alert only, 1 = move to quarantine &amp; alert]
+	quarantine_hits="0"
+	# Try to clean string based malware injections
+	# [NOTE: quar_hits=1 required]
+	# [0 = disabled, 1 = clean]
+	quarantine_clean="0"
+
+	# Kirim email jika mau (opsional)
+	email_alert="1"
+	email_addr="you@domain.com"
+
+# scan manual di folder tertentu:
+maldet --scan-all /var/www/
+maldet --scan-all /var/www/ejournal.bbg.ac.id
+maldet --scan-all /home/bbg-iconesth/htdocs/iconesth.bbg.ac.id
+maldet --scan-all /home/bbg-site/htdocs/bbg.ac.id
+
+# scan sambil ditinggal pergi:
+nohup maldet --scan-all /var/www/ > /var/www/maldet.log 2>&1 &
+nohup maldet --scan-all /home/bbg-site/htdocs/bbg.ac.id > /home/bbg-site/htdocs/maldet.log 2>&1 &
+# lihat prosesnya:
+tail -f /var/www/maldet.log
+tail -f /home/bbg-site/htdocs/maldet.log
+# cek proses:
+ps aux | grep maldet
+# kalau mau kill process:
+sudo kill [PROCESS-ID]
+
+# setelah selesai scan, kamu akan melihat output seperti ini:
+SCAN ID: 070128-1211.1234
+...
+FILE HIT LIST:
+{1} /var/www/html/config.php
+{2} /var/www/html/themes/default/shell.php
+
+# melihat detail hasil scan:
+maldet --report [SCAN-ID]
+# atau bisa juga lihat file log:
+cat /usr/local/maldetect/sess/[SCAN-ID]
+# atau:
+ls /usr/local/maldetect/sess/ -lah
+
+# mengaktifkan karantina malware jika diperlukan (dipindahkan ke /usr/local/maldetect/quarantine):
+maldet --quarantine [SCAN-ID]
+
+# bisa dikembalikan dengan:
+maldet --restore [SCAN-ID]
+
+# membersihkan malware (file malware tetap di tempat, tapi diedit isinya biar steril, terkadang bisa menyebabkan file jadi corrupt):
+maldet --clean [SCAN-ID]
+
+### CRON JOB
+nano /etc/cron.daily/maldet
+32 3 * * * /usr/local/maldetect/maldet -d -u ; /usr/local/maldetect/maldet --scan-all /home/?/public_html
+
+### UNINSTALL
+rm -rf /usr/local/maldetect
+or
+/usr/local/maldetect/maldet
+
+### USEFUL COMMAND
+# Scan:
+maldet --scan-all /var/www/html
+# Cek hasil scan
+maldet --report SCAN-ID
+# Quarantine dulu (diamankan)
+maldet --quarantine SCAN-ID
+# Pulihkan
+maldet --restore SCAN-ID
