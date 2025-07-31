@@ -1,0 +1,1149 @@
+=========================
+Useful Keyboard Shortcuts
+=========================
+Meta		⭐ Open the Application Launcher
+Ctrl+Q		⭐ Quit
+Ctrl+Space	⭐ [Manual Setup] Peek at Desktop (show the desktop by moving windows away)
+Ctrl+Alt+Space	⭐ [Manual Setup] Show Sticky Note
+Alt+Tab		⭐ Walk through windows
+Meta+=		Zoom In
+Meta+-		Zoom Out
+Meta+0		Zoom Normal
+Meta+Up		Pan Up
+Meta+Down	Pan Down
+Meta+Left	⭐ Pan left, move window to monitor to the left[a]
+Meta+Right	⭐ Pan right, move window to monitor to the right[a]
+Meta+[Fn]PgUp	⭐ Maximize/Restore window
+Meta+[Fn]PgDn	⭐ Minimize window
+F5		Refresh
+F12		[Manual Setup] Yakuake (dropdown terminal)
+Ctrl+A		Select All
+Ctrl+Z		Undo
+Ctrl+Shift+Z	Redo
+Ctrl+X		Cut
+Ctrl+C		Copy
+Ctrl+V		Paste
+Ctrl+N		New
+Ctrl+P		Print
+Ctrl+S		Save
+Ctrl+F		Find
+Ctrl+W		⭐ Close Document/Tab
+Alt+Up		⭐ Go up folder
+Delete		⭐ Move to Trash
+Shift+Delete	⭐ Delete Permanently
+Ctrl+Alt+L	⭐ Lock Screen
+
+======================================
+Download Kubuntu ISO Live Images => https://kubuntu.org/getkubuntu/
+=======================================
+# You can install Kubuntu with "Erase Disk" (this will DELETE all data currently present on the selected storage device)
+# or "Manual Partition" like this:
+	Size: 500 MiB; Type: fat32; Mount Point: /boot/efi; Label: EFI; Flags: boot
+	Size: 8190 MiB; Type: linuxswap; Label: SWAP; Flags: swap
+	Size: 123456 MiB; Type: ext4; Mount Point: /; Label: ROOT; Flags: root
+	Size: Any MiB; Type: ntfs; Label: NTFS
+# make sure your username not same with computer name
+# after installed, this is typical way of updating system in KDE Neon
+======================================
+Installation If Dual Boot
+======================================
+just make sure Windows is "Disable Fast Boot" so that partition permissions on NTFS don't clash
+1. type "control panel" into the search box on the taskbar and then click Control Panel in the search results
+2. in the search box in the top right of the control panel, type power and then click Change what the power buttons do under Power Options
+3. click "Change settings that are currently unavailable" and the give consent to continue or enter an administrator username and password as prompted
+4. under Shutdown settings, uncheck "Turn on fast startup (recommended)" and click Save changes
+
+=======================================
+Setting Up 1.1.1.1 DNS
+=======================================
+System Settings > Connections > IPv4
+	Method: Automatic (Only addressess)
+	DNS Server: 1.1.1.1
+System Settings > Connections > IPv6
+	Method: Automatic (Only addressess)
+	DNS Server: 1.1.1.1
+Apply
+
+=======================================
+Update & Upgrade System
+=======================================
+$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt autoremove --purge
+$ sudo apt autoclean -y
+
+=====================================
+Install Fonts
+=====================================
+$ cd ~/Downloads
+# download "mscorefonts" from https://drive.google.com/drive/folders/1rKN1CVRT-ZfISHT8AB3iBIFWFQaOSHnN?usp=drive_link
+$ unzip mscorefonts*.zip
+# download "penting" from https://drive.google.com/drive/folders/1Qn_WMNtmRUpaGFcMKwoGaCpk5WkrGAwC?usp=sharing
+$ unzip penting*.zip
+# extract and copy folder with sudo privileges
+$ sudo cp -a ~/Downloads/mscorefonts/ ~/Downloads/penting/ /usr/share/fonts/
+
+=====================================
+Install libwebkit2gtk-4.1-0 (Web content engine library for GTK)
+=====================================
+$ sudo apt update && sudo apt install -y libwebkit2gtk-4.1-0 && sudo apt autoremove
+
+=====================================
+Install ZSH & OhMyPosh
+=====================================
+# download Meslo LGS font with icon and install it
+$ wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf && wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf && wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf && wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+# install ZSH
+$ sudo apt install -y zsh wget git && zsh --version && echo $SHELL
+# EXIT FROM ROOT:
+Ctrl+D
+# make your default shell
+$ chsh -s $(which zsh)
+# install oh-my-zsh and some plugins
+$ sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+# change default? Y
+$ git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+$ git clone https://github.com/zsh-users/zsh-history-substring-search ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
+# install oh-my-posh
+$ sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
+$ sudo chmod +x /usr/local/bin/oh-my-posh
+# download and extract "zsh-ohmyposh-config.zip" from https://www.pling.com/p/2200488/
+$ unzip -o $HOME/Downloads/zsh-ohmyposh-config.zip -d $HOME
+$ chmod u+rw $HOME/.poshthemes/*.json
+# download and extract "plasma6macos-konsole-profile.zip" from https://www.pling.com/p/2200488/
+$ unzip -o $HOME/Downloads/plasma6macos-konsole-profile.zip -d $HOME/.local/share/
+# choose Konsole profile "Everforest Dark Hard" and set default, OK
+# Konsole: Open Settings → Edit Current Profile
+# General: general setting > change "command" to:
+	/usr/bin/zsh
+# Appearance: click Select Font and select "MesloLGS NF" 12 pt
+# Appearance: change background color from #272e33 to #14181a
+# Appearance: change color 3 from #a7c080 to #00aa00
+# Appearance: change color 5 from #7fbbb3 to #4646d3
+# Appearance: disable blur background with 0% tranparency
+$ nano $HOME/.zshrc
+# add this line before export to enable automatic update without confirmation prompt:
+	zstyle ':omz:update' mode auto
+#############################
+# install Oh My Zsh for root user
+	# run this command as ROOT
+	$ sudo -i
+	# make your default shell
+	$ sudo chsh -s $(which zsh)
+	# install oh-my-zsh and some plugins
+	$ sudo sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+	# change default? Y
+	$ sudo git clone https://github.com/zsh-users/zsh-autosuggestions.git /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	$ sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	$ sudo git clone https://github.com/zsh-users/zsh-history-substring-search /root/.oh-my-zsh/custom/plugins/zsh-history-substring-search
+	# install oh-my-posh
+	$ sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
+	$ sudo chmod +x /usr/local/bin/oh-my-posh
+	# download and extract "zsh-ohmyposh-config.zip" from https://www.pling.com/p/2200488/
+	$ sudo unzip -o /home/ideapad/Downloads/zsh-ohmyposh-config.zip -d /root/
+	$ chmod u+rw /root/.poshthemes/*.json
+	$ sudo unzip -o /home/ideapad/Downloads/plasma6macos-konsole-profile.zip -d /root/.local/share/
+#############################
+# setup bookmark
+# Konsole: Bookmarks > Edit Bookmarks > New Bookmark:
+	ping cloudflare				ping 1.1.1.1
+	sudo apt update				sudo apt update
+	sudo apt list --upgradable		sudo apt list --upgradable
+	sudo apt upgrade			sudo apt upgrade
+	sudo apt autoremove			sudo apt autoremove
+	enable pointer				ids=$(xinput list %7C grep 'pointer' %7C cut -d '=' -f 2 %7C cut -f 1 %7C tr ' ' '%5Cn' %7C tail -1) && xinput --disable $ids && xinput --enable $ids
+	fix external drive no longer mounting	sudo -i && MY_EXTERNAL_DRIVE="$(fdisk -l | grep NTFS | awk -F' ' '{print $1}')" && sudo ntfsfix -d ${MY_EXTERNAL_DRIVE}
+	kilat on [domain]			ssh://[username]@[domain]:[port]
+#############################
+# how to display the application menu by pressing Ctrl + Shift + M
+# if in Dolphin, press Ctrl + M, usually if in Dolphin it appears once then in other applications such as GIMP/Inkscape the application menu will also appear
+
+=====================================
+Install LFM (Last File Manager)
+=====================================
+$ sudo apt install lfm
+#################### Key -> Action ####################
+!          ->   ⭐ tab_close
+#          ->   ⭐ show_dirs_size		-> loading scan directory size
+,          ->   ⭐ panes_swap
+.          ->   ⭐ panes_cycle_view
+/          ->   ⭐ find_grep
+:          ->   ⭐ tab_new
+<          ->   ⭐ tab_left
+=          ->   ⭐ pane_other_tab_equal
+>          ->   ⭐ tab_right
+@          ->   ⭐ exec_on_file			->   type: nano
+backspace  ->   ⭐ cursor_pageup
+down       ->   ⭐ cursor_down
+end        ->   ⭐ cursor_end
+enter      ->   ⭐ dir_enter
+f12        ->   ⭐ file_menu
+f2         ->   ⭐ rename_file
+f5         ->   ⭐ copy_file
+f6         ->   ⭐ move_file
+f7         ->   ⭐ make_dir
+f8         ->   ⭐ delete_file
+f9         ->   ⭐ main_menu
+g          ->   ⭐ goto
+h          ->   ⭐ help_menu
+i          ->   ⭐ show_file_info
+l          ->   ⭐ link_create
+left       ->   ⭐ dir_up
+pagedown   ->   ⭐ cursor_pagedown
+pageup     ->   ⭐ cursor_pageup
+q          ->   ⭐ quit_chdir
+right      ->   ⭐ dir_enter
+s          ->   ⭐ sort_files			->   by date: D or d		by size: S or s		by name: N or n		by extension: E or e
+spc        ->   ⭐ cursor_pagedown
+t          ->   ⭐ touch_file
+tab        ->   ⭐ pane_change_focus
+up         ->   ⭐ cursor_up
+
+======================================
+SSH Key
+======================================
+# you can download ssh key from your google drive (never share it)
+# or create a new one
+$ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+# press Enter to use the default location (~/.ssh/id_rsa)
+# just leave blank the passphrase
+# once done, an SSH key pair will be created and stored in the ~/.ssh/ directory:
+	id_rsa: This is the private key (never share or show it).
+	id_rsa.pub: This is the public key (this is what you can share with the server).
+# add the public key to the server where you want to make a passwordless SSH connection
+$ ssh-copy-id -p port_number username@hostname
+# now you can try connecting to the server without a password
+# all ssh connection stored in ~/.config/konsolesshconfig
+
+=================================
+Install Driver Radeon™ Software for Linux® version 24.10.3 for Ubuntu 22.04.4 HWE
+=================================
+Download driver from https://www.amd.com/en/support/download/linux-drivers.html
+# install kernel mode driver
+$ sudo apt install amdgpu-dkms
+	# or
+	$ amdgpu-install -y --usecase=graphics
+# if secure boot is enabled during driver installation, a MOK will be automatically generated during install, reboot the system
+$ sudo reboot
+# select "Enroll MOK" and "View key 0" to confirm that the key is correct, select "Continue", "Yes", and enter the temporary password to finish enrolling the key certificate, select "Reboot" to exit the MOK manager
+# verifying kernel mode driver installation
+$ dkms status
+# installing packages within ROCm
+$ sudo apt install rocm-hip-sdk
+# verifying ROCm installation
+$ /opt/rocm/bin/rocminfo
+	# or
+	$ /opt/rocm/opencl/bin/clinfo
+# update PATH for user profile, run this command on root and on non-root user
+export PATH=/opt/amdgpu-pro/bin:/opt/amdgpu/bin:$PATH && echo $PATH
+# done
+# if you encounter errors related to permissions while running ROCm applications like rocminfo, follow these steps to address the issue
+	# add user to the "render" group:
+	$ sudo usermod -aG render <your_username>
+	# retry running rocminfo
+	$ /opt/rocm/bin/rocminfo
+
+======================================
+Completely Remove Flatpak Apps from System
+======================================
+flatpak uninstall --all --delete-data    OR    flatpak uninstall --all
+flatpak repair
+sudo apt remove --autoremove flatpak
+
+=======================================
+Completely Disable Snap from System + Install Firefox & Thunderbird from Ubuntu PPA for More Up-to-Date Version
+=======================================
+$ sudo systemctl disable snapd.service && sudo systemctl disable snapd.socket && sudo systemctl disable snapd.seeded.service
+$ sudo snap list
+	$ sudo snap remove firefox
+	$ sudo snap remove snap-store
+	(…)
+	Repeat this with all the snap packages in the snap list list
+$ sudo apt autoremove --purge snapd
+$ sudo rm -rf /var/cache/snapd/ && rm -rf ~/snap
+# with snap removed, you will need to install Firefox/Thunderbird from a PPA. Because apt will still try to install the Snap version of Firefox, you will run into an error. There's a trick to overcome that issue: pinning Firefox with Apt.
+$ sudo nano /etc/apt/preferences.d/firefox-no-snap
+	Package: firefox*
+	Pin: release o=Ubuntu*
+	Pin-Priority: -1
+$ sudo nano /etc/apt/preferences.d/thunderbird-no-snap
+	Package: thunderbird*
+	Pin: release o=Ubuntu*
+	Pin-Priority: -1
+$ sudo add-apt-repository ppa:mozillateam/ppa && sudo apt install -y firefox thunderbird
+# so, you should now have a snap-free Ubuntu with Firefox/Thunderbird installed.
+#############################
+# Keep Snapd Dead (forbids snapd from ever being installed by APT)
+$ sudo nano /etc/apt/preferences.d/no-snap
+	Package: snapd
+	Pin: release a=*
+	Pin-Priority: -10
+
+=======================================
+Install Google Chrome from Official Repository (and remove Firefox completely)
+=======================================
+$ sudo -i
+$ wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmour -o /usr/share/keyrings/chrome-keyring.gpg
+$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
+$ sudo apt update && sudo apt install -y google-chrome-stable && sudo apt purge -y firefox && sudo apt autoremove -y
+# open Google Chrome: Settings > Performance > Memory Saver: Maximum
+# open Google Chrome: Settings > Appearance > Theme: Use GTK
+# open Google Chrome: Settings > Appearance > Disable "Use system title and borders"
+# open Google Chrome: Settings > Appearance > Page Zoom: 125%
+
+=================================
+Fix "preinstalled" Repo Warning on apt update
+=================================
+$ sudo rm /etc/apt/sources.list.d/preinstalled-pool.list
+
+=================================
+Fix "sub-process /usr/bin/dpkg returned an error code (1)"
+=================================
+$ sudo dpkg --configure -a
+$ sudo apt install -f
+
+=================================
+Fix "Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable)"
+=================================
+$ sudo rm /var/lib/apt/lists/lock && sudo rm /var/cache/apt/archives/lock && sudo rm /var/lib/dpkg/lock*
+$ sudo dpkg --configure -a && sudo apt update
+
+=======================================
+Install Apps From APT via Konsole
+=======================================
+$ sudo apt install neofetch yakuake lsb-release net-tools whois inxi kcalc okular audacious ffmpeg ffmpegthumbnailer vlc peek kdenlive remmina qbittorrent android-file-transfer filelight partitionmanager
+!!! pdfsam xserver-xorg-input-evdev xserver-xorg-input-mouse
+$ sudo apt remove kate kwalletmanager && sudo apt autoremove
+# TIPS: if you want to remove a package and install a different package IN ONE STEP, try: sudo apt remove htop nano+ ===> will remove htop and install nano
+# another way to do the same thing: sudo apt install htop- nano  ===> also will remove htop and install nano
+
+=======================================
+Check the OS version
+=======================================
+$ lsb_release -a
+
+=================================
+Setup VLC
+=================================
+# Tools > Preferences > Click Subtitles/OSD tab > Untick "Show media title on video start"
+# Tools > Preferences > In the bottom-left, under Show settings, select All > Interface -> Main Interfaces -> Qt
+	Uncheck "Systray icon"
+	Uncheck "Display background cone or art"
+# Tools > Preferences > In the bottom-left, under Show settings, select All > Playlist
+	Check "Repeat all"
+
+=======================================
+Setup Spectacle
+=======================================
+# open spectacle > configure > general
+	after taking screenshot: enable "Save file to default folder" and select "Copy image to clipboard"
+
+=======================================
+Setup Remmina
+=======================================
+# open remmina > preferences
+	options: disable fetch news from remmina.org
+	appearance: prefer dark theme
+	applet: start in tray upon user login
+# click on remmina applet > enable service discovery
+
+=======================================
+Show full system information with inxi
+=======================================
+$ inxi -F
+
+=======================================
+Install GIMP from Ubuntu PPA for More Up-to-Date Version
+=======================================
+$ sudo add-apt-repository ppa:ubuntuhandbook1/gimp && sudo apt install -y gimp gegl libgexiv2-2
+# open gimp
+# Edit > preferences > interface > theme: dark
+# Edit > preferences > interface > icon theme: color; custom icon size: small
+# Edit > preferences > interface > toolbox: disable "use tool groups"
+# INFO: use TAB shortkey to hide & show sidebar
+
+=======================================
+Install Inkscape from Ubuntu PPA for More Up-to-Date Version
+=======================================
+$ sudo add-apt-repository ppa:inkscape.dev/stable && sudo apt install -y inkscape
+# open inkscape
+# Edit > preferences > interface > theming > gtk: adwaita; theme: use dark theme; icon: multicolor
+# [if needed] Edit > preferences > interface > windows > dialogs on top: none
+
+=======================================
+Install OBS Studio from Ubuntu PPA for More Up-to-Date Version
+=======================================
+$ sudo add-apt-repository ppa:obsproject/obs-studio && sudo apt install -y obs-studio
+
+=====================================
+Install Telegram from Ubuntu PPA for More Up-to-Date Version 
+=====================================
+$ sudo add-apt-repository ppa:atareao/telegram && sudo apt install -y telegram
+# setup Night Mode: On
+# Settings > Default interface scale: 125%
+
+=======================================
+Install Spotify from APT Repo
+=======================================
+$ curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+$ echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+$ sudo apt update && sudo apt install -y spotify-client
+
+=====================================
+Install Sublime Text from APT Repo
+=====================================
+$ sudo -i
+$ wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
+$ echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+$ sudo apt update && sudo apt install -y sublime-text
+# Register Sublime Text Version 3.2.2 Build 3211: https://gist.github.com/angrycoffeemonster/4f05896d233baf6bd9b0894e30b5fa63#gistcomment-3186129
+# Ctrl + Shift + P: install package control
+# Ctrl + Shift + P: install package
+# Preferences > Select Theme: Default Dark Sublime Theme
+# Preferences > Settings:
+	{
+		"update_check": false,
+		"theme": "Default Dark.sublime-theme",
+		"ignored_packages":
+		[
+			"Vintage",
+		],
+		"color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
+		"always_show_minimap_viewport" : true,
+		"bold_folder_labels"           : true,
+		"font_face"                    : "Ubuntu Mono",
+		"font_size"                    : 12,
+		"font_options"                 : ["gray_antialias", "subpixel_antialias"], // On retina Mac & Windows
+		"indent_guide_options"         : ["draw_normal", "draw_active"], // Highlight active indent
+		"line_padding_bottom"          : 1,
+		"line_padding_top"             : 1,
+		"overlay_scroll_bars"          : "enabled",
+	}
+# INFO: menu View > Layout to set single or split layout
+# For unlimited user license in linux:
+	# first go to site https://hexed.it/
+	# click on Open file and put file "sublime_text" is in /opt/sublime_text/sublime_text
+	# go to section Search in left of page
+	# put 80 78 05 00 0F 94 C1 in label Search for
+	# then click on Find next
+	# after find it then change if one by one to: C6 40 05 01 48 85 C9
+	# after that click on Export/Save as
+	# then write this command in terminal
+	$ sudo mv /opt/sublime_text/sublime_text ./sublime_text.old
+	$ cd $HOME/Downloads/
+	$ chmod 755 sublime_text
+	$ sudo chown root:root sublime_text
+	$ sudo mv sublime_text /opt/sublime_text/
+
+=======================================
+Install Apps Manually From .DEB Package
+=======================================
+Download Only Office for Linux
+	https://www.onlyoffice.com/download-desktop.aspx
+	# settings > interface scaling: 125%
+	# settings > interface theme: dark
+Download Zoom Workplace for Linux
+	https://zoom.us/download
+Download Sejda PDF Desktop (PDF Editor)
+	https://www.sejda.com/desktop
+Download CrossFTP Version 1.99.6 (can manage S3 bucket)
+	https://www.crossftp.com/crossftp_1.99.9.deb
+
+=======================================
+Install Apps Manually From .SH File
+=======================================
+Download Burp Suite Community Edition (Free): popular web security testing tool used by ethical hackers and penetration testers
+	https://portswigger.net/burp/releases
+		=> chmod +x burpsuite_community_linux_v*.sh
+		=> ./burpsuite_community_linux_v*.sh
+	To integrate it with a browser:
+		=> Launch Burp Suite. Go to Proxy > Options and ensure a proxy listener is running on 127.0.0.1:8080.
+		=> For Chrome, launch from terminal with: google-chrome --proxy-server="http://127.0.0.1:8080"
+		=> Visit http://burp in the browser (while proxy is on). Download the CA Certificate. If Chrome requires PEM on Linux, convert the certificate:
+			openssl x509 -inform DER -in cacert.der -out burp_cert.pem
+			sudo cp burp_cert.pem /usr/local/share/ca-certificates/burp_cert.crt
+			sudo update-ca-certificates
+			google-chrome --proxy-server="http://127.0.0.1:8080" --enable-features=TrustTokens --ignore-certificate-errors
+		=> Browse any website. Burp Suite will capture and let you inspect or modify HTTP/HTTPS traffic in Proxy > Intercept or HTTP history.
+
+=======================================
+Add swap space equals to RAM size
+=======================================
+# check has swap enabled, if output is empty, it means that your system does not have swap space enabled
+$ swapon --show
+# creating a file which will be used for swap
+$ fallocate -l 4G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile && swapon --show
+# make the change permanent
+$ nano /etc/fstab
+# paste it
+/swapfile swap swap defaults 0 0
+
+=======================================
+[EMERGENCY ONLY] Remove swap
+=======================================
+$ free -m
+$ swapoff -a
+$ rm /swapfile
+$ nano /etc/fstab
+# comment out line swap
+
+=================================
+Auto Mount NTFS Partition
+=================================
+$ sudo -i
+$ mkdir /drive_ntfs
+$ fdisk -l
+# what dev is NTFS partition, example: dev2
+$ nano /etc/fstab
+# add this line:
+/dev/nvme0n1p8 /drive_ntfs ntfs defaults,noatime 0 0
+	$ mkdir /drive_windows_ssd
+	$ fdisk -l
+	# what dev is NTFS partition, example: dev2
+	$ nano /etc/fstab
+	# add this line:
+	/dev/nvme0n1p3 /drive_windows_ssd ntfs defaults,noatime 0 0
+$ reboot
+# boot into Windows
+# make sure "fast startup" in Windows is disabled
+# Win 7: Power Options > Choose what the power buttons do > Change settings that are currently unavailable > uncheck Turn on fast startup > Save changes
+# Win 10: Power & Sleep Setting > Additional Power Setting > Choose what the power buttons does > Change settings that are currently unavailable > uncheck Turn on fast startup > Save changes
+# run cmd.exe as administrator, type command to shutdown properly : shutdown /s /f /t 0
+# after shutdown, turn on & boot into Linux & mounting NTFS would be no issue like can't copy/rename/delete file
+
+=====================================
+System Setting
+=====================================
+# Input & Output: Keyboard > Shortcuts > Add new > Google Chrome > Add custom shortcut Ctrl + Alt + G
+# Input & Output: Keyboard > Shortcuts > search "power" > click on "KDE Power Management System"
+	Decrease Screen Brightness: Ctrl + ,			OR Monitor Brightness Down
+	Decrease Screen Brightness by 1%: Ctrl + Shift + ,	OR Shift + Monitor Brightness Down
+	Increase Screen Brightness: Ctrl + .			OR Monitor Brightness Up
+	Increase Screen Brightness by 1%: Ctrl + Shift + .	OR Shift + Monitor Brightness Up
+# Input & Output: Mouse & Touchpad > Mouse > Pointer speed: 0,80
+# Input & Output: Mouse & Touchpad > Mouse > Pointer acceleration: Standard
+# Input & Output: Mouse & Touchpad > Touchpad > Screen Edges > click on top left corner > No Action
+# Right click on desktop wallper > Configure Desktop and Wallpaper
+	Layout: Folder View
+	Wallpaper type: Picture of the Day
+	Provider: Bing
+		enable: Update when using metered network connection
+	Positioning: Scaled & Cropped
+	Background color: #000000
+# Appearance & Style: Colors & Themes (Global Theme)
+	Colors: Breeze Dark
+	Application Style: Breeze
+		Configure GNOME/GTK Application Style:
+			Get New GNOME/GTK Application Style > WhiteSur GTK Theme by vinceliuice: WhiteSur-Dark
+		GTK theme: WhiteSur-Dark
+	Plasma Style: Breeze Dark
+	Windows Decorations:
+		Get New Theme: Summaculate Aurorae Plasma 6 by doncsugar => Summaculate Night Blur > Edit > Button Size: Normal (use Large for 1920 resolution)
+		Configure Titlebar Buttons: (from left to right) Close, Minimize, Maximize ___ Titlebar ___ [empty]
+	Icons: Breeze Dark
+	Cursors: Breeze
+	System Sounds: Ocean
+	Splash Screen:
+		Get New Splash: Get New -> QuarksSplashDark
+	Login Screen (SSDM):
+		Get New -> Apple Sonoma v2 SDDM by Adolfo
+	Boot Splash Screen:
+		Get New -> Linux Distro Logos Colored -> kubuntu-mac-style
+# Appearance & Style: Text & Fonts
+	Fonts:
+		General: Ubuntu 10pt (use 12pt for 1920 resolution)
+		Fixed width: Ubuntu Mono 10pt (use 12pt for 1920 resolution)
+		Small: Ubuntu 8pt (use 10pt for 1920 resolution)
+		Toolbar: Ubuntu 10pt (use 12pt for 1920 resolution)
+		Menu: Ubuntu 10pt (use 12pt for 1920 resolution)
+		Windows title: Ubuntu 10pt (use 12pt for 1920 resolution)
+		Anti-Aliasing: Enabled
+# Apps & Windows: Window Management > Window Behavior > tab Advanced
+	Window placement: Centered
+# Apps & Windows: Window Management > Task Switcher
+	change to Thumbnail Grid
+# Apps & Windows: Window Management > Dekstop Effects > Blur > configure
+	Set Blur Strength 50%
+	Set Noise Strength 0%
+# Apps & Windows: Window Management > Desktop Effects > Woobly Windows > disable
+# Apps & Windows: Window Management > Desktop Effects > Magic Lamp > enable and configure
+	Animation duration: 400ms
+# Apps & Windows: Window Management > Desktop Effects > Fade
+# Workspace: General Behavior
+	Clicking files or folders: Opens them
+# Security & Privacy: Screen Locking > Configure Appearance:
+		enable: Keep visible when unlocking prompt disappears
+		enable: Show under unlocking prompt
+	Layout: Folder View
+	Wallpaper type: Picture of the Day
+	Provider: Bing
+		enable: Update when using metered network connection
+	Positioning: Scaled & Cropped
+	Background color: #000000
+# System: Power Management > Advanced Power Settings
+	Battery protection: Limit the maximum battery charge
+
+=======================================
+Setup Widget
+	Position: Top
+	Alignment: Center
+	Width: Fill width
+	Visibility: Always visible
+	Opacity: Opaque
+	Style: No floating
+	Panel Height: 38
+=======================================
+Application Launcher
+	Icon: bluegriffon
+	Text label: LINUX
+	Sidebar position: left
+	Show favourites: In a grid
+	Show other applications: In a list
+	Show buttons for: Power (show action button captions)
+Icon-only Task Manager
+	Appearance > Use multi-row view: Never
+	Spacing between icon: Large
+	Behavior > Group: Do not group
+Sticky Note
+	Text font size: 11pt
+	Theme: A transparent sticky with light text
+	Shortcut: Ctrl + Alt + Space
+System Tray
+	Panel icon size: Small
+	Panel icon spacing: Normal
+Spacer
+	Flexible size: no
+	Width: 10
+Resources Monitor - fork by orblazer
+Network Bandwidth Monitor by leevd
+Network Monitor by clearmartin
+Digital Clock
+	Information: Show date (always beside time)
+	Show seconds: Only in the tooltip
+	Show time zone: Only when different from local time zone
+	Display time zone as: Code
+	Time display: 24-Hour
+	Date format: Long Date (Rabu, 31 Juli 2024)
+	Text display: Manual 8pt
+Peek at Desktop (Show the desktop & minimize all windows)
+	Shortcut: Ctrl + Space
+
+=====================================
+Install Tor Browser
+=====================================
+sudo apt install torbrowser-launcher
+# updating TOR screwed up my client : "Download Error: 404"
+sudo -i
+# https://askubuntu.com/questions/1445050/updating-tor-screwed-up-my-client-download-error-404 
+# exit from root
+# launch tor browser
+
+=======================================
+Install pip for Python 3
+=======================================
+$ sudo apt update
+$ sudo apt install python3-pip
+$ pip3 --version
+# sudo pip3 install gdown
+# gdown [URL]
+# gdown https://drive.google.com/uc?id=0B9P1L--7Wd2vU3VUVlFnbTgtS2c
+# sudo pip3 install slowloris
+# slowloris -h
+# slowloris --randuseragents [DOMAIN]
+# slowloris --randuseragents example.com
+
+=====================================
+Install Docker with MariaDB & phpMyAdmin
+=====================================
+$ sudo apt install -y python3-distutils-extra docker.io docker-compose && sudo systemctl start docker && sudo systemctl enable docker && docker --version
+$ mkdir /opt/docker-mariadb-phpmyadmin && cd /opt/docker-mariadb-phpmyadmin
+$ nano docker-compose.yml
+# copy dan paste line berikut:
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: root
+      PMA_PASSWORD: root_password
+      UPLOAD_LIMIT: 2G
+    ports:
+      - "8080:80"
+
+volumes:
+  mariadb_data:
+$ docker-compose up -d
+# open phpMyAdmin on the browser: http://localhost:8080
+
+=======================================
+Install Spotify + Calaboka (ads silencer) from Snap [no longer need]
+=======================================
+# open Discover, search "Spotify" and install
+# open Discover, search "Calaboka" and install
+$ sudo snap connect calaboka:mpris spotify:spotify-mpris
+# open Menu Editor, in category Multimedia > New Item "Spotify"
+	Name: Spotify
+	Desc: 
+	Comment: Music for everyone
+	program: /snap/bin/spotify
+	Icon: spotify
+
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+
+=====================================
+[ARCHIEVED] Install Postman from Snap
+=====================================
+$ snap install postman
+# or, open Discover, search "Postman" and install
+# open Menu Editor, in category Development > New Item "Postman"
+	Name: Postman
+	Desc: 
+	Comment: API Development Environment
+	Program: /snap/bin/postman
+	Icon: postman
+
+=================================
+[ARCHIEVED] Recognize USB 3.0 Device
+=================================
+$ sudo nano /etc/default/grub
+# add parameter: usbcore.autosuspend=-1 to GRUB_CMDLINE_LINUX_DEFAULT
+	GRUB_CMDLINE_LINUX_DEFAULT="usbcore.autosuspend=-1"
+# close & save
+$ update-grub
+$ reboot
+# if anything goes wrong, just boot through recovery to repair grub again
+
+=================================
+[ARCHIEVED] Fix Lenovo S145 Touchpad Freeze After Resume (wake up)
+=================================
+# right click on icon application menu (Launchpad plasma), right click on Lost & Found, click new item
+# set name: Reset Pointer
+# set desc: 
+# set command: ids=$(xinput list | grep 'pointer' | cut -d '=' -f 2 | cut -f 1 | tr ' ' '\n' | tail -1) && xinput --disable $ids && xinput --enable $ids
+# set icon: ktouch
+# save & close application menu
+
+=====================================
+[ARCHIEVED] Install latest stable version of Wine
+=====================================
+$ sudo dpkg --add-architecture i386
+$ sudo apt update
+$ wget -qO- https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
+$ sudo apt-add-repository "deb http://dl.winehq.org/wine-builds/ubuntu/ $(lsb_release -cs) main"
+$ sudo apt install --install-recommends winehq-stable
+$ wine --version
+$ winecfg
+# fix font shows blank squares instead of characters
+# now use terminal as user non root
+$ cd "${HOME}/Downloads"
+$ wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
+$ chmod +x winetricks
+$ sh winetricks allfonts dotnet472 vcrun2008 vcrun2010 vcrun2013 vcrun2015 d3dx9 d3dx9_43 directx9 d3dx10
+
+======================================
+[ARCHIEVED] Install Vagrant
+======================================
+$ curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+$ sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+$ sudo apt-get update && sudo apt-get install vagrant
+
+=======================================
+[ARCHIEVED] Install WhatsApps from Snap
+=======================================
+# open Discover, search "WhatSie" and install
+# open Menu Editor, in category Internet > New Item "WhatSie"
+	Name: WhatSie
+	Desc: 
+	Comment: WhatsApp for Linux
+	Program: /snap/bin/whatsie
+	Icon: whatsapp
+
+=====================================
+[ARCHIEVED] Install Anbox
+=====================================
+https://www.how2shout.com/linux/how-to-install-anbox-on-ubuntu-20-04-lts-focal-fossa/
+
+=====================================
+[ARCHIEVED] Install UNetbootin from Ubuntu PPA
+=====================================
+$ sudo add-apt-repository ppa:gezakovacs/ppa && sudo apt install unetbootin
+
+======================================
+[ARCHIEVED] Install Apps From APPIMAGE
+======================================
+# Download it
+Kdenlive -> https://kdenlive.org/en/download/ -> choose AppImage -> make directory /home/AppImage and move file here -> set file as executable from file manager -> open file -> setting -> force breeze icon theme -> quit
+# Add shortcut
+right click on simple menu -> edit applications -> click on multimedia category -> new item
+	Name: Kdenlive
+	Description: Video Editor
+	Comment: Open source video editor. Free and easy to use for any purpose, forever.
+	Command: /home/neon/Appimage/kdenlive-21.08.0-x86_64.appimage
+	Icon download from https://drive.google.com/file/d/1NLHfHWr0I5J5g_14nD7W6Py_wNl_8EQ2/view?usp=sharing
+save
+# Default app based on extension
+create a fake project file with .kdenlive extension -> right click -> properties -> file type option -> add extensioin: *.kdenlive -> add application: Kdenlive -> ok -> remove this fake project file
+
+=======================================
+[ARCHIEVED] Register CrossFTP Version 1.99.6
+=======================================
+Pro Multi User:
+4F6B65204F63657C6F6B65406F63652E636F6D0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010FFFFFFFFFFFFFFFA3C98218B681C6D5A23197C7D1F96689
+Pro Single User:
+4F6B65204F63657C6F6B65406F63652E636F6D0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007FFFFFFFFFFFFFFFA43DA5170DC757681015326654516EFC
+Enterprise Site:
+4F6B65204F63657C6F6B65406F63652E636F6D0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000027FFFFFFFFFFFFFFFD0BE218C8C7712D7CB31FCB1FAD9C554
+Enterprise Multi User:
+4F6B65204F63657C6F6B65406F63652E636F6D0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040FFFFFFFFFFFFFFFF3C5C65BAFC2950AA7AF64D9508F4DAC
+
+=======================================
+[ARCHIEVED] Install latest stable version of ImageMagick with IMEI (ImageMagick Easy Install)
+=======================================
+$ cd /opt
+$ git clone https://github.com/SoftCreatR/imei
+$ cd imei
+$ sudo ./imei.sh
+# verify
+$ identify -version
+$ php -i | grep ImageMagick
+
+=================================
+[ARCHIEVED] Show Battery Percentage
+=================================
+Right click on battery icon > Configure battery and brightness
+Check "Show percentage" > OK
+
+=================================
+[ARCHIEVED] Install Winamp Skin to Audacious
+=================================
+Copy or download: https://drive.google.com/file/d/1lFru-2da8Kv1RWHlZOky7XMxQTuIDJFO/view?usp=sharing
+Extract downloaded file, and you will see a folder called winamp_standar
+With root privilage, copy folder winamp_standar to: /usr/share/audacious/Skins
+Open Audacious, go to Setting
+Appearance > Interface > Winamp Classic Interface
+Appearance > Skin > winamp_standar
+Close
+
+
+█▀▀ █░█ █▄░█ █▀▀ ▀█▀ █ █▀█ █▄░█ ▄▀█ █░░ █ ▀█▀ █▄█
+█▀░ █▄█ █░▀█ █▄▄ ░█░ █ █▄█ █░▀█ █▀█ █▄▄ █ ░█░ ░█░
+
+=================================
+Fix External Drive no Longer Mounting
+An error occurred while accessing 'Seagate Expansion Drive', the system responded: The requested operation has failed
+=================================
+# just run one line command
+$ MY_EXTERNAL_DRIVE="$(fdisk -l | grep NTFS | awk -F' ' '{print $1}')" && sudo ntfsfix -d ${MY_EXTERNAL_DRIVE}
+#
+# OR
+#
+sudo fdisk --list
+# on below, copy DEVICE_NUMBER like /dev/sda1 or /dev/sda2
+# run ntfsfix using -d flag
+$ sudo ntfsfix -d [DEVICE_NUMBER]
+
+=======================================
+Install Latest Kernel with Hardware Enablement Stack (HWE)
+=======================================
+$ uname -r
+$ apt search linux-generic | grep edge
+$ ver="$(lsb_release -sr)" && sudo apt install linux-generic-hwe-${ver}-edge
+#that's it. reboot.
+$ uname -r
+$ lsb_release -a
+$ dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+'
+$ sudo pkcon refresh && sudo pkcon update
+$ sudo apt update && sudo apt full-upgrade && flatpak update && snap refresh
+# get list of currently running Linux kernel:
+$ v="$(uname -r | awk -F '-virtual' '{ print $1}')" && echo "$v"
+
+=======================================
+Change Any Kernel
+=======================================
+$ uname -r
+$ grep -A100 submenu  /boot/grub/grub.cfg |grep menuentry
+	submenu 'Advanced options for Neon GNU/Linux' $menuentry_id_option 'gnulinux-advanced-c6e41310-0aba-435e-b947-cf0c55e42ec3' {
+	menuentry 'Neon GNU/Linux, with Linux 5.8.0-43-generic' --class neon --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-5.8.0-43-generic-advanced-c6e41310-0aba-435e-b947-cf0c55e42ec3' {
+	menuentry 'Neon GNU/Linux, with Linux 5.8.0-43-generic (recovery mode)' --class neon --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-5.8.0-43-generic-recovery-c6e41310-0aba-435e-b947-cf0c55e42ec3' {
+# Advanced options is gnulinux-advanced-c6e41310-0aba-435e-b947-cf0c55e42ec3
+# Menu entry with Linux 5.8.0-43-generic is gnulinux-5.8.0-43-generic-advanced-c6e41310-0aba-435e-b947-cf0c55e42ec3
+# Concat those two strings with > so result would be like
+	gnulinux-advanced-c6e41310-0aba-435e-b947-cf0c55e42ec3>gnulinux-5.8.0-43-generic-advanced-c6e41310-0aba-435e-b947-cf0c55e42ec3
+$ nano /etc/default/grub
+	GRUB_DEFAULT="gnulinux-advanced-c6e41310-0aba-435e-b947-cf0c55e42ec3>gnulinux-5.8.0-43-generic-advanced-c6e41310-0aba-435e-b947-cf0c55e42ec3"
+$ sudo update-grub
+$ sudo reboot
+
+=======================================
+Remove All Unused Old Kernels
+=======================================
+# list all installed Linux kernel
+$ dpkg --list | grep -i -E --color 'linux-image|linux-kernel' | grep '^ii'
+$ sudo -i
+$ sudo apt --purge autoremove
+# get list of currently running Linux kernel:
+$ v="$(uname -r | awk -F '-virtual' '{ print $1}')" && echo "$v"
+# create a list that tells not to delete currently running Linux kernel:
+$ i="linux-headers-virtual|linux-image-virtual|linux-headers-generic-hwe-|linux-image-generic-hwe-|linux-headers-${v}|linux-image-$(uname -r)|linux-image-generic|linux-headers-generic" && echo "$i"
+# here is a list of the kernel that needs to be deleted:
+$ dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i"
+# delete all unwated and older Linux kernels
+$ sudo apt --purge remove $(dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i")
+$ sudo apt autoremove
+
+=================================
+Clear the APT cache and delete everything from /var/cache/apt/archives/
+================================= 
+$ sudo apt clean
+$ sudo apt autoclean
+$ sudo du -ch /var/cache/apt/archives/
+
+=================================
+Clear journal logs from /var/log/journal/
+=================================
+$ journalctl --disk-usage
+$ nano /etc/systemd/journald.conf
+    SystemMaxUse=50M
+$ sudo systemctl kill --kill-who=main --signal=SIGUSR2 systemd-journald.service
+$ sudo systemctl restart systemd-journald.service
+
+=================================
+Clear thumbnail & trash from [USER]
+=================================
+$ rm -rf /home/[USER]/.cache/thumbnails/*
+$ rm -rf /home/[USER]/.local/share/Trash/*
+
+=================================
+Clear snap spotify cache from [USER]
+=================================
+$ rm -rf /home/[USER]/snap/spotify/common/.cache/spotify/Data/*
+
+=================================
+Checking Boot Time
+=================================
+$ systemd-analyze
+# or breakdown the boot time into each unit 
+$ systemd-analyze blame
+
+=================================
+Improving Boot Time
+=================================
+# network manager is responsible for the internet connection and may be turned off to speed up boot time
+# don’t worry, once you log in, you’ll have wifi working normally
+$ sudo systemctl disable NetworkManager-wait-online.service
+# if you want to revert the change, you can use this command: sudo systemctl enable NetworkManager-wait-online.service
+
+=================================
+Fix Battery Charging/Discharging State Always Delay Updated
+=================================
+$ sudo -i
+# get device name, ex: /org/freedesktop/UPower/devices/battery_BAT0
+$ upower -e
+# create a bash script with suitable device name and run every 2 seconds
+$ nano /etc/keep-battery-updated.sh
+	#!/bin/bash
+	while sleep 2; do
+	   busctl call --system org.freedesktop.UPower /org/freedesktop/UPower/devices/battery_BAT0 org.freedesktop.UPower.Device Refresh
+	done
+$ chmod +x /etc/keep-battery-updated.sh && chmod 0755 /etc/keep-battery-updated.sh
+# add it as a startup script, System Settings > Workspace > Startup and Shutdown > Autostart > Add Login Script > /etc/keep-battery-updated.sh > Open
+$ reboot
+
+=================================
+Fix No Sound
+=================================
+# try reinstalling Alsa and Pulse audio:
+$ sudo apt install --reinstall alsa-base pulseaudio
+# and force reload Alsa again:
+$ sudo alsa force-reload
+# reboot and check if sound is back or not
+
+=================================
+Fix No Bluetooth
+=================================
+$ sudo rfkill block bluetooth
+$ sudo rfkill unblock bluetooth
+$ sudo bluetoothctl power on
+
+=================================
+Fix Desktop Effects Not Working or Display is Blank (BLACK SCREEN)
+=================================
+System Settings > Hardware > Display and Monitor > Compositor
+# [ON] enable on startup
+# [ON] allow applications to block compositing
+# set Scale method: Smooth
+# set Rendering backend: OpenGL 3.1
+# set Latency: Prefer lower latency
+# apply
+
+=================================
+Fix Plain Text File Assocation
+=================================
+System Settings > Applications > File Assocations > text > plain > remove *.doc > Apply
+
+=================================
+Fix Remote Control Request Prompt
+=================================
+# System Settings > disable "Enable RDP Server"
+# or run the following terminal command:
+$ systemctl --user disable --now plasma-krdp_server.service
+
+=================================
+Fix TeamViewer Not Ready
+=================================
+$ sudo teamviewer --daemon enable
+$ systemctl enable teamviewerd
+$ systemctl start teamviewerd
+
+=================================
+Fix Zoom No Sound From Speaker
+=================================
+Zoom Setting > Audio Setting > Increase Output Volume on Speaker
+
+=================================
+Fix Dolphin Explorer Error
+=================================
+$ dbus-launch dolphin
+
+=================================
+Sort Media in SD Card
+=================================
+$ apt install fatsort
+# [device-name] like /dev/sda1 or /dev/sdb1
+$ sudo fatsort -l [device-name]
+$ sudo fatsort -i [device-name]
+$ sudo fatsort -c [device-name]
+
+=================================
+Mount an ISO File
+=================================
+$ sudo mkdir /mnt/iso
+$ sudo mount -o loop file.iso /mnt/iso
+$ ls /mnt/iso/
+
+=================================
+Check System, Machine and Audio Information
+=================================
+$ inxi -SMA
+# or full info:
+$ inxi -F
+
+=================================
+[ARCHIEVED] Touchpad Gestures like MacOS/Windows
+=================================
+Touchégg: https://github.com/JoseExposito/touchegg
+ToucheggKDE: https://github.com/NayamAmarshe/ToucheggKDE
+
+=================================
+Empty Trash from Terminal
+=================================
+$ rm -rf ~/.local/share/Trash/*
+
+=================================
+Installing Linux AMDGPU Controller Tool (LACT)
+=================================
+# download a .deb from releases: https://github.com/ilya-zlobintsev/LACT/releases/
+# install it
+# launch it
+# run this command to unlock the GPU overclocking capabilities
+$ sudo systemctl enable --now lactd
+# increase notebook performance by enabling overclock
+# LACT > tab "OC" > Enable Overclocking > Yes > Reboot
+
+=================================
+Switch from Wayland to X11 (also fix screen recorder become black screen)
+=================================
+# Log Out
+# in the login screen, select "Session: Plasma (X11)"
+#############################
+# while login, it is possible that your KEYBOARD will experience problems because it seems not working, here's how to fix it.
+$ sudo -i
+$ nano /etc/default/grub
+# add this parameter to GRUB_CMDLINE_LINUX_DEFAULT
+	GRUB_CMDLINE_LINUX_DEFAULT="atkbd.reset=1 i8042.nomux=1 i8042.reset=1 i8042.nopnp=1 i8042.dumbkbd=1 quiet splash"
+# close & save
+$ update-grub
+$ reboot
+# IF ANYTHING GOES WRONG (WIFI ADAPTER ALWAYS DISABLED), JUST BOOT VIA NORMAL MODE OR RECOVERY MODE TO REPAIR GRUB AGAIN
+#############################
+!!! # after login, it is possible that your TOUCHPAD will experience problems because it cannot tap to click, here's how to fix it.
+!!! $ sudo -i
+!!! $ nano /etc/default/grub
+!!! # add parameter i8042.nopnp=1 pci=nocrs to GRUB_CMDLINE_LINUX_DEFAULT
+!!! # also add parameter nosgx to disable Intel SGX Kernel Support
+!!! 	GRUB_CMDLINE_LINUX_DEFAULT="i8042.nopnp=1 pci=nocrs nosgx quiet splash"
+!!! # close & save
+!!! $ update-grub
+!!! $ reboot
+!!! # IF ANYTHING GOES WRONG (WIFI ADAPTER ALWAYS DISABLED), JUST BOOT VIA NORMAL MODE OR RECOVERY MODE TO REPAIR GRUB AGAIN
+#############################
+# enable kinetic scrolling: switch from libinput to synaptics
+# first, show list input devices
+xinput list
+# check touchpad using libinput or synaptics driver
+xinput list-props [id] | grep Scroll | awk -F' ' '{print $1}'
+# touchpads that use libinput driver can't use kinetic scrolling feature
+# if you are still using libinput, then change it to synaptics
+# just install synaptics, but don't uninstall libinput because libinput is still happily handling keyboard, etc.
+$ sudo -i
+$ sudo apt install xserver-xorg-input-synaptics
+$ sudo nano /usr/share/X11/xorg.conf.d/*-synaptics.conf
+# add Option after line [Driver "synaptics"] and [MatchIsTouchpad "on"]
+Section "InputClass"
+	Identifier "touchpad catchall"
+	Driver "synaptics"
+	MatchIsTouchpad "on"
+		Option "TapButton1" "1"
+		Option "TapButton2" "3"
+		Option "TapButton3" "2"
+		Option "VertEdgeScroll" "on"
+		Option "VertTwoFingerScroll" "on"
+		Option "HorizEdgeScroll" "on"
+		Option "HorizTwoFingerScroll" "on"
+		Option "MinSpeed" "1.2"
+		Option "MaxSpeed" "2.5"
+		Option "AccelFactor" "0.15"
+		Option "TrackstickSpeed" "0"
+		Option "CircularScrolling" "off"
+		Option "CornerCoasting" "0" # kinetic two-finger scrolling
+		Option "CoastingSpeed" "20" # kinetic two-finger scrolling
+		Option "CoastingFriction" "50" # kinetic two-finger scrolling
+		Option "FingerLow" "30"
+		Option "FingerHigh" "50"
+		Option "MaxTapTime" "125"
+	MatchDevicePath "/dev/input/event*"
+EndSection
+$ reboot
