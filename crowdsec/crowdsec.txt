@@ -72,7 +72,10 @@ sudo cscli decisions delete --ip <IP>
 # > untuk overwrite, >> untuk append
 */2 * * * * /usr/bin/python3 /var/www/logs/check_log_error_ipinfo_crowdsec.py > /var/www/logs/ipinfo_error.log 2>&1 && /usr/bin/python3 /var/www/logs/check_log_access_ipinfo_crowdsec.py > /var/www/logs/ipinfo_access.log
 
-### WATCH LAST LOG NGINX + IPINFO + CROWDSEC
+### SHOW LAST LOG NGINX + IPINFO + CROWDSEC (NO AUTORELOAD)
+clear && cat /var/www/logs/ipinfo_error.log && cat /var/www/logs/ipinfo_access.log
+
+### WATCH LAST LOG NGINX + IPINFO + CROWDSEC (AUTORELOAD EVERY 10 SECONDS)
 watch -n 10 'cat /var/www/logs/ipinfo_error.log /var/www/logs/ipinfo_access.log'
 
 ### BOUNCER MULTI SERVER
