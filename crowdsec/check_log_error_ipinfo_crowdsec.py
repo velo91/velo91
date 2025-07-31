@@ -261,7 +261,7 @@ for ip, count in counter.most_common():
                     f'\t→ Jika ISP (bukan hosting), pertimbangkan blok IP-nya (bukan subnet): sudo cscli decisions add --reason "malicious ip" --duration 24h --ip {ip}'
                 )
 
-        icon_khusus = "📌" if negara == "ID" else "🛡"
+        icon_khusus = "📌" if negara == "ID" else " 🛡"
         print(f"https://ipinfo.io/{ip:<15} | {count:5} kali | {status} | Negara: {negara} {icon_khusus} | {org} ({city}, {region}) {action}")
         printed += 1
 
