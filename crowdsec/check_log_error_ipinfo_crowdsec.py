@@ -156,7 +156,7 @@ else:
     my_ip = None
 
 # --- Tampilkan IP yang sering muncul ---
-print(f"💻 Daftar IP terbanyak di error log Nginx (antara {LOW_ACTIVITY_THRESHOLD} hingga {HIGH_ACTIVITY_THRESHOLD} ke atas):")
+print(f"💻 Daftar IP terbanyak di error log nginx (antara {LOW_ACTIVITY_THRESHOLD} hingga {HIGH_ACTIVITY_THRESHOLD} ke atas):")
 #print("----------------------------------------------------------------------")
 
 checked_subnets = {}
