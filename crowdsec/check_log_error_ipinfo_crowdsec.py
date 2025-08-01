@@ -255,11 +255,13 @@ for ip, count in counter.most_common():
                 status = '🚫 diblokir otomatis (bukan Indonesia)'
                 action = ''
             else:
+                escaped_ip = ip.replace('.', '\\.')
                 status = '🔎 perlu ditinjau'
                 action = (
                     '\n\tIP dari Indonesia – silakan review manual\n'
                     f'\t→ Jalankan untuk blokir jika perlu: sudo cscli decisions add --reason "malicious subnet" --duration 1000d --range {subnet}\n'
-                    f'\t→ Jika ISP (bukan hosting), pertimbangkan blok IP-nya (bukan subnet): sudo cscli decisions add --reason "malicious ip" --duration 24h --ip {ip}'
+                    f'\t→ Jika ISP (bukan hosting), pertimbangkan blok IP-nya (bukan subnet): sudo cscli decisions add --reason "malicious ip" --duration 24h --ip {ip}\n'
+                    f"\t→ Atau jika ingin diabaikan dan tidak masuk log, hapus baris log yang ada IP ini: sed -i '/{escaped_ip}/d' {LOG_FILE}"
                 )
 
         icon_khusus = "📌" if negara == "ID" else " 🛡"
