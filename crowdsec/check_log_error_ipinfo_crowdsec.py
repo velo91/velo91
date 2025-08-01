@@ -171,15 +171,13 @@ for ip, count in counter.most_common():
         if ip == my_ip:
             continue
 
-        org = ''
-        city, region, negara, org = get_geo_asn(ip)
-
         if count <= LOW_ACTIVITY_THRESHOLD:
             # Terlalu kecil, abaikan saja biar tidak bikin semak log
             continue
 
         elif LOW_ACTIVITY_THRESHOLD < count < HIGH_ACTIVITY_THRESHOLD:
             # Jika jumlahnya antara LOW_ACTIVITY_THRESHOLD sampai HIGH_ACTIVITY_THRESHOLD, hanya blokir jika berasal dari hosting
+            city, region, negara, org = get_geo_asn(ip)
             if subnet not in checked_subnets:
                 blocked = is_subnet_blocked_by_crowdsec(subnet, ip)
                 checked_subnets[subnet] = blocked
@@ -221,6 +219,7 @@ for ip, count in counter.most_common():
 
         else:
             # Jumlahnya >= HIGH_ACTIVITY_THRESHOLD maka lanjut diproses secara normal
+            city, region, negara, org = get_geo_asn(ip)
             if subnet not in checked_subnets:
                 blocked = is_subnet_blocked_by_crowdsec(subnet, ip)
                 checked_subnets[subnet] = blocked
