@@ -52,6 +52,7 @@ HOSTING_ASN_KEYWORDS = [
     'powerhouse',
     'code200',
     'datacamp',
+    'dpkgsoft',
     'worldstream'
 ]
 
