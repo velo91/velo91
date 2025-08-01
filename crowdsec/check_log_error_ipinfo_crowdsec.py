@@ -169,6 +169,7 @@ for ip, count in counter.most_common():
         subnet = str(subnet_obj)
 
         if ip == my_ip:
+            # Skip, langsung loncat ke iterasi berikutnya
             continue
 
         if count <= LOW_ACTIVITY_THRESHOLD:
