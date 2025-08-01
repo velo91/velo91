@@ -149,11 +149,11 @@ counter = Counter(ips)
 
 # --- Ambil IP server sendiri ---
 my_ip = get_public_ip()
-if my_ip:
-    print(f"IP publik server saat ini: {my_ip}")
-else:
-    print("\n⚠ Gagal mendeteksi IP publik server.")
-    my_ip = None
+#if my_ip:
+#    print(f"IP publik server saat ini: {my_ip}")
+#else:
+#    print("\n⚠ Gagal mendeteksi IP publik server.")
+#    my_ip = None
 
 # --- Tampilkan IP yang sering muncul ---
 print(f"💻 Daftar IP terbanyak di error log nginx (antara {LOW_ACTIVITY_THRESHOLD} hingga {HIGH_ACTIVITY_THRESHOLD} ke atas):")
