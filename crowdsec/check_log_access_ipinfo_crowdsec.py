@@ -157,7 +157,7 @@ my_ip = get_public_ip()
 #    my_ip = None
 
 # --- Tampilkan IP yang sering muncul ---
-print(f"💻 Daftar IP terbanyak di access log Nginx (antara {LOW_ACTIVITY_THRESHOLD} hingga {HIGH_ACTIVITY_THRESHOLD} ke atas):")
+print(f"💻 Daftar IP terbanyak di access log nginx (antara {LOW_ACTIVITY_THRESHOLD} hingga {HIGH_ACTIVITY_THRESHOLD} ke atas):")
 #print("----------------------------------------------------------------------")
 
 checked_subnets = {}
