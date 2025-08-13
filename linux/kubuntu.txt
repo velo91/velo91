@@ -377,7 +377,7 @@ Install OBS Studio from Ubuntu PPA for More Up-to-Date Version
 $ sudo add-apt-repository ppa:obsproject/obs-studio && sudo apt install -y obs-studio
 
 =======================================
-Install GNOME Network Displays to connect to a smart tv wirelessly
+Install GNOME Network Displays to connect to a Smart TV wirelessly
 =======================================
 $ sudo apt install gnome-network-displays
 
