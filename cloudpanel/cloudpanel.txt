@@ -702,6 +702,12 @@ crontab -e
 	# mount drive on boot
 	@reboot sh /home/bbg-spada/mount-spada-google-drive.sh
 # TROUBLESHOOT: Fix – broken page issue after Moodle 3.x installation on Nginx web server => https://dartinnovations.com/fix-broken-page-issue-after-moodle-3-x-installation-on-nginx-web-server/
+# TROUBLESHOOT: Fix error view course page after installing spada indonesia plugin on Moodle 4.X
+	# open /admin/tool/spadaindonesia/classes/tool/tool.php
+	# change this line
+	# $context = get_context_instance(CONTEXT_COURSE, $course->id);
+	# to:
+	$context = \core\context::instance_by_id($course->id, CONTEXT_COURSE);
 
 ===========================
 INSTALL SLIMS AT CLOUDPANEL
