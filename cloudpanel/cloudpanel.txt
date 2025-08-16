@@ -709,6 +709,22 @@ crontab -e
 	# to:
 	$context = \core\context::instance_by_id($course->id, CONTEXT_COURSE);
 
+# TROUBLESHOOT: disable spada alert on dashboard
+	# open /admin/tool/spadaindonesia/tool/spadamanager/templates/tracking_code.mustache
+	# add this line
+<script>
+<!-- Disable SPADA Alert -->
+var curpath = window.location.pathname.replace('/','');
+if (curpath == 'my'){
+    window.alert = function() {};    
+}
+<!-- End Disable SPADA Alert -->
+</script>
+# TROUBLESHOOT: plugins.js redirect https://spada.kemdikbud.go.id/moodle/plugin.js from https://spada.kemdiktisaintek.go.id/moodle/plugin.js
+	# open /admin/tool/spadaindonesia/tool/spadamanager/templates/tracking_code.mustache
+	# change spada.kemdikbud.go.id to spada.kemdiktisaintek.go.id
+	# if you want, change ?version=3.4 to your moodle version like ?version=4.5
+
 ===========================
 INSTALL SLIMS AT CLOUDPANEL
 ===========================
