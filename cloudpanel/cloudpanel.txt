@@ -707,8 +707,7 @@ crontab -e
 	# change this line
 	# $context = get_context_instance(CONTEXT_COURSE, $course->id);
 	# to:
-	$context = \core\context::instance_by_id($course->id, CONTEXT_COURSE);
-
+	$context = \context_course::instance($course->id);
 # TROUBLESHOOT: disable spada alert on dashboard
 	# open /admin/tool/spadaindonesia/tool/spadamanager/templates/tracking_code.mustache
 	# add this line
