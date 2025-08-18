@@ -670,7 +670,7 @@ disable_functions=pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexite
 # In "SSL/TLS", create and install Let's Encrypt Certificate
 # In "Cron Jobs", add cron job every minute: /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/cron.php
 # In "Cron Jobs", add cron job every hourly: /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/scheduled_task.php --execute="\core\task\file_trash_cleanup_task"
-# In "Cron Jobs", add cron job every day: /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/kill_all_sessions.php
+# In "Cron Jobs", add cron job every week: /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/kill_all_sessions.php
 	curl -sSL https://raw.githubusercontent.com/velo91/velo91/master/moodle/script-moodle-list-old-files.php > /[YOUR_MOODLE_PATH]/admin/script-moodle-list-old-files.php
 	curl -sSL https://raw.githubusercontent.com/velo91/velo91/master/moodle/script-moodle-delete-old-files.sh > /[YOUR_MOODLE_PATH]/admin/script-moodle-delete-old-files.sh
 	chmod +x /[YOUR_MOODLE_PATH]/admin/script-moodle-delete-old-files.sh
@@ -688,7 +688,7 @@ disable_functions=pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexite
 # nano /[YOUR_MOODLE_PATH]/course/edit_form.php
 # $mform->addElement('text', 'shortname', get_string('shortnamecourse'), 'maxlength="100" size="20"');
 # change to:
-# $mform->addElement('text', 'shortname', 'Course code dari OPEN SIMKA', 'maxlength="100" minlength="16" size="20"');
+# $mform->addElement('text', 'shortname', get_string('shortnamecourse').' <span style="color:green;font-weight:bold;">(course code dari OPEN SIMKA)</span>', 'minlength="16" maxlength="100" size="20"');
 # ADDITIONAL FOR MOUNTING "FILEDIR" WITH GOOGLE DRIVE
 nano /home/bbg-spada/mount-spada-google-drive.sh
 # paste it
