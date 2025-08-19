@@ -9,58 +9,21 @@ from datetime import datetime
 import time
 import json
 from pathlib import Path
+from check_log_config_hosting_asn_keyword import HOSTING_ASN_KEYWORDS
 
 # --- Konfigurasi ---
 LOG_FILE = "/var/www/logs/nginx/access.log"
 IPINFO_TOKEN = "..." # Ganti token Anda di sini
 CACHE_FILE = "/var/www/logs/ipinfo_cache.json"
+IP_DIR = "/var/www/opensimka-production/app/h2h/gateway-serverlocal" # lokasi file ip-kampus*.txt
 LOW_ACTIVITY_THRESHOLD = 10 # Aktivitas rendah yang bisa dipertimbangkan jika dari hosting
 HIGH_ACTIVITY_THRESHOLD = 300 # Jumlah aktivitas tinggi yang layak untuk diambil tindakan
-HOSTING_ASN_KEYWORDS = [
-    'digitalocean',
-    'akamai',
-    'linode',
-    'ovh',
-    'contabo',
-    'vultr',
-    'hetzner',
-    'hostinger',
-    'leaseweb',
-    'm247',
-    'scaleway',
-    'kamatera',
-    'netcup',
-    'exabytes',
-    'sedayu',
-    'andhika',
-    'berkah',
-    'dewa',
-    'clouvider',
-    'gsl',
-    'cheapy',
-    'choopa',
-    'sovy',
-    'serverastra',
-    'oracle',
-    'colocatel',
-    'advin',
-    'railnet',
-    'psinet',
-    'delska',
-    'dzcrd',
-    'xneelo',
-    'powerhouse',
-    'code200',
-    'datacamp',
-    'dpkgsoft',
-    'worldstream'
-]
+VERY_HIGH_ACTIVITY_THRESHOLD = 10000 # Jumlah aktivitas tinggi yang sangat layak untuk diblokir
 
 # --- Tampilkan waktu sekarang ---
 now = datetime.now()
 formatted_time = now.strftime("%A, %d %B %Y %H:%M:%S")
 timezone = time.tzname[0]
-#print(f"{formatted_time} {timezone}")
 
 # --- Load Cache ---
 try:
@@ -134,6 +97,22 @@ def get_geo_asn(ip):
     except Exception as e:
         return 'Tidak diketahui', 'Tidak diketahui', 'Tidak diketahui', f'ERROR: {e}'
 
+# --- Muat daftar IP kampus ---
+ip_kampus_map = {}  # ip_saat_ini -> nama kampus
+for file_path in Path(IP_DIR).glob("ip-*.txt"):
+    if not file_path.is_file():
+        continue
+    kampus = file_path.stem.replace("ip-", "")
+    try:
+        with open(file_path, 'r') as f:
+            for line in f:
+                if line.startswith("ip_saat_ini:"):
+                    ip_saat_ini = line.strip().split(":")[1].strip()
+                    ip_kampus_map[ip_saat_ini] = kampus
+                    break
+    except Exception as e:
+        print(f"⚠ Gagal membaca {file_path}: {e}")
+
 # --- Baca log Nginx dan ambil IP ---
 ips = []
 with open(LOG_FILE, encoding='utf-8', errors='ignore') as f:
@@ -157,8 +136,7 @@ my_ip = get_public_ip()
 #    my_ip = None
 
 # --- Tampilkan IP yang sering muncul ---
-print(f"💻 Daftar IP terbanyak di access log nginx (antara {LOW_ACTIVITY_THRESHOLD} hingga {HIGH_ACTIVITY_THRESHOLD} ke atas):")
-#print("----------------------------------------------------------------------")
+print(f"💻 Daftar IP terbanyak di LOG ACCESS nginx (0>{LOW_ACTIVITY_THRESHOLD}>{HIGH_ACTIVITY_THRESHOLD}). Last update {formatted_time} {timezone}.")
 
 checked_subnets = {}
 printed = 0
@@ -263,13 +241,29 @@ for ip, count in counter.most_common():
                 action = ''
             else:
                 escaped_ip = ip.replace('.', '\\.')
-                status = '🔎 perlu ditinjau'
-                action = (
-                    '\n\tIP dari Indonesia – silakan review manual\n'
-                    f'\t→ Jalankan untuk blokir jika perlu: sudo cscli decisions add --reason "malicious subnet" --duration 1000d --range {subnet}\n'
-                    f'\t→ Jika ISP (bukan hosting), pertimbangkan blok IP-nya (bukan subnet): sudo cscli decisions add --reason "malicious ip" --duration 24h --ip {ip}\n'
-                    f"\t→ Atau jika ingin diabaikan dan tidak masuk log, hapus baris log yang ada IP ini: sed -i '/{escaped_ip}/d' {LOG_FILE}"
-                )
+                if count > VERY_HIGH_ACTIVITY_THRESHOLD and ip not in ip_kampus_map:
+                    subprocess.run([
+                        "sudo", "cscli", "decisions", "add",
+                        "--reason", "malicious ip",
+                        "--duration", "3d",
+                        "--ip", ip
+                    ])
+                    status = f'🚫 diblokir otomatis (dari Indonesia yang >{VERY_HIGH_ACTIVITY_THRESHOLD} kali)'
+                    action = (
+                        '\n\tIP dari Indonesia – trafik sangat-sangat tinggi - langsung diblokir\n'
+                        f'\t→ Jika berupa hosting (bukan ISP), pertimbangkan blok subnet-nya (bukan IP): sudo cscli decisions add --reason "malicious subnet" --duration 1000d --range {subnet}\n'
+                        f"\t→ Hapus IP dari log jika ingin diabaikan: sed -i '/{escaped_ip}/d' {LOG_FILE}"
+                    )
+                else:
+                    if ip in ip_kampus_map:
+                        status = f"🏛 IP {ip_kampus_map[ip]}"
+                    else:
+                        status = '🔎 perlu ditinjau'
+                    action = (
+                        '\n\tIP dari Indonesia – silakan review manual, kalau memang mau blokir subnet: sudo cscli decisions add --reason "malicious subnet" --duration 1000d --range {subnet}\n'
+                        f'\t→ Jika berupa ISP (bukan hosting), pertimbangkan blok IP-nya (bukan subnet): sudo cscli decisions add --reason "malicious ip" --duration 3d --ip {ip}\n'
+                        f"\t→ Hapus IP dari log jika ingin diabaikan: sed -i '/{escaped_ip}/d' {LOG_FILE}"
+                    )
 
         icon_khusus = "📌" if negara == "ID" else "🛡 "
         print(f"https://ipinfo.io/{ip:<15} | {count:5} kali | {status} | Negara: {negara} {icon_khusus} | {org} ({city}, {region}) {action}")
@@ -280,6 +274,4 @@ for ip, count in counter.most_common():
         printed += 1
 
 if printed == 0:
-    print("Tidak ada IP yang memenuhi syarat.")
-
-print(f"\n")
+    print(f"Tidak ada IP yang memenuhi syarat (0>{LOW_ACTIVITY_THRESHOLD}>{HIGH_ACTIVITY_THRESHOLD}).")
