@@ -3,3 +3,8 @@
 */2 * * * * /usr/bin/python3 /var/www/logs/check_log_error_ipinfo_crowdsec.py > /var/www/logs/ipinfo_error.log 2>&1
 */2 * * * * /usr/bin/python3 /var/www/logs/check_log_access_ipinfo_crowdsec.py > /var/www/logs/ipinfo_access.log 2>&1
 */2 * * * * /usr/bin/python3 /var/www/logs/check_netstat_nginx.py > /var/www/logs/ipinfo_netstat_nginx.log 2>&1
+
+# autoupdate semua ip kampus ke dalam allowlist crowdsec setiap 5 menit
+*/5 * * * * sh /var/www/cronjob/update-semua-ip-kampus.sh > /var/www/cronjob/update-semua-ip-kampus.log 2>&1
+# cara lihat ip yang masuk list: cscli allowlist inspect semua_ip_kampus
+# cara cek ip apakah masuk list: cscli allowlist check [IP_ADDR]
