@@ -20,6 +20,7 @@ HOSTING_ASN_KEYWORDS = [
     'berkah',
     'deneva',
     'dewa',
+    'delta awan angkasa',
     'clouvider',
     'gsl',
     'cheapy',
