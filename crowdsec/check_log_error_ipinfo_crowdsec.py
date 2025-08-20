@@ -259,7 +259,7 @@ for ip, count in counter.most_common():
                     else:
                         status = '🔎 perlu ditinjau'
                     action = (
-                        '\n\tIP dari Indonesia – silakan review manual, kalau memang mau blokir subnet: sudo cscli decisions add --reason "malicious subnet" --duration 1000d --range {subnet}\n'
+                        f'\n\tIP dari Indonesia – silakan review manual, kalau memang mau blokir subnet: sudo cscli decisions add --reason "malicious subnet" --duration 1000d --range {subnet}\n'
                         f'\t→ Jika berupa ISP (bukan hosting), pertimbangkan blok IP-nya (bukan subnet): sudo cscli decisions add --reason "malicious ip" --duration 3d --ip {ip}\n'
                         f"\t→ Hapus IP dari log jika ingin diabaikan: sed -i '/{escaped_ip}/d' {LOG_FILE}"
                     )
