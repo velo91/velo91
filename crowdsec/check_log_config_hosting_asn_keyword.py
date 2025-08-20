@@ -18,6 +18,7 @@ HOSTING_ASN_KEYWORDS = [
     'sedayu',
     'andhika',
     'berkah',
+    'biznet isp',
     'deneva',
     'dewa',
     'delta awan angkasa',
