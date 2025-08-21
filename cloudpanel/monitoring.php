@@ -40,7 +40,7 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Monitoring CloudPanel</title>
+  <title>Monitoring</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -69,96 +69,65 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
     .dark-mode canvas {
       background-color: #1e1e1e;
     }
-    /* ====== CYBER BACKGROUND ====== */
+    /* Cyber Futuristic Background */
     :root{
-      --cyber-bg-1:#021018;
-      --cyber-bg-2:#041b2a;
-      --neon-1:#21e9ff;
-      --neon-2:#05ffa1;
-      --neon-3:#7b5cff;
-      --grid-color: rgba(255,255,255,0.08);
-      --stream-color: rgba(33,233,255,0.14);
-      --scanline: rgba(255,255,255,0.03);
+      --bg-dark:#020610;
+      --stream-color: rgba(0,255,200,0.12);
+      --neon-glow: rgba(0,255,200,0.25);
+      --scanline: rgba(255,255,255,0.04);
     }
     .cyber-bg{
       position:fixed;
       inset:0;
+      z-index:0;
       overflow:hidden;
-      z-index:0; /* tetap di bawah Bootstrap container */
-      background: linear-gradient(180deg, var(--cyber-bg-1), var(--cyber-bg-2));
+      background: radial-gradient(circle at 50% 50%, #041a26 0%, #020610 100%);
     }
-    .cyber-layer{
-      position:absolute;
-      inset:-10%;
-      pointer-events:none;
-    }
-    /* Gradient */
-    .cyber-layer.gradient{
-      background: conic-gradient(from 0deg at 60% 40%, 
-                   rgba(33,233,255,0.12), rgba(5,255,161,0.06), rgba(123,92,255,0.10), rgba(33,233,255,0.12));
-      filter: blur(40px);
-      animation: moveGradient 18s linear infinite;
-      opacity:0.7;
-    }
-    @keyframes moveGradient{
-      0%{transform: rotate(0deg) scale(1);}
-      100%{transform: rotate(360deg) scale(1);}
-    }
-    /* Grid */
-    .cyber-layer.grid{
-      background-image:
-        linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-      background-size: 40px 40px;
-      animation: driftGrid 24s linear infinite;
-    }
-    @keyframes driftGrid{
-      0%{transform:translate(0,0);}
-      100%{transform:translate(-40px,-40px);}
-    }
-    /* Streams */
+    /* Aliran data diagonal */
     .cyber-layer.streams{
+      position:absolute; inset:0;
       background-image:
-        repeating-linear-gradient(60deg, transparent 0 18px, var(--stream-color) 18px 20px);
-      background-size: 220px 220px;
-      animation: moveStreams 9s linear infinite;
+        repeating-linear-gradient(120deg, transparent 0 28px, var(--stream-color) 28px 30px);
+      background-size: 300px 300px;
+      animation: moveStreams 18s linear infinite;
+      opacity:0.25;
     }
     @keyframes moveStreams{
       0%{background-position:0 0;}
-      100%{background-position:440px 440px;}
+      100%{background-position:600px 600px;}
     }
-    /* Glow */
+    /* Glow lembut */
     .cyber-layer.glow{
-      background: radial-gradient(500px 300px at 80% 30%, rgba(33,233,255,0.18), transparent 65%);
-      filter: blur(30px);
-      animation: glowPulse 6s ease-in-out infinite;
+      position:absolute; inset:0;
+      background: radial-gradient(circle at center, var(--neon-glow), transparent 70%);
+      filter: blur(100px);
+      animation: glowPulse 10s ease-in-out infinite;
     }
     @keyframes glowPulse{
-      0%,100%{opacity:0.6;}
-      50%{opacity:0.9;}
+      0%,100%{opacity:0.5;}
+      50%{opacity:0.85;}
     }
-    /* Scanlines */
+    /* Scanlines tipis */
     .cyber-layer.scanlines{
+      position:absolute; inset:0;
       background: repeating-linear-gradient(to bottom, transparent 0 2px, var(--scanline) 2px 3px);
-      animation: flicker 2s steps(60) infinite;
+      animation: flicker 3s steps(60) infinite;
     }
     @keyframes flicker{
       0%,100%{opacity:0.9;}
       50%{opacity:0.7;}
     }
-    /* Pastikan container Bootstrap di atas background */
+    /* Konten Bootstrap tetap di atas */
     .container{
-      position: relative;
-      z-index: 1;
+      position:relative;
+      z-index:1;
     }
   </style>
 </head>
 <body class="dark-mode">
 
-<!-- Cyber Background -->
+<!-- Cyber Futuristic Background -->
 <div class="cyber-bg">
-  <div class="cyber-layer gradient"></div>
-  <div class="cyber-layer grid"></div>
   <div class="cyber-layer streams"></div>
   <div class="cyber-layer glow"></div>
   <div class="cyber-layer scanlines"></div>
@@ -182,25 +151,25 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
   <div class="row">
     <div class="col-lg-6 col-12 chart-box">
       <h6 class="text-center text-white fs-6">
-        <i class="fas fa-microchip text-primary"></i> CPU Usage <span id="status-cpu"></span>
+        <i class="fas fa-microchip text-primary"></i> Penggunaan CPU <span id="status-cpu"></span>
       </h6>
       <canvas id="cpuChart"></canvas>
     </div>
     <div class="col-lg-6 col-12 chart-box">
       <h6 class="text-center text-white fs-6">
-        <i class="fas fa-memory text-success"></i> RAM Usage <span id="status-memory"></span>
+        <i class="fas fa-memory text-success"></i> Penggunaan RAM <span id="status-memory"></span>
       </h6>
       <canvas id="memoryChart"></canvas>
     </div>
     <div class="col-lg-6 col-12 chart-box">
       <h6 class="text-center text-white fs-6">
-        <i class="fas fa-hdd text-warning"></i> SSD Usage <span id="status-disk"></span>
+        <i class="fas fa-hdd text-warning"></i> Penggunaan SSD <span id="status-disk"></span>
       </h6>
       <canvas id="diskChart"></canvas>
     </div>
     <div class="col-lg-6 col-12 chart-box">
       <h6 class="text-center text-white fs-6">
-        <i class="fas fa-chart-line text-danger"></i> Load Average 1m <span id="status-load"></span>
+        <i class="fas fa-chart-line text-danger"></i> Rata-Rata Beban Server Per Menit <span id="status-load"></span>
       </h6>
       <canvas id="loadChart"></canvas>
     </div>
@@ -208,6 +177,17 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
 </div>
 
 <script>
+// Fungsi downsample (ambil n titik merata dari seluruh data)
+function downsample(data, count) {
+    if (data.length <= count) return data;
+    let step = (data.length - 1) / (count - 1);
+    let result = [];
+    for (let i = 0; i < count; i++) {
+        result.push(data[Math.round(i * step)]);
+    }
+    return result;
+}
+
 <?php /*
 const timeLabels = <?= json_encode(array_map(fn($d) => $d . ' WIB', array_column($cpu_data, 'created_at_wib'))) ?>;
 */ ?>
@@ -215,18 +195,28 @@ const timeLabels = <?= json_encode(array_map(fn($d) => $d, array_column($cpu_dat
 const cpuValues = <?= json_encode(array_column($cpu_data, 'value')) ?>;
 const cpuValueLast = cpuValues[cpuValues.length - 1];
 const memoryValues = <?= json_encode(array_column($memory_data, 'value')) ?>;
-const memoryValueLast = memoryValues[cpuValues.length - 1];
+const memoryValueLast = memoryValues[memoryValues.length - 1];
 const diskValues = <?= json_encode(array_column($disk_data, 'value')) ?>;
-const diskValueLast = diskValues[cpuValues.length - 1];
+const diskValueLast = diskValues[diskValues.length - 1];
 const loadValues = <?= json_encode(array_column($load_data, 'value')) ?>;
-const loadValueLast = loadValues[cpuValues.length - 1];
+const loadValueLast = loadValues[loadValues.length - 1];
 
-function createChartMin0Max100(id, label, data, ySuffix = '%', borderColor = 'blue', decimals = 0) {
+// Jumlah titik yang mau ditampilkan di sumbu X
+const POINTS = 7;
+
+// Downsample semua data sekaligus (agar konsisten X axis-nya)
+const labelFiltered = downsample(timeLabels, POINTS);
+const cpuFiltered = downsample(cpuValues, POINTS);
+const memoryFiltered = downsample(memoryValues, POINTS);
+const diskFiltered = downsample(diskValues, POINTS);
+const loadFiltered = downsample(loadValues, POINTS);
+
+function createChartMin0Max100(id, label, labels, data, ySuffix = '%', borderColor = 'blue', decimals = 0) {
   const isDark = $('body').hasClass('dark-mode');
   new Chart(document.getElementById(id), {
     type: 'line',
     data: {
-      labels: timeLabels,
+      labels: labels,
       datasets: [{
         label: label,
         data: data,
@@ -236,7 +226,18 @@ function createChartMin0Max100(id, label, data, ySuffix = '%', borderColor = 'bl
       }]
     },
     options: {
-      animation: false,
+      //animation: false,
+      animation: {
+        duration: 500, // durasi animasi (ms)
+        easing: 'linear' // gaya animasi
+      },
+      transitions: {
+        active: {
+          animation: {
+            duration: 500
+          }
+        }
+      },
       responsive: true,
       plugins: {
         legend: { display: false }
@@ -248,6 +249,7 @@ function createChartMin0Max100(id, label, data, ySuffix = '%', borderColor = 'bl
         },
         y: {
           ticks: {
+            stepSize: 25, // biar jadi 0%, 25%, 50%, 75%, 100%
             callback: value => Number(value).toFixed(decimals) + ySuffix,
             color: isDark ? '#ccc' : '#000'
           },
@@ -260,12 +262,12 @@ function createChartMin0Max100(id, label, data, ySuffix = '%', borderColor = 'bl
   });
 }
 
-function createChartNoMinMax(id, label, data, ySuffix = '%', borderColor = 'blue', decimals = 0) {
+function createChartNoMax(id, label, labels, data, ySuffix = '%', borderColor = 'blue', decimals = 0) {
   const isDark = $('body').hasClass('dark-mode');
   new Chart(document.getElementById(id), {
     type: 'line',
     data: {
-      labels: timeLabels,
+      labels: labels,
       datasets: [{
         label: label,
         data: data,
@@ -276,6 +278,17 @@ function createChartNoMinMax(id, label, data, ySuffix = '%', borderColor = 'blue
     },
     options: {
       animation: false,
+      animation: {
+        duration: 500, // durasi animasi (ms)
+        easing: 'linear' // gaya animasi
+      },
+      transitions: {
+        active: {
+          animation: {
+            duration: 500
+          }
+        }
+      },
       responsive: true,
       plugins: {
         legend: { display: false }
@@ -287,10 +300,12 @@ function createChartNoMinMax(id, label, data, ySuffix = '%', borderColor = 'blue
         },
         y: {
           ticks: {
-            callback: value => Number(value).toFixed(decimals) + ySuffix,
+            stepSize: 2,  // naik 1, 2, 3, dst (opsional)
+            callback: value => Number(value).toFixed(decimals),
             color: isDark ? '#ccc' : '#000'
           },
-          grid: { color: isDark ? '#333' : '#ddd' }
+          grid: { color: isDark ? '#333' : '#ddd' },
+          beginAtZero: true
         }
       }
     }
@@ -343,13 +358,13 @@ function statusBadgeLoad(value) {
     const cpuCore = <?=$core?>;
     let badge = '';
     if (value < (cpuCore * 0.3)) {
-      badge = `<span class="badge text-bg-secondary fs-5">Ringan (${value}%)</span>`;
+      badge = `<span class="badge text-bg-secondary fs-5">Ringan (${value})</span>`;
     } else if (value < (cpuCore * 0.7)) {
-      badge = `<span class="badge text-bg-primary fs-5">Normal (${value}%)</span>`;
+      badge = `<span class="badge text-bg-primary fs-5">Normal (${value})</span>`;
     } else if (value < (cpuCore * 1.0)) {
-      badge = `<span class="badge text-bg-warning fs-5">Sibuk (${value}%)</span>`;
+      badge = `<span class="badge text-bg-warning fs-5">Sibuk (${value})</span>`;
     } else {
-      badge = `<span class="badge text-bg-danger fs-5">Overload (${value}%)</span>`;
+      badge = `<span class="badge text-bg-danger fs-5">Overload (${value})</span>`;
     }
     return badge;
 }
@@ -363,10 +378,10 @@ $(function() {
     location.reload(); // refresh agar chart mengikuti mode
   });
   // tampilkan chart
-  createChartMin0Max100("cpuChart", "CPU", cpuValues, '%', 'blue');
-  createChartMin0Max100("memoryChart", "Memory", memoryValues, '%', 'green');
-  createChartMin0Max100("diskChart", "Disk", diskValues, '%', 'orange');
-  createChartNoMinMax("loadChart", "Load", loadValues, '', 'red', 2);
+  createChartMin0Max100("cpuChart", "CPU", labelFiltered, cpuFiltered, '%', 'blue');
+  createChartMin0Max100("memoryChart", "Memory", labelFiltered, memoryFiltered, '%', 'green');
+  createChartMin0Max100("diskChart", "Disk", labelFiltered, diskFiltered, '%', 'orange');
+  createChartNoMax("loadChart", "Load", labelFiltered, loadFiltered, '', 'red');
   // tampilkan status
   $("#status-cpu").html(statusBadgeCPUMemory(cpuValueLast));
   $("#status-memory").html(statusBadgeCPUMemory(memoryValueLast));
