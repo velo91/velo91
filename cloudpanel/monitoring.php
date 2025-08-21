@@ -69,10 +69,103 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
     .dark-mode canvas {
       background-color: #1e1e1e;
     }
+    /* ====== CYBER BACKGROUND ====== */
+    :root{
+      --cyber-bg-1:#021018;
+      --cyber-bg-2:#041b2a;
+      --neon-1:#21e9ff;
+      --neon-2:#05ffa1;
+      --neon-3:#7b5cff;
+      --grid-color: rgba(255,255,255,0.08);
+      --stream-color: rgba(33,233,255,0.14);
+      --scanline: rgba(255,255,255,0.03);
+    }
+    .cyber-bg{
+      position:fixed;
+      inset:0;
+      overflow:hidden;
+      z-index:0; /* tetap di bawah Bootstrap container */
+      background: linear-gradient(180deg, var(--cyber-bg-1), var(--cyber-bg-2));
+    }
+    .cyber-layer{
+      position:absolute;
+      inset:-10%;
+      pointer-events:none;
+    }
+    /* Gradient */
+    .cyber-layer.gradient{
+      background: conic-gradient(from 0deg at 60% 40%, 
+                   rgba(33,233,255,0.12), rgba(5,255,161,0.06), rgba(123,92,255,0.10), rgba(33,233,255,0.12));
+      filter: blur(40px);
+      animation: moveGradient 18s linear infinite;
+      opacity:0.7;
+    }
+    @keyframes moveGradient{
+      0%{transform: rotate(0deg) scale(1);}
+      100%{transform: rotate(360deg) scale(1);}
+    }
+    /* Grid */
+    .cyber-layer.grid{
+      background-image:
+        linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: driftGrid 24s linear infinite;
+    }
+    @keyframes driftGrid{
+      0%{transform:translate(0,0);}
+      100%{transform:translate(-40px,-40px);}
+    }
+    /* Streams */
+    .cyber-layer.streams{
+      background-image:
+        repeating-linear-gradient(60deg, transparent 0 18px, var(--stream-color) 18px 20px);
+      background-size: 220px 220px;
+      animation: moveStreams 9s linear infinite;
+    }
+    @keyframes moveStreams{
+      0%{background-position:0 0;}
+      100%{background-position:440px 440px;}
+    }
+    /* Glow */
+    .cyber-layer.glow{
+      background: radial-gradient(500px 300px at 80% 30%, rgba(33,233,255,0.18), transparent 65%);
+      filter: blur(30px);
+      animation: glowPulse 6s ease-in-out infinite;
+    }
+    @keyframes glowPulse{
+      0%,100%{opacity:0.6;}
+      50%{opacity:0.9;}
+    }
+    /* Scanlines */
+    .cyber-layer.scanlines{
+      background: repeating-linear-gradient(to bottom, transparent 0 2px, var(--scanline) 2px 3px);
+      animation: flicker 2s steps(60) infinite;
+    }
+    @keyframes flicker{
+      0%,100%{opacity:0.9;}
+      50%{opacity:0.7;}
+    }
+    /* Pastikan container Bootstrap di atas background */
+    .container{
+      position: relative;
+      z-index: 1;
+    }
   </style>
 </head>
 <body class="dark-mode">
-<div class="container">
+
+<!-- Cyber Background -->
+<div class="cyber-bg">
+  <div class="cyber-layer gradient"></div>
+  <div class="cyber-layer grid"></div>
+  <div class="cyber-layer streams"></div>
+  <div class="cyber-layer glow"></div>
+  <div class="cyber-layer scanlines"></div>
+</div>
+
+<!-- Konten Bootstrap -->
+<div class="container text-center position-relative">
   <div class="text-center mt-4 mb-4 range">
     <div class="btn-group" role="group" aria-label="Range Selector">
       <?php
@@ -83,31 +176,31 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
         }
       ?>
     </div>
-    <button id="toggleTheme" class="btn btn-sm btn-outline-secondary"><i class="fas fa-moon"></i></button>
+    <button id="toggleTheme" class="btn btn-sm btn-outline-secondary text-secondary"><i class="fas fa-moon"></i></button>
   </div>
   
   <div class="row">
     <div class="col-lg-6 col-12 chart-box">
-      <h6 class="text-center fs-6">
+      <h6 class="text-center text-white fs-6">
         <i class="fas fa-microchip text-primary"></i> CPU Usage <span id="current-value-cpu" class="badge text-bg-light fs-5"></span>
       </h6>
       <canvas id="cpuChart"></canvas>
     </div>
     <div class="col-lg-6 col-12 chart-box">
-      <h6 class="text-center fs-6">
+      <h6 class="text-center text-white fs-6">
         <i class="fas fa-memory text-success"></i> Memory Usage <span id="current-value-memory" class="badge text-bg-light fs-5"></span>
       </h6>
       <canvas id="memoryChart"></canvas>
     </div>
     <div class="col-lg-6 col-12 chart-box">
-      <h6 class="text-center fs-6">
+      <h6 class="text-center text-white fs-6">
         <i class="fas fa-hdd text-warning"></i> Disk Usage <span id="current-value-disk" class="badge text-bg-light fs-5"></span>
       </h6>
       <canvas id="diskChart"></canvas>
     </div>
     <div class="col-lg-6 col-12 chart-box">
-      <h6 class="text-center fs-6">
-        <i class="fas fa-chart-line text-danger"></i> Load Average 1m <span id="current-value-load" class="badge text-bg-light fs-5"></span>
+      <h6 class="text-center text-white fs-6">
+        <i class="fas fa-chart-line text-danger"></i> Load Average 1m <span id="current-value-load" class="badge text-bg-light fs-5"></span> <span id="status-load"></span>
       </h6>
       <canvas id="loadChart"></canvas>
     </div>
@@ -207,20 +300,10 @@ function createChartNoMinMax(id, label, data, ySuffix = '%', borderColor = 'blue
 function applyDarkMode(active) {
   if (active) {
     $('body').addClass('dark-mode');
-    $('#toggleTheme').addClass('text-white');
     $('#toggleTheme').html(`<i class="fas fa-sun"></i>`);
-    $('#current-value-cpu').removeClass('text-bg-dark').addClass('text-bg-light');
-    $('#current-value-memory').removeClass('text-bg-dark').addClass('text-bg-light');
-    $('#current-value-disk').removeClass('text-bg-dark').addClass('text-bg-light');
-    $('#current-value-load').removeClass('text-bg-dark').addClass('text-bg-light');
   } else {
     $('body').removeClass('dark-mode');
-    $('#toggleTheme').addClass('text-black');
     $('#toggleTheme').html(`<i class="fas fa-moon"></i>`);
-    $('#current-value-cpu').removeClass('text-bg-light').addClass('text-bg-dark');
-    $('#current-value-memory').removeClass('text-bg-light').addClass('text-bg-dark');
-    $('#current-value-disk').removeClass('text-bg-light').addClass('text-bg-dark');
-    $('#current-value-load').removeClass('text-bg-light').addClass('text-bg-dark');
   }
   localStorage.setItem('darkMode', active ? '1' : '0');
 }
@@ -243,6 +326,24 @@ $(function() {
   $("#current-value-disk").text(diskValueLast + "%");
   createChartNoMinMax("loadChart", "Load", loadValues, '', 'red', 2);
   $("#current-value-load").text(loadValueLast);
+
+  <?php
+  $cpuinfo = @file_get_contents('/proc/cpuinfo');
+  preg_match_all('/^processor/m', $cpuinfo, $matches);
+  $core = count($matches[0]);
+  ?>
+  const cpuCore = <?=$core?>;
+  let statusLoad1m = '';
+  if (loadValueLast < (cpuCore * 0.3)) {
+      statusLoad1m = '<span class="badge text-bg-secondary fs-5">Ringan</span>';
+  } else if (loadValueLast < (cpuCore * 0.7)) {
+      statusLoad1m = '<span class="badge text-bg-primary fs-5">Normal</span>';
+  } else if (loadValueLast < (cpuCore * 1.0)) {
+      statusLoad1m = '<span class="badge text-bg-warning fs-5">Sibuk</span>';
+  } else {
+      statusLoad1m = '<span class="badge text-bg-danger fs-5">Overload</span>';
+  }
+  $("#status-load").html(statusLoad1m);
 
   // Auto refresh every 60 seconds
   setTimeout(() => location.reload(), 60000);
