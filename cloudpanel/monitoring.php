@@ -8,12 +8,13 @@ $minute_ranges = [
     3 => 60,    // 1 jam
     4 => 180,   // 3 jam
     5 => 360,   // 6 jam
-    6 => 720    // 12 jam
+    6 => 720,   // 12 jam
+    7 => 1440   // 24 jam
 ];
 
 // Default: 6 jam
-$range = isset($_GET['range']) ? intval($_GET['range']) : 5;
-$limit = $minute_ranges[$range] ?? 360;
+$range = isset($_GET['range']) ? intval($_GET['range']) : 7;
+$limit = $minute_ranges[$range] ?? 1440;
 
 // Koneksi SQLite
 $db = new PDO('sqlite:/home/clp/htdocs/app/data/db.sq3');
@@ -35,6 +36,10 @@ $cpu_data = get_data($db, 'instance_cpu');
 $memory_data = get_data($db, 'instance_memory');
 $disk_data = get_data($db, 'instance_disk_usage', "WHERE disk = '/'");
 $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
+
+$cpuinfo = @file_get_contents('/proc/cpuinfo');
+preg_match_all('/^processor/m', $cpuinfo, $matches);
+$core = count($matches[0]);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -43,6 +48,7 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
   <title>Monitoring</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" rel="stylesheet">
   <style>
@@ -58,6 +64,7 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
     }
     .chart-box {
       margin-bottom: 30px;
+      opacity: 0;
     }
     .range a {
       font-weight: bold;
@@ -98,17 +105,6 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
       0%{background-position:0 0;}
       100%{background-position:600px 600px;}
     }
-    /* Glow lembut */
-    .cyber-layer.glow{
-      position:absolute; inset:0;
-      background: radial-gradient(circle at center, var(--neon-glow), transparent 70%);
-      filter: blur(100px);
-      animation: glowPulse 10s ease-in-out infinite;
-    }
-    @keyframes glowPulse{
-      0%,100%{opacity:0.5;}
-      50%{opacity:0.85;}
-    }
     /* Orb neon */
     .cyber-orb {
       position:absolute;
@@ -131,27 +127,46 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
     @keyframes moveOrb1 {
       0%{transform:translate(0,0);
     }
+    /* Glow lembut */
+    .cyber-layer.glow{
+      position:absolute; inset:0;
+      background: radial-gradient(circle at center, var(--neon-glow), transparent 70%);
+      filter: blur(100px);
+      animation: glowPulse 10s ease-in-out infinite;
+    }
+    @keyframes glowPulse{
+      0%,100%{opacity:0.5;}
+      50%{opacity:0.85;}
+    }
   </style>
 </head>
 <body class="dark-mode">
 
-  <!-- Cyber Dynamic Background -->
-  <div class="cyber-bg">
-    <div class="cyber-layer streams"></div>
-    <div class="cyber-orb orb1"></div>
-    <div class="cyber-orb orb2"></div>
-    
-    <div class="cyber-layer glow"></div>
-    
+<!-- Cyber Dynamic Background -->
+<div class="cyber-bg">
+  <div class="cyber-layer streams"></div>
+  <div class="cyber-orb orb1"></div>
+  <div class="cyber-orb orb2"></div>
+  <div class="cyber-layer glow"></div>
+</div>
 
-  </div>
+<?php
+// Announcement Sound (Melodic airport announcement ding): https://mixkit.co/free-sound-effects/airport/
+$minute = date("i"); // ambil menit sekarang
+$file_audio = '/assets/announcement.mp3';
+if($minute === "00") {
+    echo '<audio autoplay>
+            <source src="'.$file_audio.'" type="audio/wav">
+          </audio>';
+}
+?>
 
 <!-- Konten Bootstrap -->
 <div class="container text-center position-relative">
   <div class="text-center mt-4 mb-4 range">
     <div class="btn-group" role="group" aria-label="Range Selector">
       <?php
-        $labels = [1 => '5m', 2 => '30m', 3 => '1h', 4 => '3h', 5 => '6h', 6 => '12h'];
+        $labels = [1 => '5m', 2 => '30m', 3 => '1h', 4 => '3h', 5 => '6h', 6 => '12h', 7 => '24h'];
         foreach ($labels as $key => $label) {
             $class = ($range == $key) ? 'btn btn-sm btn-secondary active' : 'btn btn-sm btn-outline-secondary';
             echo "<a href='?range=$key' class='$class'>$label</a>";
@@ -182,7 +197,7 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
     </div>
     <div class="col-lg-6 col-12 chart-box">
       <h6 class="text-center text-white fs-6">
-        <i class="fas fa-chart-line text-danger"></i> Rata-Rata Beban Server <span id="status-load"></span>
+        <i class="fas fa-chart-line text-danger"></i> Beban Server <span id="status-load"></span>
       </h6>
       <canvas id="loadChart"></canvas>
     </div>
@@ -190,15 +205,26 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
 </div>
 
 <script>
+$(document).ready(function() {
+  $(".chart-box").each(function(i) {
+    // kasih delay biar muncul satu per satu
+    let el = $(this);
+    setTimeout(function() {
+      el.addClass("animate__animated animate__fadeIn");
+      el.css("opacity", 1); // baru tampil
+    }, 300 * i);
+  });
+});
+
 // Fungsi downsample (ambil n titik merata dari seluruh data)
 function downsample(data, count) {
-    if (data.length <= count) return data;
-    let step = (data.length - 1) / (count - 1);
-    let result = [];
-    for (let i = 0; i < count; i++) {
-        result.push(data[Math.round(i * step)]);
-    }
-    return result;
+  if (data.length <= count) return data;
+  let step = (data.length - 1) / (count - 1);
+  let result = [];
+  for (let i = 0; i < count; i++) {
+    result.push(data[Math.round(i * step)]);
+  }
+  return result;
 }
 
 <?php /*
@@ -224,6 +250,12 @@ const memoryFiltered = downsample(memoryValues, POINTS);
 const diskFiltered = downsample(diskValues, POINTS);
 const loadFiltered = downsample(loadValues, POINTS);
 
+// Data lainnya
+const maxLoad = loadFiltered.length > 0 ? Math.max(...loadFiltered) : 0;
+console.log("maxLoad="+maxLoad);
+const cpuCore = <?=$core?>;
+console.log("cpuCore="+cpuCore);
+
 function createChartMin0Max100(id, label, labels, data, ySuffix = '%', borderColor = 'blue', decimals = 0) {
   const isDark = $('body').hasClass('dark-mode');
   new Chart(document.getElementById(id), {
@@ -239,18 +271,18 @@ function createChartMin0Max100(id, label, labels, data, ySuffix = '%', borderCol
       }]
     },
     options: {
-      //animation: false,
-      animation: {
-        duration: 500, // durasi animasi (ms)
-        easing: 'linear' // gaya animasi
-      },
-      transitions: {
-        active: {
-          animation: {
-            duration: 500
-          }
-        }
-      },
+      animation: false,
+      //animation: {
+      //  duration: 500, // durasi animasi (ms)
+      //  easing: 'linear' // gaya animasi
+      //},
+      //transitions: {
+      //  active: {
+      //    animation: {
+      //      duration: 500
+      //    }
+      //  }
+      //},
       responsive: true,
       plugins: {
         legend: {
@@ -288,7 +320,7 @@ function createChartMin0Max100(id, label, labels, data, ySuffix = '%', borderCol
   });
 }
 
-function createChartNoMax(id, label, labels, data, ySuffix = '%', borderColor = 'blue', decimals = 0) {
+function createChartLoadAverage(id, label, labels, data, ySuffix = '%', borderColor = 'blue', decimals = 0, maxLoad, cpuCore) {
   const isDark = $('body').hasClass('dark-mode');
   new Chart(document.getElementById(id), {
     type: 'line',
@@ -304,17 +336,17 @@ function createChartNoMax(id, label, labels, data, ySuffix = '%', borderColor = 
     },
     options: {
       animation: false,
-      animation: {
-        duration: 500, // durasi animasi (ms)
-        easing: 'linear' // gaya animasi
-      },
-      transitions: {
-        active: {
-          animation: {
-            duration: 500
-          }
-        }
-      },
+      //animation: {
+      //  duration: 500, // durasi animasi (ms)
+      //  easing: 'linear' // gaya animasi
+      //},
+      //transitions: {
+      //  active: {
+      //    animation: {
+      //      duration: 500
+      //    }
+      //  }
+      //},
       responsive: true,
       plugins: {
         legend: {
@@ -323,7 +355,7 @@ function createChartNoMax(id, label, labels, data, ySuffix = '%', borderColor = 
       },
       scales: {
         x: {
-          offset: true, // geser titik pertama dari grid awal
+          //offset: true, // geser titik pertama dari grid awal
           ticks: {
               color: isDark ? '#ccc' : '#000',
               font: {
@@ -334,7 +366,7 @@ function createChartNoMax(id, label, labels, data, ySuffix = '%', borderColor = 
         },
         y: {
           ticks: {
-            stepSize: 2,  // naik 1, 2, 3, dst (opsional)
+            stepSize: Math.ceil(cpuCore / 4),
             callback: value => Number(value).toFixed(decimals),
             color: isDark ? '#ccc' : '#000',
             font: {
@@ -344,7 +376,8 @@ function createChartNoMax(id, label, labels, data, ySuffix = '%', borderColor = 
           grid: {
               color: isDark ? '#333' : '#ddd'
           },
-          beginAtZero: true
+          min: 0,
+          max: maxLoad < cpuCore ? Number(cpuCore).toFixed(decimals) : Number(maxLoad).toFixed(decimals)
         }
       }
     }
@@ -389,11 +422,6 @@ function statusBadgeDisk(percent) {
 }
 
 function statusBadgeLoad(value) {
-    <?php
-    $cpuinfo = @file_get_contents('/proc/cpuinfo');
-    preg_match_all('/^processor/m', $cpuinfo, $matches);
-    $core = count($matches[0]);
-    ?>
     const cpuCore = <?=$core?>;
     let badge = '';
     if (value < (cpuCore * 0.3)) {
@@ -420,7 +448,7 @@ $(function() {
   createChartMin0Max100("cpuChart", "CPU", labelFiltered, cpuFiltered, '%', 'blue');
   createChartMin0Max100("memoryChart", "Memory", labelFiltered, memoryFiltered, '%', 'green');
   createChartMin0Max100("diskChart", "Disk", labelFiltered, diskFiltered, '%', 'orange');
-  createChartNoMax("loadChart", "Load", labelFiltered, loadFiltered, '', 'red');
+  createChartLoadAverage("loadChart", "Load", timeLabels, loadValues, '', 'red', 0, maxLoad, cpuCore);
   // tampilkan status
   $("#status-cpu").html(statusBadgeCPUMemory(cpuValueLast));
   $("#status-memory").html(statusBadgeCPUMemory(memoryValueLast));
