@@ -182,25 +182,25 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
   <div class="row">
     <div class="col-lg-6 col-12 chart-box">
       <h6 class="text-center text-white fs-6">
-        <i class="fas fa-microchip text-primary"></i> CPU Usage <span id="current-value-cpu" class="badge text-bg-light fs-5"></span>
+        <i class="fas fa-microchip text-primary"></i> CPU Usage <span id="status-cpu"></span>
       </h6>
       <canvas id="cpuChart"></canvas>
     </div>
     <div class="col-lg-6 col-12 chart-box">
       <h6 class="text-center text-white fs-6">
-        <i class="fas fa-memory text-success"></i> Memory Usage <span id="current-value-memory" class="badge text-bg-light fs-5"></span>
+        <i class="fas fa-memory text-success"></i> RAM Usage <span id="status-memory"></span>
       </h6>
       <canvas id="memoryChart"></canvas>
     </div>
     <div class="col-lg-6 col-12 chart-box">
       <h6 class="text-center text-white fs-6">
-        <i class="fas fa-hdd text-warning"></i> Disk Usage <span id="current-value-disk" class="badge text-bg-light fs-5"></span>
+        <i class="fas fa-hdd text-warning"></i> SSD Usage <span id="status-disk"></span>
       </h6>
       <canvas id="diskChart"></canvas>
     </div>
     <div class="col-lg-6 col-12 chart-box">
       <h6 class="text-center text-white fs-6">
-        <i class="fas fa-chart-line text-danger"></i> Load Average 1m <span id="current-value-load" class="badge text-bg-light fs-5"></span> <span id="status-load"></span>
+        <i class="fas fa-chart-line text-danger"></i> Load Average 1m <span id="status-load"></span>
       </h6>
       <canvas id="loadChart"></canvas>
     </div>
@@ -308,44 +308,71 @@ function applyDarkMode(active) {
   localStorage.setItem('darkMode', active ? '1' : '0');
 }
 
+function statusBadgeCPUMemory(percent) {
+    let badge = '';
+    if (percent < 30) {
+        badge = `<span class="badge text-bg-secondary fs-5">Ringan (${percent}%)</span>`;
+    } else if (percent < 70) {
+        badge = `<span class="badge text-bg-primary fs-5">Normal (${percent}%)</span>`;
+    } else if (percent < 90) {
+        badge = `<span class="badge text-bg-warning fs-5">Sibuk (${percent}%)</span>`;
+    } else {
+        badge = `<span class="badge text-bg-danger fs-5">Overload (${percent}%)</span>`;
+    }
+    return badge;
+}
+
+function statusBadgeDisk(percent) {
+    let badge = '';
+    if (percent < 70) {
+        badge = `<span class="badge text-bg-success fs-5">Normal (${percent}%)</span>`;
+    } else if (percent < 90) {
+        badge = `<span class="badge text-bg-warning fs-5">Peringatan (${percent}%)</span>`;
+    } else {
+        badge = `<span class="badge text-bg-danger fs-5">Kritis (${percent}%)</span>`;
+    }
+    return badge;
+}
+
+function statusBadgeLoad(value) {
+    <?php
+    $cpuinfo = @file_get_contents('/proc/cpuinfo');
+    preg_match_all('/^processor/m', $cpuinfo, $matches);
+    $core = count($matches[0]);
+    ?>
+    const cpuCore = <?=$core?>;
+    let badge = '';
+    if (value < (cpuCore * 0.3)) {
+      badge = `<span class="badge text-bg-secondary fs-5">Ringan (${value}%)</span>`;
+    } else if (value < (cpuCore * 0.7)) {
+      badge = `<span class="badge text-bg-primary fs-5">Normal (${value}%)</span>`;
+    } else if (value < (cpuCore * 1.0)) {
+      badge = `<span class="badge text-bg-warning fs-5">Sibuk (${value}%)</span>`;
+    } else {
+      badge = `<span class="badge text-bg-danger fs-5">Overload (${value}%)</span>`;
+    }
+    return badge;
+}
+
 $(function() {
   const darkPref = localStorage.getItem('darkMode') === '1';
   applyDarkMode(darkPref);
-
   $('#toggleTheme').click(function () {
     const isDark = !$('body').hasClass('dark-mode');
     applyDarkMode(isDark);
     location.reload(); // refresh agar chart mengikuti mode
   });
-
+  // tampilkan chart
   createChartMin0Max100("cpuChart", "CPU", cpuValues, '%', 'blue');
-  $("#current-value-cpu").text(cpuValueLast + "%");
   createChartMin0Max100("memoryChart", "Memory", memoryValues, '%', 'green');
-  $("#current-value-memory").text(memoryValueLast + "%");
   createChartMin0Max100("diskChart", "Disk", diskValues, '%', 'orange');
-  $("#current-value-disk").text(diskValueLast + "%");
   createChartNoMinMax("loadChart", "Load", loadValues, '', 'red', 2);
-  $("#current-value-load").text(loadValueLast);
-
-  <?php
-  $cpuinfo = @file_get_contents('/proc/cpuinfo');
-  preg_match_all('/^processor/m', $cpuinfo, $matches);
-  $core = count($matches[0]);
-  ?>
-  const cpuCore = <?=$core?>;
-  let statusLoad1m = '';
-  if (loadValueLast < (cpuCore * 0.3)) {
-      statusLoad1m = '<span class="badge text-bg-secondary fs-5">Ringan</span>';
-  } else if (loadValueLast < (cpuCore * 0.7)) {
-      statusLoad1m = '<span class="badge text-bg-primary fs-5">Normal</span>';
-  } else if (loadValueLast < (cpuCore * 1.0)) {
-      statusLoad1m = '<span class="badge text-bg-warning fs-5">Sibuk</span>';
-  } else {
-      statusLoad1m = '<span class="badge text-bg-danger fs-5">Overload</span>';
-  }
-  $("#status-load").html(statusLoad1m);
-
-  // Auto refresh every 60 seconds
+  // tampilkan status
+  $("#status-cpu").html(statusBadgeCPUMemory(cpuValueLast));
+  $("#status-memory").html(statusBadgeCPUMemory(memoryValueLast));
+  $("#status-disk").html(statusBadgeDisk(diskValueLast));
+  $("#status-load").html(statusBadgeLoad(loadValueLast));
+  // auto refresh every 60 seconds
   setTimeout(() => location.reload(), 60000);
 });
 </script>
