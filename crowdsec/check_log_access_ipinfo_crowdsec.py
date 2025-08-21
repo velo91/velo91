@@ -149,12 +149,10 @@ for ip, count in counter.most_common():
 
         if ip_obj.is_loopback:
             # Skip IP localhost/loopback, langsung loncat ke iterasi berikutnya
-            print(f"{ip:<15} | {count:5} kali | ✅ IP localhost/loopback, diizinkan | Negara: - | Org: - | Tidak ada aksi")
             continue
 
         if ip == my_ip:
             # Skip IP server sendiri, langsung loncat ke iterasi berikutnya
-            print(f"{ip:<15} | {count:5} kali | ✅ IP server sendiri, diizinkan | Negara: - | Org: - | Tidak ada aksi")
             continue
 
         if count <= LOW_ACTIVITY_THRESHOLD:
