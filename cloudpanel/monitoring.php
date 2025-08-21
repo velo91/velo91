@@ -248,5 +248,29 @@ $(function() {
   setTimeout(() => location.reload(), 60000);
 });
 </script>
+
+<script>
+let wakeLock = null;
+
+async function keepAwake() {
+  try {
+    wakeLock = await navigator.wakeLock.request("screen");
+    console.log("Wake lock aktif");
+  } catch (err) {
+    console.error(`Gagal minta wake lock: ${err.name}, ${err.message}`);
+  }
+}
+
+// aktifkan saat halaman load
+document.addEventListener("DOMContentLoaded", keepAwake);
+
+// jika tab jadi tidak aktif, kadang lock dilepas → coba request ulang
+document.addEventListener("visibilitychange", () => {
+  if (wakeLock !== null && document.visibilityState === "visible") {
+    keepAwake();
+  }
+});
+</script>
+
 </body>
 </html>
