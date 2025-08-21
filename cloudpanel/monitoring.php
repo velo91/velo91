@@ -69,13 +69,15 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
     .dark-mode canvas {
       background-color: #1e1e1e;
     }
-    /* Cyber Futuristic Background */
-    :root{
+    /* Cyber Dynamic Background */
+    :root {
       --bg-dark:#020610;
-      --stream-color: rgba(0,255,200,0.12);
+      --stream-color:rgba(0,255,200,0.15);
+      --orb1:#21e9ff;
+      --orb2:#7b5cff;
       --neon-glow: rgba(0,255,200,0.25);
-      --scanline: rgba(255,255,255,0.04);
     }
+    /* Background base */
     .cyber-bg{
       position:fixed;
       inset:0;
@@ -107,31 +109,42 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
       0%,100%{opacity:0.5;}
       50%{opacity:0.85;}
     }
-    /* Scanlines tipis */
-    .cyber-layer.scanlines{
-      position:absolute; inset:0;
-      background: repeating-linear-gradient(to bottom, transparent 0 2px, var(--scanline) 2px 3px);
-      animation: flicker 3s steps(60) infinite;
+    /* Orb neon */
+    .cyber-orb {
+      position:absolute;
+      width:800px; height:800px;
+      border-radius:50%;
+      filter: blur(200px);
+      opacity:0.45;
+      mix-blend-mode:screen;
     }
-    @keyframes flicker{
-      0%,100%{opacity:0.9;}
-      50%{opacity:0.7;}
+    .orb1 {
+      background:var(--orb1);
+      top:20%; left:10%;
+      animation: moveOrb1 40s ease-in-out infinite alternate;
     }
-    /* Konten Bootstrap tetap di atas */
-    .container{
-      position:relative;
-      z-index:1;
+    .orb2 {
+      background:var(--orb2);
+      top:60%; left:60%;
+      animation: moveOrb2 55s ease-in-out infinite alternate;
+    }
+    @keyframes moveOrb1 {
+      0%{transform:translate(0,0);
     }
   </style>
 </head>
 <body class="dark-mode">
 
-<!-- Cyber Futuristic Background -->
-<div class="cyber-bg">
-  <div class="cyber-layer streams"></div>
-  <div class="cyber-layer glow"></div>
-  <div class="cyber-layer scanlines"></div>
-</div>
+  <!-- Cyber Dynamic Background -->
+  <div class="cyber-bg">
+    <div class="cyber-layer streams"></div>
+    <div class="cyber-orb orb1"></div>
+    <div class="cyber-orb orb2"></div>
+    
+    <div class="cyber-layer glow"></div>
+    
+
+  </div>
 
 <!-- Konten Bootstrap -->
 <div class="container text-center position-relative">
@@ -169,7 +182,7 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
     </div>
     <div class="col-lg-6 col-12 chart-box">
       <h6 class="text-center text-white fs-6">
-        <i class="fas fa-chart-line text-danger"></i> Rata-Rata Beban Server Per Menit <span id="status-load"></span>
+        <i class="fas fa-chart-line text-danger"></i> Rata-Rata Beban Server <span id="status-load"></span>
       </h6>
       <canvas id="loadChart"></canvas>
     </div>
@@ -240,18 +253,31 @@ function createChartMin0Max100(id, label, labels, data, ySuffix = '%', borderCol
       },
       responsive: true,
       plugins: {
-        legend: { display: false }
+        legend: {
+            display: false
+        }
       },
       scales: {
         x: {
-          ticks: { color: isDark ? '#ccc' : '#000' },
-          grid: { color: isDark ? '#333' : '#ddd' }
+          offset: true, // geser titik pertama dari grid awal
+          ticks: {
+              color: isDark ? '#ccc' : '#000',
+              font: {
+                size: 16
+              }
+          },
+          grid: {
+              color: isDark ? '#333' : '#ddd'
+          }
         },
         y: {
           ticks: {
             stepSize: 25, // biar jadi 0%, 25%, 50%, 75%, 100%
             callback: value => Number(value).toFixed(decimals) + ySuffix,
-            color: isDark ? '#ccc' : '#000'
+            color: isDark ? '#ccc' : '#000',
+            font: {
+              size: 16
+            }
           },
           grid: { color: isDark ? '#333' : '#ddd' },
           min: 0,
@@ -291,20 +317,33 @@ function createChartNoMax(id, label, labels, data, ySuffix = '%', borderColor = 
       },
       responsive: true,
       plugins: {
-        legend: { display: false }
+        legend: {
+            display: false
+        }
       },
       scales: {
         x: {
-          ticks: { color: isDark ? '#ccc' : '#000' },
+          offset: true, // geser titik pertama dari grid awal
+          ticks: {
+              color: isDark ? '#ccc' : '#000',
+              font: {
+                size: 16
+              }
+          },
           grid: { color: isDark ? '#333' : '#ddd' }
         },
         y: {
           ticks: {
             stepSize: 2,  // naik 1, 2, 3, dst (opsional)
             callback: value => Number(value).toFixed(decimals),
-            color: isDark ? '#ccc' : '#000'
+            color: isDark ? '#ccc' : '#000',
+            font: {
+              size: 16
+            }
           },
-          grid: { color: isDark ? '#333' : '#ddd' },
+          grid: {
+              color: isDark ? '#333' : '#ddd'
+          },
           beginAtZero: true
         }
       }
