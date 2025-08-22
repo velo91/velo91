@@ -669,8 +669,8 @@ disable_functions=pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexite
 # In "Databases", create a database
 # In "SSL/TLS", create and install Let's Encrypt Certificate
 # In "Cron Jobs", just leave empty because cronjob at cloudpanel doesn't support character "\", so create manually with crontab -e
-	* * * * * /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/cron.php
-	0 0 * * 0 /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/kill_all_sessions.php
+	* * * * * /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/cron.php >/dev/null 2>&1
+	0 0 * * 0 /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/kill_all_sessions.php >/dev/null 2>&1
 	0 * * * * /usr/bin/php8.3 /[YOUR_MOODLE_PATH]/admin/cli/scheduled_task.php --execute="\core\task\file_trash_cleanup_task" >/dev/null 2>&1
 	0 2 * * * /usr/bin/find /[YOUR_MOODLE_DATA_PATH]/trashdir -mindepth 1 -exec rm -rf {} + >/dev/null 2>&1
 # [TIDAK PAKAI LAGI]
