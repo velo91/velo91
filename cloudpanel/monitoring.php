@@ -151,13 +151,23 @@ $core = count($matches[0]);
 </div>
 
 <?php
-// Announcement Sound (Melodic airport announcement ding): https://mixkit.co/free-sound-effects/airport/
-$minute = date("i"); // ambil menit sekarang
-$file_audio = '/assets/announcement.mp3';
-if($minute === "00") {
+// (OUTDATED) Mall/Airport/Train/Cruise Announcement Chimes: https://www.youtube.com/watch?v=gw7k1TCg2qw&ab_channel=JoeyFortuna
+// Announcement Sound (Melodic airport announcement ding): https://mixkit.co/free-sound-effects/airport
+// Sound of Text (Download Google Translate Audio): https://soundoftext.cc
+$menit = date('i');
+$jam = date('H');
+if($menit === '00') {
+    if(in_array($jam, array('08', '09', '10', '11', '12', '13', '14', '15', '16', '17'))) {
+        $kategori = ['aktivitas', 'motivasi', 'humor'];
+        $pilihan_kategori = $kategori[array_rand($kategori)];
+        $file_audio = "/assets/monitoring/{$jam}-{$pilihan_kategori}.mp3?";
+    }
+    else {
+        $file_audio = "/assets/monitoring/announcement.mp3?";
+    }
     echo '<audio autoplay>
-            <source src="'.$file_audio.'" type="audio/wav">
-          </audio>';
+        <source src="'.$file_audio.'" type="audio/wav">
+    </audio>';
 }
 ?>
 
