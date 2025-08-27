@@ -1,6 +1,7 @@
 HOSTING_ASN_KEYWORDS = [
   'andhika pratama sanggoro',
   'ardh global indonesia',
+  'awan media semesta',
   'beon intermedia',
   'berkah solusi teknologi informasi',
   'biznet gio nusantara',
@@ -8,9 +9,7 @@ HOSTING_ASN_KEYWORDS = [
   'cloud hosting indonesia',
   'delta neva angkasa',
   'deneva',
-  'dewabisnis',
-  'dewahoster',
-  'dewavps',
+  'dewa bisnis digital',
   'dewaweb',
   'delta awan angkasa',
   'exabytes',
