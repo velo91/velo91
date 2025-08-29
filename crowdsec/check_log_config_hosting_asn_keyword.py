@@ -1,6 +1,7 @@
 HOSTING_ASN_KEYWORDS = [
   'andhika pratama sanggoro',
   'ardh global indonesia',
+  'awan data teknologi',
   'awan media semesta',
   'beon intermedia',
   'berkah solusi teknologi informasi',
