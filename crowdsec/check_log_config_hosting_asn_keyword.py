@@ -19,6 +19,7 @@ HOSTING_ASN_KEYWORDS = [
   'hostinger',
   'industri kreatif digital',
   'master web network',
+  'mora telematika indonesia',
   'raja mitra informatika',
   'registrasi neva angkasa',
   'rumahweb',
