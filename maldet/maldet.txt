@@ -36,10 +36,12 @@ maldet --scan-all /home/bbg-site/htdocs/bbg.ac.id
 
 # scan sambil ditinggal pergi:
 nohup maldet --scan-all /var/www/ > /var/www/maldet.log 2>&1 &
-nohup maldet --scan-all /home/bbg-site/htdocs/bbg.ac.id > /home/bbg-site/htdocs/maldet.log 2>&1 &
+nohup maldet --scan-all /home > /home/maldet.log 2>&1 &
+nohup maldet --scan-all /home/site123/htdocs/bbg.ac.id > /home/site123/htdocs/maldet.log 2>&1 &
 # lihat prosesnya:
 tail -f /var/www/maldet.log
-tail -f /home/bbg-site/htdocs/maldet.log
+tail -f /home/maldet.log
+tail -f /home/site123/htdocs/maldet.log
 # cek proses:
 ps aux | grep maldet
 # kalau mau kill process:
