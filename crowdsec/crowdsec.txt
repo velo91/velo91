@@ -29,7 +29,9 @@ sudo cscli console enroll -e context [your_engine_id]
 # your server will be linked and appear on the dashboard. reload the Crowdsec service.
 sudo cscli console enable manual
 sudo systemctl restart crowdsec && sudo systemctl restart crowdsec-firewall-bouncer
-# go to the Blocklist Catalog to browse what's available. you can add up to 3 on a free account. here are my recommended blocklists for newcomers:
+# go to the Blocklist Catalog to browse what's available.
+# https://app.crowdsec.net/blocklists/search?pricingTiers=%5B%22free%22%5D&page=1
+# you can add up to 3 on a free account. here are my recommended blocklists for newcomers:
 Firehol cruzit.com list
 Firehol BotScout list
 Firehol greensnow.co list
