@@ -36,8 +36,8 @@ max_heap_table_size = 256M
 read_rnd_buffer_size = 16M
 read_buffer_size = 2M
 bulk_insert_buffer_size = 64M
-;so far the peak of SHOW STATUS LIKE 'Max_used_connections'; there are 185 connections, that's when hit by DDoS, so don't set it to 512, just set it to 300
-max_connections = 300
+;so far the peak of SHOW STATUS LIKE 'Max_used_connections'; there are 301 connections, that's when hit by DDoS, so don't set it to 512, just set it to 350
+max_connections = 350
 myisam_sort_buffer_size = 8M
 explicit_defaults_for_timestamp = 1
 open_files_limit = 32768
