@@ -114,13 +114,13 @@ for file_path in Path(IP_DIR).glob("ip-*.txt"):
 ips = []
 try:
     result = subprocess.run(
-        ["sudo", "netstat", "-antp"],
+        ["sudo", "netstat", "-tnp"],   # tidak perlu -a biar LISTEN tidak ikut
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
         text=True
     )
     for line in result.stdout.splitlines():
-        if 'nginx' in line:
+        if 'nginx' in line and 'ESTABLISHED' in line:  # hanya koneksi aktif
             parts = line.split()
             if len(parts) > 5:
                 address = parts[4]
