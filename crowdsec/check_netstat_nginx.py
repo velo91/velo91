@@ -211,9 +211,9 @@ for ip, count in counter.most_common():
 
             # Cek apakah termasuk IP kampus
             if ip in ip_kampus_map:
-                status = f"🏛 IP {ip_kampus_map[ip]}"
+                status = f"🏛 IP {ip_kampus_map[ip]}     "
             else:
-                status = ''
+                status = '                 '
 
             action = ''
 
