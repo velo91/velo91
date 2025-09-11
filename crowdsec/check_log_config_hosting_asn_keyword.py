@@ -26,7 +26,7 @@ HOSTING_ASN_KEYWORDS = [
   'rumahweb',
   'microsoft corporation',
   'digitalocean',
-  'huawei',
+  'huawei clouds',
   'akamai',
   'linode',
   'ovh',
