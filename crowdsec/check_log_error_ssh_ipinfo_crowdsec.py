@@ -187,6 +187,8 @@ for ip, count in counter.most_common():
         else:
             # Jumlahnya >= HIGH_ACTIVITY_THRESHOLD maka lanjut diproses secara normal
             city, region, negara, org = get_geo_asn(ip)
+            escaped_ip = ip.replace('.', '\\.')
+            
             if subnet not in checked_subnets:
                 blocked = is_subnet_blocked_by_crowdsec(subnet, ip)
                 checked_subnets[subnet] = blocked
@@ -222,7 +224,6 @@ for ip, count in counter.most_common():
                 status = '🚫 diblokir otomatis (bukan Indonesia)'
                 action = ''
             else:
-                escaped_ip = ip.replace('.', '\\.')
                 if count > VERY_HIGH_ACTIVITY_THRESHOLD and ip not in ip_kampus_map:
                     subprocess.run([
                         "sudo", "cscli", "decisions", "add",
