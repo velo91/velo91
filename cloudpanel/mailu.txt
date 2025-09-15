@@ -1,0 +1,113 @@
+# Disable Postfix
+systemctl stop postfix && systemctl disable postfix
+
+# Install docker and the docker compose plugin
+curl -sSL https://get.docker.com/ | CHANNEL=stable sh && apt install docker-compose-plugin
+docker --version
+docker compose version
+
+# Mailu Installation
+# It use a docker-compose.yml file and also relies on mailu.env for various settings.
+# You need to generate a Mailu configuration for your environment using the online mailu set up utility.
+# The generator will give you both a docker-compose.yml and a mailu.env file.
+# Generate both files can be generated from:
+https://setup.mailu.io/2024.06/
+
+Mailu storage path:
+/mailu
+
+Main mail domain and server display name:
+mail.lpipb.com
+
+Choose how you wish to handle security:
+notls
+
+Website name:
+Webmail
+
+[SELECT] Enable the admin UI
+
+Enable Web email client:
+roundcube
+
+[RAM KECIL JANGAN PILIH] Enable the antivirus service
+[SELECT] Enable the webdav service 
+[SELECT] Enable fetchmail
+[SELECT] Enable oletools
+
+IPv4 listen address:
+[IP_SERVER]
+
+[SELECT] Enable an internal DNS resolver (unbound)
+
+Public hostnames:
+mail.lpipb.com
+
+# Follow next tutorial:
+mkdir /mailu
+cd /mailu
+wget ...
+wget ...
+
+# Pada file docker-compose.yml, komen bagian port 80 dan 443 agar tidak bentrok dengan nginx cloudpanel
+nano /mailu/docker-compose.yml
+	ports:
+      # - "103.127.138.161:80:80" # abaikan
+      - "127.0.0.1:7080:80" # web akses via lokal saja
+      # - "103.127.138.161:443:443" # abaikan
+      - "127.0.0.1:7443:443" # web akses via lokal saja
+      - "103.127.138.161:25:25"
+      - "103.127.138.161:465:465"
+      - "103.127.138.161:587:587"
+      - "103.127.138.161:110:110"
+      - "103.127.138.161:995:995"
+      - "103.127.138.161:143:143"
+      - "103.127.138.161:993:993"
+      - "103.127.138.161:4190:4190"
+
+# Sesuaikan .env (mailu.env). Pastikan di file mailu.env Anda set seperti ini karena SSL nanti ditangani CloudPanel (bukan Mailu):
+nano /mailu/mailu.env
+	TLS_FLAVOR=notls
+
+# Atur ke zona lokal biar log sesuai waktu Indonesia:
+nano /mailu/mailu.env
+	TZ=Asia/Jakarta
+
+# To start your compose project, simply run the Docker Compose up command using -p mailu flag for project name.
+cd /mailu
+docker compose -p mailu up -d
+
+# To access Mailu via our domain https://mail.lpipb.com, we create a Reverse Proxy and forward the traffic to port 7443.
+# In CloudPanel, create a Reverse Proxy with your Domain Name and http://127.0.0.1:7080 as Reverse Proxy Url (must HTTP to Mailu, don't HTTPS, if you use HTTPS to mailu so it will failed handshake and will be 502 Bad Gateway)
+# Point A record mail to server IP
+# Add SSL/TLS Let's Encrypt certificate from CloudPanel
+
+# Before you can use Mailu, you must create the primary administrator user account. This should be admin@mail.lpipb.com. Use the following command, changing PASSWORD to your liking:
+docker compose -p mailu exec admin flask mailu admin [USERNAME] [DOMAIN] [PASSWORD]
+contoh: docker compose -p mailu exec admin flask mailu admin info lpipb.com 12345
+
+# If you want to delete user, use: docker compose -p mailu exec admin flask mailu user-delete [USERNAME]@[DOMAIN]
+contoh: docker compose -p mailu exec admin flask mailu user-delete anu@lpipb.com
+
+# Once done, access Mailu web portal using your hostname: https://mail.example.com. You should get a page to login with you administrator password.
+# Clik menu Sign In
+# Change password at menu Update Password
+# Setup DNS Record (MX, SPF, DKIM, DMARC) at menu Mail domains > Details > Generate keys to show DKIM and DMARC record
+# NOTE: DNS Record for client auto-configuration is not important
+
+# More: https://computingforgeeks.com/install-mailu-mail-server-on-ubuntu/
+
+
+
+
+
+STOP DOCKER TO REINSTALL WITH FRESH INSTALL
+
+cd /mailu
+docker compose down
+rm -rf /mailu
+
+# Deploy ulang project:
+mkdir /mailu
+cd /mailu
+dan seterusnya....
