@@ -1,4 +1,5 @@
 HOSTING_ASN_KEYWORDS = [
+  'hosting',
   'andhika pratama sanggoro',
   'ardh global indonesia',
   'awan data teknologi',
