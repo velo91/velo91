@@ -45,6 +45,7 @@ HOSTING_ASN_KEYWORDS = [
   'm247',
   'scaleway',
   'the constant',
+  'telchak gold ventures',
   'kamatera',
   'netcup',
   'clouvider',
