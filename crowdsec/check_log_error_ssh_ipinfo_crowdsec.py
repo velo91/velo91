@@ -16,7 +16,7 @@ LOG_FILE = "/var/log/auth.log"
 IPINFO_TOKEN = "..." # Ganti token di sini
 CACHE_FILE = "/var/www/logs/ipinfo_cache.json"
 IP_DIR = "/var/www/opensimka-production/app/h2h/gateway-serverlocal" # lokasi file ip-kampus*.txt
-LOW_ACTIVITY_THRESHOLD = 10 # Aktivitas rendah yang bisa dipertimbangkan jika dari hosting
+LOW_ACTIVITY_THRESHOLD = 1 # Aktivitas rendah yang bisa dipertimbangkan jika dari hosting
 HIGH_ACTIVITY_THRESHOLD = 300 # Jumlah aktivitas tinggi yang layak untuk diambil tindakan
 VERY_HIGH_ACTIVITY_THRESHOLD = 10000 # Jumlah aktivitas tinggi yang sangat layak untuk diblokir
 
