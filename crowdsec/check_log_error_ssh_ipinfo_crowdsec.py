@@ -209,7 +209,8 @@ for ip, count in counter.most_common():
                 status = '🔎 perlu ditinjau'
                 action = (
                     '\n\tASN Google – silakan review manual\n'
-                    f'\t→ Jalankan untuk blokir jika perlu: sudo cscli decisions add --reason "malicious subnet" --duration 1000d --range {subnet}'
+                    f'\t→ Jalankan untuk blokir jika perlu: sudo cscli decisions add --reason "malicious subnet" --duration 1000d --range {subnet}\n'
+                    f"\t→ Hapus IP dari log jika ingin diabaikan: sed -i '/{escaped_ip}/d' {LOG_FILE}"
                 )
             elif negara != 'ID':
                 subprocess.run([
