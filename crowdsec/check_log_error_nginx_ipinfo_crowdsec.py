@@ -179,24 +179,6 @@ for ip, count in counter.most_common():
                 ])
                 status = '🚫 diblokir otomatis (hosting)'
                 action = ''
-            #elif 'microsoft' in org.lower() and negara == 'IE':
-            #    subprocess.run([
-            #        "sudo", "cscli", "decisions", "add",
-            #        "--reason", "malicious subnet",
-            #        "--duration", "1000d",
-            #        "--range", subnet
-            #    ])
-            #    status = '🚫 diblokir otomatis (Microsoft Irlandia)'
-            #    action = ''
-            #elif 'microsoft' in org.lower() and negara == 'JP':
-            #    subprocess.run([
-            #        "sudo", "cscli", "decisions", "add",
-            #        "--reason", "malicious subnet",
-            #        "--duration", "1000d",
-            #        "--range", subnet
-            #    ])
-            #    status = '🚫 diblokir otomatis (Microsoft Jepang)'
-            #    action = ''
             else:
                 continue  # Tidak memenuhi syarat, skip
 
