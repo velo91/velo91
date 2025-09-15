@@ -1,7 +1,8 @@
 # autoblock naughty IP range (not Indonesia/Google) every 2 minute
 # > untuk overwrite, >> untuk append
-*/2 * * * * /usr/bin/python3 /var/www/logs/check_log_error_ipinfo_crowdsec.py > /var/www/logs/ipinfo_error.log 2>&1
-*/2 * * * * /usr/bin/python3 /var/www/logs/check_log_access_ipinfo_crowdsec.py > /var/www/logs/ipinfo_access.log 2>&1
+*/2 * * * * /usr/bin/python3 /var/www/logs/check_log_error_nginx_ipinfo_crowdsec.py > /var/www/logs/ipinfo_error.log 2>&1
+*/2 * * * * /usr/bin/python3 /var/www/logs/check_log_access_nginx_ipinfo_crowdsec.py > /var/www/logs/ipinfo_access.log 2>&1
+*/2 * * * * /usr/bin/python3 /var/www/logs/check_log_error_ssh_ipinfo_crowdsec.py > /var/www/logs/ipinfo_error.log 2>&1
 */2 * * * * /usr/bin/python3 /var/www/logs/check_netstat_nginx.py > /var/www/logs/ipinfo_netstat_nginx.log 2>&1
 
 # autoupdate semua ip kampus ke dalam allowlist crowdsec setiap 5 menit
