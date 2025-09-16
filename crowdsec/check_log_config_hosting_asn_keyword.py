@@ -21,6 +21,7 @@ HOSTING_ASN_KEYWORDS = [
   'hostinger',
   'industri kreatif digital',
   'master web network',
+  'media antar nusa',
   'mora telematika indonesia',
   'raja mitra informatika',
   'registrasi neva angkasa',
@@ -58,6 +59,7 @@ HOSTING_ASN_KEYWORDS = [
   'oracle',
   'colocatel',
   'advin',
+  'alsycon',
   'railnet',
   'psinet',
   'delska',
@@ -70,5 +72,6 @@ HOSTING_ASN_KEYWORDS = [
   'tencent building',
   'kaopu',
   'dpkgsoft',
+  'yisu cloud',
   'worldstream'
 ]
