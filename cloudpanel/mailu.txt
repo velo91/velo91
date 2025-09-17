@@ -2,9 +2,9 @@
 systemctl stop postfix && systemctl disable postfix
 
 # Install docker and the docker compose plugin
+# check installed docker: docker --version && docker-compose --version
 curl -sSL https://get.docker.com/ | CHANNEL=stable sh && apt install docker-compose-plugin
-docker --version
-docker compose version
+# check again: docker --version && docker-compose --version
 
 # Mailu Installation
 # It use a docker-compose.yml file and also relies on mailu.env for various settings.
