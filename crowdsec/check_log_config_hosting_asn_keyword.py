@@ -46,6 +46,7 @@ HOSTING_ASN_KEYWORDS = [
   'leaseweb',
   'm247',
   'scaleway',
+  'services ab',
   'the constant',
   'telchak gold ventures',
   'kamatera',
