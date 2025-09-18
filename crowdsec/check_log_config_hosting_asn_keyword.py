@@ -71,6 +71,7 @@ HOSTING_ASN_KEYWORDS = [
   'datacamp',
   'hosthatch',
   'tencent building',
+  'unmanaged ltd',
   'kaopu',
   'dpkgsoft',
   'yisu cloud',
