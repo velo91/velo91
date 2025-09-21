@@ -328,19 +328,17 @@ Install Goodvibes (Radio Player)
 =================================
 $ sudo apt install goodvibes
 # right click to add station (check on https://www.radio-browser.info or https://directory.shoutcast.com):
-Drdchati Radio: http://yp.shoutcast.com/sbin/tunein-station.m3u?id=99606951
-AlifAlif FM: https://alifalifjobs.com/radio/8000/AlifAlifLive.mp3
-Radio Coran - Quran Station: http://yp.shoutcast.com/sbin/tunein-station.m3u?id=99584538
-Radio Sholawat: https://stream.zeno.fm/us5bsznu3rptv
-Jazz Groove: http://yp.shoutcast.com/sbin/tunein-station.m3u?id=1528122
-Mirchi Top 20: https://drive.uber.radio/uber/bollywoodnow/icecast.audio
-New Hits Of Bollywood: https://stream-146.zeno.fm/rqqps6cbe3quv?zs=loHp_DNyRPiAxC52AL95hg
-Sinar FM: https://n08a-eu.rcs.revma.com/azatk0tbv4uvv/8_1ksmof3jo7vso02/playlist.m3u8
-Gegar FM: https://stream-eu-a.rcs.revma.com/cn0zcqsbv4uvv/36_1nbhrvq7qpz1h02/playlist.m3u8
-ERA FM: https://n17a-eu.rcs.revma.com/crec9cmbv4uvv/23_11p2ghidfhj2d02/playlist.m3u8?rj-ttl=5&rj-tok=AAABlF2WiCgAJUPufokb6G0b3Q
-MY FM: https://n38a-eu.rcs.revma.com/hc3unrtbv4uvv/56_1t996oveblvvv02/playlist.m3u8?rj-ttl=5&rj-tok=AAABjmQzlooA5VQ0LCn-yOlhmQ
-HITZ FM: https://stream-eu-a.rcs.revma.com/488kt4sbv4uvv/68_1txzsglqw5l3t02/playlist.m3u8
-Djati FM: https://stream.heartline.co.id:8443/djati_aceh
+	101 SMOOTH JAZZ: http://www.101smoothjazz.com/101-smoothjazz.m3u
+	The Jazz Groove (East): http://east-mp3-128.streamthejazzgroove.com/stream
+	The Jazz Groove (West): http://west-aac-64.streamthejazzgroove.com/stream
+	AlifAlif FM: https://alifalifjobs.com/radio/8000/AlifAlifLive.mp3
+	Drdchati Radio: http://yp.shoutcast.com/sbin/tunein-station.m3u?id=99606951
+	Radio Sholawat: https://stream.zeno.fm/us5bsznu3rptv
+	Radio Coran - Quran Station: http://yp.shoutcast.com/sbin/tunein-station.m3u?id=99584538
+	Mirchi Top 20: https://drive.uber.radio/uber/bollywoodnow/icecast.audio
+	Mirchi Love Hindi: https://drive.uber.radio/uber/lrbollywood/icecast.audio
+	Mirchi One 89.6 Qatar: https://streams.radio.co/s8d06d0298/listen
+	New Hits Of Bollywood: https://stream-146.zeno.fm/rqqps6cbe3quv?zs=loHp_DNyRPiAxC52AL95hg
 
 =================================
 Setup VLC
