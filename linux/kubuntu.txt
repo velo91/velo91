@@ -347,6 +347,14 @@ $ sudo apt install goodvibes
 	Elshinta FM Jakarta: https://stream-ssl.arenastreaming.com:8000/jakarta
 
 =================================
+Install IPTVnator (IPTV Player)
+=================================
+# Download latest .DEB file (stable version) from: https://github.com/4gray/iptvnator/releases
+# Install .DEB file with Discover
+# Add complete playlist from IPTV ORG: https://iptv-org.github.io/iptv/index.m3u
+# Add my playlist from ALMUFI: https://almufi.id/iptv/playlist.m3u8
+
+=================================
 Setup VLC
 =================================
 # Tools > Preferences > Click Subtitles/OSD tab > Untick "Show media title on video start"
