@@ -23,6 +23,9 @@ https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index.m3u
 #EXTINF:-1 tvg-id="AlJazeera.qa@English" tvg-country="QA" group-title="News" tvg-logo="https://cdn.iconscout.com/icon/free/png-256/free-aljazeera-logo-icon-svg-download-png-461765.png",Al Jazeera English (QA)
 https://live-hls-apps-aje-v3-fa.getaj.net/AJE/index.m3u8
 
+#EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
+https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
+
 #EXTINF:-1 tvg-id="AlkassFive.qa" tvg-country="QA" group-title="Sports" tvg-logo="https://images.seeklogo.com/logo-png/21/1/al-kass-sport-channel-logo-png_seeklogo-219933.png",Alkass Five (QA)
 https://liveakgr.alkassdigital.net/hls/live/2097037/Alkass5azq/master.m3u8
 
@@ -37,9 +40,6 @@ https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd/smil:dubaisportshd.smil/chunkli
 
 #EXTINF:-1 tvg-country="AE" tvg-logo="https://www.albayan.ae/assets/images/2025/04/29/4765144.jpg" group-title="Sports",Dubai Sports 3 (AE)
 https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd5/smil:dubaisportshd5.smil/chunklist.m3u8
-
-#EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
-https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
 
 #EXTINF:-1 tvg-id="DubaiOne.ae" tvg-country="AE" group-title="General" tvg-logo="https://wachannelsfinder.com/wp-content/uploads/2023/11/dubai-one-tv.jpg",Dubai One (AE)
 https://dminnvllta.cdn.mgmlcdn.com/dubaione/smil:dubaione.stream.smil/chunklist.m3u8
