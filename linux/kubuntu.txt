@@ -324,37 +324,6 @@ Check the OS version
 $ lsb_release -a
 
 =================================
-Install Goodvibes (Radio Player)
-=================================
-$ sudo apt install goodvibes
-# right click to add station (check on https://www.radio-browser.info or https://directory.shoutcast.com):
-	101 Smooth Jazz: http://www.101smoothjazz.com/101-smoothjazz.m3u
-	The Jazz Groove (East): http://east-mp3-128.streamthejazzgroove.com/stream
-	The Jazz Groove (West): http://west-aac-64.streamthejazzgroove.com/stream
-	AlifAlif FM: https://alifalifjobs.com/radio/8000/AlifAlifLive.mp3
-	Drdchati Radio: http://yp.shoutcast.com/sbin/tunein-station.m3u?id=99606951
-	Quran Kareem: https://quraanfm-radio.mbc.net/quraanfm-radio.m3u8
-	Quran Station: http://yp.shoutcast.com/sbin/tunein-station.m3u?id=99584538
-	Radio Sholawat: https://stream.zeno.fm/us5bsznu3rptv
-	Mirchi Top 20: https://drive.uber.radio/uber/bollywoodnow/icecast.audio
-	Mirchi Love Hindi: https://drive.uber.radio/uber/lrbollywood/icecast.audio
-	Mirchi One 89.6 Qatar: https://streams.radio.co/s8d06d0298/listen
-	New Hits Of Bollywood: https://stream-146.zeno.fm/rqqps6cbe3quv?zs=loHp_DNyRPiAxC52AL95hg
-	Al Jazeera (English): http://live-hls-web-aje.getaj.net/AJE/06.m3u8
-	CNA 938 Live Singapore: http://playerservices.streamtheworld.com/pls/938NOW_PREM.pls
-	CNN Indonesia TV: http://live.cnnindonesia.com/livecnn/smil:cnntv.smil/chunklist_w275412545_b384000_sleng.m3u8
-	Sindo Trijaya 104.6 FM Jakarta: http://202.147.199.101:8000/;stream.nsv
-	Elshinta FM Jakarta: https://stream-ssl.arenastreaming.com:8000/jakarta
-
-=================================
-Install IPTVnator (IPTV Player)
-=================================
-# Download latest .DEB file (stable version) from: https://github.com/4gray/iptvnator/releases
-# Install .DEB file with Discover
-# Add complete playlist from IPTV ORG: https://iptv-org.github.io/iptv/index.m3u
-# Add my playlist from ALMUFI: https://almufi.id/iptv/playlist.m3u8
-
-=================================
 Setup VLC
 =================================
 # Tools > Preferences > Click Subtitles/OSD tab > Untick "Show media title on video start"
@@ -485,6 +454,14 @@ Download Sejda PDF Desktop (PDF Editor)
 	https://www.sejda.com/desktop
 Download CrossFTP Version 1.99.6 (can manage S3 bucket)
 	https://www.crossftp.com/crossftp_1.99.9.deb
+Download Burp Suite (for active scanning, collaborator payloads, or BApp extensions. Use Burp to send SSRF payloads with Collaborator or test race conditions using Turbo Intruder.)
+	https://portswigger.net/burp/communitydownload
+Download Caido (for recon, data visualization, endpoint tracking, manual fuzzing. Use Caido to collect endpoints, tag potential IDORs, note interesting responses.)
+	https://caido.io/download
+Download Goodvibes (Radio Player) Playlist => https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/stream/radio.txt
+	https://pkgs.org/download/goodvibes
+Download IPTVnator (IPTV Player) Playlist => https://iptv-org.github.io/iptv/index.m3u OR https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/stream/iptv.m3u8
+	https://github.com/4gray/iptvnator/releases
 
 =======================================
 Install Apps Manually From .SH File
