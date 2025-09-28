@@ -71,8 +71,8 @@ https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5ddf8ea0d000120009
 #EXTINF:-1 tvg-id="PlutoTVFantastic.us" tvg-country="US" group-title="Series" tvg-logo="https://i.imgur.com/MCu7YTA.png",Pluto TV Fantastic (US)
 http://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/5b64a245a202b3337f09e51d/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=6c2aed45-30d3-11ef-9cf5-e9ddff8ff496&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=46d9eb84-1a99-477f-99be-7f761b922cd2
 
-#EXTINF:-1 tvg-id="PlutoTVGameShows.us" tvg-country="US" group-title="Entertainment" tvg-logo="https://i.imgur.com/JXZEg2e.png",Pluto TV Game Shows (US)
-http://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/6036e7c385749f00075dbd3b/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=6c2aed47-30d3-11ef-9cf5-e9ddff8ff496&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=33f00d08-5ecc-4756-847e-6afcf19395bc
-
 #EXTINF:-1 tvg-id="PlutoTVFood.us@Germany" tvg-country="DE" group-title="Lifestyle" tvg-logo="https://i.imgur.com/HTLo1GG.png",Pluto TV Food (DE)
 http://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/5dc280c9aa218c0009724b4b/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=84ae7979-4b92-11ef-aece-533610f1ea34&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=6afece0b-4e3f-4de4-935d-3288b6200e01
+
+#EXTINF:-1 tvg-id="PlutoTVGameShows.us" tvg-country="US" group-title="Entertainment" tvg-logo="https://i.imgur.com/JXZEg2e.png",Pluto TV Game Shows (US)
+http://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/6036e7c385749f00075dbd3b/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=6c2aed47-30d3-11ef-9cf5-e9ddff8ff496&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=33f00d08-5ecc-4756-847e-6afcf19395bc
