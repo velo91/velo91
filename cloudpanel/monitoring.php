@@ -42,7 +42,7 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
       <div class="alert alert-danger text-center py-1"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
     <form method="post">
-      <input type="password" name="auth_key" class="form-control mb-3" placeholder="Password" required>
+      <input type="password" name="auth_key" class="form-control mb-3" placeholder="Password" autofocus required>
       <button type="submit" class="btn btn-primary w-100">Masuk</button>
     </form>
   </div>
