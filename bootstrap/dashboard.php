@@ -1,8 +1,8 @@
 <?php
 // file utama kerangka dashboard
 // pastikan $active_menu di-define di file pemanggil (misalnya users-add.php, dashboard-admin.php)
-$active_menu = 'dashboard';
-//$active_menu = 'users-list';
+//$active_menu = 'dashboard';
+$active_menu = 'users-list';
 //$active_menu = 'report-month';
 //$active_menu = 'report-year';
 ?>
@@ -16,7 +16,7 @@ $active_menu = 'dashboard';
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 + JQuery -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- JQuery Jangan Defer -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <!-- Font Awesome 7 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
@@ -24,32 +24,24 @@ $active_menu = 'dashboard';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.3/parsley.min.js" defer></script>
     <!-- Inputmask -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.9/inputmask.min.js" defer></script>
-    <!-- DataTables -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
-    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js" defer></script>
-    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js" defer></script>
-    <!-- DataTables Buttons -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js" defer></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js" defer></script>
-    <!-- JSZip untuk export Excel -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
-    <!-- Buttons HTML5 export -->
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js" defer></script>
+    <!-- DataTables Core + Bootstrap 5 -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
+	<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+	<!-- DataTables Buttons + Bootstrap 5 -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+	<!-- Export dependencies -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
     <!-- DataTables Custom Style -->
     <style>
-      div.dt-buttons {
-        padding-right: 10px;
-      }
-
-      .dataTables_length {
-        display: inline;
-      }
-
-      .dataTables_filter {
-        display: inline;
-        float: right;
-      }
+    div.dt-buttons {padding-right:10px;}
+    .dataTables_length {display:inline;}
+    .dataTables_filter {display:inline;float:right;}
     </style>
     <!-- ApexCharts -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
@@ -90,7 +82,7 @@ $active_menu = 'dashboard';
       }
 
       .sidebar-desktop a.active {
-        background: #54606b;
+        /* background: #54606b; */
         font-weight: bold;
       }
 
@@ -126,7 +118,7 @@ $active_menu = 'dashboard';
       }
 
       .sidebar-mobile a.active {
-        background: #54606b;
+        /* background: #54606b; */
         font-weight: bold;
       }
 
@@ -192,7 +184,13 @@ $active_menu = 'dashboard';
       .sidebar-mobile .collapse a i {
         margin-right: 6px;
       }
-
+      /* CSS Animasi Rotate */
+		.rotate-icon {
+		  transition: transform 0.3s ease; /* animasi halus */
+		}
+		.rotate-icon.rotate {
+		  transform: rotate(-90deg); /* dari chevron-left jadi chevron-down */
+		}
       /* Content geser ke kanan */
       @media (min-width: 992px) {
         main {
@@ -200,6 +198,29 @@ $active_menu = 'dashboard';
         }
       }
     </style>
+    <script>
+	$(function(){
+	  // khusus untuk submenu collapse
+	  $('[data-bs-toggle="collapse"]').each(function(){
+	    let $link = $(this);
+	    let target = $link.attr('href') || $link.data('bs-target');
+	    let $icon = $link.find('.rotate-icon');
+	
+	    // kalau sudah active saat load, biar icon langsung rotate
+	    if ($(target).hasClass('show')) {
+	      $icon.addClass('rotate');
+	    }
+	
+	    // event show/hide
+	    $(target).on('show.bs.collapse', function () {
+	      $icon.addClass('rotate');
+	    });
+	    $(target).on('hide.bs.collapse', function () {
+	      $icon.removeClass('rotate');
+	    });
+	  });
+	});
+	</script>
   </head>
   <body>
     <!-- Navbar -->
@@ -221,7 +242,7 @@ $active_menu = 'dashboard';
       <div class="text-center p-3 border-bottom border-secondary">
         <img src="https://placehold.co/130x130/EEE/31343C" alt="User Avatar" class="rounded-circle mb-2" width="130" height="130">
         <h6 class="mb-0">Admin User</h6>
-        <small class="text-muted">Administrator</small>
+        <small class="text-warning">Administrator</small>
       </div> <?php include 'menu.php'; ?>
     </div>
     <!-- Sidebar Mobile (Offcanvas) -->
@@ -235,7 +256,7 @@ $active_menu = 'dashboard';
     <!-- Content -->
     <main class="p-4" style="margin-top:56px;">
       <h2>Selamat Datang, Admin!</h2>
-      <p>✅ Sidebar desktop & mobile sinkron dari <code>menu.php</code>. Active menu ditentukan dengan variabel <code>$active_menu</code>. </p>
+      <p>Sidebar desktop & mobile sinkron dari <code>menu.php</code>. Active menu ditentukan dengan variabel <code>$active_menu</code>. </p>
       <div class="row">
         <div class="col-md-4">
           <div class="card text-bg-primary mb-3">
@@ -362,7 +383,7 @@ $active_menu = 'dashboard';
             dom: "Blfrtip",
             buttons: [{
               extend: 'excel',
-              text: 'Export Excel',
+              text: 'Excel',
               className: 'btn btn-sm btn-success' // hijau Bootstrap
             }],
             paging: true,
