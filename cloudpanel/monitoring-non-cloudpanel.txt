@@ -1,0 +1,122 @@
+# Salin struktur database SQLite di server CloudPanel
+sqlite3 /home/clp/htdocs/app/data/db.sq3 .schema > /home/schema.sql
+
+# Salin file schema.sql ini ke server non-CloudPanel (misalnya via scp atau rsync atau http)
+scp schema.sql user@server-baru-non-cloudpanel:/tmp/
+
+# Hapus yang tidak perlu lagi di server CloudPanel
+rm /home/schema.sql
+
+# Di server non-CloudPanel
+nano /home/schema.sql
+# Hapus baris pertama:
+  CREATE TABLE sqlite_sequence(name,seq);
+# sqlite_sequence adalah tabel internal yang otomatis dibuat SQLite saat ada tabel dengan AUTOINCREMENT.
+# kalau kamu coba membuatnya secara manual, SQLite akan error karena nama itu reserved.
+# jadi baris ini boleh dan sebaiknya dihapus sebelum import schema.
+
+# Pastikan di server non-CloudPanel sudah terinstall SQLite
+sudo apt update && sudo apt install sqlite3
+sqlite3 --version
+
+# Di server non-CloudPanel, buat folder database dan database SQLite baru
+mkdir -p /home/clp/htdocs/app/data
+sqlite3 /home/clp/htdocs/app/data/db.sq3 < /tmp/schema.sql
+
+# Buat script agent
+sudo nano /usr/local/bin/update_monitoring.sh
+# isi dengan ini:
+
+
+
+
+
+#!/bin/bash
+#
+# update_monitoring.sh
+# Script agent untuk mengisi database monitoring SQLite (format CloudPanel)
+# Mengisi tabel:
+# - instance_cpu
+# - instance_memory
+# - instance_disk_usage
+# - instance_load_average
+#
+# Letakkan script ini di: /usr/local/bin/update_monitoring.sh
+# Pastikan chmod +x dan cron tiap 1 menit.
+# crontab -e
+# * * * * * /usr/local/bin/update_monitoring.sh
+
+DB="/home/clp/htdocs/app/data/db.sq3"
+NOW=$(date '+%Y-%m-%d %H:%M:%S')
+
+# ========== CPU ==========
+# Hitung persentase CPU usage (total)
+# Ambil data dari /proc/stat baris 'cpu '
+read cpu user nice system idle iowait irq softirq steal guest guest_nice < /proc/stat
+TOTAL=$((user+nice+system+idle+iowait+irq+softirq+steal))
+BUSY=$((TOTAL - idle - iowait))
+if [ $TOTAL -gt 0 ]; then
+    CPU_USAGE=$((BUSY * 100 / TOTAL))
+else
+    CPU_USAGE=0
+fi
+
+sqlite3 "$DB" <<EOF
+INSERT INTO instance_cpu (created_at, value)
+VALUES ('$NOW', $CPU_USAGE);
+EOF
+
+# ========== MEMORY ==========
+# Hitung persentase memory terpakai dari 'free -m'
+read total used free shared buff_cache available < <(free -m | awk '/Mem:/ {print $2, $3, $4, $5, $6, $7}')
+if [ $total -gt 0 ]; then
+    MEM_USED_PERCENT=$(( (used * 100) / total ))
+else
+    MEM_USED_PERCENT=0
+fi
+
+sqlite3 "$DB" <<EOF
+INSERT INTO instance_memory (created_at, value)
+VALUES ('$NOW', $MEM_USED_PERCENT);
+EOF
+
+# ========== DISK USAGE ==========
+# Ambil semua mount point, exclude tmpfs, devtmpfs, overlay, snap, efi dsb
+df -P -x tmpfs -x devtmpfs -x overlay -x squashfs | tail -n +2 | while read -r filesystem size used avail pcent mount; do
+    # Abaikan /boot/efi atau mount kecil lain yang tidak relevan
+    if [[ "$mount" == "/boot/efi" ]] || [[ "$mount" == "/snap"* ]]; then
+        continue
+    fi
+
+    USAGE=$(echo $pcent | tr -d '%')
+
+    sqlite3 "$DB" <<EOF
+INSERT INTO instance_disk_usage (created_at, disk, value)
+VALUES ('$NOW', '$mount', $USAGE);
+EOF
+done
+
+# ========== LOAD AVERAGE ==========
+# Ambil load average 1, 5, 15 menit dari /proc/loadavg
+read LOAD1 LOAD5 LOAD15 rest < /proc/loadavg
+
+sqlite3 "$DB" <<EOF
+INSERT INTO instance_load_average (created_at, period, value) VALUES ('$NOW', 1, $LOAD1);
+INSERT INTO instance_load_average (created_at, period, value) VALUES ('$NOW', 5, $LOAD5);
+INSERT INTO instance_load_average (created_at, period, value) VALUES ('$NOW', 15, $LOAD15);
+EOF
+
+
+
+
+# Buat script jadi executable
+sudo chmod +x /usr/local/bin/update_monitoring.sh
+# Lalu tes manual
+/usr/local/bin/update_monitoring.sh
+# Cek apakah data masuk
+sqlite3 /home/clp/htdocs/app/data/db.sq3 "SELECT * FROM instance_cpu ORDER BY id DESC LIMIT 3;"
+# Tambahkan ke Cron (tiap 1 menit)
+crontab -e
+# Tambahkan baris:
+* * * * * /usr/local/bin/update_monitoring.sh
+# Akses lewat Script PHP Monitoring
