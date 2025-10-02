@@ -5,7 +5,7 @@
 
 <ul class="nav flex-column">
 	
-	<!-- dashboard -->
+	<!-- Dashboard -->
 	<li class="<?= ($active_menu=='dashboard' ? 'active-parent' : '') ?>">
 		<a href="dashboard-admin.php" class="<?= ($active_menu=='dashboard' ? 'active' : '') ?>">
 			<i class="fa-solid fa-house"></i> Dashboard
