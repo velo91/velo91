@@ -1,25 +1,26 @@
 <?php
 session_start();
+$url_favicon = 'https://img.icons8.com/?size=100&id=MT51l0HSFpBZ&format=png&color=000000';
 
 // ==========================
 // Autentikasi Sederhana
 // ==========================
-$PASSWORD = "gpt"; // Ganti dengan password kamu
+$sandi = 'gpt';
+
+// Jika form dikirim
+if (isset($_POST['auth_key'])) {
+    if ($_POST['auth_key'] === $sandi) {
+        $_SESSION['authenticated'] = true;
+    } else {
+        $error = "Password salah!";
+    }
+}
 
 // Jika logout
 if (isset($_GET['logout'])) {
     session_destroy();
     header("Location: ".$_SERVER['PHP_SELF']);
     exit;
-}
-
-// Jika form dikirim
-if (isset($_POST['auth_key'])) {
-    if ($_POST['auth_key'] === $PASSWORD) {
-        $_SESSION['authenticated'] = true;
-    } else {
-        $error = "Password salah!";
-    }
 }
 
 // Jika belum login → tampilkan form login dan hentikan script
@@ -30,6 +31,7 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
 <head>
   <meta charset="UTF-8">
   <title>Login Akses</title>
+  <link rel="icon" type="image/png" href="<?=$url_favicon?>">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light d-flex justify-content-center align-items-center vh-100">
@@ -101,6 +103,7 @@ $core = count($matches[0]);
 <head>
   <meta charset="UTF-8">
   <title>Monitoring</title>
+  <link rel="icon" type="image/png" href="<?=$url_favicon?>">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
