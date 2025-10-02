@@ -1,4 +1,59 @@
 <?php
+session_start();
+
+// ==========================
+// Autentikasi Sederhana
+// ==========================
+$PASSWORD = "gpt"; // Ganti dengan password kamu
+
+// Jika logout
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit;
+}
+
+// Jika form dikirim
+if (isset($_POST['auth_key'])) {
+    if ($_POST['auth_key'] === $PASSWORD) {
+        $_SESSION['authenticated'] = true;
+    } else {
+        $error = "Password salah!";
+    }
+}
+
+// Jika belum login → tampilkan form login dan hentikan script
+if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
+?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Akses</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+
+  <div class="card p-4 shadow" style="min-width:300px;">
+    <h5 class="text-center mb-3">Akses Monitoring</h5>
+    <?php if (!empty($error)): ?>
+      <div class="alert alert-danger text-center py-1"><?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
+    <form method="post">
+      <input type="password" name="auth_key" class="form-control mb-3" placeholder="Password" required>
+      <button type="submit" class="btn btn-primary w-100">Masuk</button>
+    </form>
+  </div>
+
+</body>
+</html>
+<?php
+exit; // penting: hentikan eksekusi agar konten monitoring tidak tampil
+endif;
+// ==========================
+// Akhir blok autentikasi
+// ==========================
+
 date_default_timezone_set('Asia/Jakarta');
 
 // Mapping range ke jumlah data (per menit)
@@ -158,15 +213,15 @@ $menit = date('i');
 $jam = date('H');
 if($menit === '00') {
     if(in_array($jam, array('08', '09', '10', '11', '12', '13', '14', '15', '16', '17'))) {
-        $kategori = ['aktivitas', 'motivasi', 'humor'];
-        $pilihan_kategori = $kategori[array_rand($kategori)];
-        $file_audio = "/assets/monitoring/{$jam}-{$pilihan_kategori}.mp3?";
+      $kategori = ['aktivitas', 'motivasi', 'humor'];
+      $pilihan_kategori = $kategori[array_rand($kategori)];
+      $file_audio = "/assets/monitoring/{$jam}-{$pilihan_kategori}.mp3?";
     }
     else {
-        $file_audio = "/assets/monitoring/announcement.mp3?";
+      $file_audio = "/assets/monitoring/announcement.mp3?";
     }
     echo '<audio autoplay>
-        <source src="'.$file_audio.'" type="audio/wav">
+      <source src="'.$file_audio.'" type="audio/wav">
     </audio>';
 }
 ?>
@@ -176,14 +231,17 @@ if($menit === '00') {
   <div class="text-center mt-4 mb-4 range">
     <div class="btn-group" role="group" aria-label="Range Selector">
       <?php
-        $labels = [1 => '5m', 2 => '30m', 3 => '1h', 4 => '3h', 5 => '6h', 6 => '12h', 7 => '24h'];
-        foreach ($labels as $key => $label) {
-            $class = ($range == $key) ? 'btn btn-sm btn-secondary active' : 'btn btn-sm btn-outline-secondary';
-            echo "<a href='?range=$key' class='$class'>$label</a>";
-        }
+      $labels = [1 => '5m', 2 => '30m', 3 => '1h', 4 => '3h', 5 => '6h', 6 => '12h', 7 => '24h'];
+      foreach ($labels as $key => $label) {
+        $class = ($range == $key) ? 'btn btn-sm btn-secondary active' : 'btn btn-sm btn-outline-secondary';
+        echo "<a href='?range=$key' class='$class'>$label</a>";
+      }
       ?>
     </div>
     <button id="toggleTheme" class="btn btn-sm btn-outline-secondary text-secondary"><i class="fas fa-moon"></i></button>
+    <?php if (isset($_SESSION['authenticated'])): ?>
+    <a href="?logout=1" class="btn btn-sm btn-outline-secondary text-secondary"><i class="fa-solid fa-right-from-bracket"></i></a>
+    <?php endif; ?>
   </div>
   
   <div class="row">
