@@ -917,10 +917,7 @@ nano +300 atheos/components/editor/init.js
     ## Left Sidebar Trigger: Hover
     ## Right Sidebar Trigger: Hover
     ## ProjectDock Trigger: Single Click
-# PLUGIN: Beautify, Minimap
-    # after install plugin, refresh this file from URL to flush cache
-	atheos/public/plugins.min.js
-	atheos/public/plugins.min.css
+# INSTALL PLUGIN: Beautify, Minimap
 
 ===================================================
 INSTALL IDE ATHEOS 5.5.6 (OLD VERSION)
