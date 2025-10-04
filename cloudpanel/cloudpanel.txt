@@ -842,7 +842,88 @@ if(isset($_GET)) {
 # if "/admin/modules/system/biblio_indexes.php?action=detail&detail=update&ajaxload=1" has error 500, give comment on /admin/modules/system/biblio_indexes.php at line 316: $this->makeIndex($biblio_id); =====> //$this->makeIndex($biblio_id);
 
 ===================================================
-INSTALL IDE ATHEOS 5.5.6 https://github.com/Atheos/Atheos
+INSTALL IDE ATHEOS 6.0.1 https://github.com/Atheos/Atheos
+===================================================
+# open ide directory: cd [APP_PATH]/ide
+# or create ide directory: cd [APP_PATH] && mkdir ide && cd ide
+# BACKUP OLD: date=$(date +%Y-%m-%d_%H-%M) && mv atheos atheos_old_${date}
+# check last version at https://github.com/Atheos/Atheos/tags and COPY the latest tar.gz link
+wget [LINK_TAR_GZ]
+ls
+tar -xvzf [FILE_TAR_GZ]
+ls
+mv [FOLDER_EXTRACTED] atheos
+ls
+rm [FILE_TAR_GZ]
+ls
+# set permissions on dirs & files, owner according to project, for /var/www the owner must clp:clp
+chown -R clp:clp atheos && chmod -R 775 atheos
+#
+nano +113 atheos/components/transfer/init.js
+# replace
+			if (e.dataTransfer.items) {
+				[...e.dataTransfer.items].forEach((item, i) => {
+					if (item.kind === 'file') {
+						files.push(item.getAsFile());
+					}
+				});
+			} else {
+				files = [...e.dataTransfer.files];
+			}
+# with
+			// Cek apakah event ini drag & drop (dataTransfer tersedia)
+			if (e && e.dataTransfer && e.dataTransfer.items) {
+				[...e.dataTransfer.items].forEach((item) => {
+					if (item.kind === 'file') {
+						files.push(item.getAsFile());
+					}
+				});
+			}
+			// Kalau bukan drag-drop, mungkin ini input file manual
+			else if (e && e.target && e.target.files) {
+				files = [...e.target.files];
+			}
+#
+nano +300 atheos/components/editor/init.js
+# replace this line: path = (path.length < 30) ? path : '...' + path.substr(path.length - 30);
+	path = (path.length < 100) ? path : '...' + path.substr(path.length - 100);
+# Visit [IP_OR_DOMAIN]/app/ide/atheos/index.php with key & token params
+# Setup it
+# fill `Project` with PROJECT
+# fill `Absolute Path` with folder path you want to manage, make sure that folder owner same with atheos folder owner, if you want to manage /var/www so run: "chown -R clp:clp /var/www" or change to www-data:www-data for non cloudpanel
+# leave blank in `Custom Domain`
+# `Development Mode` enabled
+# `Anonymous Analytics` enabled
+# `Timezone` GMT+07:00
+# click "Install"
+# Login to [IP_OR_DOMAIN]/app/ide/atheos/index.php with key & token params
+# SETTING: Editor Settings
+    ## Theme: Monokai
+    ## Font Size: 17px
+    ## Enable Code Ligatures: Enabled
+    ## Highlight Active Line: Enabled
+    ## Print Margin: Disabled
+    ## Print Margin Column: 80
+    ## Indent Guides: Enabled
+    ## Show Fold Widgets: Enabled
+    ## Line Wrap: Enabled
+    ## Soft Tabs: Enabled
+    ## Tab Size: 4
+# SETTING: System Settings
+    ## Active File Loop Behavior: Loop only active tabs
+    ## Sidebar Hover Duration: 300ms (default)
+    ## Show Hidden Files: True
+    ## Filemanager Trigger: Single Click
+    ## Left Sidebar Trigger: Hover
+    ## Right Sidebar Trigger: Hover
+    ## ProjectDock Trigger: Single Click
+# PLUGIN: Beautify, Minimap
+    # after install plugin, refresh this file from URL to flush cache
+	atheos/public/plugins.min.js
+	atheos/public/plugins.min.css
+
+===================================================
+INSTALL IDE ATHEOS 5.5.6 (OLD VERSION)
 ===================================================
 # open ide directory: cd [APP_PATH]/ide
 # or create ide directory: cd [APP_PATH] && mkdir ide && cd ide
