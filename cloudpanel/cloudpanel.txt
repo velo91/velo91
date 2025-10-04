@@ -917,7 +917,9 @@ nano +300 atheos/components/editor/init.js
     ## Left Sidebar Trigger: Hover
     ## Right Sidebar Trigger: Hover
     ## ProjectDock Trigger: Single Click
-# INSTALL PLUGIN: Beautify, Minimap
+# INSTALL PLUGIN:
+	## Minimap
+	## Beautify: press Ctrl-Alt-B to Beautify current document/selection, like sublime text ctrl+A ~ ctrl+[ ~ ctrl+K+]
 
 ===================================================
 INSTALL IDE ATHEOS 5.5.6 (OLD VERSION)
