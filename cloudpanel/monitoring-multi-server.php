@@ -21,7 +21,7 @@ $minute_ranges = [
     6 => 720, // 12 jam
     7 => 1440 // 24 jam
 ];
-$range = isset($_GET['range']) ? intval($_GET['range']) : 7; // Default: 12 jam
+$range = isset($_GET['range']) ? intval($_GET['range']) : 6; // Default: 12 jam
 $limit = $minute_ranges[$range] ?? 720;
 // Koneksi SQLite
 $db = new PDO('sqlite:/home/clp/htdocs/app/data/db.sq3');
