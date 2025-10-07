@@ -87,6 +87,26 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
 $cpuinfo = @file_get_contents('/proc/cpuinfo');
 preg_match_all('/^processor/m', $cpuinfo, $matches);
 $core = count($matches[0]);
+
+function get_swap_usage_percent() {
+    $meminfo = @file('/proc/meminfo', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if (!$meminfo) return null;
+    $swap_total = 0;
+    $swap_free = 0;
+    foreach ($meminfo as $line) {
+        if (strpos($line, 'SwapTotal:') === 0) {
+            $swap_total = (int) filter_var($line, FILTER_SANITIZE_NUMBER_INT);
+        }
+        if (strpos($line, 'SwapFree:') === 0) {
+            $swap_free = (int) filter_var($line, FILTER_SANITIZE_NUMBER_INT);
+        }
+    }
+
+    if ($swap_total <= 0) return 0; // tidak ada swap di sistem
+    $swap_used = $swap_total - $swap_free;
+    return round(($swap_used / $swap_total) * 100, 1); // satu angka desimal
+}
+$swap_usage_percent = get_swap_usage_percent();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -273,7 +293,7 @@ $core = count($matches[0]);
                 <h6><i class="fa fa-microchip"></i> CPU <span id="status-cpu"></span></h6><canvas id="cpuChart"></canvas>
             </div>
             <div class="col-lg-6 col-12 chart-box">
-                <h6><i class="fa fa-memory"></i> RAM <span id="status-memory"></span></h6><canvas id="memoryChart"></canvas>
+                <h6><i class="fa fa-memory"></i> RAM <span id="status-memory"></span> <?php if ($swap_usage_percent !== null): ?> SWAP <?=$swap_usage_percent?>%<?php endif; ?></h6><canvas id="memoryChart"></canvas>
             </div>
             <div class="col-lg-6 col-12 chart-box">
                 <h6><i class="fa fa-hdd"></i> Disk <span id="status-disk"></span></h6><canvas id="diskChart"></canvas>
