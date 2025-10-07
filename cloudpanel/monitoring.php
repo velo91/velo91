@@ -1,56 +1,17 @@
 <?php
+// =========================
+// HANYA PANTAU 1 SERVER
+// =========================
 session_start();
 $url_favicon = 'https://img.icons8.com/?size=100&id=MT51l0HSFpBZ&format=png&color=000000';
 $sandi = 'gpt';
-
 $play_audio = false;
 
-// Jika form dikirim
-if (isset($_POST['auth_key'])) {
-    if ($_POST['auth_key'] === $sandi) {
-        $_SESSION['authenticated'] = true;
-    } else {
-        $error = "Password salah!";
-    }
-}
-
-// Jika logout
-if (isset($_GET['logout'])) {
-    session_destroy();
-    header("Location: ".$_SERVER['PHP_SELF']);
-    exit;
-}
-
-// Jika belum login maka tampilkan form login dan hentikan script
-if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
-?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Login Akses</title>
-    <link rel="icon" href="<?=$url_favicon ?>">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4 shadow" style="min-width:300px;">
-        <h5 class="text-center mb-3">Akses Monitoring</h5>
-        <?php if (!empty($error)): ?>
-        <div class="alert alert-danger text-center py-1">
-            <?= htmlspecialchars($error) ?>
-        </div>
-        <?php endif; ?>
-        <form method="post">
-            <input type="password" name="auth_key" class="form-control mb-3" placeholder="Password" autofocus required>
-            <button type="submit" class="btn btn-primary w-100">Masuk</button>
-        </form>
-    </div>
-</body>
-</html>
-<?php exit; endif; ?>
-
-<?php
 date_default_timezone_set('Asia/Jakarta');
+
+// =========================
+// AMBIL DATA
+// =========================
 $minute_ranges = [
     1 => 5, // 5 menit
     2 => 30, // 30 menit
@@ -60,13 +21,11 @@ $minute_ranges = [
     6 => 720, // 12 jam
     7 => 1440 // 24 jam
 ];
-$range = isset($_GET['range']) ? intval($_GET['range']) : 7; // Default: 6 jam
-$limit = $minute_ranges[$range] ?? 1440;
-
+$range = isset($_GET['range']) ? intval($_GET['range']) : 7; // Default: 12 jam
+$limit = $minute_ranges[$range] ?? 720;
 // Koneksi SQLite
 $db = new PDO('sqlite:/home/clp/htdocs/app/data/db.sq3');
-
-// Ambil data dan konversi waktu ke WIB
+// Fungsi ambil data dan konversi waktu ke WIB
 function get_data($db, $table, $where = '') {
     global $limit;
     $stmt = $db->query("SELECT created_at,value FROM $table $where ORDER BY created_at DESC LIMIT $limit");
@@ -78,16 +37,16 @@ function get_data($db, $table, $where = '') {
     }
     return $rows;
 }
-
+// Ambil semua data
 $cpu_data = get_data($db, 'instance_cpu');
 $memory_data = get_data($db, 'instance_memory');
 $disk_data = get_data($db, 'instance_disk_usage', "WHERE disk = '/'");
 $load_data = get_data($db, 'instance_load_average', "WHERE period = 1");
-
+// Hitung CPU core
 $cpuinfo = @file_get_contents('/proc/cpuinfo');
 preg_match_all('/^processor/m', $cpuinfo, $matches);
 $core = count($matches[0]);
-
+// Hitung persentase swap dari OS
 function get_swap_usage_percent() {
     $meminfo = @file('/proc/meminfo', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     if (!$meminfo) return null;
@@ -101,13 +60,78 @@ function get_swap_usage_percent() {
             $swap_free = (int) filter_var($line, FILTER_SANITIZE_NUMBER_INT);
         }
     }
-
     if ($swap_total <= 0) return 0; // tidak ada swap di sistem
     $swap_used = $swap_total - $swap_free;
     return round(($swap_used / $swap_total) * 100, 1); // satu angka desimal
 }
 $swap_usage_percent = get_swap_usage_percent();
+
+// =========================
+// MODE JSON API (tanpa login)
+// =========================
+if (isset($_GET['json'])) {
+    // Tambahkan CORS headers
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type');
+    header('Content-Type: application/json');
+    echo json_encode([
+        'meta' => [
+            'time'      => date('c'),
+            'range'     => $range,
+            'limit'     => $limit,
+            'cpu_core'  => $core,
+        ],
+        'swap_percent' => $swap_usage_percent,
+        'cpu'    => $cpu_data,
+        'memory' => $memory_data,
+        'disk'   => $disk_data,
+        'load'   => $load_data,
+        'swap'   => $swap_usage_percent,
+    ]);
+    exit;
+}
+
+// =========================
+// MODE HTML (harus login)
+// =========================
+if (isset($_POST['auth_key'])) {
+    if ($_POST['auth_key'] === $sandi) {
+        $_SESSION['authenticated'] = true;
+    } else {
+        $error = "Password salah!";
+    }
+}
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit;
+}
+if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
 ?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Akses</title>
+    <link rel="icon" href="<?= $url_favicon ?>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow" style="min-width:300px;">
+        <h5 class="text-center mb-3">Akses Monitoring</h5>
+        <?php if (!empty($error)): ?>
+        <div class="alert alert-danger text-center py-1"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
+        <form method="post">
+            <input type="password" name="auth_key" class="form-control mb-3" placeholder="Password" autofocus required>
+            <button type="submit" class="btn btn-primary w-100">Masuk</button>
+        </form>
+    </div>
+</body>
+</html>
+<?php exit; endif; ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -116,117 +140,118 @@ $swap_usage_percent = get_swap_usage_percent();
     <link rel="icon" href="<?= $url_favicon ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css" rel="stylesheet">
-<style>
-    body {
-        background-color: #f8f9fa;
-        transition: background-color 0.3s, color 0.3s;
-    }
-    canvas {
-        background: white;
-        padding: 10px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .container-fluid.layout-2x2 {
-        max-width: 1500px;
-        margin: 0 auto;
-    }
-    .chart-box {
-        margin-bottom: 30px;
-        opacity: 0;
-        transform: translateY(15px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .chart-box.show {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    .range a {
-        font-weight: bold;
-    }
-    .dark-mode {
-        background-color: #121212;
-        color: #e4e4e4;
-    }
-    .dark-mode canvas {
-        background-color: #1e1e1e;
-    }
-    /* Cyber Dynamic Background */
-    :root {
-        --bg-dark: #020610;
-        --stream-color: rgba(0,255,200,0.15);
-        --orb1: #21e9ff;
-        --orb2: #7b5cff;
-        --neon-glow: rgba(0,255,200,0.25);
-    }
-    /* Background base */
-    .cyber-bg {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        overflow: hidden;
-        background: radial-gradient(circle at 50% 50%, #041a26 0%, #020610 100%);
-    }
-    /* Aliran data diagonal */
-    .cyber-layer.streams {
-        position: absolute;
-        inset: 0;
-        background-image:
-        repeating-linear-gradient(120deg, transparent 0 28px, var(--stream-color) 28px 30px);
-        background-size: 300px 300px;
-        animation: moveStreams 18s linear infinite;
-        opacity: 0.25;
-    }
-    @keyframes moveStreams {
-        0% {
-            background-position: 0 0;
+    <style>
+        body {
+            background-color: #f8f9fa;
+            transition: background-color 0.3s, color 0.3s;
         }
-        100% {
-            background-position: 600px 600px;
+        canvas {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-    }
-    /* Orb neon */
-    .cyber-orb {
-        position: absolute;
-        width: 800px;
-        height: 800px;
-        border-radius: 50%;
-        filter: blur(200px);
-        opacity: 0.45;
-        mix-blend-mode: screen;
-    }
-    .orb1 {
-        background: var(--orb1);
-        top: 20%;
-        left: 10%;
-        animation: moveOrb1 40s ease-in-out infinite alternate;
-    }
-    .orb2 {
-        background: var(--orb2);
-        top: 60%;
-        left: 60%;
-        animation: moveOrb2 55s ease-in-out infinite alternate;
-    }
-    @keyframes moveOrb1 {
-        0% {
-            transform: translate(0,0);
+        .container-fluid.layout-2x2 {
+            max-width: 1500px;
+            margin: 0 auto;
         }
-        /* Glow lembut */
-        .cyber-layer.glow {
+        .chart-box {
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .chart-box.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .range a {
+            font-weight: bold;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: #e4e4e4;
+        }
+        .dark-mode canvas {
+            background-color: #1e1e1e;
+        }
+        /* Cyber Dynamic Background */
+        :root {
+            --bg-dark: #020610;
+            --stream-color: rgba(0,255,200,0.15);
+            --orb1: #21e9ff;
+            --orb2: #7b5cff;
+            --neon-glow: rgba(0,255,200,0.25);
+        }
+        /* Background base */
+        .cyber-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, #041a26 0%, #020610 100%);
+        }
+        /* Aliran data diagonal */
+        .cyber-layer.streams {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at center, var(--neon-glow), transparent 70%);
-            filter: blur(100px);
-            animation: glowPulse 10s ease-in-out infinite;
+            background-image:
+            repeating-linear-gradient(120deg, transparent 0 28px, var(--stream-color) 28px 30px);
+            background-size: 300px 300px;
+            animation: moveStreams 18s linear infinite;
+            opacity: 0.25;
         }
-        @keyframes glowPulse {
-            0%,100% {
-                opacity: 0.5;
+        @keyframes moveStreams {
+            0% {
+                background-position: 0 0;
             }
-            50% {
-                opacity: 0.85;
+            100% {
+                background-position: 600px 600px;
+            }
+        }
+        /* Orb neon */
+        .cyber-orb {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(200px);
+            opacity: 0.45;
+            mix-blend-mode: screen;
+        }
+        .orb1 {
+            background: var(--orb1);
+            top: 20%;
+            left: 10%;
+            animation: moveOrb1 40s ease-in-out infinite alternate;
+        }
+        .orb2 {
+            background: var(--orb2);
+            top: 60%;
+            left: 60%;
+            animation: moveOrb2 55s ease-in-out infinite alternate;
+        }
+        @keyframes moveOrb1 {
+            0% {
+                transform: translate(0,0);
+            }
+            /* Glow lembut */
+            .cyber-layer.glow {
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(circle at center, var(--neon-glow), transparent 70%);
+                filter: blur(100px);
+                animation: glowPulse 10s ease-in-out infinite;
+            }
+            @keyframes glowPulse {
+                0%,100% {
+                    opacity: 0.5;
+                }
+                50% {
+                    opacity: 0.85;
+                }
             }
         }
     </style>
