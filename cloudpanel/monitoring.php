@@ -296,10 +296,10 @@ $swap_usage_percent = get_swap_usage_percent();
                 <h6><i class="fa fa-memory"></i> RAM <span id="status-memory"></span> <?php if ($swap_usage_percent !== null): ?> SWAP <?=$swap_usage_percent?>%<?php endif; ?></h6><canvas id="memoryChart"></canvas>
             </div>
             <div class="col-lg-6 col-12 chart-box">
-                <h6><i class="fa fa-hdd"></i> Disk <span id="status-disk"></span></h6><canvas id="diskChart"></canvas>
+                <h6><i class="fa fa-hdd"></i> DISK <span id="status-disk"></span></h6><canvas id="diskChart"></canvas>
             </div>
             <div class="col-lg-6 col-12 chart-box">
-                <h6><i class="fa fa-chart-line"></i> Load <span id="status-load"></span></h6><canvas id="loadChart"></canvas>
+                <h6><i class="fa fa-chart-line"></i> BEBAN <span id="status-load"></span></h6><canvas id="loadChart"></canvas>
             </div>
         </div>
     </div>
