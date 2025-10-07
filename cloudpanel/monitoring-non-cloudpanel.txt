@@ -47,7 +47,9 @@ sudo nano /usr/local/bin/update_monitoring.sh
 # * * * * * /usr/local/bin/update_monitoring.sh
 
 DB="/home/clp/htdocs/app/data/db.sq3"
-NOW=$(date '+%Y-%m-%d %H:%M:%S')
+
+# UTC time (universal, lebih konsisten lintas server)
+NOW=$(date -u '+%Y-%m-%d %H:%M:%S')
 
 # ========== CPU ==========
 # Hitung persentase CPU usage (total)
