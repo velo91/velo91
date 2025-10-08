@@ -1,0 +1,107 @@
+##################################################
+#
+# SHOW ENROLLMENT TIME ON REMUI FORMAT
+#
+# cek kata "Tambahan"
+# untuk melihat baris mana saja yang dimodifikasi
+#
+##################################################
+
+##################################################
+# step 1
+# edit
+# /course/format/remuiformat/lib.php:880
+##################################################
+
+    /**
+     * Get Enrolled Teachers Context
+     */
+function get_enrolled_teachers_context_formate($course, $frontlineteacher = false) {
+    global $OUTPUT, $CFG, $USER, $DB; // Tambahan: $DB
+
+    $courseid = $course->id;
+
+    $usergroups = groups_get_user_groups($courseid, $USER->id);
+
+    $groupids = 0;
+
+    if($course->groupmode == 1){
+        $groupids = $usergroups[0];
+    }
+    $coursecontext = \context_course::instance($courseid);
+    $teachers = get_enrolled_users($coursecontext, 'mod/folder:managefiles', $groupids, '*', 'firstname', $limitfrom = 0, $limitnum = 0, $onlyactive = true);
+    $roles =   new stdClass();
+
+    $allroles = get_all_roles();
+    foreach($allroles as $singlerole){
+        if($singlerole->shortname == 'editingteacher'){
+            $roles = $singlerole;
+            break;
+        }
+    }
+    if(!isset($roles)){
+        $roles->id = "";
+    }
+
+    $context = array();
+
+    if ($teachers) {
+        $namescount = 4;
+        $profilecount = 0;
+        foreach ($teachers as $key => $teacher) {
+            if ($frontlineteacher && $profilecount < $namescount) {
+                $instructor = array();
+                $instructor['id'] = $teacher->id;
+                $instructor['name'] = fullname($teacher, true);
+                $instructor['avatars'] = $OUTPUT->user_picture($teacher);
+                $instructor['teacherprofileurl'] = $CFG->wwwroot.'/user/profile.php?id='.$teacher->id;
+
+                // Tambahan: Ambil tanggal enroll dosen.
+                $sql = "SELECT ue.timecreated
+                        FROM {user_enrolments} ue
+                        JOIN {enrol} e ON e.id = ue.enrolid
+                        WHERE ue.userid = :userid AND e.courseid = :courseid
+                        ORDER BY ue.timecreated ASC LIMIT 1";
+                $params = [
+                    'userid' => $teacher->id,
+                    'courseid' => $courseid
+                ];
+                $enroldate = $DB->get_field_sql($sql, $params);
+                if ($enroldate) {
+                    // Format tanggal sesuai lokal Moodle.
+                    $instructor['timeenrolled'] = userdate($enroldate, '%d %B %Y, %H:%M');
+                }
+
+                if ($profilecount != 0) {
+                    $instructor['hasanother'] = true;
+                }
+                $context['instructors'][] = $instructor;
+            }
+            $profilecount++;
+        }
+        if ($profilecount > $namescount) {
+            $context['teachercount'] = $profilecount - $namescount;
+        }
+        $context['participantspageurl'] = $CFG->wwwroot.'/user/index.php?id='.$courseid.'&roleid='.$roles->id;
+        $context['hasteachers'] = true;
+    }
+    return $context;
+}
+
+##################################################
+# step 2
+# edit
+# /course/format/remuiformat/templates/optional_secheader.mustache:37
+##################################################
+
+Cari baris:
+
+                                        <span class="titles ">{{name}}</span>
+
+Ubah menjadi:
+
+                                        <span class="titles ">{{name}}</span>
+                                        {{#timeenrolled}}
+                                        <small class="text-muted" style="font-size:0.8em;">(Enrolled: {{timeenrolled}})</small>
+                                        {{/timeenrolled}}
+
