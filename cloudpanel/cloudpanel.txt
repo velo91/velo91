@@ -25,6 +25,17 @@ UPDATE & UPGRADE SYSTEM
 apt update && apt -y upgrade && apt -y install curl wget sudo && apt -y autoremove && reboot
 
 ==================
+IF NECESSARY: UPGRADE NODE.JS VERSION
+==================
+# check current installed version
+node -v && npm -v
+# run the command listed on the https://deb.nodesource.com web page like this
+	curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash -
+	sudo apt-get install nodejs
+# check new upgraded version
+node -v && npm -v
+
+==================
 INSTALL CLOUDPANEL
 ==================
 # Run the installer with your preferred Database Engine
