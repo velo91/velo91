@@ -450,6 +450,8 @@ Download Only Office for Linux
 	# settings > interface theme: dark
 Download Zoom Workplace for Linux
 	https://zoom.us/download
+Download TeamViewer for Linux
+	https://www.teamviewer.com/apac/download/linux/
 Download Sejda PDF Desktop (PDF Editor)
 	https://www.sejda.com/desktop
 Download CrossFTP Version 1.99.6 (can manage S3 bucket)
