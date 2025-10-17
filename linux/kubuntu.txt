@@ -473,6 +473,7 @@ Download Goodvibes (Radio Player) Playlist => https://raw.githubusercontent.com/
 	https://pkgs.org/download/goodvibes
 Download IPTVnator (IPTV Player) Playlist => https://iptv-org.github.io/iptv/index.m3u OR https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/stream/iptv.m3u8
 	https://github.com/4gray/iptvnator/releases
+	# to auto maximize: edit menu editor > program: kstart --maximize /opt/IPTVnator/iptvnator
 
 =======================================
 Install Apps Manually From .SH File
