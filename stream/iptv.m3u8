@@ -11,10 +11,10 @@ https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/laylist.m3u8
 #EXTINF:-1 tvg-id="CNBCIndonesia.id" tvg-country="ID" group-title="Business" tvg-logo="https://images.seeklogo.com/logo-png/51/1/cnbc-indonesia-logo-png_seeklogo-511506.png",CNBC Indonesia (ID)
 https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8
 
-#EXTINF:-1 tvg-id="BeritaSatuEnglish.id" tvg-country="ID" group-title="News",Berita Satu (ID)
+#EXTINF:-1 tvg-id="BeritaSatuEnglish.id" tvg-country="ID" group-title="News" tvg-logo="https://play-lh.googleusercontent.com/LmxH3ouzCgYRO7UpACZAI8h74blPbooCcSaEk7Qb26G_49BX2jrr2xx5ohLBcFl_oStL",Berita Satu (ID)
 https://beritasatu.secureswiftcontent.com/han/beritasatu/bsatu10008/srtoutput/manifest.m3u8
 
-#EXTINF:-1 tvg-id="BTV.id" tvg-country="ID" group-title="News",BTV (ID)
+#EXTINF:-1 tvg-id="BTV.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/45/1/btv-logo-png_seeklogo-454206.png",BTV (ID)
 https://btv.secureswiftcontent.com/han/btv/btv10005/srtoutput/manifest.m3u8
 
 #EXTINF:-1 tvg-id="TVRI.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/40/1/tvri-televisi-republik-indonesia-2019-logo-png_seeklogo-401477.png",TVRI Nasional (ID)
@@ -32,7 +32,7 @@ https://live-hls-apps-aje-v3-fa.getaj.net/AJE/index.m3u8
 #EXTINF:-1 tvg-id="DubaiOne.ae" tvg-country="AE" group-title="General" tvg-logo="https://wachannelsfinder.com/wp-content/uploads/2023/11/dubai-one-tv.jpg",Dubai One (AE)
 https://dminnvllta.cdn.mgmlcdn.com/dubaione/smil:dubaione.stream.smil/chunklist.m3u8
 
-#EXTINF:-1 tvg-id="MoviesAction.sa@SD",Movies Action (SA)
+#EXTINF:-1 tvg-id="MoviesAction.sa@SD" tvg-country="SA" group-title="Movies" tvg-logo="https://stmify.com/wp-content/uploads/2024/08/51-s-300x169.webp",Movies Action (SA)
 https://shls-live-enc.edgenextcdn.net/out/v1/46079e838e65490c8299f902a7731168/index.m3u8
 
 #EXTINF:-1 tvg-id="DuniaSinema.my" tvg-country="MY" group-title="Movies" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/6/6a/Dunia_Sinema_New.png/revision/latest?cb=20210712100310",Dunia Sinema (MY)
