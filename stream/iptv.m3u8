@@ -29,16 +29,16 @@ https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index.m3u
 #EXTINF:-1 tvg-id="AlJazeera.qa@English" tvg-country="QA" group-title="News" tvg-logo="https://cdn.iconscout.com/icon/free/png-256/free-aljazeera-logo-icon-svg-download-png-461765.png",Al Jazeera English (QA)
 https://live-hls-apps-aje-v3-fa.getaj.net/AJE/index.m3u8
 
-#EXTINF:-1 tvg-id="Wanasah.ae@SD",Wanasah (AE)
+#EXTINF:-1 tvg-id="Wanasah.ae@SD" tvg-country="AE" group-title="Music" tvg-logo="https://is1-ssl.mzstatic.com/image/thumb/Purple125/v4/19/70/2e/19702e97-3c84-9631-1b39-0a06d70109bc/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/512x512bb.jpg",Wanasah (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-wanasah/13e82ea6232fa647c43b26e8a41f173d/index.m3u8
 
-#EXTINF:-1 tvg-id="Tarab.sa@SD",Tarab (SA)
+#EXTINF:-1 tvg-id="Tarab.sa@SD" tvg-country="SA" group-title="Music" tvg-logo="https://scontent.fkno7-1.fna.fbcdn.net/v/t39.30808-1/311432261_137165482394629_1425032868111040981_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=106&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=w-QZlidiRacQ7kNvwH3rJMo&_nc_oc=AdmVkEK8PGHooiw8bkCOuGiI8JVQMFJkG40mJvrx3LgbAf9HwxKHEVPMTJznBlXUqBc&_nc_zt=24&_nc_ht=scontent.fkno7-1.fna&_nc_gid=bKJ_0k4ZFAn_mSZb_8Krpw&oh=00_AfcTJ1CFfPzEOopJotZ3evfFGrGteNo08CTRImj0cyv1Hw&oe=68F829C9",Tarab (SA)
 https://shls-live-enc.edgenextcdn.net/out/v1/90143f040feb40589d18c57863d9e829/index.m3u8
 
 #EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
 https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
 
-#EXTINF:-1 tvg-id="NoorDubai.ae@SD",Noor Dubai (AE)
+#EXTINF:-1 tvg-id="NoorDubai.ae@SD" tvg-country="AE" group-title="Religious" tvg-logo="https://www.ntd-ngonetwork.org/sites/nnn/files/styles/grid-6-wide-logo/public/content/organisation/logos/2019-05-16/noor.jpg",Noor Dubai (AE)
 https://dmiffthftl.cdn.mangomolo.com/noordubaitv/smil:noordubaitv.smil/chunklist.m3u8
 
 #EXTINF:-1 tvg-id="DubaiOne.ae" tvg-country="AE" group-title="General" tvg-logo="https://wachannelsfinder.com/wp-content/uploads/2023/11/dubai-one-tv.jpg",Dubai One (AE)
@@ -98,5 +98,5 @@ https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd/smil:dubaisportshd.smil/chunkli
 #EXTINF:-1 tvg-id="DubaiSports3.ae" tvg-country="AE" tvg-logo="https://www.albayan.ae/assets/images/2025/04/29/4765144.jpg" group-title="Sports",Dubai Sports 3 (AE)
 https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd5/smil:dubaisportshd5.smil/chunklist.m3u8
 
-#EXTINF:-1 tvg-id="SharjahSports.ae@SD",Sharjah Sports (AE)
+#EXTINF:-1 tvg-id="SharjahSports.ae@SD" tvg-country="AE" tvg-logo="https://yt3.googleusercontent.com/ytc/AIdro_mWpU3Di5nOLjggE5TKaPVbzN7mGzlFy5X8xfu-32Wt-A=s900-c-k-c0x00ffffff-no-rj",Sharjah Sports (AE)
 https://svs.itworkscdn.net/smc4sportslive/smc4tv.smil/playlist.m3u8
