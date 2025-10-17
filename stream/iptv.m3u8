@@ -86,9 +86,6 @@ https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd/smil:dubaisportshd.smil/chunkli
 #EXTINF:-1 tvg-id="DubaiSports3.ae" tvg-country="AE" tvg-logo="https://www.albayan.ae/assets/images/2025/04/29/4765144.jpg" group-title="Sports",Dubai Sports 3 (AE)
 https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd5/smil:dubaisportshd5.smil/chunklist.m3u8
 
-#EXTINF:-1 tvg-id="SharjahRadio.ae@SD",Sharjah Radio (AE)
-https://svs.itworkscdn.net/smcradiolive/smcradiolive/playlist.m3u8
-
 #EXTINF:-1 tvg-id="SharjahRadioQuran.ae@SD",Sharjah Radio Quran (AE)
 https://live.kwikmotion.com/smcquranlive/quranradiolive/playlist.m3u8
 
@@ -97,3 +94,9 @@ https://svs.itworkscdn.net/smc4sportslive/smc4tv.smil/playlist.m3u8
 
 #EXTINF:-1 tvg-id="SharjahTV.ae@SD",Sharjah TV (AE)
 https://svs.itworkscdn.net/smc1live/smc1.smil/playlist.m3u8
+
+#EXTINF:-1 tvg-id="FujairahTV.ae@SD",Fujairah TV (AE)
+https://live.kwikmotion.com/fujairahlive/fujairah.smil/playlist.m3u8
+
+#EXTINF:-1 tvg-id="NoorDubai.ae@SD",Noor Dubai (AE)
+https://dmiffthftl.cdn.mangomolo.com/noordubaitv/smil:noordubaitv.smil/chunklist.m3u8
