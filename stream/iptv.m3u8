@@ -100,3 +100,6 @@ https://live.kwikmotion.com/fujairahlive/fujairah.smil/playlist.m3u8
 
 #EXTINF:-1 tvg-id="NoorDubai.ae@SD",Noor Dubai (AE)
 https://dmiffthftl.cdn.mangomolo.com/noordubaitv/smil:noordubaitv.smil/chunklist.m3u8
+
+#EXTINF:-1 tvg-id="Wanasah.ae@SD",Wanasah (AE)
+https://shd-gcp-live.edgenextcdn.net/live/bitmovin-wanasah/13e82ea6232fa647c43b26e8a41f173d/index.m3u8
