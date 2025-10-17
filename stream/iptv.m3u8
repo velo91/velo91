@@ -15,13 +15,10 @@ https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8
 https://beritasatu.secureswiftcontent.com/han/beritasatu/bsatu10008/srtoutput/manifest.m3u8
 
 #EXTINF:-1 tvg-id="Beritasatu" tvg-country="ID" group-title="News",Berita Satu (ID)
-https://list.iptvcat.com/my_list/s/2c6e8a7cd76ff64f1e0fc7883bf6569a.m3u8
+https://b1world.beritasatumedia.com/Beritasatu/B1World_manifest.m3u8
 
 #EXTINF:-1 tvg-id="Beritasatu" tvg-country="ID" group-title="News",Berita Satu (ID)
-https://list.iptvcat.com/my_list/s/e58d330a0ef204f6d49b71dce7b4d3a2.m3u8
-
-#EXTINF:-1 tvg-id="Beritasatu" tvg-country="ID" group-title="News",Berita Satu (ID)
-https://list.iptvcat.com/my_list/s/fe7ca345098133279084f6755014f1a2.m3u8
+https://beritasatu.secureswiftcontent.com/han/beritasatu/bsatu10008/srtoutput/manifest.m3u8
 
 #EXTINF:-1 tvg-id="TVRI.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/40/1/tvri-televisi-republik-indonesia-2019-logo-png_seeklogo-401477.png",TVRI Nasional (ID)
 https://ott-balancer.tvri.go.id/live/eds/Nasional/hls/Nasional.m3u8
