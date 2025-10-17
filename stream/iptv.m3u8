@@ -53,6 +53,9 @@ https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-5/ee6b000cee0629411b666ab
 #EXTINF:-1 tvg-id="MBCPlusDrama.sa" tvg-country="SA" group-title="Movies" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_Drama_ed637784c7.svg&w=640&q=75",MBC+ Drama (SA)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-plus-drama/e37251ec2aac8f6c98f75cd0fa37cd28/index.m3u8
 
+#EXTINF:-1 tvg-id="FujairahTV.ae@SD",Fujairah TV (AE)
+https://live.kwikmotion.com/fujairahlive/fujairah.smil/playlist.m3u8
+
 #EXTINF:-1 tvg-id="MBC3USA.us" tvg-country="US" group-title="Kids" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_3_360db4e622.svg&w=640&q=75",MBC 3 (US)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-3-usa/5d58265a862a476dc7f97694addb5ded/index.m3u8
 
@@ -74,6 +77,9 @@ https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/5
 #EXTINF:-1 tvg-id="PlutoTVGameShows.us" tvg-country="US" group-title="Entertainment" tvg-logo="https://i.imgur.com/JXZEg2e.png",Pluto TV Game Shows (US)
 https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/6036e7c385749f00075dbd3b/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=6c2aed47-30d3-11ef-9cf5-e9ddff8ff496&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=33f00d08-5ecc-4756-847e-6afcf19395bc
 
+#EXTINF:-1 tvg-id="NoorDubai.ae@SD",Noor Dubai (AE)
+https://dmiffthftl.cdn.mangomolo.com/noordubaitv/smil:noordubaitv.smil/chunklist.m3u8
+
 #EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
 https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
 
@@ -91,15 +97,6 @@ https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd5/smil:dubaisportshd5.smil/chunk
 
 #EXTINF:-1 tvg-id="SharjahSports.ae@SD",Sharjah Sports (AE)
 https://svs.itworkscdn.net/smc4sportslive/smc4tv.smil/playlist.m3u8
-
-#EXTINF:-1 tvg-id="SharjahTV.ae@SD",Sharjah TV (AE)
-https://svs.itworkscdn.net/smc1live/smc1.smil/playlist.m3u8
-
-#EXTINF:-1 tvg-id="FujairahTV.ae@SD",Fujairah TV (AE)
-https://live.kwikmotion.com/fujairahlive/fujairah.smil/playlist.m3u8
-
-#EXTINF:-1 tvg-id="NoorDubai.ae@SD",Noor Dubai (AE)
-https://dmiffthftl.cdn.mangomolo.com/noordubaitv/smil:noordubaitv.smil/chunklist.m3u8
 
 #EXTINF:-1 tvg-id="Wanasah.ae@SD",Wanasah (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-wanasah/13e82ea6232fa647c43b26e8a41f173d/index.m3u8
