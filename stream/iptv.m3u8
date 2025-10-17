@@ -11,10 +11,10 @@ https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/laylist.m3u8
 #EXTINF:-1 tvg-id="CNBCIndonesia.id" tvg-country="ID" group-title="Business" tvg-logo="https://images.seeklogo.com/logo-png/51/1/cnbc-indonesia-logo-png_seeklogo-511506.png",CNBC Indonesia (ID)
 https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8
 
-#EXTINF:-1 tvg-id="BeritaSatu" tvg-country="ID" group-title="News",Berita Satu (ID)
+#EXTINF:-1 tvg-id="BeritaSatuEnglish.id" tvg-country="ID" group-title="News",Berita Satu (ID)
 https://beritasatu.secureswiftcontent.com/han/beritasatu/bsatu10008/srtoutput/manifest.m3u8
 
-#EXTINF:-1 tvg-id="BTV" tvg-country="ID" group-title="News",BTV (ID)
+#EXTINF:-1 tvg-id="BTV.id" tvg-country="ID" group-title="News",BTV (ID)
 https://btv.secureswiftcontent.com/han/btv/btv10005/srtoutput/manifest.m3u8
 
 #EXTINF:-1 tvg-id="TVRI.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/40/1/tvri-televisi-republik-indonesia-2019-logo-png_seeklogo-401477.png",TVRI Nasional (ID)
@@ -32,14 +32,11 @@ https://live-hls-apps-aje-v3-fa.getaj.net/AJE/index.m3u8
 #EXTINF:-1 tvg-id="DubaiOne.ae" tvg-country="AE" group-title="General" tvg-logo="https://wachannelsfinder.com/wp-content/uploads/2023/11/dubai-one-tv.jpg",Dubai One (AE)
 https://dminnvllta.cdn.mgmlcdn.com/dubaione/smil:dubaione.stream.smil/chunklist.m3u8
 
-#EXTINF:-1 tvg-id="DubaiTV.ae" tvg-country="AE" group-title="General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86_%D8%AF%D8%A8%D9%8A.jpg/250px-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86_%D8%AF%D8%A8%D9%8A.jpg",Dubai TV (AE)
-https://dmieigthvllta.cdn.mgmlcdn.com/dubaitvht/smil:dubaitv.stream.smil/chunklist.m3u8
+#EXTINF:-1 tvg-id="MoviesAction.sa@SD",Movies Action (SA)
+https://shls-live-enc.edgenextcdn.net/out/v1/46079e838e65490c8299f902a7731168/index.m3u8
 
 #EXTINF:-1 tvg-id="DuniaSinema.my" tvg-country="MY" group-title="Movies" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/6/6a/Dunia_Sinema_New.png/revision/latest?cb=20210712100310",Dunia Sinema (MY)
 https://unifi-live05.secureswiftcontent.com/UnifiHD/live27-1080FHD.m3u8
-
-#EXTINF:-1 tvg-id="MoviesAction.sa@SD",Movies Action (SA)
-https://shls-live-enc.edgenextcdn.net/out/v1/46079e838e65490c8299f902a7731168/index.m3u8
 
 #EXTINF:-1 tvg-id="ShemarooBollywood.us" tvg-country="US" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFbUBc2UlsUGkv8zxU6cmRKqvpT6Xqzpk4pQ&s",Shemaroo Bollywood (US)
 https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00864-shemarooenterta-shemabollywood-ono/playlist.m3u8
@@ -79,9 +76,6 @@ https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/6
 
 #EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
 https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
-
-#EXTINF:-1 tvg-id="AlkassFive.qa" tvg-country="QA" group-title="Sports" tvg-logo="https://images.seeklogo.com/logo-png/21/1/al-kass-sport-channel-logo-png_seeklogo-219933.png",Alkass Five (QA)
-https://liveakgr.alkassdigital.net/hls/live/2097037/Alkass5azq/master.m3u8
 
 #EXTINF:-1 tvg-id="FIFAPlus.uk" tvg-country="UK" group-title="Sports" tvg-logo="https://cdn.plus.fifa.com/images/web/logoFIFA.png",FIFA Plus (UK)
 https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8
