@@ -147,14 +147,23 @@ $ nano $HOME/.zshrc
 #############################
 # setup bookmark
 # Konsole: Bookmarks > Edit Bookmarks > New Bookmark:
-	ping cloudflare				ping 1.1.1.1
 	sudo apt update				sudo apt update
 	sudo apt list --upgradable		sudo apt list --upgradable
 	sudo apt upgrade			sudo apt upgrade
 	sudo apt autoremove			sudo apt autoremove
 	enable pointer				ids=$(xinput list %7C grep 'pointer' %7C cut -d '=' -f 2 %7C cut -f 1 %7C tr ' ' '%5Cn' %7C tail -1) && xinput --disable $ids && xinput --enable $ids
 	fix external drive no longer mounting	sudo -i && MY_EXTERNAL_DRIVE="$(fdisk -l | grep NTFS | awk -F' ' '{print $1}')" && sudo ntfsfix -d ${MY_EXTERNAL_DRIVE}
+	ping cloudflare				ping 1.1.1.1
+	-----------------------------------
 	kilat on [domain]			ssh://[username]@[domain]:[port]
+	check log ssh + nginx + ipinfo + crowdsec				printf %22%5Cn%22 && /usr/bin/python3 /var/www/logs/check_log_error_ssh_ipinfo_crowdsec.py && /usr/bin/python3 /var/www/logs/check_log_error_nginx_ipinfo_crowdsec.py && /usr/bin/python3 /var/www/logs/check_log_access_nginx_ipinfo_crowdsec.py
+	show netstat + nginx + ipinfo + crowdsec				clear && cat /var/www/logs/ipinfo_netstat_nginx.log && cat /var/www/logs/ipinfo_error_ssh.log && cat /var/www/logs/ipinfo_error_nginx.log && cat /var/www/logs/ipinfo_access_nginx.log
+	watch netstat + nginx + ipinfo + crowdsec				watch -n 10 'cat /var/www/logs/ipinfo_netstat_nginx.log /var/www/logs/ipinfo_error_ssh.log /var/www/logs/ipinfo_error_nginx.log /var/www/logs/ipinfo_access_nginx.log'
+	cek iptables milik crowdsec								sudo iptables -L CROWDSEC_CHAIN -v -n
+	lihat list decision crowdsec							cscli decision list
+	cek ip dalam list decision crowdsec						cscli decision list | grep 1.1.1.1
+	cek allowlist semua_ip_kampus							cscli allowlist inspect semua_ip_kampus
+
 #############################
 # how to display the application menu by pressing Ctrl + Shift + M
 # if in Dolphin, press Ctrl + M, usually if in Dolphin it appears once then in other applications such as GIMP/Inkscape the application menu will also appear
