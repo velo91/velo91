@@ -53,9 +53,6 @@ https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-5/ee6b000cee0629411b666ab
 #EXTINF:-1 tvg-id="MBCPlusDrama.sa" tvg-country="SA" group-title="Movies" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_Drama_ed637784c7.svg&w=640&q=75",MBC+ Drama (SA)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-plus-drama/e37251ec2aac8f6c98f75cd0fa37cd28/index.m3u8
 
-#EXTINF:-1 tvg-id="FujairahTV.ae@SD",Fujairah TV (AE)
-https://live.kwikmotion.com/fujairahlive/fujairah.smil/playlist.m3u8
-
 #EXTINF:-1 tvg-id="MBC3USA.us" tvg-country="US" group-title="Kids" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_3_360db4e622.svg&w=640&q=75",MBC 3 (US)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-3-usa/5d58265a862a476dc7f97694addb5ded/index.m3u8
 
