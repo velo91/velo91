@@ -1,7 +1,5 @@
 #EXTM3U
-
 #EXTINF:-1 tvg-id="Makkah Live HD" tvg-country="SA" group-title="Religious",Makkah Live HD (ID)
 plugin://plugin.video.youtube/?action=play_video&videoid=zIl0NYIsBCE
-
 #EXTINF:-1 tvg-id="Madinah Live HD" tvg-country="SA" group-title="Religious",Madinah Live HD (ID)
 plugin://plugin.video.youtube/?action=play_video&videoid=TpT8b8JFZ6E
