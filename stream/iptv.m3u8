@@ -8,7 +8,7 @@ https://video.detik.com/transtv/smil:transtv.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="CNNIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/52/1/cnn-indonesia-logo-png_seeklogo-520453.png",CNN Indonesia (ID)
 https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/laylist.m3u8
 
-#EXTINF:-1 tvg-id="CNBCIndonesia.id" tvg-country="ID" group-title="Business" tvg-logo="https://images.seeklogo.com/logo-png/51/1/cnbc-indonesia-logo-png_seeklogo-511506.png",CNBC Indonesia (ID)
+#EXTINF:-1 tvg-id="CNBCIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/51/1/cnbc-indonesia-logo-png_seeklogo-511506.png",CNBC Indonesia (ID)
 https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8
 
 #EXTINF:-1 tvg-id="BeritaSatuEnglish.id" tvg-country="ID" group-title="News" tvg-logo="https://play-lh.googleusercontent.com/LmxH3ouzCgYRO7UpACZAI8h74blPbooCcSaEk7Qb26G_49BX2jrr2xx5ohLBcFl_oStL",Berita Satu (ID)
@@ -59,7 +59,7 @@ https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-bollywood/546eb40d7dcf9a2
 #EXTINF:-1 tvg-id="MBC1.ae" tvg-country="AE" group-title="General" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_18e19ebeab.svg&w=640&q=75",MBC 1 (AE)
 https://mbc1-enc.edgenextcdn.net/out/v1/0965e4d7deae49179172426cbfb3bc5e/index.m3u8
 
-#EXTINF:-1 tvg-id="MBC5.ae" tvg-country="AE" group-title="Family" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_5_390ce9c996.svg&w=640&q=75",MBC 5 (AE)
+#EXTINF:-1 tvg-id="MBC5.ae" tvg-country="AE" group-title="General" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_5_390ce9c996.svg&w=640&q=75",MBC 5 (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-5/ee6b000cee0629411b666ab26cb13e9b/index.m3u8
 
 #EXTINF:-1 tvg-id="MBCPlusDrama.sa" tvg-country="SA" group-title="Movies" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_Drama_ed637784c7.svg&w=640&q=75",MBC+ Drama (SA)
@@ -89,14 +89,14 @@ https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/6
 #EXTINF:-1 tvg-id="FIFAPlus.uk" tvg-country="UK" group-title="Sports" tvg-logo="https://cdn.plus.fifa.com/images/web/logoFIFA.png",FIFA Plus (UK)
 https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8
 
-#EXTINF:-1 tvg-id="DubaiSports1.ae" tvg-country="AE" tvg-logo="https://www.albayan.ae/assets/images/2025/04/29/4765144.jpg" group-title="Sports",Dubai Sports 1 (AE)
+#EXTINF:-1 tvg-id="DubaiSports1.ae" tvg-country="AE" group-title="Sports" tvg-logo="https://www.albayan.ae/assets/images/2025/04/29/4765144.jpg",Dubai Sports 1 (AE)
 https://dmidspta.cdn.mgmlcdn.com/dubaisports/smil:dubaisports.stream.smil/chunklist.m3u8
 
-#EXTINF:-1 tvg-id="DubaiSports2.ae" tvg-country="AE" tvg-logo="https://www.albayan.ae/assets/images/2025/04/29/4765144.jpg" group-title="Sports",Dubai Sports 2 (AE)
+#EXTINF:-1 tvg-id="DubaiSports2.ae" tvg-country="AE" group-title="Sports" tvg-logo="https://www.albayan.ae/assets/images/2025/04/29/4765144.jpg",Dubai Sports 2 (AE)
 https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd/smil:dubaisportshd.smil/chunklist.m3u8
 
-#EXTINF:-1 tvg-id="DubaiSports3.ae" tvg-country="AE" tvg-logo="https://www.albayan.ae/assets/images/2025/04/29/4765144.jpg" group-title="Sports",Dubai Sports 3 (AE)
+#EXTINF:-1 tvg-id="DubaiSports3.ae" tvg-country="AE" group-title="Sports" tvg-logo="https://www.albayan.ae/assets/images/2025/04/29/4765144.jpg",Dubai Sports 3 (AE)
 https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd5/smil:dubaisportshd5.smil/chunklist.m3u8
 
-#EXTINF:-1 tvg-id="SharjahSports.ae@SD" tvg-country="AE" tvg-logo="https://yt3.googleusercontent.com/ytc/AIdro_mWpU3Di5nOLjggE5TKaPVbzN7mGzlFy5X8xfu-32Wt-A=s900-c-k-c0x00ffffff-no-rj",Sharjah Sports (AE)
+#EXTINF:-1 tvg-id="SharjahSports.ae@SD" tvg-country="AE" group-title="Sports" tvg-logo="https://yt3.googleusercontent.com/ytc/AIdro_mWpU3Di5nOLjggE5TKaPVbzN7mGzlFy5X8xfu-32Wt-A=s900-c-k-c0x00ffffff-no-rj",Sharjah Sports (AE)
 https://svs.itworkscdn.net/smc4sportslive/smc4tv.smil/playlist.m3u8
