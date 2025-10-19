@@ -98,17 +98,17 @@ https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd5/smil:dubaisportshd5.smil/chunk
 #EXTINF:-1 tvg-id="SharjahSports.ae@SD" tvg-country="AE" group-title="Sports" tvg-logo="https://yt3.googleusercontent.com/ytc/AIdro_mWpU3Di5nOLjggE5TKaPVbzN7mGzlFy5X8xfu-32Wt-A=s900-c-k-c0x00ffffff-no-rj",Sharjah Sports (AE)
 https://svs.itworkscdn.net/smc4sportslive/smc4tv.smil/playlist.m3u8
 
-#EXTINF:-1 tvg-id="BiznetAdventure.id@SD",Biznet Adventure (1080p)
+#EXTINF:-1 tvg-id="BiznetAdventure.id@SD" tvg-country="ID" group-title="General",Biznet Adventure (1080p)
 http://livestream.biznetvideo.net/biznet_adventure/smil:adventure.smil/playlist.m3u8
 
-#EXTINF:-1 tvg-id="BiznetKids.id@SD",Biznet Kids (1080p)
+#EXTINF:-1 tvg-id="BiznetKids.id@SD" tvg-country="ID" group-title="Kids",Biznet Kids (1080p)
 http://livestream.biznetvideo.net/biznet_kids/smil:kids.smil/index.m3u8
 
-#EXTINF:-1 tvg-id="BiznetLifestyle.id@SD",Biznet Lifestyle (1080p)
+#EXTINF:-1 tvg-id="BiznetLifestyle.id@SD" tvg-country="ID" group-title="Lifestyle",Biznet Lifestyle (1080p)
 http://livestream.biznetvideo.net/biznet_lifestyle/smil:lifestyle.smil/index.m3u8
 
-#EXTINF:-1 tvg-id="GarudaTV.id@SD",Garuda TV (1080p)
+#EXTINF:-1 tvg-id="GarudaTV.id@SD" tvg-country="ID" group-title="News",Garuda TV (1080p)
 https://hgmtv.com:19360/garudatvlivestreaming/garudatvlivestreaming.m3u8
 
-#EXTINF:-1 tvg-id="MQTV.id@SD",MQTV (720p) [Not 24/7]
+#EXTINF:-1 tvg-id="MQTV.id@SD" tvg-country="ID" group-title="Religious" ,MQTV (720p) [Not 24/7]
 https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8
