@@ -110,5 +110,5 @@ http://livestream.biznetvideo.net/biznet_lifestyle/smil:lifestyle.smil/index.m3u
 #EXTINF:-1 tvg-id="GarudaTV.id@SD" tvg-country="ID" group-title="News",Garuda TV (1080p)
 https://hgmtv.com:19360/garudatvlivestreaming/garudatvlivestreaming.m3u8
 
-#EXTINF:-1 tvg-id="MQTV.id@SD" tvg-country="ID" group-title="Religious" ,MQTV (720p) [Not 24/7]
+#EXTINF:-1 tvg-id="MQTV.id@SD" tvg-country="ID" group-title="Religious",MQTV (720p) [Not 24/7]
 https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8
