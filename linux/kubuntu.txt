@@ -479,14 +479,11 @@ Download IPTVnator (IPTV Player) Playlist => https://iptv-org.github.io/iptv/ind
 Install Apps Manually From .SH File
 =======================================
 Download MetaTrader 5: powerful platform for forex and exchange markets
-	https://www.metatrader5.com/en/terminal/help/start_advanced/install_linux
-		# to start the installation, open the command line (Terminal) without the administrator privileges (NO SUDO) and specify the relevant command:
-		$ wget https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5linux.sh ; chmod +x mt5linux.sh ; ./mt5linux.sh
+	# run this command with NO sudo:
+	$ cd ~; wget https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/mt5/mt5-ubuntu-installer.sh ; chmod +x mt5-ubuntu-installer.sh ; ./mt5-ubuntu-installer.sh
 		# this command downloads the script, makes it executable and runs it. You only need to enter your account password to allow installation.
-		# if you are prompted to install additional Wine packages (Mono, Gecko), please agree, as these packages are required for platform operation.
-		# MetaTrader 5 installer will launch after that, proceed with the standard steps. Once the installation is complete, restart your operating system, and the platform is ready to go.
-		# The default path of the installed platform data folder is as follows:
-			Home directory\.mt5\drive_c\Program Files\MetaTrader 5
+		# the default path of the installed platform data folder is as follows:
+			~\.mt5\drive_c\Program Files\MetaTrader 5
 Download Burp Suite Community Edition (Free): popular web security testing tool used by ethical hackers and penetration testers
 	https://portswigger.net/burp/releases
 		=> chmod +x burpsuite_community_linux_v*.sh
