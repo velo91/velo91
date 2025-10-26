@@ -484,6 +484,13 @@ Download MetaTrader 5: powerful platform for forex and exchange markets
 		# this command downloads the script, makes it executable and runs it. You only need to enter your account password to allow installation.
 		# the default path of the installed platform data folder is as follows:
 			~\.mt5\drive_c\Program Files\MetaTrader 5
+		# Open KDE Menu Editor > New Item
+		Name=Close All MT5
+		Comment=Force close all MetaTrader 5 instances (Wine)
+		Environment Variables=WINEPREFIX=/home/ideapad/.mt5
+		Program=wineserver
+		Command-Line Arguments=-k
+		# Save
 Download Burp Suite Community Edition (Free): popular web security testing tool used by ethical hackers and penetration testers
 	https://portswigger.net/burp/releases
 		=> chmod +x burpsuite_community_linux_v*.sh
