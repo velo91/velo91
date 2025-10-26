@@ -9,8 +9,7 @@
 # chmod +x mt5-ubuntu-installer.sh
 # ./mt5-ubuntu-installer.sh
 #
-# Open KDE Menu Editor
-# Click New Item
+# Open KDE Menu Editor > Click New Item
 # Name=Close All MT5
 # Comment=Force close all MetaTrader 5 instances (Wine)
 # Environment Variables=WINEPREFIX=/home/ideapad/.mt5
