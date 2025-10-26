@@ -478,7 +478,7 @@ Download IPTVnator (IPTV Player) Playlist => https://iptv-org.github.io/iptv/ind
 =======================================
 Install Apps Manually From .SH File
 =======================================
-Download MetaTrader 5: A powerful platform for Forex and Exchange markets
+Download MetaTrader 5: powerful platform for forex and exchange markets
 	https://www.metatrader5.com/en/terminal/help/start_advanced/install_linux
 		# to start the installation, open the command line (Terminal) without the administrator privileges (NO SUDO) and specify the relevant command:
 		$ wget https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5linux.sh ; chmod +x mt5linux.sh ; ./mt5linux.sh
