@@ -3,11 +3,21 @@
 # MetaTrader 5 Full Installer
 # Ubuntu / Kubuntu Compatible
 #
-# run this command with NO sudo:
+# Run this command with NO sudo:
 # cd ~
 # nano mt5-ubuntu-installer.sh
 # chmod +x mt5-ubuntu-installer.sh
 # ./mt5-ubuntu-installer.sh
+#
+# Open KDE Menu Editor
+# Click New Item
+# Name=Close All MT5
+# Comment=Force close all MetaTrader 5 instances (Wine)
+# Environment Variables=WINEPREFIX=/home/ideapad/.mt5
+# Program=wineserver
+# Command-Line Arguments=-k
+# Set Custom Icon
+# Save
 # ==========================================
 
 set -e
