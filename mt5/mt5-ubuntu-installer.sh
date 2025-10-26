@@ -63,6 +63,7 @@ WINEPREFIX=$WINEPREFIX winetricks -q corefonts
 WINEPREFIX=$WINEPREFIX winetricks -q msxml3 msxml6 gdiplus
 WINEPREFIX=$WINEPREFIX winetricks -q vcrun2019
 WINEPREFIX=$WINEPREFIX winetricks -q dotnet48
+WINEPREFIX=$WINEPREFIX winetricks -q d3dx9 dxvk
 
 # Set back environment to Windows 10
 echo "[5/9] Set back environment to Windows 10..."
@@ -81,14 +82,14 @@ wget -q -O mt5setup.exe "$URL_MT5"
 echo "[8/9] Installing MetaTrader 5..."
 WINEPREFIX=$WINEPREFIX wine mt5setup.exe || true
 
+# Summary
+WINEPREFIX=$WINEPREFIX winetricks list-installed 
+
 # Clean up
 echo "[9/9] Cleaning..."
 rm -f /tmp/wine-gecko.msi mt5setup.exe
 WINEPREFIX=$WINEPREFIX wineserver -k || true
 WINEPREFIX=$WINEPREFIX wineboot -r >/dev/null 2>&1 || true
-
-# Summary
-WINEPREFIX=$WINEPREFIX winetricks list-installed 
 
 echo "=========================================="
 echo "Installation complete!"
@@ -101,5 +102,6 @@ echo " - Windows mode: Windows 10"
 echo " - Installed   : Gecko $GECKO_VERSION"
 echo "                 Corefonts, GDI+, MSXML3/6"
 echo "                 VCRun2019, DotNet48, WebView2"
+echo "                 DirectX 9, DXVK"
 echo " - Market tab ready immediately."
 echo "=========================================="
