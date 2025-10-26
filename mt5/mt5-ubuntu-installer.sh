@@ -87,6 +87,9 @@ rm -f /tmp/wine-gecko.msi mt5setup.exe
 WINEPREFIX=$WINEPREFIX wineserver -k || true
 WINEPREFIX=$WINEPREFIX wineboot -r >/dev/null 2>&1 || true
 
+# Summary
+WINEPREFIX=$WINEPREFIX winetricks list-installed 
+
 echo "=========================================="
 echo "Installation complete!"
 echo "Run MetaTrader 5 using:"
@@ -96,6 +99,7 @@ echo "Environment summary:"
 echo " - Wine mode   : 64-bit"
 echo " - Windows mode: Windows 10"
 echo " - Installed   : Gecko $GECKO_VERSION"
-echo "                 Corefonts, GDI+, MSXML3/6, VCRun2019, DotNet48, WebView2"
+echo "                 Corefonts, GDI+, MSXML3/6"
+echo "                 VCRun2019, DotNet48, WebView2"
 echo " - Market tab ready immediately."
 echo "=========================================="
