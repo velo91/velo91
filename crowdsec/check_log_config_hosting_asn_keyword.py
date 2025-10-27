@@ -27,6 +27,7 @@ HOSTING_ASN_KEYWORDS = [
   'raja mitra informatika',
   'registrasi neva angkasa',
   'rumahweb',
+  'trisari data indonusa',
   'webico',
   'cloud host',
   'microsoft corporation',
