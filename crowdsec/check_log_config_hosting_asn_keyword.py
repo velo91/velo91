@@ -8,6 +8,7 @@ HOSTING_ASN_KEYWORDS = [
   'berkah solusi teknologi informasi',
   'biznet gio nusantara',
   'biznet isp',
+  'biznet networks',
   'cloud hosting indonesia',
   'cyberzone',
   'delta neva angkasa',
