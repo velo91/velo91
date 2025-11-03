@@ -702,7 +702,7 @@ disable_functions=pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexite
 # nano /[YOUR_MOODLE_PATH]/course/edit_form.php
 # $mform->addElement('text', 'shortname', get_string('shortnamecourse'), 'maxlength="100" size="20"');
 # change to:
-# $mform->addElement('text', 'shortname', get_string('shortnamecourse').' <span style="color:green;font-weight:bold;">(course code dari OPEN SIMKA)</span>', 'minlength="16" maxlength="100" size="20"');
+# $mform->addElement('text', 'shortname', get_string('shortnamecourse').' <span style="color:green;font-weight:bold;">(course code dari OPEN SIMKA)</span>', 'minlength="10" maxlength="100" size="20"');
 # ADDITIONAL FOR MOUNTING "FILEDIR" WITH GOOGLE DRIVE
 nano /home/bbg-spada/mount-spada-google-drive.sh
 # paste it
