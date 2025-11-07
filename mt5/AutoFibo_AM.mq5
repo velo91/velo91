@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//| AutoFibo_Static.mq5                                              |
+//| AutoFibo_AM.mq5                                                  |
 //| Static Fibo based on ZigZag                                      |
 //|                                                                  |
 //| Original research / concept base reference:                      |
