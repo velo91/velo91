@@ -38,7 +38,6 @@ input int   ExtBackstep                = 4;
 
 input color           StaticFibo_color  = Black;      // warna dasar level Fibo (awal)
 input ENUM_LINE_STYLE StaticFibo_style  = STYLE_DOT;  // style garis level
-input int             StaticFibo_width  = 1;          // tebal garis level
 input bool            StaticFibo_AsRay  = true;       // memanjang ke kanan
 input int             StaticFibo_AnchorWidth = 1;     // width anchor origin/target
 // Warna kustom ala TradingView (pakai bit-shift RGB)
@@ -306,8 +305,7 @@ int OnCalculate(const int rates_total,
    bar3=FindSecondExtremum(sign,bar2,rates_total,HighestBuffer,LowestBuffer,sign,price3);
 
    // anchor FIX standard: origin older swing (bar3) -> target newer swing (bar2)
-   SetFibo(0,"StaticFibo",0,time[bar3],price3,time[bar2],price2,
-           StaticFibo_color,StaticFibo_style,StaticFibo_width,StaticFibo_AsRay,"StaticFibo");
+   SetFibo(0,"StaticFibo",0,time[bar3],price3,time[bar2],price2,StaticFibo_color,StaticFibo_style,1,StaticFibo_AsRay,"StaticFibo");
 
    // --- Safety guards ---
    if(ObjectFind(0,"StaticFibo")==-1) return(rates_total);
@@ -320,6 +318,8 @@ int OnCalculate(const int rates_total,
    const double curPx  = SymbolInfoDouble(_Symbol, SYMBOL_BID);
    const double origin = ObjectGetDouble(0,"StaticFibo",OBJPROP_PRICE,0); // 0.0
    const double target = ObjectGetDouble(0,"StaticFibo",OBJPROP_PRICE,1); // 1.0
+   datetime tOrigin = ObjectGetInteger(0,"StaticFibo",OBJPROP_TIME,0);
+   datetime tTarget = ObjectGetInteger(0,"StaticFibo",OBJPROP_TIME,1);
 
    const double eps = _Point * PosTolerancePoints;
 
@@ -345,21 +345,29 @@ int OnCalculate(const int rates_total,
       ObjectSetString(0,"StaticFibo",OBJPROP_LEVELTEXT,i, ratioTxt+"  (%$)  "+(isBuyStop ? "BSTOP" : "SSTOP")+"   ");
    }
    
-   // === Tebalkan level anchor (1.0 & 0.0) ===
-   // reset semua level ke width default
-   for(int i=0;i<levels;i++)
-      ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELWIDTH,i, StaticFibo_width);
+   // text anchor last swing
+   string tag = "AnchorLastText";
+   double offset = (origin > target) ? (-_Point * 3000) : (+_Point * 3000); // sesuaikan selera
    
-   // cari index utk level 1.0 dan 0.0 lalu tebalkan
-   int idxOne=-1, idxZero=-1;
-   for(int i=0;i<levels;i++)
+   if(ObjectFind(0,tag)==-1)
    {
-      double v = ObjectGetDouble(0,"StaticFibo",OBJPROP_LEVELVALUE,i);
-      if(MathAbs(v-1.0)<1e-9) idxOne = i;
-      if(MathAbs(v-0.0)<1e-9) idxZero = i;
+      ObjectCreate(0,tag,OBJ_TEXT,0,tTarget,target + offset);
    }
-   if(idxOne!=-1) ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELWIDTH,idxOne, StaticFibo_AnchorWidth);
-   if(idxZero!=-1) ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELWIDTH,idxZero, StaticFibo_AnchorWidth);
+   else
+   {
+      ObjectMove(0,tag,0,tTarget,target + offset);
+   }
+   // direction filter
+   if(origin > target) {
+      ObjectSetString(0,tag,OBJPROP_TEXT,"NYARI BUY");
+   }
+   else {
+      ObjectSetString(0,tag,OBJPROP_TEXT,"NYARI SELL");
+   }
+   // style
+   ObjectSetInteger(0,tag,OBJPROP_COLOR,White);
+   ObjectSetInteger(0,tag,OBJPROP_FONTSIZE,14);
+   ObjectSetInteger(0,tag,OBJPROP_BACK,true);
 
    return(rates_total);
 }
