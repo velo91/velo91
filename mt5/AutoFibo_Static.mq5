@@ -36,11 +36,11 @@ input int   ExtDepth                   = 12;
 input int   ExtDeviation               = 6;
 input int   ExtBackstep                = 4;
 
-input color           StaticFibo_color  = Gold;       // warna dasar level Fibo (awal)
-input ENUM_LINE_STYLE StaticFibo_style = STYLE_DOT;   // style garis level
+input color           StaticFibo_color  = Black;      // warna dasar level Fibo (awal)
+input ENUM_LINE_STYLE StaticFibo_style  = STYLE_DOT;  // style garis level
 input int             StaticFibo_width  = 1;          // tebal garis level
 input bool            StaticFibo_AsRay  = true;       // memanjang ke kanan
-input int             StaticFibo_AnchorWidth = 2;     // width anchor origin/target
+input int             StaticFibo_AnchorWidth = 1;     // width anchor origin/target
 // Warna kustom ala TradingView (pakai bit-shift RGB)
 // NOTE: Saat ini skrip mewarnai level: di atas harga -> BUY (TV_BUY_Color), di bawah harga -> SELL (TV_SELL_Color)
 input color TV_SELL_Color  = ((41 << 16) | (98 << 8) | 255);   // biru (sesuai preferensi kamu)
@@ -162,7 +162,7 @@ void OnInit()
    PlotIndexSetInteger(0,PLOT_DRAW_BEGIN,StartBars);
    PlotIndexSetInteger(1,PLOT_DRAW_BEGIN,StartBars);
 
-   PlotIndexSetInteger(0,PLOT_LINE_WIDTH,2);
+   PlotIndexSetInteger(0,PLOT_LINE_WIDTH,3);
 
    IndicatorSetInteger(INDICATOR_DIGITS,_Digits);
 
