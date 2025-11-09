@@ -1,7 +1,7 @@
 //+------------------------------------------------------------------+
 //| AutoFiboTouchEA.mq5                                              |
 //| Final Version v1.40 (Fibo-Touch Logic, Clean Branding)           |
-//| by Achyar Munandar & ChatGPT (OpenAI)                            |
+//| by Achyar Munandar                                               |
 //+------------------------------------------------------------------+
 #property version   "1.40"
 #property strict
