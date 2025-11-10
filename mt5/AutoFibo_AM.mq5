@@ -211,7 +211,7 @@ int OnCalculate(const int rates_total,const int prev_calculated,const datetime &
 
    if(bar3>=0 && bar2>=0 && bar1>=0)
    {
-      // Tentukan arah terakhir (bar2 → bar1)
+      // Tentukan arah terakhir (bar2 --> bar1)
       int colorUp   = 1;  // index warna ke-2 = biru
       int colorDown = 0;  // index warna ke-1 = merah
       int colorUse  = (price1 > price2) ? colorUp : colorDown;
@@ -278,19 +278,22 @@ int OnCalculate(const int rates_total,const int prev_calculated,const datetime &
    for(int i=0;i<levels;i++)
    {
       const double lvl = ObjectGetDouble(0,"StaticFibo",OBJPROP_LEVELVALUE,i);
-
-      string ratioTxt = (MathAbs(lvl-1.0)<1e-9 || MathAbs(lvl-0.5)<1e-9 || MathAbs(lvl-0.0)<1e-9) ? DoubleToString(lvl,1) : DoubleToString(lvl,3);
-
       // Pemberian warna dan label pada setiap level Fibonacci
-      // pakai perhitungan terbalik agar cocok dengan harga %$
-      const double levelPrice = target - (target - origin) * lvl;
-      // pakai eps untuk stabilitas keputusan
-      const bool isBuyStop = (levelPrice > curPx + eps);
-      // warna level per rekomendasi berdasarkan kondisi isBuyStop
-      color lvColor = isBuyStop ? TV_BUY_Color : TV_SELL_Color;
-      ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELCOLOR,i, lvColor);
+      const double levelPrice = target - (target - origin) * lvl; // pakai perhitungan terbalik agar cocok dengan harga %$
+      string ratioTxt = (MathAbs(lvl-1.0)<1e-9 || MathAbs(lvl-0.5)<1e-9 || MathAbs(lvl-0.0)<1e-9) ? DoubleToString(lvl,1) : DoubleToString(lvl,3);
+      //const bool isBuyStop = (levelPrice > curPx + eps); // pakai eps untuk stabilitas keputusan
+      //color lvColor = isBuyStop ? TV_BUY_Color : TV_SELL_Color; // warna level per rekomendasi berdasarkan kondisi isBuyStop
+      //ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELCOLOR,i, lvColor);
       // label: ratio + harga MT5 (%$) + rekomendasi singkat
-      ObjectSetString(0,"StaticFibo",OBJPROP_LEVELTEXT,i, ratioTxt+"  (%$)  "+(isBuyStop ? "BSTOP" : "SSTOP")+"   ");
+      //ObjectSetString(0,"StaticFibo",OBJPROP_LEVELTEXT,i, ratioTxt+"  (%$)  "+(isBuyStop ? "BSTOP" : "SSTOP")+"   ");
+      if(price1 > price2) {
+         ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELCOLOR,i, TV_BUY_Color);
+         ObjectSetString(0,"StaticFibo",OBJPROP_LEVELTEXT,i, ratioTxt+"  (%$)  BUYSTOP    ");
+      }
+      else {
+         ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELCOLOR,i, TV_SELL_Color);
+         ObjectSetString(0,"StaticFibo",OBJPROP_LEVELTEXT,i, ratioTxt+"  (%$)  SELLSTOP    ");
+      }
    }
    
    // Teks di anchor last swing
@@ -305,22 +308,24 @@ int OnCalculate(const int rates_total,const int prev_calculated,const datetime &
       ObjectMove(0,tag,0,tTarget,target + offset);
    }
    // Menampilkan arah dominan dan waktu swing terakhir
-   MqlDateTime tUTC, tWIB;
-   TimeToStruct(latestSwingTime, tUTC);
-   TimeToStruct(latestSwingTimeIndo, tWIB);
+   //MqlDateTime tUTC, tWIB;
+   //TimeToStruct(latestSwingTime, tUTC);
+   //TimeToStruct(latestSwingTimeIndo, tWIB);
    // Format manual: 08 NOV 10:45
-   string textTimeUTC = StringFormat("%02d %s %02d:%02d UTC",tUTC.day,StringSubstr("JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC", (tUTC.mon-1)*3, 3),tUTC.hour, tUTC.min);
-   string textTimeWIB = StringFormat("%02d %s %02d:%02d WIB",tWIB.day,StringSubstr("JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC", (tWIB.mon-1)*3, 3),tWIB.hour, tWIB.min);
+   //string textTimeUTC = StringFormat("%02d %s %02d:%02d UTC",tUTC.day,StringSubstr("JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC", (tUTC.mon-1)*3, 3),tUTC.hour, tUTC.min);
+   //string textTimeWIB = StringFormat("%02d %s %02d:%02d WIB",tWIB.day,StringSubstr("JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC", (tWIB.mon-1)*3, 3),tWIB.hour, tWIB.min);
    if(origin > target)
    {
       // Jika origin > target (tarikan dari atas ke bawah) -> arah naik (BUY)
-      string textMsg = "ONLY BUY TO " + textTimeUTC + " / " + textTimeWIB;
+      //string textMsg = "ONLY BUY TO " + textTimeUTC + " / " + textTimeWIB;
+      string textMsg = "FOCUS ONLY BUYSTOP";
       ObjectSetString(0, tag, OBJPROP_TEXT, textMsg);
    }
    else
    {
       // Jika sebaliknya -> arah turun (SELL)
-      string textMsg = "ONLY SELL TO " + textTimeUTC + " / " + textTimeWIB;
+      //string textMsg = "ONLY SELL TO " + textTimeUTC + " / " + textTimeWIB;
+      string textMsg = "FOCUS ONLY SELLSTOP";
       ObjectSetString(0, tag, OBJPROP_TEXT, textMsg);
    }
    // Style
