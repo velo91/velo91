@@ -53,6 +53,11 @@ double   HighestBuffer[];   // swing high points
 double   ColorBuffer[];     // zigzag color index (up/down)
 int      StartBars;         // minimal bars before calculation
 
+//--- Notif tracking variables
+datetime lastFiboTime1 = 0;
+datetime lastFiboTime2 = 0;
+string   lastDirection = "";
+
 //+------------------------------------------------------------------+
 //|  CreateFibo: buat objek Fibonacci baru & styling level (tanpa label harga)
 //+------------------------------------------------------------------+
@@ -272,8 +277,32 @@ int OnCalculate(const int rates_total,const int prev_calculated,const datetime &
    datetime latestSwingTime  = time[bar1]; // waktu swing terbaru (UTC server)
    double   latestSwingPrice = price1; // ambil harga swing terbaru di bar1
    datetime latestSwingTimeIndo = latestSwingTime + (LocalTimeOffset * 3600); // waktu lokal WIB (ditambah berapa jam offset)
-   
    const double eps = _Point * PosTolerancePoints;
+   
+   //--- Detect if Fibo line changed
+   bool fiboChanged = false;
+   string newDirection = (origin > target) ? "BUY" : "SELL";
+   
+   // Cek perubahan anchor atau arah
+   if(time[bar2] != lastFiboTime1 || time[bar3] != lastFiboTime2 || newDirection != lastDirection)
+   {
+      fiboChanged = true;
+      lastFiboTime1 = time[bar2];
+      lastFiboTime2 = time[bar3];
+      lastDirection = newDirection;
+   }
+   
+   //--- Kirim notifikasi hanya jika Fibo berubah
+   if(fiboChanged)
+   {
+      string msg = "AutoFibo: NEW " + newDirection + " setup\n"
+                 + "From " + TimeToString(time[bar3],TIME_DATE|TIME_MINUTES)
+                 + " to " + TimeToString(time[bar2],TIME_DATE|TIME_MINUTES)
+                 + "\nSymbol: " + _Symbol
+                 + "\nTimeframe: " + EnumToString(_Period);
+      Print(msg);                 // tampil di log lokal
+      SendNotification(msg);      // kirim ke MT5 Android (pastikan notifikasi diaktifkan)
+   }
 
    for(int i=0;i<levels;i++)
    {
