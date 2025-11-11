@@ -58,6 +58,10 @@ input bool ShowLevel_0_5   = true;
 input bool ShowLevel_0_618 = true;
 input bool ShowLevel_0_786 = true;
 input bool ShowLevel_1_0   = true;
+input bool ShowLevel_1_272 = true;
+input bool ShowLevel_1_414 = true;
+input bool ShowLevel_1_618 = true;
+input bool ShowLevel_2_0   = false;
 
 //--- ZigZag buffers & start offset
 double   LowestBuffer[];    // swing low points
@@ -86,10 +90,10 @@ void CreateFibo(long chart_id,string name,int nwin,datetime time1,double price1,
               ObjectSetInteger(chart_id,name,OBJPROP_RAY_LEFT,false);}
    ObjectSetInteger(chart_id,name,OBJPROP_BACK,false);
 
-   // preset level A: rasio (MT5 menerima 0..1)
-   ObjectSetInteger(chart_id,name,OBJPROP_LEVELS,7);
-   double preset[7]={1.0,0.786,0.618,0.5,0.382,0.236,0.0};
-   for(int i=0;i<7;i++)
+   // preset level
+   ObjectSetInteger(chart_id,name,OBJPROP_LEVELS,11);
+   double preset[11]={2.0,1.618,1.414,1.272,1.0,0.786,0.618,0.5,0.382,0.236,0.0};
+   for(int i=0;i<11;i++)
    {
       ObjectSetDouble (chart_id,name,OBJPROP_LEVELVALUE,i,preset[i]); // nilai level (rasio)
       //ObjectSetInteger(chart_id,name,OBJPROP_LEVELCOLOR,i,Color); // komen saja biar tiap tick tidak mereset warna ke awal lagi
@@ -330,6 +334,10 @@ int OnCalculate(const int rates_total,const int prev_calculated,const datetime &
       
       // Tentukan apakah level ini diaktifkan
       bool show = true;
+      if(MathAbs(lvl-2.0)<1e-9)   show = ShowLevel_2_0;
+      if(MathAbs(lvl-1.618)<1e-9) show = ShowLevel_1_618;
+      if(MathAbs(lvl-1.414)<1e-9) show = ShowLevel_1_414;
+      if(MathAbs(lvl-1.272)<1e-9) show = ShowLevel_1_272;
       if(MathAbs(lvl-1.0)<1e-9)   show = ShowLevel_1_0;
       if(MathAbs(lvl-0.786)<1e-9) show = ShowLevel_0_786;
       if(MathAbs(lvl-0.618)<1e-9) show = ShowLevel_0_618;
