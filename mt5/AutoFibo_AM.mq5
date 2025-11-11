@@ -1,4 +1,7 @@
 //+------------------------------------------------------------------+
+//|                   Bismillahirrahmanirrahim                       |
+//|          "Ya Fattah, Ya Razzaq, Ya Kafi, Ya Mughni"              |
+//|                                                                  |
 //| AutoFibo_AM.mq5                                                  |
 //| Static Fibonacci based on ZigZag                                 |
 //|                                                                  |
@@ -46,6 +49,15 @@ input color           TV_SELL_Color  = ((41 << 16) | (98 << 8) | 255);   // biru
 input color           TV_BUY_Color   = ((255 << 16) | (150 << 8) | 68);  // oranye-kemerahan (sesuai preferensi kamu)
 input int             LocalTimeOffset = 7;            // tambahan offset jam waktu lokal
 input double          PosTolerancePoints = 20.0;      // toleransi posisi vs harga saat ini (dalam poin) untuk hindari flip karena noise/spread
+
+//--- Aktif/nonaktif level Fibonacci
+input bool ShowLevel_0_0   = true;
+input bool ShowLevel_0_236 = true;
+input bool ShowLevel_0_382 = true;
+input bool ShowLevel_0_5   = true;
+input bool ShowLevel_0_618 = true;
+input bool ShowLevel_0_786 = true;
+input bool ShowLevel_1_0   = true;
 
 //--- ZigZag buffers & start offset
 double   LowestBuffer[];    // swing low points
@@ -315,13 +327,35 @@ int OnCalculate(const int rates_total,const int prev_calculated,const datetime &
       //ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELCOLOR,i, lvColor);
       // label: ratio + harga MT5 (%$) + rekomendasi singkat
       //ObjectSetString(0,"StaticFibo",OBJPROP_LEVELTEXT,i, ratioTxt+"  (%$)  "+(isBuyStop ? "BSTOP" : "SSTOP")+"   ");
-      if(price1 > price2) {
-         ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELCOLOR,i, TV_BUY_Color);
-         ObjectSetString(0,"StaticFibo",OBJPROP_LEVELTEXT,i, ratioTxt+"  (%$)  BUYSTOP    ");
+      
+      // Tentukan apakah level ini diaktifkan
+      bool show = true;
+      if(MathAbs(lvl-1.0)<1e-9)   show = ShowLevel_1_0;
+      if(MathAbs(lvl-0.786)<1e-9) show = ShowLevel_0_786;
+      if(MathAbs(lvl-0.618)<1e-9) show = ShowLevel_0_618;
+      if(MathAbs(lvl-0.5)<1e-9)   show = ShowLevel_0_5;
+      if(MathAbs(lvl-0.382)<1e-9) show = ShowLevel_0_382;
+      if(MathAbs(lvl-0.236)<1e-9) show = ShowLevel_0_236;
+      if(MathAbs(lvl-0.0)<1e-9)   show = ShowLevel_0_0;
+      
+      // Jika nonaktif, sembunyikan level dengan warna transparan dan teks kosong
+      if(!show)
+      {
+         ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELCOLOR,i,clrNONE);
+         ObjectSetString(0,"StaticFibo",OBJPROP_LEVELTEXT,i,"");
+         continue;
       }
-      else {
-         ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELCOLOR,i, TV_SELL_Color);
-         ObjectSetString(0,"StaticFibo",OBJPROP_LEVELTEXT,i, ratioTxt+"  (%$)  SELLSTOP    ");
+      
+      // Jika aktif --> tampilkan warna sesuai arah
+      if(price1 > price2)
+      {
+         ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELCOLOR,i,TV_BUY_Color);
+         ObjectSetString(0,"StaticFibo",OBJPROP_LEVELTEXT,i,ratioTxt+"  (%$)  BUYSTOP    ");
+      }
+      else
+      {
+         ObjectSetInteger(0,"StaticFibo",OBJPROP_LEVELCOLOR,i,TV_SELL_Color);
+         ObjectSetString(0,"StaticFibo",OBJPROP_LEVELTEXT,i,ratioTxt+"  (%$)  SELLSTOP    ");
       }
    }
    
