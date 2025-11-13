@@ -208,7 +208,7 @@ for ip, count in counter.most_common():
             elif 'google' in org.lower():
                 status = '🔎 perlu ditinjau'
                 action = (
-                    '\n\tASN Google – silakan review manual\n'
+                    '\n\tASN Google – silakan review manual, kalau di hostname ada xxx.googleusercontent.com sikat aja\n'
                     f'\t→ Jalankan untuk blokir jika perlu: sudo cscli decisions add --reason "malicious subnet" --duration 1000d --range {subnet}\n'
                     f"\t→ Hapus IP dari log jika ingin diabaikan: sed -i '/{escaped_ip}/d' {LOG_FILE}"
                 )
