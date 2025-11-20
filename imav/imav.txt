@@ -1,0 +1,52 @@
+### Install ImunifyAV
+ImunifyAV merupakan versi gratis dari Imunify360 dengan fitur seperti malware scanner yang dapat mendeteksi semua file berbahaya, termasuk backdoor, web shell, virus, hacker tools, seo blackhat. script, halaman phising, dan lainnya.
+
+### Minimum system requirements adalah:
+x64 | 512 Mb | 20 Gb disk space
+
+### Support dengan beberapa operating system:
+CentOS/RHEL 6,7,8
+CloudLinux OS 6,7,8
+Ubuntu 16.04 (LTS only), 18.04, 20.04 (LTS), and 22 (Plesk, DirectAdmin, and standalone)
+Debian 9 (supported up to Imunify v6.11 (including)), 10, and 11
+Rocky Linux 8 (cPanel, Plesk, and standalone)
+
+### Install with control panels
+Jika memakai control panel seperti Cpanel atau Plesk:
+$ wget https://repo.imunify360.cloudlinux.com/defence360/imav-deploy.sh -O imav-deploy.sh
+$ bash imav-deploy.sh
+Tunggu proses instalasi selesai dan menu imunifyAV dapat ditemukan pada halaman Admin control panel Anda.
+
+### Install standalone
+Buat file integration pada /etc/sysconfig/imunify360/integration.conf
+$ nano /etc/sysconfig/imunify360/integration.conf
+
+Lalu tambahkan konfigurasi berikut:
+[paths]
+ui_path = /var/www/imav
+ui_path_owner = root:root
+[integration_scripts]
+admins = /etc/sysconfig/imunify360/get-admins-script.sh
+users = /etc/sysconfig/imunify360/get-users-script.sh
+domains = /etc/sysconfig/imunify360/get-domains-script.sh
+# dowload skrip melalui url https://cloudlinux.zendesk.com/hc/article_attachments/4840874408988/integration-script.tar.gz
+[web_server]
+server_type = apache
+graceful_restart_script = /usr/sbin/apachectl restart
+modsec_audit_log = /var/log/httpd/modsec_audit.log
+modsec_audit_logdir = /var/log/httpd/modsec_audit
+[malware]
+basedir = /home
+pattern_to_watch = ^/home/.+?/(public_html|public_ftp|private_html)(/.*)?$
+[pam]
+service_name = system-auth
+
+Buat folder sesuai konfigurasi ui_path:
+$ mkdir -p /var/www/imav
+
+Kemudian install ImunifyAV:
+$ wget https://repo.imunify360.cloudlinux.com/defence360/imav-deploy.sh -O imav-deploy.sh
+$ bash imav-deploy.sh
+
+Tunggu proses instalasi selesai dan ImunifyAV dapat Anda akses melalui http://ip-server/
+
