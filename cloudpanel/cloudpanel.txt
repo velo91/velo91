@@ -385,6 +385,8 @@ curl https://get.acme.sh | sh -s email=[YOUR_EMAIL_DOMAIN_HERE]
 source ~/.bashrc
 # upgrade to new version
 acme.sh --upgrade
+# list all certificates managed by acme.sh
+acme.sh --list
 # Let zerossl as default CA (ZeroSSL doesn't have rate limits. One can issue unlimited TLS/SSL certificate valid for 90 days.)
 ## SKIP ################## Set ACME client maintained by Let's Encrypt (not ZeroSSL by default since August-1st 2021)
 ## SKIP #################acme.sh --server letsencrypt --set-default-ca
@@ -1068,6 +1070,8 @@ curl https://get.acme.sh | sh -s email=[YOUR_EMAIL_DOMAIN_HERE]
 source ~/.bashrc
 # upgrade to new version
 acme.sh --upgrade
+# list all certificates managed by acme.sh
+acme.sh --list
 # Install wildcard cert with --force (replace old cert) and without --ocsp-must-staple (no longer supported)
 export CF_Token="[YOUR_CLOUDFLARE_DNS_API_KEY_HERE]"
 acme.sh --issue --force --dns dns_cf --keylength 4096 -d [YOUR_DOMAIN_HERE] -d '*.[YOUR_DOMAIN_HERE]'
