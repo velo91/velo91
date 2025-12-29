@@ -380,8 +380,8 @@ ANOTHER PROJECT SUBDOMAIN TLS/SSL USING ACME.SH
 # Verify it's installed: acme.sh --version
 # Install acme.sh WITH NO API
 curl https://get.acme.sh | sh -s email=[YOUR_EMAIL_DOMAIN_HERE]
-# Set ACME client maintained by Let's Encrypt (not ZeroSSL by default since August-1st 2021)
-acme.sh --server letsencrypt --set-default-ca
+## SKIP ################## Set ACME client maintained by Let's Encrypt (not ZeroSSL by default since August-1st 2021)
+## SKIP #################acme.sh --server letsencrypt --set-default-ca
 ### Issue certificate use nginx mode ###
 acme.sh --issue --nginx -d example.com -d www.example.com -d cp.example.com
 # Use example.key for ssl_certificate_key
@@ -1063,8 +1063,8 @@ acme.sh --issue --force --dns dns_cf --keylength 4096 -d [YOUR_DOMAIN_HERE] -d '
 cat /root/.acme.sh/account.conf
 # Display the content of the CSR
 DOMAIN="[YOUR_DOMAIN_HERE]" && CONFIG_ROOT="/root/.acme.sh/${DOMAIN}" && acme.sh --showcsr --csr "${CONFIG_ROOT}/$DOMAIN.csr"
-# Set ACME client maintained by Let's Encrypt (not ZeroSSL by default since August-1st 2021)
-acme.sh --server letsencrypt --set-default-ca
+## SKIP ################## Set ACME client maintained by Let's Encrypt (not ZeroSSL by default since August-1st 2021)
+## SKIP #################acme.sh --server letsencrypt --set-default-ca
 # Issue a cert (CRT file) from existing CSR
 DOMAIN="[YOUR_DOMAIN_HERE]" && CONFIG_ROOT="/root/.acme.sh/${DOMAIN}" && acme.sh --signcsr --csr "${CONFIG_ROOT}/$DOMAIN.csr" --dns dns_cf
 # Installing Let's Encrypt wildcard certificate
