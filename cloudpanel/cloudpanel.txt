@@ -377,9 +377,15 @@ ANOTHER PROJECT IN /var/www
 ===============================================
 ANOTHER PROJECT SUBDOMAIN TLS/SSL USING ACME.SH
 ===============================================
-# Verify it's installed: acme.sh --version
-# Install acme.sh WITH NO API
+# Verify it's installed
+acme.sh --version
+# Install acme.sh
 curl https://get.acme.sh | sh -s email=[YOUR_EMAIL_DOMAIN_HERE]
+# activate the environment
+source ~/.bashrc
+# upgrade to new version
+acme.sh --upgrade
+# Let zerossl as default CA
 ## SKIP ################## Set ACME client maintained by Let's Encrypt (not ZeroSSL by default since August-1st 2021)
 ## SKIP #################acme.sh --server letsencrypt --set-default-ca
 ### Issue certificate use nginx mode ###
@@ -1054,15 +1060,22 @@ WILDCARD TLS/SSL USING ACME.SH & CLOUDFLARE DNS API
 # Make sure on SSL overview, the minimum is "Full"
 # Go to My Profile > API Tokens > Create Token > Edit Zone DNS > Use template
 # Permissions = Edit; Zone Resources = Select your domain; click "Continue to summary"; click "Create token"
-# Verify it's installed: acme.sh --version
-# Install wildcard cert with --force (replace old cert) and without --ocsp-must-staple (no longer supported)
+# Verify it's installed
+acme.sh --version
+# Install acme.sh
 curl https://get.acme.sh | sh -s email=[YOUR_EMAIL_DOMAIN_HERE]
+# activate the environment
+source ~/.bashrc
+# upgrade to new version
+acme.sh --upgrade
+# Install wildcard cert with --force (replace old cert) and without --ocsp-must-staple (no longer supported)
 export CF_Token="[YOUR_CLOUDFLARE_DNS_API_KEY_HERE]"
 acme.sh --issue --force --dns dns_cf --keylength 4096 -d [YOUR_DOMAIN_HERE] -d '*.[YOUR_DOMAIN_HERE]'
 # Your Cloudflare DNS API key is stored in /root/.acme.sh/account.conf file and we can see it using the cat
 cat /root/.acme.sh/account.conf
 # Display the content of the CSR
 DOMAIN="[YOUR_DOMAIN_HERE]" && CONFIG_ROOT="/root/.acme.sh/${DOMAIN}" && acme.sh --showcsr --csr "${CONFIG_ROOT}/$DOMAIN.csr"
+# Let zerossl as default CA
 ## SKIP ################## Set ACME client maintained by Let's Encrypt (not ZeroSSL by default since August-1st 2021)
 ## SKIP #################acme.sh --server letsencrypt --set-default-ca
 # Issue a cert (CRT file) from existing CSR
