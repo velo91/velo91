@@ -98,13 +98,13 @@ https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd5/smil:dubaisportshd5.smil/chunk
 #EXTINF:-1 tvg-id="SharjahSports.ae@SD" tvg-country="AE" group-title="Sports" tvg-logo="https://yt3.googleusercontent.com/ytc/AIdro_mWpU3Di5nOLjggE5TKaPVbzN7mGzlFy5X8xfu-32Wt-A=s900-c-k-c0x00ffffff-no-rj",Sharjah Sports (AE)
 https://svs.itworkscdn.net/smc4sportslive/smc4tv.smil/playlist.m3u8
 
-#EXTINF:-1 tvg-id="BiznetAdventure.id@SD" tvg-country="ID" group-title="General" tvg-logo="https://www.biznetnetworks.com/custom-upload/brand-center/biznet_iptv_logo_full_colors.jpg",Biznet Adventure (1080p)
+#EXTINF:-1 tvg-id="BiznetAdventure.id@SD" tvg-country="ID" group-title="General" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Adventure (1080p)
 http://livestream.biznetvideo.net/biznet_adventure/smil:adventure.smil/playlist.m3u8
 
-#EXTINF:-1 tvg-id="BiznetKids.id@SD" tvg-country="ID" group-title="Kids" tvg-logo="https://www.biznetnetworks.com/custom-upload/brand-center/biznet_iptv_logo_full_colors.jpg",Biznet Kids (1080p)
+#EXTINF:-1 tvg-id="BiznetKids.id@SD" tvg-country="ID" group-title="Kids" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Kids (1080p)
 http://livestream.biznetvideo.net/biznet_kids/smil:kids.smil/index.m3u8
 
-#EXTINF:-1 tvg-id="BiznetLifestyle.id@SD" tvg-country="ID" group-title="Lifestyle" tvg-logo="https://www.biznetnetworks.com/custom-upload/brand-center/biznet_iptv_logo_full_colors.jpg",Biznet Lifestyle (1080p)
+#EXTINF:-1 tvg-id="BiznetLifestyle.id@SD" tvg-country="ID" group-title="Lifestyle" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Lifestyle (1080p)
 http://livestream.biznetvideo.net/biznet_lifestyle/smil:lifestyle.smil/index.m3u8
 
 #EXTINF:-1 tvg-id="GarudaTV.id@SD" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/45/1/garudatv-logo-png_seeklogo-454178.png",Garuda TV (1080p)
