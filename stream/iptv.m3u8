@@ -29,7 +29,7 @@ https://live-hls-apps-aje-v3-fa.getaj.net/AJE/index.m3u8
 #EXTINF:-1 tvg-id="Wanasah.ae@SD" tvg-country="AE" group-title="Music" tvg-logo="https://is1-ssl.mzstatic.com/image/thumb/Purple125/v4/19/70/2e/19702e97-3c84-9631-1b39-0a06d70109bc/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/512x512bb.jpg",Wanasah (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-wanasah/13e82ea6232fa647c43b26e8a41f173d/index.m3u8
 
-#EXTINF:-1 tvg-id="Tarab.sa@SD" tvg-country="SA" group-title="Music" tvg-logo="https://scontent.fkno7-1.fna.fbcdn.net/v/t39.30808-1/311432261_137165482394629_1425032868111040981_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=106&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=w-QZlidiRacQ7kNvwH3rJMo&_nc_oc=AdmVkEK8PGHooiw8bkCOuGiI8JVQMFJkG40mJvrx3LgbAf9HwxKHEVPMTJznBlXUqBc&_nc_zt=24&_nc_ht=scontent.fkno7-1.fna&_nc_gid=bKJ_0k4ZFAn_mSZb_8Krpw&oh=00_AfcTJ1CFfPzEOopJotZ3evfFGrGteNo08CTRImj0cyv1Hw&oe=68F829C9",Tarab (SA)
+#EXTINF:-1 tvg-id="Tarab.sa@SD" tvg-country="SA" group-title="Music" tvg-logo="https://c.saavncdn.com/379/Tarab-English-2018-20180426172646-500x500.jpg",Tarab (SA)
 https://shls-live-enc.edgenextcdn.net/out/v1/90143f040feb40589d18c57863d9e829/index.m3u8
 
 #EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
