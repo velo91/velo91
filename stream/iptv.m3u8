@@ -11,7 +11,7 @@ https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/laylist.m3u8
 #EXTINF:-1 tvg-id="CNBCIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/51/1/cnbc-indonesia-logo-png_seeklogo-511506.png",CNBC Indonesia (ID)
 https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8
 
-#EXTINF:-1 tvg-id="GarudaTV.id@SD" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/45/1/garudatv-logo-png_seeklogo-454178.png",Garuda TV (1080p)
+#EXTINF:-1 tvg-id="GarudaTV.id@SD" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/45/1/garudatv-logo-png_seeklogo-454178.png",Garuda TV (ID)
 https://hgmtv.com:19360/garudatvlivestreaming/garudatvlivestreaming.m3u8
 
 #EXTINF:-1 tvg-id="BTV.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/45/1/btv-logo-png_seeklogo-454206.png",BTV (ID)
@@ -35,7 +35,7 @@ https://shls-live-enc.edgenextcdn.net/out/v1/90143f040feb40589d18c57863d9e829/in
 #EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
 https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
 
-#EXTINF:-1 tvg-id="MQTV.id@SD" tvg-country="ID" group-title="Religious" tvg-logo="https://pbs.twimg.com/profile_images/2006171161382772736/55sTdTdA.jpg",MQTV (720p) [Not 24/7]
+#EXTINF:-1 tvg-id="MQTV.id@SD" tvg-country="ID" group-title="Religious" tvg-logo="https://pbs.twimg.com/profile_images/2006171161382772736/55sTdTdA.jpg",MQTV (ID)
 https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8
 
 #EXTINF:-1 tvg-id="NoorDubai.ae@SD" tvg-country="AE" group-title="Religious" tvg-logo="https://www.ntd-ngonetwork.org/sites/nnn/files/styles/grid-6-wide-logo/public/content/organisation/logos/2019-05-16/noor.jpg",Noor Dubai (AE)
@@ -74,13 +74,13 @@ https://shd-gcp-live.edgenextcdn.net/live/bitmovin-spacetoon/d8382fb9ab4b2307058
 #EXTINF:-1 tvg-id="NickJrPlutoTV.us" tvg-country="US" group-title="Kids" tvg-logo="https://images.seeklogo.com/logo-png/28/1/nick-jr-logo-png_seeklogo-289344.png",Pluto TV Nick Jr. (US)
 https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/5ca6748a37b88b269472dad9/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=6c2a5106-30d3-11ef-9cf5-e9ddff8ff496&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=d95e31ff-c65d-438c-9466-ddbbd097b4cf
 
-#EXTINF:-1 tvg-id="BiznetKids.id@SD" tvg-country="ID" group-title="Kids" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Kids (1080p)
+#EXTINF:-1 tvg-id="BiznetKids.id@SD" tvg-country="ID" group-title="Kids" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Kids (ID)
 http://livestream.biznetvideo.net/biznet_kids/smil:kids.smil/index.m3u8
 
-#EXTINF:-1 tvg-id="BiznetLifestyle.id@SD" tvg-country="ID" group-title="Lifestyle" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Lifestyle (1080p)
+#EXTINF:-1 tvg-id="BiznetLifestyle.id@SD" tvg-country="ID" group-title="Lifestyle" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Lifestyle (ID)
 http://livestream.biznetvideo.net/biznet_lifestyle/smil:lifestyle.smil/index.m3u8
 
-#EXTINF:-1 tvg-id="BiznetAdventure.id@SD" tvg-country="ID" group-title="General" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Adventure (1080p)
+#EXTINF:-1 tvg-id="BiznetAdventure.id@SD" tvg-country="ID" group-title="General" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Adventure (ID)
 http://livestream.biznetvideo.net/biznet_adventure/smil:adventure.smil/playlist.m3u8
 
 #EXTINF:-1 tvg-id="PlutoTVAnimals.uk" tvg-country="UK" group-title="Documentary" tvg-logo="https://i.imgur.com/N00seOn.png",Pluto TV Animals (UK)
