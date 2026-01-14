@@ -741,10 +741,10 @@ if (curpath == 'my'){
 }
 <!-- End Disable SPADA Alert -->
 </script>
-# TROUBLESHOOT: plugins.js redirect https://spada.kemdikbud.go.id/moodle/plugin.js from https://spada.kemdiktisaintek.go.id/moodle/plugin.js
+# TROUBLESHOOT: plugins.js redirect https://spada.kemdikbud.go.id/moodle/plugin.js from https://apispada.kemdiktisaintek.go.id/moodle/plugin.js
 	# open /admin/tool/spadaindonesia/tool/spadamanager/templates/tracking_code.mustache
-	# change spada.kemdikbud.go.id to spada.kemdiktisaintek.go.id
-	# if you want, change ?version=3.4 to your moodle version like ?version=4.5
+	# change spada.kemdikbud.go.id to apispada.kemdiktisaintek.go.id
+	# if you want, change ?version=3.4 to your moodle version like ?version=4.5 (note: change version manually will not show your campus on LMSPT statistics)
 
 ===========================
 INSTALL SLIMS AT CLOUDPANEL
