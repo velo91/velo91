@@ -51,6 +51,14 @@ INSTALL CLOUDPANEL
 # Ignore the self-signed certificate warning and click on Advanced and Proceed to continue to CloudPanel
 
 ============
+COMPLETE clpctl COMMAND
+============
+cat /home/clp/htdocs/app/files/.readme
+# If you can't log in because you forgot your basic auth password
+# You can run: rm /home/clp/services/nginx/basic-auth/credentials
+# Or run: clpctl cloudpanel:disable:basic-auth
+
+============
 SET TIMEZONE
 ============
 # Go to Admin Area > Instance > Setting > Timezone > Asia/Jakarta > Save
