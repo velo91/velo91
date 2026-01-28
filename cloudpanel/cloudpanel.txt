@@ -423,6 +423,9 @@ $cfg['NavigationDisplayLogo'] = false;
 nginx -t
 nginx -s reload
 # Go to [SUBDOMAIN]/app/phpmyadmin/index.php
+# To have 1 user who can see all databases, grant privileges to that user, login mysql with root user and run this command:
+	GRANT ALL PRIVILEGES ON *.* TO 'specific_user_here'@'localhost';
+	FLUSH PRIVILEGES;
 # Manual import database:
 	gunzip < file.sql.gz | mysql -u [DB_USER] -p [DB_NAME]
 	mysql -u [DB_USER] -p [DB_NAME] < file.sql
