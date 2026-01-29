@@ -10,6 +10,7 @@ HOSTING_ASN_KEYWORDS = [
   'biznet isp',
   'biznet networks',
   'cloud hosting indonesia',
+  'cyberzon',
   'cyberzone',
   'delta neva angkasa',
   'deneva',
