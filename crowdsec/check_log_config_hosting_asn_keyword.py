@@ -74,6 +74,7 @@ HOSTING_ASN_KEYWORDS = [
   'powerhouse',
   'code200',
   'datacamp',
+  'gthost',
   'hosthatch',
   'tencent building',
   'unmanaged ltd',
