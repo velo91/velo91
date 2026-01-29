@@ -21,6 +21,7 @@ HOSTING_ASN_KEYWORDS = [
   'herza digital indonesia',
   'hostinger',
   'industri kreatif digital',
+  'informasi nusantara teknologi',
   'intercloud digital inovasi',
   'master web network',
   'media antar nusa',
