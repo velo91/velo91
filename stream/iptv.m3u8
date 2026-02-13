@@ -44,9 +44,6 @@ https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00864-shemarooenterta-shemabollywoo
 #EXTINF:-1 tvg-id="MBCBollywood.ae" tvg-country="AE" group-title="Movies" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_Bollywood_5e107a7e29.svg&w=640&q=75",MBC Bollywood (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-bollywood/546eb40d7dcf9a209255dd2496903764/index.m3u8
 
-#EXTINF:-1 tvg-id="MBC1.ae" tvg-country="AE" group-title="General" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_18e19ebeab.svg&w=640&q=75",MBC 1 (AE)
-https://mbc1-enc.edgenextcdn.net/out/v1/0965e4d7deae49179172426cbfb3bc5e/index.m3u8
-
 #EXTINF:-1 tvg-id="MBC5.ae" tvg-country="AE" group-title="General" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_5_390ce9c996.svg&w=640&q=75",MBC 5 (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-5/ee6b000cee0629411b666ab26cb13e9b/index.m3u8
 
@@ -61,15 +58,6 @@ https://shd-gcp-live.edgenextcdn.net/live/bitmovin-spacetoon/d8382fb9ab4b2307058
 
 #EXTINF:-1 tvg-id="NickJrPlutoTV.us" tvg-country="US" group-title="Kids" tvg-logo="https://images.seeklogo.com/logo-png/28/1/nick-jr-logo-png_seeklogo-289344.png",Pluto TV Nick Jr. (US)
 https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/5ca6748a37b88b269472dad9/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=6c2a5106-30d3-11ef-9cf5-e9ddff8ff496&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=d95e31ff-c65d-438c-9466-ddbbd097b4cf
-
-#EXTINF:-1 tvg-id="BiznetKids.id@SD" tvg-country="ID" group-title="Kids" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Kids (ID)
-http://livestream.biznetvideo.net/biznet_kids/smil:kids.smil/index.m3u8
-
-#EXTINF:-1 tvg-id="BiznetLifestyle.id@SD" tvg-country="ID" group-title="Lifestyle" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Lifestyle (ID)
-http://livestream.biznetvideo.net/biznet_lifestyle/smil:lifestyle.smil/index.m3u8
-
-#EXTINF:-1 tvg-id="BiznetAdventure.id@SD" tvg-country="ID" group-title="General" tvg-logo="https://cdn.brandfetch.io/idRP7m_OTO/w/180/h/180/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B",Biznet Adventure (ID)
-http://livestream.biznetvideo.net/biznet_adventure/smil:adventure.smil/playlist.m3u8
 
 #EXTINF:-1 tvg-id="PlutoTVAnimals.uk" tvg-country="UK" group-title="Documentary" tvg-logo="https://i.imgur.com/N00seOn.png",Pluto TV Animals (UK)
 https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5ddf8ea0d000120009bcad83/master.m3u8?advertisingId=&appName=web&appStoreUrl=&appVersion=DNT&app_name=&architecture=&buildVersion=&deviceDNT=0&deviceId=5ddf8ea0d000120009bcad83&deviceLat=&deviceLon=&deviceMake=web&deviceModel=web&deviceType=web&deviceVersion=DNT&includeExtendedEvents=false&marketingRegion=US&serverSideAds=false&sid=550&terminate=false&userId=
