@@ -35,17 +35,8 @@ https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
 #EXTINF:-1 tvg-id="MQTV.id@SD" tvg-country="ID" group-title="Religious" tvg-logo="https://pbs.twimg.com/profile_images/2006171161382772736/55sTdTdA.jpg",MQTV (ID)
 https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8
 
-#EXTINF:-1 tvg-id="NoorDubai.ae@SD" tvg-country="AE" group-title="Religious" tvg-logo="https://www.ntd-ngonetwork.org/sites/nnn/files/styles/grid-6-wide-logo/public/content/organisation/logos/2019-05-16/noor.jpg",Noor Dubai (AE)
-https://dmiffthftl.cdn.mangomolo.com/noordubaitv/smil:noordubaitv.smil/chunklist.m3u8
-
-#EXTINF:-1 tvg-id="DubaiOne.ae" tvg-country="AE" group-title="General" tvg-logo="https://wachannelsfinder.com/wp-content/uploads/2023/11/dubai-one-tv.jpg",Dubai One (AE)
-https://dminnvllta.cdn.mgmlcdn.com/dubaione/smil:dubaione.stream.smil/chunklist.m3u8
-
 #EXTINF:-1 tvg-id="MoviesAction.sa@SD" tvg-country="SA" group-title="Movies" tvg-logo="https://stmify.com/wp-content/uploads/2024/08/51-s-300x169.webp",Movies Action (SA)
 https://shls-live-enc.edgenextcdn.net/out/v1/46079e838e65490c8299f902a7731168/index.m3u8
-
-#EXTINF:-1 tvg-id="DuniaSinema.my" tvg-country="MY" group-title="Movies" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/6/6a/Dunia_Sinema_New.png/revision/latest?cb=20210712100310",Dunia Sinema (MY)
-https://unifi-live05.secureswiftcontent.com/UnifiHD/live27-1080FHD.m3u8
 
 #EXTINF:-1 tvg-id="ShemarooBollywood.us" tvg-country="US" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFbUBc2UlsUGkv8zxU6cmRKqvpT6Xqzpk4pQ&s",Shemaroo Bollywood (US)
 https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00864-shemarooenterta-shemabollywood-ono/playlist.m3u8
