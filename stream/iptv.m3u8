@@ -44,8 +44,23 @@ https://shls-live-enc.edgenextcdn.net/out/v1/46079e838e65490c8299f902a7731168/in
 #EXTINF:-1 tvg-id="ShemarooBollywood.us" tvg-country="US" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFbUBc2UlsUGkv8zxU6cmRKqvpT6Xqzpk4pQ&s",Shemaroo Bollywood (US)
 https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00864-shemarooenterta-shemabollywood-ono/playlist.m3u8
 
+#EXTINF:-1 tvg-id="ShemarooJosh.in" tvg-country="IN" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSutWZzQySLPpaZvaSHq1SnpV0dXNSFZimyag&s",Shemaroo Josh (IN)
+https://airtelapp.shemaroo.com/shemarooChumbakTV/smil:shemarooChumbakTVadp.smil/playlist.m3u8
+
 #EXTINF:-1 tvg-id="MBCBollywood.ae" tvg-country="AE" group-title="Movies" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_Bollywood_5e107a7e29.svg&w=640&q=75",MBC Bollywood (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-bollywood/546eb40d7dcf9a209255dd2496903764/index.m3u8
+
+#EXTINF:-1 tvg-id="B4UMusic.in" tvg-country="IN" group-title="Music" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/7/74/B4U_Music_logo.png",B4U Music (IN)
+https://cdnb4u.wiseplayout.com/B4U_Music/master.m3u8
+
+#EXTINF:-1 tvg-id="ShowBox.in" tvg-country="IN" group-title="Music" tvg-logo="https://yt3.googleusercontent.com/IUHgnzgRW1MJ5S7DHwIt6AllGWOCX3mwfxolvz9eTWj1_GnGfpr16Av8FHPf7EV3Yuvz_Ggq=s900-c-k-c0x00ffffff-no-rj",ShowBox (IN)
+https://epiconvh.akamaized.net/live/showbox/master.m3u8
+
+#EXTINF:-1 tvg-id="YRFMusic.in" tvg-country="IN" group-title="Music" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/channel/756c50edae8599fb760cbbfb22010a75.png",YRF Music (IN)
+https://amg01412-xiaomiasia-yrfmusic-xiaomi-1rmk2.amagi.tv/playlist/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8
+
+#EXTINF:-1 tvg-id="Zoom.in" tvg-country="IN" group-title="Music" tvg-logo="https://images.zoomnews.com/thumb/resizemode-4,msid-94073373,width-360/94073373.jpg",Zoom (IN)
+https://d14c63magvk61v.cloudfront.net/strm/channels/zoom/master.m3u8
 
 #EXTINF:-1 tvg-id="MBC5.ae" tvg-country="AE" group-title="General" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_5_390ce9c996.svg&w=640&q=75",MBC 5 (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-5/ee6b000cee0629411b666ab26cb13e9b/index.m3u8
