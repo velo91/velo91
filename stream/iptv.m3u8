@@ -53,9 +53,6 @@ https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-3-usa/5d58265a862a476dc7f
 #EXTINF:-1 tvg-id="SpacetoonArabic.ae" tvg-country="AE" group-title="Kids" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5CoV1UA97JP2Kifh2kDkFOeEOR5fgzRhrbw&s",Spacetoon Arabic (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-spacetoon/d8382fb9ab4b2307058f12c7ea90db54/index.m3u8
 
-#EXTINF:-1 tvg-id="NickJrPlutoTV.us" tvg-country="US" group-title="Kids" tvg-logo="https://images.seeklogo.com/logo-png/28/1/nick-jr-logo-png_seeklogo-289344.png",Pluto TV Nick Jr. (US)
-https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/5ca6748a37b88b269472dad9/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=6c2a5106-30d3-11ef-9cf5-e9ddff8ff496&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=d95e31ff-c65d-438c-9466-ddbbd097b4cf
-
 #EXTINF:-1 tvg-id="PlutoTVAnimals.uk" tvg-country="UK" group-title="Documentary" tvg-logo="https://i.imgur.com/N00seOn.png",Pluto TV Animals (UK)
 https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5ddf8ea0d000120009bcad83/master.m3u8?advertisingId=&appName=web&appStoreUrl=&appVersion=DNT&app_name=&architecture=&buildVersion=&deviceDNT=0&deviceId=5ddf8ea0d000120009bcad83&deviceLat=&deviceLon=&deviceMake=web&deviceModel=web&deviceType=web&deviceVersion=DNT&includeExtendedEvents=false&marketingRegion=US&serverSideAds=false&sid=550&terminate=false&userId=
 
