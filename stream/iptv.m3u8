@@ -38,12 +38,6 @@ https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
 #EXTINF:-1 tvg-id="MQTV.id@SD" tvg-country="ID" group-title="Religious" tvg-logo="https://pbs.twimg.com/profile_images/2006171161382772736/55sTdTdA.jpg",MQTV (ID)
 https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8
 
-#EXTINF:-1 tvg-id="MoviesAction.sa@SD" tvg-country="SA" group-title="Movies" tvg-logo="https://stmify.com/wp-content/uploads/2024/08/51-s-300x169.webp",Movies Action (SA)
-https://shls-live-enc.edgenextcdn.net/out/v1/46079e838e65490c8299f902a7731168/index.m3u8
-
-#EXTINF:-1 tvg-id="MBCPlusDrama.sa" tvg-country="SA" group-title="Movies" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_Drama_ed637784c7.svg&w=640&q=75",MBC+ Drama (SA)
-https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-plus-drama/e37251ec2aac8f6c98f75cd0fa37cd28/index.m3u8
-
 #EXTINF:-1 tvg-id="MBCBollywood.ae" tvg-country="AE" group-title="Movies" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_Bollywood_5e107a7e29.svg&w=640&q=75",MBC Bollywood (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-bollywood/546eb40d7dcf9a209255dd2496903764/index.m3u8
 
