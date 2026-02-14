@@ -17,6 +17,9 @@ https://hgmtv.com:19360/garudatvlivestreaming/garudatvlivestreaming.m3u8
 #EXTINF:-1 tvg-id="BTV.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/45/1/btv-logo-png_seeklogo-454206.png",BTV (ID)
 https://btv.secureswiftcontent.com/han/btv/btv10005/srtoutput/manifest.m3u8
 
+#EXTINF:-1 tvg-id="MetroTV.id" tvg-country="ID" group-title="News" tvg-logo="https://i.pinimg.com/736x/0a/03/81/0a0381180e4e9ba04b88fc345a8fe326.jpg",Metro TV (ID)
+https://edge.medcom.id/live-edge/smil:metro.smil/playlist.m3u8
+
 #EXTINF:-1 tvg-id="TVRI.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/40/1/tvri-televisi-republik-indonesia-2019-logo-png_seeklogo-401477.png",TVRI Nasional (ID)
 https://ott-balancer.tvri.go.id/live/eds/Nasional/hls/Nasional.m3u8
 
