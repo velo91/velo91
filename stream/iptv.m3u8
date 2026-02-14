@@ -29,6 +29,9 @@ https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index.m3u
 #EXTINF:-1 tvg-id="AlJazeera.qa@English" tvg-country="QA" group-title="News" tvg-logo="https://cdn.iconscout.com/icon/free/png-256/free-aljazeera-logo-icon-svg-download-png-461765.png",Al Jazeera English (QA)
 https://live-hls-apps-aje-v3-fa.getaj.net/AJE/index.m3u8
 
+#EXTINF:-1 tvg-id="QuranRadio.sa" tvg-country="SA" group-title="Religious" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/0/00/Saudi_Quran_Radio_Logo_2024.png",Quran Radio (SA)
+https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8
+
 #EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
 https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
 
