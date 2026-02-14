@@ -59,6 +59,9 @@ https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-3-usa/5d58265a862a476dc7f
 #EXTINF:-1 tvg-id="SpacetoonArabic.ae" tvg-country="AE" group-title="Kids" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5CoV1UA97JP2Kifh2kDkFOeEOR5fgzRhrbw&s",Spacetoon Arabic (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-spacetoon/d8382fb9ab4b2307058f12c7ea90db54/index.m3u8
 
+#EXTINF:-1 tvg-id="AtfalMawahebTV.sa" tvg-country="SA" group-title="Kids" tvg-logo="https://qanawat.taghtia.com/assets/channels/atfal-wa-mawahib.png",Atfal & Mawahed TV (SA)
+https://5d658d7e9f562.streamlock.net/atfal1.com/atfal2/playlist.m3u8
+
 #EXTINF:-1 tvg-id="LoveNature.ca" tvg-country="CA" group-title="Documentary tvg-logo="https://static.wikia.nocookie.net/logopedia/images/2/21/Lovenature2.png",Love Nature (CA)
 https://aegis-cloudfront-1.tubi.video/6d6d0f24-8445-4b4c-bdf6-44f9e38beaa4/playlist.m3u8
 
