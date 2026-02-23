@@ -54,9 +54,18 @@ INSTALL CLOUDPANEL
 COMPLETE clpctl COMMAND
 ============
 cat /home/clp/htdocs/app/files/.readme
+
+============
+FORGOT BASIC AUTH
+============
 # If you can't log in because you forgot your basic auth password
-# You can run: rm /home/clp/services/nginx/basic-auth/credentials
-# Or run: clpctl cloudpanel:disable:basic-auth
+# You can run: clpctl cloudpanel:disable:basic-auth
+
+============
+FORGOT GOOGLE AUTH (2FA)
+============
+# If you can't log in because you forgot your Google Authenticator (2FA)
+# You can run: clpctl user:disable:mfa --userName='your_username'
 
 ============
 SET TIMEZONE
