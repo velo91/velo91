@@ -80,6 +80,7 @@ HOSTING_ASN_KEYWORDS = [
   'gthost',
   'hosthatch',
   'tencent building',
+  'trafficforce',
   'unmanaged ltd',
   'kaopu',
   'dpkgsoft',
