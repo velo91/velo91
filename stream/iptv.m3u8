@@ -14,9 +14,6 @@ https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/laylist.m3u8
 #EXTINF:-1 tvg-id="CNBCIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/51/1/cnbc-indonesia-logo-png_seeklogo-511506.png",CNBC Indonesia (ID)
 https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8
 
-#EXTINF:-1 tvg-id="GarudaTV.id@SD" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/45/1/garudatv-logo-png_seeklogo-454178.png",Garuda TV (ID)
-https://hgmtv.com:19360/garudatvlivestreaming/garudatvlivestreaming.m3u8
-
 #EXTINF:-1 tvg-id="MetroTV.id" tvg-country="ID" group-title="News" tvg-logo="https://i.pinimg.com/736x/0a/03/81/0a0381180e4e9ba04b88fc345a8fe326.jpg",Metro TV (ID)
 https://edge.medcom.id/live-edge/smil:metro.smil/playlist.m3u8
 
