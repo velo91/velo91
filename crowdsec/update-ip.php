@@ -48,7 +48,24 @@ if (!$kampus || !isset($secrets[$kampus]) || $secrets[$kampus] !== $token) {
 }
 
 $file = __DIR__ . "/ip-{$kampus}.txt";
-$ip = $_SERVER['REMOTE_ADDR'];
+
+function getRealIP() {
+    if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+        return $_SERVER['HTTP_CF_CONNECTING_IP'];
+    }
+
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        return trim($ips[0]);
+    }
+
+    if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+        return $_SERVER['HTTP_X_REAL_IP'];
+    }
+
+    return $_SERVER['REMOTE_ADDR'];
+}
+$ip = getRealIP();
 
 // Default
 $ip_sebelumnya = "";
