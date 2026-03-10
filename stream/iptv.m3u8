@@ -2,9 +2,6 @@
 #EXTINF:-1 tvg-id="LoveNature.ca" tvg-country="CA" group-title="Documentary tvg-logo="https://static.wikia.nocookie.net/logopedia/images/2/21/Lovenature2.png",Love Nature (CA)
 https://aegis-cloudfront-1.tubi.video/6d6d0f24-8445-4b4c-bdf6-44f9e38beaa4/playlist.m3u8
 
-#EXTINF:-1 tvg-id="PlutoTVAnimals.uk" tvg-country="UK" group-title="Documentary" tvg-logo="https://i.imgur.com/N00seOn.png",Pluto TV Animals (UK)
-https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5ddf8ea0d000120009bcad83/master.m3u8?advertisingId=&appName=web&appStoreUrl=&appVersion=DNT&app_name=&architecture=&buildVersion=&deviceDNT=0&deviceId=5ddf8ea0d000120009bcad83&deviceLat=&deviceLon=&deviceMake=web&deviceModel=web&deviceType=web&deviceVersion=DNT&includeExtendedEvents=false&marketingRegion=US&serverSideAds=false&sid=550&terminate=false&userId=
-
 #EXTINF:-1 tvg-id="Trans7.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/32/1/trans-7-logo-png_seeklogo-326342.png",Trans7 (ID)
 https://video.detik.com/trans7/smil:trans7.smil/playlist.m3u8
 
@@ -53,20 +50,17 @@ https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00864-shemarooenterta-shemabollywoo
 #EXTINF:-1 tvg-id="ShemarooJosh.in" tvg-country="IN" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSutWZzQySLPpaZvaSHq1SnpV0dXNSFZimyag&s",Shemaroo Josh (IN)
 https://airtelapp.shemaroo.com/shemarooChumbakTV/smil:shemarooChumbakTVadp.smil/playlist.m3u8
 
+#EXTINF:-1 tvg-id="9XM.in" tvg-country="IN" group-title="Music" tvg-logo="",9XM.in (IN)
+https://static.wikia.nocookie.net/logopedia/images/8/81/9xm_red.svg
+
 #EXTINF:-1 tvg-id="B4UMusic.in" tvg-country="IN" group-title="Music" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/7/74/B4U_Music_logo.png",B4U Music (IN)
 https://cdnb4u.wiseplayout.com/B4U_Music/master.m3u8
-
-#EXTINF:-1 tvg-id="ShowBox.in" tvg-country="IN" group-title="Music" tvg-logo="https://yt3.googleusercontent.com/IUHgnzgRW1MJ5S7DHwIt6AllGWOCX3mwfxolvz9eTWj1_GnGfpr16Av8FHPf7EV3Yuvz_Ggq=s900-c-k-c0x00ffffff-no-rj",ShowBox (IN)
-https://epiconvh.akamaized.net/live/showbox/master.m3u8
 
 #EXTINF:-1 tvg-id="YRFMusic.in" tvg-country="IN" group-title="Music" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/channel/756c50edae8599fb760cbbfb22010a75.png",YRF Music (IN)
 https://amg01412-xiaomiasia-yrfmusic-xiaomi-1rmk2.amagi.tv/playlist/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8
 
 #EXTINF:-1 tvg-id="Zoom.in" tvg-country="IN" group-title="Music" tvg-logo="https://images.zoomnews.com/thumb/resizemode-4,msid-94073373,width-360/94073373.jpg",Zoom (IN)
 https://d14c63magvk61v.cloudfront.net/strm/channels/zoom/master.m3u8
-
-#EXTINF:-1 tvg-id="AtfalMawahebTV.sa" tvg-country="SA" group-title="Kids" tvg-logo="https://qanawat.taghtia.com/assets/channels/atfal-wa-mawahib.png",Atfal & Mawahed TV (SA)
-https://5d658d7e9f562.streamlock.net/atfal1.com/atfal2/playlist.m3u8
 
 #EXTINF:-1 tvg-id="MBC3USA.us" tvg-country="US" group-title="Kids" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_3_360db4e622.svg&w=640&q=75",MBC 3 (US)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-3-usa/5d58265a862a476dc7f97694addb5ded/index.m3u8
