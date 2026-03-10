@@ -50,8 +50,8 @@ https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00864-shemarooenterta-shemabollywoo
 #EXTINF:-1 tvg-id="ShemarooJosh.in" tvg-country="IN" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSutWZzQySLPpaZvaSHq1SnpV0dXNSFZimyag&s",Shemaroo Josh (IN)
 https://airtelapp.shemaroo.com/shemarooChumbakTV/smil:shemarooChumbakTVadp.smil/playlist.m3u8
 
-#EXTINF:-1 tvg-id="9XM.in" tvg-country="IN" group-title="Music" tvg-logo="",9XM.in (IN)
-https://static.wikia.nocookie.net/logopedia/images/8/81/9xm_red.svg
+#EXTINF:-1 tvg-id="9XM.in" tvg-country="IN" group-title="Music" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/8/81/9xm_red.svg",9XM.in (IN)
+https://9xjio.wiseplayout.com/9XM/HD1080/HD1080.m3u8
 
 #EXTINF:-1 tvg-id="B4UMusic.in" tvg-country="IN" group-title="Music" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/7/74/B4U_Music_logo.png",B4U Music (IN)
 https://cdnb4u.wiseplayout.com/B4U_Music/master.m3u8
