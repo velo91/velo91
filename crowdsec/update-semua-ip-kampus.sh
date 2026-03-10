@@ -30,6 +30,6 @@ for FILE in "$IP_DIR"/ip-*.txt; do
         echo "[OK] $CHECK_OUTPUT (kampus: $KAMPUS)"
     else
         echo "[UPDATE] Tambah IP $IP_SAAT_INI ke allowlist $KAMPUS"
-        cscli allowlist add semua_ip_kampus "$IP_SAAT_INI" >/dev/null 2>&1
+        cscli allowlist add semua_ip_kampus "$IP_SAAT_INI" -e 30d >/dev/null 2>&1
     fi
 done
