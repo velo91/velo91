@@ -104,9 +104,13 @@ for file_path in Path(IP_DIR).glob("ip-*.txt"):
         with open(file_path, 'r') as f:
             for line in f:
                 if line.startswith("ip_saat_ini:"):
-                    ip_saat_ini = line.strip().split(":")[1].strip()
-                    ip_kampus_map[ip_saat_ini] = kampus
-                    break
+                    ip = line.split(":",1)[1].strip()
+                    if ip:
+                        ip_kampus_map[ip] = kampus
+                elif line.startswith("ip_saat_ini_alt:"):
+                    ip = line.split(":",1)[1].strip()
+                    if ip:
+                        ip_kampus_map[ip] = kampus
     except Exception as e:
         print(f"⚠ Gagal membaca {file_path}: {e}")
 
