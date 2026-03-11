@@ -61,6 +61,7 @@ HOSTING_ASN_KEYWORDS = [
   'netcup',
   'clouvider',
   'gsl',
+  'jsc',
   'cheapy',
   'choopa',
   'sovy',
