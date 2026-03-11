@@ -17,7 +17,7 @@
 // cscli allowlist remove semua_ip_kampus 36.68.106.83
 //
 // Cronjob di server local:
-// */5 * * * * curl -s -X POST -H "Authorization: Bearer vkeArXEx5P57" -d "kampus=kampusA" https://my.domain.id/update-ip.php > /dev/null
+// */5 * * * * curl -s -X POST -H "Authorization: Bearer xxx" -d "kampus=kampusA" -d "ip_alt=$(curl -s api.ipify.org)" https://my.domain.id/update-ip.php > /dev/null
 
 // Daftar token per kampus
 $secrets = [
@@ -29,25 +29,23 @@ $secrets = [
 // Ambil Authorization header
 $headers = getallheaders();
 if (!isset($headers['Authorization'])) {
-    http_response_code(401);
+    //http_response_code(401);
     exit("Unauthorized");
 }
 
 list($type, $token) = explode(' ', $headers['Authorization'], 2);
 if ($type !== "Bearer") {
-    http_response_code(401);
+    //http_response_code(401);
     exit("Unauthorized");
 }
 
 // Ambil parameter kampus dari POST
-$kampus = $_POST['kampus'] ?? null;
-
+$kampus = $_POST['kampus'] ?? '';
 if (!$kampus || !isset($secrets[$kampus]) || $secrets[$kampus] !== $token) {
-    http_response_code(403);
+    //http_response_code(403);
     exit("Forbidden");
 }
-
-$file = __DIR__ . "/ip-{$kampus}.txt";
+$ip_alt = $_POST['ip_alt'] ?? '';
 
 function getRealIP() {
     if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
@@ -65,31 +63,51 @@ function getRealIP() {
 
     return $_SERVER['REMOTE_ADDR'];
 }
-$ip = getRealIP();
 
-// Default
+$file = __DIR__."/ip-$kampus.txt";
+
+$ip_cloud = getRealIP();
+
+$ip_saat_ini = $ip_cloud;
+$ip_saat_ini_alt = "";
+
+if($ip_alt && $ip_alt != $ip_cloud){
+    $ip_saat_ini_alt = $ip_alt;
+}
+
 $ip_sebelumnya = "";
+$ip_sebelumnya_alt = "";
 
-// Kalau file sudah ada, ambil ip_saat_ini lama
-if (file_exists($file)) {
-    $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (str_starts_with($line, 'ip_saat_ini:')) {
-            $parts = explode(':', $line, 2);
-            if (isset($parts[1])) {
-                $old_ip = trim($parts[1]);
-                // Kalau beda → ip_sebelumnya diisi, kalau sama → tetap kosong
-                if ($old_ip !== $ip) {
-                    $ip_sebelumnya = $old_ip;
-                }
+if(file_exists($file)){
+
+    $data = file($file, FILE_IGNORE_NEW_LINES);
+
+    foreach($data as $line){
+
+        if(strpos($line,"ip_saat_ini:")===0){
+            $old = trim(explode(":",$line)[1]);
+            if($old != $ip_saat_ini){
+                $ip_sebelumnya = $old;
             }
-            break;
         }
+
+        if(strpos($line,"ip_saat_ini_alt:")===0){
+            $old = trim(explode(":",$line)[1]);
+            if($old != $ip_saat_ini_alt){
+                $ip_sebelumnya_alt = $old;
+            }
+        }
+
     }
 }
 
-// Tulis ulang dengan IP baru dan lama
-$content = "ip_saat_ini: $ip\nip_sebelumnya: $ip_sebelumnya\n";
-file_put_contents($file, $content);
+$content =
+"ip_saat_ini: $ip_saat_ini
+ip_saat_ini_alt: $ip_saat_ini_alt
+ip_sebelumnya: $ip_sebelumnya
+ip_sebelumnya_alt: $ip_sebelumnya_alt
+";
 
-echo "Update: ip_saat_ini=$ip, ip_sebelumnya=$ip_sebelumnya";
+file_put_contents($file,$content);
+
+echo $content;
