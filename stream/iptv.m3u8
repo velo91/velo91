@@ -20,9 +20,6 @@ https://edge.medcom.id/live-edge/smil:metro.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="TVRI.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/40/1/tvri-televisi-republik-indonesia-2019-logo-png_seeklogo-401477.png",TVRI Nasional (ID)
 https://ott-balancer.tvri.go.id/live/eds/Nasional/hls/Nasional.m3u8
 
-#EXTINF:-1 tvg-id="MCOTHD.th" tvg-country="TH" group-title="General" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWEXeApjRz5Ia7uABrdsX1lYJPEiBrU-mXfQ&s",MCOT HD (TH)
-https://mcothd-streaming-edge-cdn.mcot.net/tencentmcot/smil:tencentmcot.smil/playlist.m3u8
-
 #EXTINF:-1 tvg-id="CNA.sg" tvg-country="SG" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/38/1/cna-channel-news-asia-logo-png_seeklogo-387586.png",CNA Singapore (SG)
 https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index.m3u8
 
@@ -40,9 +37,6 @@ https://airtelapp.shemaroo.com/shemarooChumbakTV/smil:shemarooChumbakTVadp.smil/
 
 #EXTINF:-1 tvg-id="9XM.in" tvg-country="IN" group-title="Music" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/8/81/9xm_red.svg",9XM.in (IN)
 https://9xjio.wiseplayout.com/9XM/HD1080/HD1080.m3u8
-
-#EXTINF:-1 tvg-id="B4UMusic.in" tvg-country="IN" group-title="Music" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/7/74/B4U_Music_logo.png",B4U Music (IN)
-https://cdnb4u.wiseplayout.com/B4U_Music/master.m3u8
 
 #EXTINF:-1 tvg-id="YRFMusic.in" tvg-country="IN" group-title="Music" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/channel/756c50edae8599fb760cbbfb22010a75.png",YRF Music (IN)
 https://amg01412-xiaomiasia-yrfmusic-xiaomi-1rmk2.amagi.tv/playlist/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8
