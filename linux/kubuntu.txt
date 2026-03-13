@@ -479,18 +479,37 @@ Download IPTVnator (IPTV Player) Playlist => https://iptv-org.github.io/iptv/ind
 Install Apps Manually From .SH File
 =======================================
 Download MetaTrader 5: powerful platform for forex and exchange markets
-	# run this command with NO sudo:
-	$ cd ~; wget https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/mt5/mt5-ubuntu-installer.sh ; chmod +x mt5-ubuntu-installer.sh ; ./mt5-ubuntu-installer.sh
+	# [NO sudo] fresh install with no oldest wine:
+	$ cd ~; sudo apt remove --purge winehq-stable wine-stable wine-stable-amd64 wine-stable-i386 wine wine64 wine32 && sudo apt autoremove && rm -rf ~/.mt5
+	# [NO sudo] run this command:
+	$ cd ~; wget https://download.terminal.free/cdn/web/metaquotes.software.corp/mt5/mt5linux.sh ; chmod +x mt5linux.sh ; ./mt5linux.sh
 		# this command downloads the script, makes it executable and runs it. You only need to enter your account password to allow installation.
 		# the default path of the installed platform data folder is as follows:
 			~\.mt5\drive_c\Program Files\MetaTrader 5
-		# Open KDE Menu Editor > New Item
-		Name=Close All MT5
-		Comment=Force close all MetaTrader 5 instances (Wine)
-		Environment Variables=WINEPREFIX=/home/ideapad/.mt5
-		Program=wineserver
-		Command-Line Arguments=-k
-		# Save
+		# if MT5 icon doesn't appear in menu, create one:
+			# Open KDE Menu Editor > New Item
+			Name=MetaTrader 5
+			Comment=Trading platform for forex, stocks, futures
+			Environment Variables=WINEPREFIX=/home/ideapad/.mt5
+			Program=wine
+			Command-Line Arguments='C:\users\ideapad\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MetaTrader 5\MetaTrader 5.lnk'
+			# Save
+		# if MetaEditor icon doesn't appear in menu, create one:
+			# Open KDE Menu Editor > New Item
+			Name=MetaEditor
+			Comment=Professional editor of trading applications
+			Environment Variables=WINEPREFIX=/home/ideapad/.mt5
+			Program=wine
+			Command-Line Arguments='C:\users\ideapad\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MetaTrader 5\MetaEditor.lnk'
+			# Save
+		# if Reboot Wineserver icon doesn't appear in menu, create one:
+			# Open KDE Menu Editor > New Item
+			Name=Reboot Wineserver
+			Comment=Reboot wineserver and close all MT5 instances (Wine)
+			Environment Variables=WINEPREFIX=/home/ideapad/.mt5
+			Program=wineserver
+			Command-Line Arguments=-k
+			# Save
 Download Burp Suite Community Edition (Free): popular web security testing tool used by ethical hackers and penetration testers
 	https://portswigger.net/burp/releases
 		=> chmod +x burpsuite_community_linux_v*.sh
