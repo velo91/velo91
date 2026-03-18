@@ -39,13 +39,9 @@ node -v && npm -v
 INSTALL CLOUDPANEL
 ==================
 # Run the installer with your preferred Database Engine
-	# Ubuntu 24.04 LTS with MariaDB 10.11
-	curl -sS https://installer.cloudpanel.io/ce/v2/install.sh -o install.sh; \
-	echo "a3ba69a8102345127b4ae0e28cfe89daca675cbc63cd39225133cdd2fa02ad36 install.sh" | \
-	sha256sum -c && sudo DB_ENGINE=MARIADB_10.11 bash install.sh
 	# Ubuntu 24.04 LTS with MariaDB 11.4
 	curl -sS https://installer.cloudpanel.io/ce/v2/install.sh -o install.sh; \
-	echo "a3ba69a8102345127b4ae0e28cfe89daca675cbc63cd39225133cdd2fa02ad36 install.sh" | \
+	echo "19cfa702e7936a79e47812ff57d9859175ea902c62a68b2c15ccd1ebaf36caeb install.sh" | \
 	sha256sum -c && sudo DB_ENGINE=MARIADB_11.4 bash install.sh
 # You can now access CloudPanel via Browser: https://yourIpAddress:8443
 # Ignore the self-signed certificate warning and click on Advanced and Proceed to continue to CloudPanel
