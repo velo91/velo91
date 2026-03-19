@@ -1,0 +1,7 @@
+#check process mariadb with pidfile /var/run/mariadb/mariadb.pid
+check process mariadb with pidfile /var/run/mysqld/mysqld.pid
+  start program = "/bin/systemctl start mariadb"
+  stop program  = "/bin/systemctl stop mariadb"
+  if failed host localhost port 3306 protocol mysql with timeout 15 seconds for 3 times within 4 cycles then restart
+  if failed unixsocket /var/run/mysqld/mysqld.sock protocol mysql for 3 times within 4 cycles then restart
+  if 5 restarts with 5 cycles then timeout
