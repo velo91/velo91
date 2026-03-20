@@ -809,6 +809,7 @@ https://rclone.org/drive/#making-your-own-client-id
 # enter "64M" for chunk_size
 # just leave blank the acknowledge_abuse, keep_revision_forever, v2_download_min_size, pacer_min_sleep, pacer_burst, server_side_across_configs, disable_http2, stop_on_upload_limit, stop_on_download_limit, skip_shortcuts, skip_dangling_shortcuts, resource_key, encoding, 
 # enter "n" for Edit Advanced Config
+# Use auto config: "n" if ubuntu server (remote / headless machine)
 # Use web browser to automatically authenticate rclone with remote?
 # y if the machine running rclone has a web browser you can use
 # n if running rclone on a (remote) machine without web browser access --> right choice for linux server
