@@ -162,6 +162,16 @@ nano /etc/nginx/nginx.conf
 nginx -t
 nginx -s reload
 
+=======================================================================
+NGINX USE MODERN STANDARD FONT MIME TYPE
+=======================================================================
+nano /etc/nginx/mime.types
+# change "woff" line with this modern standard:
+    font/woff                             woff;
+    font/woff2                            woff2;
+    font/ttf                              ttf;
+    font/otf                              otf;
+
 =====================
 EXTEND SWAP FILE SIZE
 =====================
@@ -486,6 +496,8 @@ logrotate /etc/logrotate.d/nginx
 # Maximize worker_connections
 nano /etc/nginx/nginx.conf
 	worker_connections 20000;
+	use epoll;
+	multi_accept on;
 # Disable logging for requests with HTTP status codes 2xx (Success) and 3xx (Redirection)
 nano /etc/nginx/nginx.conf
     ##
