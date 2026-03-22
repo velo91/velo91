@@ -22,7 +22,6 @@ sudo cscli bouncers list
 sudo cscli collections list
 sudo cscli metrics
 sudo cscli decisions list
-
 ### ADD THIRD PARTY BLOCKLIST
 # create account at https://app.crowdsec.net
 # once logged in, find the Enroll Command button, and paste it into your terminal:
