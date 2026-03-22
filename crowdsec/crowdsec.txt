@@ -7,11 +7,13 @@ sudo systemctl disable --now fail2ban
 curl -s https://install.crowdsec.net | sudo sh
 sudo apt install crowdsec crowdsec-firewall-bouncer-iptables
 # change port 8080 to 7777
-sudo nano /etc/crowdsec/config.yaml
-sudo nano /etc/crowdsec/local_api_credentials.yaml
-sudo nano /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
-sudo systemctl restart crowdsec && sudo systemctl restart crowdsec-firewall-bouncer
-sudo systemctl status crowdsec && sudo systemctl status crowdsec-firewall-bouncer
+# ONLY IF YOU WANT TO SETUP BOUNCER MULTI SERVER
+# IGNORE IT IF YOU JUST USE BOUNCER ON SINGLE SERVER
+	sudo nano /etc/crowdsec/config.yaml
+	sudo nano /etc/crowdsec/local_api_credentials.yaml
+	sudo nano /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
+	sudo systemctl restart crowdsec && sudo systemctl restart crowdsec-firewall-bouncer
+	sudo systemctl status crowdsec && sudo systemctl status crowdsec-firewall-bouncer
 # make sure no error:
 sudo journalctl -u crowdsec -n 20
 sudo cscli parsers list
