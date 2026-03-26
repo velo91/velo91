@@ -22,6 +22,7 @@ HOSTING_ASN_KEYWORDS = [
   'hostinger',
   'industri kreatif digital',
   'informasi nusantara teknologi',
+  'internet company llp',
   'intercloud digital inovasi',
   'jaringan lintas artha',
   'master web network',
