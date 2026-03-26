@@ -38,6 +38,32 @@ Firehol BotScout list
 Firehol greensnow.co list
 # to add one, click Subscribe. choose Ban as the default action to take.
 
+### CREATE WHITELIST CLOUDFLARE IP
+nano /usr/local/bin/update-cloudflare-allowlist.sh
+chmod +x /usr/local/bin/update-cloudflare-allowlist.sh
+----------------------------
+#!/bin/bash
+set -e
+TMP_FILE="/tmp/cf_ips.txt"
+TAG="cloudflare-auto"
+echo "[*] Fetching Cloudflare IPs..."
+curl -sf https://www.cloudflare.com/ips-v4 > $TMP_FILE
+echo "" >> $TMP_FILE
+curl -sf https://www.cloudflare.com/ips-v6 >> $TMP_FILE
+# bersihkan line kosong
+sed -i '/^$/d' $TMP_FILE
+echo "[*] Removing old allowlist..."
+cscli allowlists delete $TAG 2>/dev/null || true
+echo "[*] Creating new allowlist..."
+cscli allowlists create $TAG --description "Cloudflare auto whitelist"
+echo "[*] Adding IPs..."
+xargs -I {} cscli allowlists add $TAG {} < $TMP_FILE
+echo "[✓] Done at $(date)"
+----------------------------
+crontab -e
+# auto update cloudflare ip to crowdsec allowlist (prevent false blocking via cloudflare)
+0 * * * * /usr/local/bin/update-cloudflare-allowlist.sh >/dev/null 2>&1
+
 ### CREATE WHITELIST WITH s02-enrich
 nano /etc/crowdsec/parsers/s02-enrich/mywhitelists.yaml
 ==================
