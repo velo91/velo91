@@ -21,7 +21,7 @@ sqlite3 --version
 
 # Di server non-CloudPanel, buat folder database dan database SQLite baru
 mkdir -p /home/clp/htdocs/app/data
-sqlite3 /home/clp/htdocs/app/data/db.sq3 < /tmp/schema.sql
+sqlite3 /home/clp/htdocs/app/data/db.sq3 < /home/schema.sql
 
 # Buat script agent
 sudo nano /usr/local/bin/update_monitoring.sh
