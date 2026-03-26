@@ -40,7 +40,6 @@ Firehol greensnow.co list
 
 ### CREATE WHITELIST CLOUDFLARE IP
 nano /usr/local/bin/update-cloudflare-allowlist.sh
-chmod +x /usr/local/bin/update-cloudflare-allowlist.sh
 ----------------------------
 #!/bin/bash
 set -e
