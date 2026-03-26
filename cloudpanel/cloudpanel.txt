@@ -31,7 +31,7 @@ IF NECESSARY: UPGRADE NODE.JS VERSION
 node -v && npm -v
 # run the command listed on the https://deb.nodesource.com web page like this
 	curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash -
-	sudo apt-get install nodejs
+	sudo apt install nodejs
 # check new upgraded version
 node -v && npm -v
 
