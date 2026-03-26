@@ -61,8 +61,10 @@ xargs -I {} cscli allowlists add $TAG {} < $TMP_FILE
 echo "[✓] Done at $(date)"
 ----------------------------
 chmod +x /usr/local/bin/update-cloudflare-allowlist.sh
-# test run
+# test run manually
 /usr/local/bin/update-cloudflare-allowlist.sh
+# show list
+cscli allowlists inspect cloudflare-auto
 # put on cronjob
 crontab -e
 # auto update cloudflare ip to crowdsec allowlist (prevent false blocking via cloudflare)
