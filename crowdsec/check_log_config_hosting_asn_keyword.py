@@ -88,6 +88,7 @@ HOSTING_ASN_KEYWORDS = [
   'unmanaged ltd',
   'galeon',
   'kaopu',
+  'trulo',
   'pfcloud',
   'unifet',
   'dpkgsoft',
