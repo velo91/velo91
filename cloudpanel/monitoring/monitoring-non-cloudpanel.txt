@@ -20,8 +20,8 @@ sudo apt update && sudo apt install sqlite3
 sqlite3 --version
 
 # Di server non-CloudPanel, buat folder database dan database SQLite baru
-mkdir -p /home/clp/htdocs/app/data
-sqlite3 /home/clp/htdocs/app/data/db.sq3 < /home/schema.sql
+mkdir -p /var/www/monitoring/metrics/health
+sqlite3 /var/www/monitoring/metrics/health/db.sq3 < /home/schema.sql
 
 # Buat script agent
 sudo nano /usr/local/bin/update_monitoring.sh
@@ -46,7 +46,7 @@ sudo nano /usr/local/bin/update_monitoring.sh
 # crontab -e
 # * * * * * /usr/local/bin/update_monitoring.sh
 
-DB="/home/clp/htdocs/app/data/db.sq3"
+DB="/var/www/monitoring/metrics/health/db.sq3"
 
 # UTC time (universal, lebih konsisten lintas server)
 NOW=$(date -u '+%Y-%m-%d %H:%M:%S')
@@ -116,7 +116,7 @@ sudo chmod +x /usr/local/bin/update_monitoring.sh
 # Lalu tes manual
 /usr/local/bin/update_monitoring.sh
 # Cek apakah data masuk
-sqlite3 /home/clp/htdocs/app/data/db.sq3 "SELECT * FROM instance_cpu ORDER BY id DESC LIMIT 3;"
+sqlite3 /var/www/monitoring/metrics/health/db.sq3 "SELECT * FROM instance_cpu ORDER BY id DESC LIMIT 3;"
 # Tambahkan ke Cron (tiap 1 menit)
 crontab -e
 # Tambahkan baris:
@@ -127,13 +127,11 @@ crontab -e
 
 
 
-mkdir -p /var/www/monitoring/metrics/health
 touch /var/www/monitoring/index.php
 nano /var/www/monitoring/metrics/health/index.php
 chown -R www-data:www-data /var/www/monitoring
 chmod -R 750 /var/www/monitoring
 nano /etc/php/8.4/fpm/pool.d/monitoring.conf
-# kalau bukan cloudpanel, user dan group isikan = www-data
 ---
 [default]
 listen = 127.0.0.1:12345
