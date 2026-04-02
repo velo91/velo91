@@ -82,12 +82,12 @@ log_error = /var/log/mysql/error.log
 # The following can be used as easy to replay backup logs or for replication.
 # note: if you are setting up a replica, see README.Debian about other
 #       settings you may need to change.
+log_bin_trust_function_creators = 1
+skip-log-bin
 #server-id              = 1
 #log_bin                = /var/log/mysql/mysql-bin.log
 #expire_logs_days       = 10
 #max_binlog_size        = 100M
-log_bin_trust_function_creators = 1
-skip-log-bin
 
 #
 # * SSL/TLS
