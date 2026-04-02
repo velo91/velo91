@@ -132,6 +132,7 @@ nano /var/www/monitoring/index.php
 chown -R www-data:www-data /var/www/monitoring
 chmod -R 755 /var/www/monitoring
 nano /etc/php/8.4/fpm/pool.d/monitoring.conf
+# kalau bukan cloudpanel, user dan group isikan = www-data
 ---
 [default]
 listen = 127.0.0.1:12345
