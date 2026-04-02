@@ -127,10 +127,11 @@ crontab -e
 
 
 
-mkdir -p /var/www/monitoring
-nano /var/www/monitoring/index.php
+mkdir -p /var/www/monitoring/metrics/health
+touch /var/www/monitoring/index.php
+nano /var/www/monitoring/metrics/health/index.php
 chown -R www-data:www-data /var/www/monitoring
-chmod -R 755 /var/www/monitoring
+chmod -R 750 /var/www/monitoring
 nano /etc/php/8.4/fpm/pool.d/monitoring.conf
 # kalau bukan cloudpanel, user dan group isikan = www-data
 ---
