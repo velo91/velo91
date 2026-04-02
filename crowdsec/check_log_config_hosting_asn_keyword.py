@@ -87,6 +87,8 @@ HOSTING_ASN_KEYWORDS = [
   'trafficforce',
   'unmanaged ltd',
   'kaopu',
+  'pfcloud',
+  'unifet',
   'dpkgsoft',
   'velia.net',
   'yisu cloud',
