@@ -137,8 +137,8 @@ nano /etc/php/8.4/fpm/pool.d/monitoring.conf
 ---
 [default]
 listen = 127.0.0.1:12345
-user = clp
-group = clp
+user = www-data
+group = www-data
 listen.allowed_clients = 127.0.0.1
 pm = ondemand
 pm.max_children = 250
