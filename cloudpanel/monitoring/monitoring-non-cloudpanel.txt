@@ -1,12 +1,15 @@
-# Salin struktur database SQLite di server CloudPanel
-sqlite3 /home/clp/htdocs/app/data/db.sq3 .schema > /home/schema.sql
+# Kalau memang sudah pakai CloudPanel, jalankan:
+mkdir -p /var/www/monitoring/metrics/health
+cp /home/clp/htdocs/app/data/db.sq3 /var/www/monitoring/metrics/health/
+chown www-data:www-data /var/www/monitoring/metrics/health/db.sq3
 
+
+# Kalau tidak pakai CloudPanel, bisa salin terlebih dahulu struktur database SQLite dari server CloudPanel
+sqlite3 /home/clp/htdocs/app/data/db.sq3 .schema > /home/schema.sql
 # Salin file schema.sql ini ke server non-CloudPanel (misalnya via scp atau rsync atau http)
 scp schema.sql user@server-baru-non-cloudpanel:/tmp/
-
 # Hapus yang tidak perlu lagi di server CloudPanel
 rm /home/schema.sql
-
 # Di server non-CloudPanel
 nano /home/schema.sql
 # Hapus baris pertama:
@@ -14,23 +17,18 @@ nano /home/schema.sql
 # sqlite_sequence adalah tabel internal yang otomatis dibuat SQLite saat ada tabel dengan AUTOINCREMENT.
 # kalau kamu coba membuatnya secara manual, SQLite akan error karena nama itu reserved.
 # jadi baris ini boleh dan sebaiknya dihapus sebelum import schema.
-
 # Pastikan di server non-CloudPanel sudah terinstall SQLite
 sudo apt update && sudo apt install sqlite3
 sqlite3 --version
-
 # Di server non-CloudPanel, buat folder database dan database SQLite baru
 mkdir -p /var/www/monitoring/metrics/health
 sqlite3 /var/www/monitoring/metrics/health/db.sq3 < /home/schema.sql
 
+
 # Buat script agent
 sudo nano /usr/local/bin/update_monitoring.sh
 # isi dengan ini:
-
-
-
-
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #!/bin/bash
 #
 # update_monitoring.sh
@@ -107,8 +105,7 @@ INSERT INTO instance_load_average (created_at, period, value) VALUES ('$NOW', 1,
 INSERT INTO instance_load_average (created_at, period, value) VALUES ('$NOW', 5, $LOAD5);
 INSERT INTO instance_load_average (created_at, period, value) VALUES ('$NOW', 15, $LOAD15);
 EOF
-
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 # Buat script jadi executable
@@ -124,15 +121,13 @@ crontab -e
 # Akses lewat Script PHP Monitoring
 
 
-
-
-
+mkdir -p /var/www/monitoring/metrics/health
 touch /var/www/monitoring/index.php
 nano /var/www/monitoring/metrics/health/index.php
 chown -R www-data:www-data /var/www/monitoring
 chmod -R 750 /var/www/monitoring
 nano /etc/php/8.4/fpm/pool.d/monitoring.conf
----
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [default]
 listen = 127.0.0.1:12345
 user = www-data
@@ -148,13 +143,13 @@ request_terminate_timeout = 7200s
 rlimit_files = 131072
 rlimit_core = unlimited
 catch_workers_output = yes
----
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 systemctl restart php8.4-fpm
 mkdir -p /etc/nginx/ssl
 openssl req -x509 -nodes -days 36500 -newkey rsa:2048 -keyout /etc/nginx/ssl/monitoring.key -out /etc/nginx/ssl/monitoring.crt -subj "/CN=[IP_SERVER_TERSEBUT]" -addext "subjectAltName = IP:[IP_SERVER_TERSEBUT]"
 # kalau punya /etc/nginx/sites-enabled/default.conf di cloudpanel, pastikan di bagian listen 443 (ip4) jangan ada default_server biar tidak konflik dengan monitoring-ip.conf versi https yang akan kita buat, jadi kalau ada default_server di /etc/nginx/sites-enabled/default.conf silakan dihapus dulu
 nano /etc/nginx/sites-enabled/monitoring-ip.conf
----
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 server {
     listen 443 ssl default_server;
     server_name [IP_SERVER_TERSEBUT];
@@ -171,6 +166,6 @@ server {
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
 }
----
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 nginx -t
 nginx -s reload
