@@ -82,6 +82,7 @@ HOSTING_ASN_KEYWORDS = [
   'gthost',
   'hosthatch',
   'nsec',
+  'china169',
   'tencent building',
   'tencent computer',
   'trafficforce',
