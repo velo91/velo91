@@ -86,6 +86,7 @@ HOSTING_ASN_KEYWORDS = [
   'tencent computer',
   'trafficforce',
   'unmanaged ltd',
+  'galeon',
   'kaopu',
   'pfcloud',
   'unifet',
