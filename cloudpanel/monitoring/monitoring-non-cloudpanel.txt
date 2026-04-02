@@ -158,7 +158,7 @@ nano /etc/nginx/sites-enabled/monitoring-ip.conf
 ---
 server {
     listen 443 ssl default_server;
-    server_name _;
+    server_name [IP_SERVER_TERSEBUT];
     ssl_certificate /etc/nginx/ssl/monitoring.crt;
     ssl_certificate_key /etc/nginx/ssl/monitoring.key;
     root /var/www/monitoring;
