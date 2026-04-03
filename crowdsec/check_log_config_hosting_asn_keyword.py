@@ -38,6 +38,7 @@ HOSTING_ASN_KEYWORDS = [
   'cloud host',
   'microsoft corporation',
   'digitalocean',
+  'amazon.com',
   'huawei clouds',
   'akamai',
   'linode',
