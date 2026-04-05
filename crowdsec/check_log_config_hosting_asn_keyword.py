@@ -10,6 +10,7 @@ HOSTING_ASN_KEYWORDS = [
   'cepat multi data',
   'cloud hosting indonesia',
   'cyberzone',
+  'data digital indotama',
   'delta neva angkasa',
   'deneva',
   'dewa bisnis digital',
