@@ -151,8 +151,10 @@ openssl req -x509 -nodes -days 36500 -newkey rsa:2048 -keyout /etc/nginx/ssl/mon
 nano /etc/nginx/sites-enabled/monitoring-ip.conf
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 server {
-    listen 443 ssl default_server;
+    listen 443 ssl default_server; # jika tidak pakai cloudpanel, gunakan: listen 443 ssl http2 default_server;
     server_name [IP_SERVER_TERSEBUT];
+    ssl_stapling off;
+    ssl_stapling_verify off;
     ssl_certificate /etc/nginx/ssl/monitoring.crt;
     ssl_certificate_key /etc/nginx/ssl/monitoring.key;
     root /var/www/monitoring;
