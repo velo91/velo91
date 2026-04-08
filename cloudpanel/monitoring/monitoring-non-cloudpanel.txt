@@ -120,6 +120,66 @@ crontab -e
 * * * * * /usr/local/bin/update_monitoring.sh
 # Akses lewat Script PHP Monitoring
 
+# KHUSUS database server bisa juga digunakan untuk rekam data instance_db_status, buat dulu tabelnya:
+sqlite3 /var/www/monitoring/metrics/health/db.sq3
+# lalu jalankan:
+CREATE TABLE instance_db_status (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT,
+    processlist INTEGER,
+    threads_connected INTEGER,
+    max_used_connections INTEGER,
+    max_connections INTEGER,
+    percent_connected INTEGER,
+    percent_used INTEGER
+);
+# keluar dari sqlite, lalu tambahkan baris ini di akhir:
+nano /usr/local/bin/update_monitoring.sh
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ========== MARIADB STATUS (LIGHT & NO PASSWORD) ==========
+
+read THREADS_CONNECTED MAX_USED MAX_CONN <<< $(mariadb -N -e "
+SHOW STATUS LIKE 'Threads_connected';
+SHOW STATUS LIKE 'Max_used_connections';
+SHOW VARIABLES LIKE 'max_connections';
+" | awk '
+/Threads_connected/ {tc=$2}
+/Max_used_connections/ {mu=$2}
+/max_connections/ {mc=$2}
+END {print tc, mu, mc}
+')
+
+# Hitung persentase
+if [ "$MAX_CONN" -gt 0 ]; then
+    PERCENT_CONNECTED=$((THREADS_CONNECTED * 100 / MAX_CONN))
+    PERCENT_USED=$((MAX_USED * 100 / MAX_CONN))
+else
+    PERCENT_CONNECTED=0
+    PERCENT_USED=0
+fi
+
+# Simpan ke SQLite
+sqlite3 "$DB" <<EOF
+INSERT INTO instance_db_status (
+    created_at,
+    threads_connected,
+    max_used_connections,
+    max_connections,
+    percent_connected,
+    percent_used
+)
+VALUES (
+    '$NOW',
+    $THREADS_CONNECTED,
+    $MAX_USED,
+    $MAX_CONN,
+    $PERCENT_CONNECTED,
+    $PERCENT_USED
+);
+EOF
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Berikut cara agar bisa diakses via web (via nginx):
 
 mkdir -p /var/www/monitoring/metrics/health
 touch /var/www/monitoring/index.php
