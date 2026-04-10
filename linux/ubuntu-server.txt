@@ -765,6 +765,8 @@ sudo monit status && sudo monit summary
 ##################################
 # Install Rclone 1.59.2
 ##################################
+rclone version && rclone version --check
+
 ### METHOD 1 ###
 curl https://rclone.org/install.sh | sudo bash && rclone version
 rclone config
