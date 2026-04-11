@@ -3,6 +3,7 @@ HOSTING_ASN_KEYWORDS = [
   'aldiyanur mahakam telemedia',
   'andhika pratama sanggoro',
   'ardh global indonesia',
+  'atharva telematika persada',
   'awan data teknologi',
   'awan media semesta',
   'beon intermedia',
