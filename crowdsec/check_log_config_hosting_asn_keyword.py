@@ -77,6 +77,7 @@ HOSTING_ASN_KEYWORDS = [
   'advin',
   'alsycon',
   'railnet',
+  'de-corp',
   'delska',
   'dzcrd',
   'xneelo',
