@@ -84,6 +84,25 @@ cscli collections install fulljackz/proxmox
 ----------------------------
 sudo systemctl reload crowdsec
 
+### CREATE borestad blocklist + ipset + CROWDSEC_CHAIN (CrowdSec)
+# install ipset & pv
+sudo apt install ipset
+# buat ipset khusus
+sudo ipset create abuseipdb hash:ip timeout 86400
+# sambungkan ke CROWDSEC_CHAIN
+sudo iptables -I CROWDSEC_CHAIN 1 -m set --match-set abuseipdb src -j DROP
+# test manual load blocklist
+count=0
+curl -s https://raw.githubusercontent.com/borestad/blocklist-abuseipdb/main/abuseipdb-s100-14d.ipv4 \
+| grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' \
+| while read ip; do
+    count=$((count+1))
+    echo "[$count] ADD $ip"
+    sudo ipset add abuseipdb $ip timeout 86400 -exist
+done
+
+
+
 ### CREATE WHITELIST CLOUDFLARE IP
 nano /usr/local/bin/update-cloudflare-allowlist.sh
 ----------------------------
