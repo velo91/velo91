@@ -38,6 +38,7 @@ Firehol BotScout list
 Firehol greensnow.co list
 # to add one, click Subscribe. choose Ban as the default action to take.
 
+
 ### MUST HAVE COLLECTIONS
 sudo cscli collections list
 ----------------------------
@@ -84,23 +85,87 @@ cscli collections install fulljackz/proxmox
 ----------------------------
 sudo systemctl reload crowdsec
 
-### CREATE borestad blocklist + ipset + CROWDSEC_CHAIN (CrowdSec)
-# install ipset & pv
+
+### CREATE borestad blocklist (abuseipdb) + ipset + CROWDSEC_CHAIN (CrowdSec)
+# install ipset
 sudo apt install ipset
-# buat ipset khusus
-sudo ipset create abuseipdb hash:ip timeout 86400
+# kalau sudah terinstall dan manatau sudah ada ipset lama maka hapus dulu: sudo iptables -D CROWDSEC_CHAIN -m set --match-set abuseipdb src -j DROP && sudo ipset destroy abuseipdb && sudo ipset create abuseipdb hash:ip maxelem 500000 timeout 86400
+# buat ipset khusus yang baru
+sudo ipset create abuseipdb hash:ip maxelem 500000 timeout 86400
 # sambungkan ke CROWDSEC_CHAIN
 sudo iptables -I CROWDSEC_CHAIN 1 -m set --match-set abuseipdb src -j DROP
-# test manual load blocklist
-count=0
-curl -s https://raw.githubusercontent.com/borestad/blocklist-abuseipdb/main/abuseipdb-s100-14d.ipv4 \
-| grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' \
-| while read ip; do
-    count=$((count+1))
-    echo "[$count] ADD $ip"
-    sudo ipset add abuseipdb $ip timeout 86400 -exist
-done
+# load blocklist, bila suatu saat ipset ini mau dikosongin lagi secara manual: sudo ipset flush abuseipdb
+curl -s https://raw.githubusercontent.com/borestad/blocklist-abuseipdb/main/abuseipdb-s100-14d.ipv4 | grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | awk '{print "add abuseipdb " $1 " timeout 86400 -exist"}' | sudo ipset restore
+# verifikasi
+sudo ipset list abuseipdb | head
+# pastikan References: 1, kalau masih 0 berarti harus sambukan lagi ke CROWDSEC_CHAIN
+sudo iptables -I CROWDSEC_CHAIN 1 -m set --match-set abuseipdb src -j DROP
+# pastikan blocklist abuseipdb sudah aktif, ditandai di baris pertama ada: match-set abuseipdb src DROP
+sudo iptables -L CROWDSEC_CHAIN -n --line-numbers
+# dengan posisi sekarang: abuseipdb → FIRST LINE DEFENSE, crowdsec → SECOND LAYER (behavior)
 
+# cek apakah benar jalan (real blocking)
+sudo iptables -L CROWDSEC_CHAIN -v -n
+# lihat kolom: pkts bytes, kalau angkanya naik, berarti IP dari blocklist benar-benar kena drop
+# sekarang tinggal buat script update otomatis biar jalan di cronjob:
+nano /usr/local/bin/update_abuseipdb.sh
+----------------------------
+#!/bin/bash
+
+set -e
+
+IPSET="abuseipdb"
+TMP_SET="abuseipdb_new"
+TMP_FILE="/tmp/abuseipdb_restore.txt"
+URL="https://raw.githubusercontent.com/borestad/blocklist-abuseipdb/main/abuseipdb-s100-14d.ipv4"
+
+echo "[INFO] $(date) - Update AbuseIPDB (zero-downtime) started"
+
+# Pastikan ipset utama ada
+if ! ipset list $IPSET >/dev/null 2>&1; then
+    echo "[ERROR] ipset $IPSET tidak ditemukan!"
+    exit 1
+fi
+
+# Hapus set sementara jika ada
+ipset destroy $TMP_SET 2>/dev/null || true
+
+# Buat set baru (HARUS sama parameter dengan yang lama)
+ipset create $TMP_SET hash:ip maxelem 500000 timeout 86400
+
+# Generate file restore
+curl -s $URL \
+| grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' \
+| awk '{print "add '$TMP_SET' " $1 " timeout 86400 -exist"}' > $TMP_FILE
+
+# Hitung jumlah IP
+COUNT=$(wc -l < $TMP_FILE)
+echo "[INFO] Total IP to load: $COUNT"
+
+# Load ke set baru
+ipset restore < $TMP_FILE
+
+# SWAP (ini kunci zero downtime)
+ipset swap $IPSET $TMP_SET
+
+# Hapus set lama (yang sekarang jadi TMP_SET)
+ipset destroy $TMP_SET
+
+# Bersihkan file sementara
+rm -f $TMP_FILE
+
+echo "[INFO] $(date) - Update selesai (zero downtime)"
+----------------------------
+chmod +x /usr/local/bin/update_abuseipdb.sh
+# test manual, jalankan:
+/usr/local/bin/update_abuseipdb.sh
+# lalu cek ini, harus tetap ada isi (tidak pernah 0)
+ipset list abuseipdb | grep "Number of entries"
+# put on cronjob
+crontab -e
+# auto update abuseipdb
+0 */3 * * * /usr/local/bin/update_abuseipdb.sh > /var/log/abuseipdb.log 2>&1
+# bisa cek log pakai: tail -f /var/log/abuseipdb.log
 
 
 ### CREATE WHITELIST CLOUDFLARE IP
@@ -134,6 +199,7 @@ crontab -e
 # auto update cloudflare ip to crowdsec allowlist (prevent false blocking via cloudflare)
 0 * * * * /usr/local/bin/update-cloudflare-allowlist.sh >/dev/null 2>&1
 
+
 ### CREATE WHITELIST WITH s02-enrich
 nano /etc/crowdsec/parsers/s02-enrich/mywhitelists.yaml
 ==================
@@ -156,6 +222,7 @@ whitelist:
 sudo systemctl reload crowdsec
 sudo cscli parsers list | grep whitelist
 
+
 ### USEFUL COMMAND
 # ip
 sudo cscli decisions add --reason "permanent malicious ip" --duration 1000d --ip <IP>
@@ -175,16 +242,20 @@ sudo cscli decisions add --reason "manual ssh brute force" --scenario crowdsecur
 sudo cscli decisions list --ip <IP>
 sudo cscli decisions delete --ip <IP>
 
+
 ### CRON JOB
 # autoblock naughty IP range (not Indonesia/Google) every 2 minute
 # > untuk overwrite, >> untuk append
 */2 * * * * /usr/bin/python3 /var/www/logs/check_log_error_ipinfo_crowdsec.py > /var/www/logs/ipinfo_error.log 2>&1 && /usr/bin/python3 /var/www/logs/check_log_access_ipinfo_crowdsec.py > /var/www/logs/ipinfo_access.log
 
+
 ### SHOW LAST LOG NGINX + IPINFO + CROWDSEC (NO AUTORELOAD)
 clear && cat /var/www/logs/ipinfo_error.log && cat /var/www/logs/ipinfo_access.log
 
+
 ### WATCH LAST LOG NGINX + IPINFO + CROWDSEC (AUTORELOAD EVERY 10 SECONDS)
 watch -n 10 'cat /var/www/logs/ipinfo_error.log /var/www/logs/ipinfo_access.log'
+
 
 ### BOUNCER MULTI SERVER
 Tujuan:
@@ -275,6 +346,7 @@ sudo monit status crowdsec_from_server002
 # yang penting bisa /* CrowdSec: cscli */ nampak di:
 	sudo iptables -L CROWDSEC_CHAIN -v -n
 # kalau belum tersedia, tunggu aja sampai muncul /* CrowdSec: cscli */
+
 
 ### UPDATE KOMPONEN CROWDSEC
 sudo cscli hub update
