@@ -98,12 +98,10 @@ sudo iptables -I CROWDSEC_CHAIN 1 -m set --match-set abuseipdb src -j DROP
 curl -s https://raw.githubusercontent.com/borestad/blocklist-abuseipdb/main/abuseipdb-s100-14d.ipv4 | grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | awk '{print "add abuseipdb " $1 " timeout 86400 -exist"}' | sudo ipset restore
 # verifikasi
 sudo ipset list abuseipdb | head
-# pastikan References: 1, kalau masih 0 berarti harus sambukan lagi ke CROWDSEC_CHAIN
-sudo iptables -I CROWDSEC_CHAIN 1 -m set --match-set abuseipdb src -j DROP
+# pastikan References: 1, kalau masih 0 berarti harus sambukan lagi ke CROWDSEC_CHAIN, caranya: sudo iptables -I CROWDSEC_CHAIN 1 -m set --match-set abuseipdb src -j DROP
 # pastikan blocklist abuseipdb sudah aktif, ditandai di baris pertama ada: match-set abuseipdb src DROP
 sudo iptables -L CROWDSEC_CHAIN -n --line-numbers
 # dengan posisi sekarang: abuseipdb → FIRST LINE DEFENSE, crowdsec → SECOND LAYER (behavior)
-
 # cek apakah benar jalan (real blocking)
 sudo iptables -L CROWDSEC_CHAIN -v -n
 # lihat kolom: pkts bytes, kalau angkanya naik, berarti IP dari blocklist benar-benar kena drop
