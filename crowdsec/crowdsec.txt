@@ -38,6 +38,48 @@ Firehol BotScout list
 Firehol greensnow.co list
 # to add one, click Subscribe. choose Ban as the default action to take.
 
+### MUST HAVE COLLECTIONS
+sudo cscli collections list
+----------------------------
+ crowdsecurity/appsec-generic-rules
+ crowdsecurity/appsec-virtual-patching
+ crowdsecurity/appsec-wordpress
+ crowdsecurity/base-http-scenarios
+ crowdsecurity/http-cve
+ crowdsecurity/http-dos
+ crowdsecurity/linux
+ crowdsecurity/mariadb
+ crowdsecurity/mysql
+ crowdsecurity/nginx
+ crowdsecurity/postfix
+ crowdsecurity/proftpd
+ crowdsecurity/sshd
+ crowdsecurity/whitelist-good-actors
+----------------------------
+### MANUAL INSTALL
+# This collection contains generic scenarios for appsec. These generic rules try to detect attack vectors that might be used to exploit newly discovered vulnerabilities.
+cscli collections install crowdsecurity/appsec-generic-rules
+# This collection contains virtual patching for commonly exploited vulnerabilities
+cscli collections install crowdsecurity/appsec-virtual-patching
+# This collection contains virtual patching for known WordPress vulnerabilities. The goal is to provide virtual patching capabilities for the most often exploited vulnerabilities.
+cscli collections install crowdsecurity/appsec-wordpress
+# This collection of scenarios detects specific HTTP DoS tools that are not detected by default HTTP scenarios.
+cscli collections install crowdsecurity/http-dos
+# A collection to defend proftpd against common attacks
+cscli collections install crowdsecurity/proftpd
+# FOR SERVER APACHE INSTALLED: A collection for apache2
+cscli collections install crowdsecurity/apache2
+# FOR SERVER LITESPEED INSTALLED: A collection to defend litespeed against common attacks
+cscli collections install crowdsecurity/litespeed
+# FOR SERVER POSTGRESQL INSTALLED: A collection for postgresql services
+cscli collections install crowdsecurity/pgsql
+# FOR SERVER MAILU INSTALLED: Collection for the mailu admin container parser and secenario
+cscli collections install mwinters-stuff/mailu-admin
+# FOR PROXMOX INSTALLED: Parser for brute force detection on Proxmox VE Web UI
+cscli collections install fulljackz/proxmox
+----------------------------
+sudo systemctl reload crowdsec
+
 ### CREATE WHITELIST CLOUDFLARE IP
 nano /usr/local/bin/update-cloudflare-allowlist.sh
 ----------------------------
