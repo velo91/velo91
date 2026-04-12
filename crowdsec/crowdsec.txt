@@ -65,13 +65,13 @@ cscli collections install crowdsecurity/appsec-wordpress
 cscli collections install crowdsecurity/http-dos
 # A collection to defend proftpd against common attacks
 cscli collections install crowdsecurity/proftpd
-# FOR SERVER APACHE INSTALLED: A collection for apache2
+# FOR SERVER APACHE INSTALLED: A collection for apache2 => ls /var/log/apache2
 cscli collections install crowdsecurity/apache2
 # FOR SERVER LITESPEED INSTALLED: A collection to defend litespeed against common attacks
 cscli collections install crowdsecurity/litespeed
 # FOR SERVER POSTGRESQL INSTALLED: A collection for postgresql services
 cscli collections install crowdsecurity/pgsql
-# FOR SERVER PROFTDPD INSTALLED: A collection to defend proftpd against common attacks
+# FOR SERVER PROFTDPD INSTALLED: A collection to defend proftpd against common attacks => ls /var/log/proftpd
 cscli collections install crowdsecurity/proftpd
 # FOR SERVER POSTFIX INSTALLED: A collection for postfix
 cscli collections install crowdsecurity/postfix
