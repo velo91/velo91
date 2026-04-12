@@ -51,8 +51,6 @@ sudo cscli collections list
  crowdsecurity/mariadb
  crowdsecurity/mysql
  crowdsecurity/nginx
- crowdsecurity/postfix
- crowdsecurity/proftpd
  crowdsecurity/sshd
  crowdsecurity/whitelist-good-actors
 ----------------------------
@@ -73,6 +71,10 @@ cscli collections install crowdsecurity/apache2
 cscli collections install crowdsecurity/litespeed
 # FOR SERVER POSTGRESQL INSTALLED: A collection for postgresql services
 cscli collections install crowdsecurity/pgsql
+# FOR SERVER PROFTDPD INSTALLED: A collection to defend proftpd against common attacks
+cscli collections install crowdsecurity/proftpd
+# FOR SERVER POSTFIX INSTALLED: A collection for postfix
+cscli collections install crowdsecurity/postfix
 # FOR SERVER MAILU INSTALLED: Collection for the mailu admin container parser and secenario
 cscli collections install mwinters-stuff/mailu-admin
 # FOR PROXMOX INSTALLED: Parser for brute force detection on Proxmox VE Web UI
