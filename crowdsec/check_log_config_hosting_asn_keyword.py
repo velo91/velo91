@@ -46,6 +46,7 @@ HOSTING_ASN_KEYWORDS = [
   'linode',
   'ovh',
   'speedypage',
+  'babbar',
   'contabo',
   'dromatics',
   'vultr',
