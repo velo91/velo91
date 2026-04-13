@@ -199,7 +199,7 @@ ipset list abuseipdb | grep "Number of entries"
 crontab -e
 # auto update abuseipdb
 0 */3 * * * /usr/local/bin/update_abuseipdb.sh > /var/log/abuseipdb.log 2>&1
-# bisa cek log pakai: tail -f /var/log/abuseipdb.log
+##### manatau mau cek log bisa pakai: tail -f /var/log/abuseipdb.log
 # buat supaya otomatis hidup lagi saat boot
 nano /usr/local/bin/init_abuseipdb.sh
 ----------------------------
