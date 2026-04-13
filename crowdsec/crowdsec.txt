@@ -89,10 +89,12 @@ sudo systemctl reload crowdsec
 
 
 ### CREATE BORESTAD BLOCKLIST (ABUSEIPDB) + IPSET + CROWDSEC_CHAIN (CROWDSEC)
-# install ipset
+# kalau belum, install ipset
 sudo apt install ipset
-# kalau sudah terinstall dan manatau sudah ada ipset lama maka hapus dulu: sudo iptables -D CROWDSEC_CHAIN -m set --match-set abuseipdb src -j DROP && sudo ipset destroy abuseipdb && sudo ipset create abuseipdb hash:ip maxelem 500000 timeout 86400
-# buat ipset khusus yang baru
+# cek dulu apa sudah ada blocklist abuseipdb di urutan pertama:
+sudo iptables -L CROWDSEC_CHAIN -n --line-numbers
+##### manatau sudah ada blocklist abuseipdb lama maka hapus dulu: sudo iptables -D CROWDSEC_CHAIN -m set --match-set abuseipdb src -j DROP && sudo ipset destroy abuseipdb && sudo ipset create abuseipdb hash:ip maxelem 500000 timeout 86400
+# kalau belum ada blocklist abuseipdb maka buat baru:
 sudo ipset create abuseipdb hash:ip maxelem 500000 timeout 86400
 # sambungkan ke CROWDSEC_CHAIN
 sudo iptables -I CROWDSEC_CHAIN 1 -m set --match-set abuseipdb src -j DROP
