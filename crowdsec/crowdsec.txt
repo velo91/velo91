@@ -116,21 +116,24 @@ chmod +x /usr/local/bin/update-cloudflare-allowlist.sh
 cscli allowlists inspect cloudflare-auto
 # put on cronjob
 crontab -e
+----------------------------
 # auto update cloudflare ip to crowdsec allowlist (prevent false blocking via cloudflare)
 0 * * * * /usr/local/bin/update-cloudflare-allowlist.sh >/dev/null 2>&1
-
+----------------------------
 
 
 ### CREATE BORESTAD BLOCKLIST (ABUSEIPDB) + IPSET + CROWDSEC_CHAIN (CROWDSEC)
-# kalau belum, install ipset
+# pastikan ipset sudah terinstall
 sudo apt install ipset
-# cek dulu apa sudah ada blocklist abuseipdb di urutan pertama:
-sudo iptables -L CROWDSEC_CHAIN -n --line-numbers
-##### manatau sudah ada blocklist abuseipdb lama maka hapus dulu: sudo iptables -D CROWDSEC_CHAIN -m set --match-set abuseipdb src -j DROP && sudo ipset destroy abuseipdb && sudo ipset create abuseipdb hash:ip maxelem 500000 timeout 86400
+# cek apakah ipset abuseipdb sudah ada
+sudo ipset list abuseipdb | head
+##### manatau sudah ada ipset abuseipdb lama maka hapus dulu: sudo iptables -D CROWDSEC_CHAIN -m set --match-set abuseipdb src -j DROP && sudo ipset destroy abuseipdb && sudo ipset create abuseipdb hash:ip maxelem 500000 timeout 86400
 # kalau belum ada blocklist abuseipdb maka buat baru:
 sudo ipset create abuseipdb hash:ip maxelem 500000 timeout 86400
 # sambungkan ke CROWDSEC_CHAIN
 sudo iptables -I CROWDSEC_CHAIN 1 -m set --match-set abuseipdb src -j DROP
+# pastikan berada di urutan pertama
+sudo iptables -L CROWDSEC_CHAIN -n --line-numbers
 # load blocklist, bila suatu saat ipset ini mau dikosongin lagi secara manual: sudo ipset flush abuseipdb
 curl -s https://raw.githubusercontent.com/borestad/blocklist-abuseipdb/main/abuseipdb-s100-14d.ipv4 | grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | awk '{print "add abuseipdb " $1 " timeout 86400 -exist"}' | sudo ipset restore
 # verifikasi
@@ -197,8 +200,10 @@ chmod +x /usr/local/bin/update_abuseipdb.sh
 ipset list abuseipdb | grep "Number of entries"
 # put on cronjob
 crontab -e
+----------------------------
 # auto update abuseipdb
 0 */3 * * * /usr/local/bin/update_abuseipdb.sh > /var/log/abuseipdb.log 2>&1
+----------------------------
 ##### manatau mau cek log bisa pakai: tail -f /var/log/abuseipdb.log
 # buat supaya otomatis hidup lagi saat boot
 nano /usr/local/bin/init_abuseipdb.sh
