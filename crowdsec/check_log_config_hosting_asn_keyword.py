@@ -95,6 +95,7 @@ HOSTING_ASN_KEYWORDS = [
   'dzcrd',
   'xneelo',
   'angkor data communication',
+  'hkbn enterprise solutions',
   'bucklog',
   'code200',
   'datacamp',
