@@ -104,9 +104,8 @@ sudo ipset list abuseipdb | head
 # pastikan blocklist abuseipdb sudah aktif, ditandai di baris pertama ada: match-set abuseipdb src DROP
 sudo iptables -L CROWDSEC_CHAIN -n --line-numbers
 # dengan posisi sekarang: abuseipdb → FIRST LINE DEFENSE, crowdsec → SECOND LAYER (behavior)
-# cek apakah benar jalan (real blocking)
+# cek apakah benar jalan (real blocking), lihat kolom: pkts bytes, kalau angkanya naik, berarti IP dari blocklist benar-benar kena drop
 sudo iptables -L CROWDSEC_CHAIN -v -n
-# lihat kolom: pkts bytes, kalau angkanya naik, berarti IP dari blocklist benar-benar kena drop
 # sekarang tinggal buat script update otomatis biar jalan di cronjob:
 nano /usr/local/bin/update_abuseipdb.sh
 ----------------------------
