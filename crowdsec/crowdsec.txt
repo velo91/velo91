@@ -170,6 +170,8 @@ nano /usr/local/bin/init_abuseipdb.sh
 ----------------------------
 #!/bin/bash
 
+sleep 15
+
 IPSET="abuseipdb"
 
 # buat ipset kalau belum ada
@@ -187,11 +189,13 @@ nano /etc/systemd/system/abuseipdb-init.service
 ----------------------------
 [Unit]
 Description=Init AbuseIPDB ipset
-After=network-online.target crowdsec.service
+After=network-online.target crowdsec.service crowdsec-firewall-bouncer.service
+Wants=network-online.target
 
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/init_abuseipdb.sh
+RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
