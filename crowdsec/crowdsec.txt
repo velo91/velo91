@@ -245,6 +245,8 @@ chmod +x /usr/local/bin/init_abuseipdb.sh
 systemctl daemon-reload
 systemctl enable abuseipdb-init.service
 systemctl start abuseipdb-init.service
+# cek real blocking sedang jalan (angka di kolom pkts bytes naik atau tidak 0)
+sudo iptables -L CROWDSEC_CHAIN -v -n
 
 
 
