@@ -39,6 +39,7 @@ Firehol greensnow.co list
 # to add one, click Subscribe. choose Ban as the default action to take.
 
 
+
 ### MUST HAVE COLLECTIONS
 sudo cscli collections list
 ----------------------------
@@ -84,6 +85,7 @@ cscli collections install mwinters-stuff/mailu-admin
 cscli collections install fulljackz/proxmox
 ----------------------------
 sudo systemctl reload crowdsec
+
 
 
 ### CREATE borestad blocklist (abuseipdb) + ipset + CROWDSEC_CHAIN (CrowdSec)
@@ -166,6 +168,7 @@ crontab -e
 # bisa cek log pakai: tail -f /var/log/abuseipdb.log
 
 
+
 ### CREATE WHITELIST CLOUDFLARE IP
 nano /usr/local/bin/update-cloudflare-allowlist.sh
 ----------------------------
@@ -196,6 +199,43 @@ cscli allowlists inspect cloudflare-auto
 crontab -e
 # auto update cloudflare ip to crowdsec allowlist (prevent false blocking via cloudflare)
 0 * * * * /usr/local/bin/update-cloudflare-allowlist.sh >/dev/null 2>&1
+# buat supaya otomatis hidup lagi saat boot
+nano /usr/local/bin/init_abuseipdb.sh
+----------------------------
+#!/bin/bash
+
+IPSET="abuseipdb"
+
+# buat ipset kalau belum ada
+ipset list $IPSET >/dev/null 2>&1 || ipset create $IPSET hash:ip maxelem 500000 timeout 86400
+
+# pastikan rule hanya 1x
+iptables -C CROWDSEC_CHAIN -m set --match-set $IPSET src -j DROP 2>/dev/null \
+|| iptables -I CROWDSEC_CHAIN 1 -m set --match-set $IPSET src -j DROP
+
+# load blocklist
+/usr/local/bin/update_abuseipdb.sh
+----------------------------
+# aktifkan script saat boot (systemd)
+nano /etc/systemd/system/abuseipdb-init.service
+----------------------------
+[Unit]
+Description=Init AbuseIPDB ipset
+After=network-online.target crowdsec.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/init_abuseipdb.sh
+
+[Install]
+WantedBy=multi-user.target
+----------------------------
+# aktifkan
+chmod +x /usr/local/bin/init_abuseipdb.sh
+systemctl daemon-reload
+systemctl enable abuseipdb-init.service
+systemctl start abuseipdb-init.service
+
 
 
 ### CREATE WHITELIST WITH s02-enrich
@@ -221,6 +261,7 @@ sudo systemctl reload crowdsec
 sudo cscli parsers list | grep whitelist
 
 
+
 ### USEFUL COMMAND
 # ip
 sudo cscli decisions add --reason "permanent malicious ip" --duration 1000d --ip <IP>
@@ -241,18 +282,22 @@ sudo cscli decisions list --ip <IP>
 sudo cscli decisions delete --ip <IP>
 
 
+
 ### CRON JOB
 # autoblock naughty IP range (not Indonesia/Google) every 2 minute
 # > untuk overwrite, >> untuk append
 */2 * * * * /usr/bin/python3 /var/www/logs/check_log_error_ipinfo_crowdsec.py > /var/www/logs/ipinfo_error.log 2>&1 && /usr/bin/python3 /var/www/logs/check_log_access_ipinfo_crowdsec.py > /var/www/logs/ipinfo_access.log
 
 
+
 ### SHOW LAST LOG NGINX + IPINFO + CROWDSEC (NO AUTORELOAD)
 clear && cat /var/www/logs/ipinfo_error.log && cat /var/www/logs/ipinfo_access.log
 
 
+
 ### WATCH LAST LOG NGINX + IPINFO + CROWDSEC (AUTORELOAD EVERY 10 SECONDS)
 watch -n 10 'cat /var/www/logs/ipinfo_error.log /var/www/logs/ipinfo_access.log'
+
 
 
 ### BOUNCER MULTI SERVER
@@ -344,6 +389,7 @@ sudo monit status crowdsec_from_server002
 # yang penting bisa /* CrowdSec: cscli */ nampak di:
 	sudo iptables -L CROWDSEC_CHAIN -v -n
 # kalau belum tersedia, tunggu aja sampai muncul /* CrowdSec: cscli */
+
 
 
 ### UPDATE KOMPONEN CROWDSEC
