@@ -165,39 +165,6 @@ crontab -e
 # auto update abuseipdb
 0 */3 * * * /usr/local/bin/update_abuseipdb.sh > /var/log/abuseipdb.log 2>&1
 # bisa cek log pakai: tail -f /var/log/abuseipdb.log
-
-
-
-### CREATE WHITELIST CLOUDFLARE IP
-nano /usr/local/bin/update-cloudflare-allowlist.sh
-----------------------------
-#!/bin/bash
-set -e
-TMP_FILE="/tmp/cf_ips.txt"
-TAG="cloudflare-auto"
-echo "[*] Fetching Cloudflare IPs..."
-curl -sf https://www.cloudflare.com/ips-v4 > $TMP_FILE
-echo "" >> $TMP_FILE
-curl -sf https://www.cloudflare.com/ips-v6 >> $TMP_FILE
-# bersihkan line kosong
-sed -i '/^$/d' $TMP_FILE
-echo "[*] Removing old allowlist..."
-cscli allowlists delete $TAG 2>/dev/null || true
-echo "[*] Creating new allowlist..."
-cscli allowlists create $TAG --description "Cloudflare auto whitelist"
-echo "[*] Adding IPs..."
-xargs -I {} cscli allowlists add $TAG {} < $TMP_FILE
-echo "[✓] Done at $(date)"
-----------------------------
-chmod +x /usr/local/bin/update-cloudflare-allowlist.sh
-# test run manually
-/usr/local/bin/update-cloudflare-allowlist.sh
-# show list
-cscli allowlists inspect cloudflare-auto
-# put on cronjob
-crontab -e
-# auto update cloudflare ip to crowdsec allowlist (prevent false blocking via cloudflare)
-0 * * * * /usr/local/bin/update-cloudflare-allowlist.sh >/dev/null 2>&1
 # buat supaya otomatis hidup lagi saat boot
 nano /usr/local/bin/init_abuseipdb.sh
 ----------------------------
@@ -234,6 +201,39 @@ chmod +x /usr/local/bin/init_abuseipdb.sh
 systemctl daemon-reload
 systemctl enable abuseipdb-init.service
 systemctl start abuseipdb-init.service
+
+
+
+### CREATE WHITELIST CLOUDFLARE IP
+nano /usr/local/bin/update-cloudflare-allowlist.sh
+----------------------------
+#!/bin/bash
+set -e
+TMP_FILE="/tmp/cf_ips.txt"
+TAG="cloudflare-auto"
+echo "[*] Fetching Cloudflare IPs..."
+curl -sf https://www.cloudflare.com/ips-v4 > $TMP_FILE
+echo "" >> $TMP_FILE
+curl -sf https://www.cloudflare.com/ips-v6 >> $TMP_FILE
+# bersihkan line kosong
+sed -i '/^$/d' $TMP_FILE
+echo "[*] Removing old allowlist..."
+cscli allowlists delete $TAG 2>/dev/null || true
+echo "[*] Creating new allowlist..."
+cscli allowlists create $TAG --description "Cloudflare auto whitelist"
+echo "[*] Adding IPs..."
+xargs -I {} cscli allowlists add $TAG {} < $TMP_FILE
+echo "[✓] Done at $(date)"
+----------------------------
+chmod +x /usr/local/bin/update-cloudflare-allowlist.sh
+# test run manually
+/usr/local/bin/update-cloudflare-allowlist.sh
+# show list
+cscli allowlists inspect cloudflare-auto
+# put on cronjob
+crontab -e
+# auto update cloudflare ip to crowdsec allowlist (prevent false blocking via cloudflare)
+0 * * * * /usr/local/bin/update-cloudflare-allowlist.sh >/dev/null 2>&1
 
 
 
