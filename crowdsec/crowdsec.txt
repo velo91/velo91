@@ -247,7 +247,8 @@ systemctl enable abuseipdb-init.service
 systemctl start abuseipdb-init.service
 # cek real blocking sedang jalan (angka di kolom pkts bytes naik atau tidak 0)
 sudo iptables -L CROWDSEC_CHAIN -v -n
-
+# kalau mau tahu ip mana yang kena block secara real time
+tcpdump -nn | grep -Ff <(ipset list abuseipdb | grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
 
 
 ### CREATE WHITELIST WITH s02-enrich
