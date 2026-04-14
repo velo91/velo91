@@ -803,13 +803,13 @@ https://rclone.org/drive/#making-your-own-client-id
 # enter "1" for Full Access
 # just leave blank the service_account_file
 # enter "y" for Advanced Config
-# just leave blank the token, auth_url, token url
+# just leave blank the token, auth_url, token url, client_credentials
 # paste folder ID from folder URL to root_folder_id. ex: 3Hty4Fkfvb3294xxxxxxxxxxxxxxxxxxf
 # just leave blank the auth_owner_only
 # enter "true" for use_trash
-# just leave blank the copy_shortcut_content, skip_gdocs, skip_checksum_gphotos, shared_with_me, trashed_only, starred_only, export_formats, import_formats, allow_import_name_change, list_chunk, impersonate, upload_cutoff
+# just leave blank the copy_shortcut_content, skip_gdocs, show_all_gdocs, skip_checksum_gphotos, shared_with_me, trashed_only, starred_only, export_formats, import_formats, allow_import_name_change, list_chunk, impersonate, upload_cutoff
 # enter "64M" for chunk_size
-# just leave blank the acknowledge_abuse, keep_revision_forever, v2_download_min_size, pacer_min_sleep, pacer_burst, server_side_across_configs, disable_http2, stop_on_upload_limit, stop_on_download_limit, skip_shortcuts, skip_dangling_shortcuts, resource_key, encoding, 
+# just leave blank the acknowledge_abuse, keep_revision_forever, v2_download_min_size, pacer_min_sleep, pacer_burst, server_side_across_configs, disable_http2, stop_on_upload_limit, stop_on_download_limit, skip_shortcuts, skip_dangling_shortcuts, resource_key, fast_list_bug_fix, metadata_owner 2: read (default), metadata_permissions 1: off (default), metadata_labels 1: off (default), metadata_enforce_expansive_access, encoding, env_auth, description
 # enter "n" for Edit Advanced Config
 # Use auto config: "n" if ubuntu server (remote / headless machine)
 # Use web browser to automatically authenticate rclone with remote?
