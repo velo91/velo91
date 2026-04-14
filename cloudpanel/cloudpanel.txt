@@ -799,6 +799,10 @@ disable_functions=pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexite
 # $mform->addElement('text', 'shortname', get_string('shortnamecourse'), 'maxlength="100" size="20"');
 # change to:
 # $mform->addElement('text', 'shortname', get_string('shortnamecourse').' <span style="color:green;font-weight:bold;">(course code dari OPEN SIMKA)</span>', 'minlength="10" maxlength="100" size="20"');
+# nano /[YOUR_MOODLE_PATH]/lang/en/error.php
+# $string['invalidrecordunknown'] = 'Can\'t find data record in database.';
+# change to:
+# $string['invalidrecordunknown'] = 'Can\'t find data record in database. If this happens on the course page, please open course settings and then click save button again.';
 # ADDITIONAL FOR MOUNTING "FILEDIR" WITH GOOGLE DRIVE
 nano /home/bbg-spada/mount-spada-google-drive.sh
 # paste it
