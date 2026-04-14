@@ -50,10 +50,10 @@ table_open_cache        = 8192
 open_files_limit        = 65535
 myisam_sort_buffer_size = 4M
 explicit_defaults_for_timestamp = 1
-wait_timeout            = 300
-interactive_timeout     = 300
-net_read_timeout        = 120
-net_write_timeout       = 120
+wait_timeout            = 600
+interactive_timeout     = 600
+net_read_timeout        = 300
+net_write_timeout       = 300
 
 #
 # * Logging and Replication
