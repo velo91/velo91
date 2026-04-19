@@ -53,9 +53,6 @@ https://shd-gcp-live.edgenextcdn.net/live/bitmovin-spacetoon/d8382fb9ab4b2307058
 #EXTINF:-1 tvg-id="FIFAPlus.uk" tvg-country="UK" group-title="Sports" tvg-logo="https://cdn.plus.fifa.com/images/web/logoFIFA.png",FIFA Plus (UK)
 https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8
 
-#EXTINF:-1 tvg-id="SharjahSports.ae@SD" tvg-country="AE" group-title="Sports" tvg-logo="https://yt3.googleusercontent.com/ytc/AIdro_mWpU3Di5nOLjggE5TKaPVbzN7mGzlFy5X8xfu-32Wt-A=s900-c-k-c0x00ffffff-no-rj",Sharjah Sports (AE)
-https://svs.itworkscdn.net/smc4sportslive/smc4tv.smil/playlist.m3u8
-
 #EXTINF:-1 tvg-id="QuranRadio.sa" tvg-country="SA" group-title="Religious" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/0/00/Saudi_Quran_Radio_Logo_2024.png",Quran Radio (SA)
 https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8
 
