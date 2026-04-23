@@ -44,6 +44,18 @@ https://op-group1-swiftservehd-1.dens.tv/h/h12/01.m3u8
 #EXTINF:-1 tvg-id="TVRI.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/40/1/tvri-televisi-republik-indonesia-2019-logo-png_seeklogo-401477.png",TVRI Nasional (ID)
 https://ott-balancer.tvri.go.id/live/eds/Nasional/hls/Nasional.m3u8
 
+#EXTINF:-1 tvg-id="BTV.id" tvg-country="ID" group-title="News" tvg-logo="https://yt3.googleusercontent.com/Kg0kYGkZHNQ8wi8UoOKD10tW0vCbWDocIPJoFqRAid_pNkPtW7lJSxkpO33htKuQqsvxMni7ZQ=s900-c-k-c0x00ffffff-no-rj",BTV (MAIN - Dens h210)
+https://op-group1-swiftservehd-1.dens.tv/h/h210/02.m3u8
+
+#EXTINF:-1 tvg-id="BTV.id" tvg-country="ID" group-title="News" tvg-logo="https://yt3.googleusercontent.com/Kg0kYGkZHNQ8wi8UoOKD10tW0vCbWDocIPJoFqRAid_pNkPtW7lJSxkpO33htKuQqsvxMni7ZQ=s900-c-k-c0x00ffffff-no-rj",BTV (Adaptive - Manifest)
+https://btv.secureswiftcontent.com/han/btv/btv10005r/srtoutput/manifest.m3u8
+
+#EXTINF:-1 tvg-id="BTV.id" tvg-country="ID" group-title="News" tvg-logo="https://yt3.googleusercontent.com/Kg0kYGkZHNQ8wi8UoOKD10tW0vCbWDocIPJoFqRAid_pNkPtW7lJSxkpO33htKuQqsvxMni7ZQ=s900-c-k-c0x00ffffff-no-rj",BTV (1080p - High Quality)
+https://btv.secureswiftcontent.com/han/btv/btv10005r/srtoutput/hvideo-1920x1080.m3u8|User-Agent=Mozilla/5.0
+
+#EXTINF:-1 tvg-id="BTV.id" tvg-country="ID" group-title="News" tvg-logo="https://yt3.googleusercontent.com/Kg0kYGkZHNQ8wi8UoOKD10tW0vCbWDocIPJoFqRAid_pNkPtW7lJSxkpO33htKuQqsvxMni7ZQ=s900-c-k-c0x00ffffff-no-rj",BTV (Backup - Dens h129)
+https://op-group1-swiftservehd-1.dens.tv/h/h129/S4/mnf.m3u8
+
 #EXTINF:-1 tvg-id="CNA.sg" tvg-country="SG" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/38/1/cna-channel-news-asia-logo-png_seeklogo-387586.png",CNA Singapore (SG)
 https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index.m3u8
 
