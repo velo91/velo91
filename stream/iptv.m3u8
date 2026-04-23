@@ -72,6 +72,12 @@ https://op-group1-swiftservehd-1.dens.tv/h/h40/index.m3u8|User-Agent=Mozilla/5.0
 #EXTVLCOPT:http-origin=https://www.dens.tv
 https://op-group1-swiftservehd-1.dens.tv/h/h40/index.m3u8
 
+#EXTINF:-1 tvg-id="BTV.id" tvg-country="ID" group-title="News" tvg-logo="https://pbs.twimg.com/media/GDIyWVWa0AAbd_K.jpg",BTV (POLOS)
+https://op-group1-swiftservehd-1.dens.tv/h/h210/index.m3u8
+
+#EXTINF:-1 tvg-id="BTV.id" tvg-country="ID" group-title="News",BTV (INLINE)
+https://op-group1-swiftservehd-1.dens.tv/h/h210/index.m3u8|User-Agent=Mozilla/5.0
+
 #EXTINF:-1 tvg-id="MetroTV.id" tvg-country="ID" group-title="News" tvg-logo="https://i.pinimg.com/736x/0a/03/81/0a0381180e4e9ba04b88fc345a8fe326.jpg",Metro TV (POLOS)
 https://edge.medcom.id/live-edge/smil:metro.smil/playlist.m3u8
 
