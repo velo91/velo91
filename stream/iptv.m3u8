@@ -1,5 +1,5 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="LoveNature.ca" tvg-country="CA" group-title="Documentary" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/2/21/Lovenature2.png",Love Nature (CA)
+#EXTINF:-1 tvg-id="LoveNature.ca" tvg-country="CA" group-title="Documentary" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIoFU6kv7IkSSN2ypI9NMQDsmrAySyMqLbOw&s",Love Nature (CA)
 https://aegis-cloudfront-1.tubi.video/6d6d0f24-8445-4b4c-bdf6-44f9e38beaa4/playlist.m3u8
 
 #EXTINF:-1 tvg-id="Trans7.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/32/1/trans-7-logo-png_seeklogo-326342.png",Trans7 (ID)
@@ -26,7 +26,7 @@ https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/laylist.m3u8
 #EXTVLCOPT:http-origin=https://www.cnbcindonesia.com
 https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8
 
-#EXTINF:-1 tvg-id="KompasTV.id" tvg-country="ID" group-title="News" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/a/a6/UTpa5aX5_400x400.jpg",Kompas TV (ID)
+#EXTINF:-1 tvg-id="KompasTV.id" tvg-country="ID" group-title="News" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYLmjNqT1udQoxC4uD7w8WzEnDNdqS8ZAeyA&s",Kompas TV (ID)
 #EXTVLCOPT:http-user-agent=Mozilla/5.0
 #EXTVLCOPT:http-referrer=https://www.dens.tv/
 #EXTVLCOPT:http-origin=https://www.dens.tv
@@ -38,7 +38,7 @@ https://op-group1-swiftservehd-1.dens.tv/h/h234/02.m3u8
 #EXTVLCOPT:http-origin=https://www.dens.tv
 https://op-group1-swiftservehd-1.dens.tv/h/h40/index.m3u8
 
-#EXTINF:-1 tvg-id="MetroTV.id" tvg-country="ID" group-title="News" tvg-logo="https://i.pinimg.com/736x/0a/03/81/0a0381180e4e9ba04b88fc345a8fe326.jpg",Metro TV (ID)
+#EXTINF:-1 tvg-id="MetroTV.id" tvg-country="ID" group-title="News" tvg-logo="https://yt3.googleusercontent.com/qX0Or-6wqAYGXEPiWV6ELZmJGRm2JtOIYYd2r54UQqaDKFlBeezvfgT_b6SB3JZTS16RjANs=s900-c-k-c0x00ffffff-no-rj",Metro TV (ID)
 https://edge.medcom.id/live-edge/smil:metro.smil/playlist.m3u8
 
 #EXTINF:-1 tvg-id="TVRI.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/40/1/tvri-televisi-republik-indonesia-2019-logo-png_seeklogo-401477.png",TVRI Nasional (ID)
@@ -47,10 +47,10 @@ https://ott-balancer.tvri.go.id/live/eds/Nasional/hls/Nasional.m3u8
 #EXTINF:-1 tvg-id="CNA.sg" tvg-country="SG" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/38/1/cna-channel-news-asia-logo-png_seeklogo-387586.png",CNA Singapore (SG)
 https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index.m3u8
 
-#EXTINF:-1 tvg-id="AlJazeera.qa@English" tvg-country="QA" group-title="News" tvg-logo="https://cdn.iconscout.com/icon/free/png-256/free-aljazeera-logo-icon-svg-download-png-461765.png",Al Jazeera English (QA)
+#EXTINF:-1 tvg-id="AlJazeera.qa@English" tvg-country="QA" group-title="News" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNT0AZWunUCFDpvaJvgdMrYMot3LElTnIwKg&s",Al Jazeera English (QA)
 https://live-hls-apps-aje-v3-fa.getaj.net/AJE/index.m3u8
 
-#EXTINF:-1 tvg-id="MBCBollywood.ae" tvg-country="AE" group-title="Movies" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_Bollywood_5e107a7e29.svg&w=640&q=75",MBC Bollywood (AE)
+#EXTINF:-1 tvg-id="MBCBollywood.ae" tvg-country="AE" group-title="Movies" tvg-logo="https://yt3.googleusercontent.com/ytc/AIdro_nFIE_Rq0Gi2tddySlxx5GVMSKZoVwaOeTjl4chErkZdw=s900-c-k-c0x00ffffff-no-rj",MBC Bollywood (AE)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-bollywood/546eb40d7dcf9a209255dd2496903764/index.m3u8
 
 #EXTINF:-1 tvg-id="ShemarooBollywood.us" tvg-country="US" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFbUBc2UlsUGkv8zxU6cmRKqvpT6Xqzpk4pQ&s",Shemaroo Bollywood (US)
@@ -59,16 +59,16 @@ https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00864-shemarooenterta-shemabollywoo
 #EXTINF:-1 tvg-id="ShemarooJosh.in" tvg-country="IN" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSutWZzQySLPpaZvaSHq1SnpV0dXNSFZimyag&s",Shemaroo Josh (IN)
 https://airtelapp.shemaroo.com/shemarooChumbakTV/smil:shemarooChumbakTVadp.smil/playlist.m3u8
 
-#EXTINF:-1 tvg-id="9XM.in" tvg-country="IN" group-title="Music" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/8/81/9xm_red.svg",9XM.in (IN)
+#EXTINF:-1 tvg-id="9XM.in" tvg-country="IN" group-title="Music" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShNjpx9k2NgFsFsb7V8cJiHNq4ZEr0BAgN1A&s",9XM.in (IN)
 https://9xjio.wiseplayout.com/9XM/HD1080/HD1080.m3u8
 
-#EXTINF:-1 tvg-id="YRFMusic.in" tvg-country="IN" group-title="Music" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/channel/756c50edae8599fb760cbbfb22010a75.png",YRF Music (IN)
+#EXTINF:-1 tvg-id="YRFMusic.in" tvg-country="IN" group-title="Music" tvg-logo="https://yt3.googleusercontent.com/nf15u1K12VXgBLh5HTf0asDF5Fc36RsUICRi8xY1Cs0QhAL_jmtW07wAUdRzrYDBKwv_KIa09Q=s900-c-k-c0x00ffffff-no-rj",YRF Music (IN)
 https://amg01412-xiaomiasia-yrfmusic-xiaomi-1rmk2.amagi.tv/playlist/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8
 
-#EXTINF:-1 tvg-id="Zoom.in" tvg-country="IN" group-title="Music" tvg-logo="https://images.zoomnews.com/thumb/resizemode-4,msid-94073373,width-360/94073373.jpg",Zoom (IN)
+#EXTINF:-1 tvg-id="Zoom.in" tvg-country="IN" group-title="Music" tvg-logo="https://yt3.googleusercontent.com/ytc/AIdro_lZEnCMQZz6FfEgDysuhVObO6O972OlqzBOaGwninMVpWk=s160-c-k-c0x00ffffff-no-rj",Zoom (IN)
 https://d14c63magvk61v.cloudfront.net/strm/channels/zoom/master.m3u8
 
-#EXTINF:-1 tvg-id="MBC3USA.us" tvg-country="US" group-title="Kids" tvg-logo="https://wasmenia.com/_next/image?url=https%3A%2F%2Fstrapi.wasmenia.com%2Fuploads%2FMBC_3_360db4e622.svg&w=640&q=75",MBC 3 (US)
+#EXTINF:-1 tvg-id="MBC3USA.us" tvg-country="US" group-title="Kids" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBgE8BVpGdvd06Cj_y3Alk6IDS12dRAQwZaw&s",MBC 3 (US)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-3-usa/5d58265a862a476dc7f97694addb5ded/index.m3u8
 
 #EXTINF:-1 tvg-id="SpacetoonArabic.ae" tvg-country="AE" group-title="Kids" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5CoV1UA97JP2Kifh2kDkFOeEOR5fgzRhrbw&s",Spacetoon Arabic (AE)
@@ -83,7 +83,7 @@ https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8
 #EXTINF:-1 tvg-id="AlBahjahTV.id" tvg-country="ID" group-title="Religious" tvg-logo="https://buyayahya.org/wp-content/uploads/2018/01/AL-BAHJAH-TV-OK-3-1024x1024.png",AlBahjah TV (ID)
 http://202.150.161.117:8000/play/AlBahjahTV
 
-#EXTINF:-1 tvg-id="QuranRadio.sa" tvg-country="SA" group-title="Religious" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/0/00/Saudi_Quran_Radio_Logo_2024.png",Quran Radio (SA)
+#EXTINF:-1 tvg-id="QuranRadio.sa" tvg-country="SA" group-title="Religious" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/0/00/Saudi_Quran_Radio_Logo_2024.png",Saudi Quran (SA)
 https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8
 
 #EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
