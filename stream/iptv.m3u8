@@ -77,13 +77,13 @@ https://shd-gcp-live.edgenextcdn.net/live/bitmovin-spacetoon/d8382fb9ab4b2307058
 #EXTINF:-1 tvg-id="FIFAPlus.uk" tvg-country="UK" group-title="Sports" tvg-logo="https://cdn.plus.fifa.com/images/web/logoFIFA.png",FIFA Plus (UK)
 https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8
 
-#EXTINF:-1 tvg-id="MQTV.id@SD" tvg-country="ID" group-title="Religious" tvg-logo="https://pbs.twimg.com/profile_images/2006171161382772736/55sTdTdA.jpg",MQTV (ID)
+#EXTINF:-1 tvg-id="MQTV.id@SD" tvg-country="ID" group-title="Religious" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa9oDgRi3asC3Bb55Q759sPHG2cjMJWSLXTg&s",MQTV (ID)
 https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8
 
-#EXTINF:-1 tvg-id="AlBahjahTV.id" tvg-country="ID" group-title="Religious" tvg-logo="https://buyayahya.org/wp-content/uploads/2018/01/AL-BAHJAH-TV-OK-3-1024x1024.png",AlBahjah TV (ID)
+#EXTINF:-1 tvg-id="AlBahjahTV.id" tvg-country="ID" group-title="Religious" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtx_Q6CNIvMqdr-RsB-dHDCrY5IUK9nigVCA&s",AlBahjah TV (ID)
 http://202.150.161.117:8000/play/AlBahjahTV
 
-#EXTINF:-1 tvg-id="QuranRadio.sa" tvg-country="SA" group-title="Religious" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/0/00/Saudi_Quran_Radio_Logo_2024.png",Saudi Quran (SA)
+#EXTINF:-1 tvg-id="QuranRadio.sa" tvg-country="SA" group-title="Religious" tvg-logo="https://d371i8ihhgym7w.cloudfront.net/107792019.jpg",Saudi Quran (SA)
 https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8
 
 #EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
