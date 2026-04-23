@@ -50,6 +50,9 @@ https://btv.secureswiftcontent.com/han/btv/btv10005r/srtoutput/manifest.m3u8
 #EXTINF:-1 tvg-id="CNA.sg" tvg-country="SG" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/38/1/cna-channel-news-asia-logo-png_seeklogo-387586.png",CNA Singapore (SG)
 https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index.m3u8
 
+#EXTINF:-1 tvg-id="NHKWorldJapan.jp" tvg-country="JP" group-title="News" tvg-logo="https://yt3.googleusercontent.com/ytc/AIdro_m9YDtPWqgZW91_-QTdsVWLbnR0ZQ1BaHX38ZcSRVGnfd0=s900-c-k-c0x00ffffff-no-rj",NHK World (JP)
+https://op-group1-swiftservehd-1.dens.tv/h/h23/01.m3u8
+
 #EXTINF:-1 tvg-id="AlJazeera.qa@English" tvg-country="QA" group-title="News" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNT0AZWunUCFDpvaJvgdMrYMot3LElTnIwKg&s",Al Jazeera English (QA)
 https://live-hls-apps-aje-v3-fa.getaj.net/AJE/index.m3u8
 
