@@ -2,41 +2,75 @@
 #EXTINF:-1 tvg-id="LoveNature.ca" tvg-country="CA" group-title="Documentary" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/2/21/Lovenature2.png",Love Nature (CA)
 https://aegis-cloudfront-1.tubi.video/6d6d0f24-8445-4b4c-bdf6-44f9e38beaa4/playlist.m3u8
 
-#EXTINF:-1 tvg-id="Trans7.id",Trans7
+#EXTINF:-1 tvg-id="KidsTV.id" tvg-country="ID" group-title="Kids" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/2/2a/Logo_Kids_TV.png",Kids TV (POLOS)
+http://origin5.mediacdn.ru/live/kidstv/index.m3u8
+
+#EXTINF:-1 tvg-id="KidsTV.id" group-title="Kids",Kids TV (INLINE)
+http://origin5.mediacdn.ru/live/kidstv/index.m3u8|User-Agent=Mozilla/5.0
+
+#EXTINF:-1 tvg-id="KidsTV.id" group-title="Kids",Kids TV (EXTVLCOPT)
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
+http://origin5.mediacdn.ru/live/kidstv/index.m3u8
+
+#EXTINF:-1 tvg-id="Trans7.id",Trans7 (INLINE)
 https://video.detik.com/trans7/smil:trans7.smil/playlist.m3u8|Referer=https://www.detik.com/&User-Agent=Mozilla/5.0&Origin=https://www.detik.com
 
-#EXTINF:-1 tvg-id="Trans7.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/32/1/trans-7-logo-png_seeklogo-326342.png",Trans7 (ID)
+#EXTINF:-1 tvg-id="Trans7.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/32/1/trans-7-logo-png_seeklogo-326342.png",Trans7 (EXTVLCOPT)
 #EXTVLCOPT:http-referrer=https://www.detik.com/
 #EXTVLCOPT:http-user-agent=Mozilla/5.0
 #EXTVLCOPT:http-origin=https://www.detik.com
 https://video.detik.com/trans7/smil:trans7.smil/playlist.m3u8
 
-#EXTINF:-1 tvg-id="TransTV.id",TransTV
+#EXTINF:-1 tvg-id="TransTV.id",TransTV (INLINE)
 https://video.detik.com/transtv/smil:transtv.smil/playlist.m3u8|Referer=https://www.detik.com/&User-Agent=Mozilla/5.0&Origin=https://www.detik.com
 
-#EXTINF:-1 tvg-id="TransTV.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/61/1/trans-tv-logo-png_seeklogo-612415.png",TransTV (ID)
+#EXTINF:-1 tvg-id="TransTV.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/61/1/trans-tv-logo-png_seeklogo-612415.png",TransTV (EXTVLCOPT)
 #EXTVLCOPT:http-referrer=https://www.detik.com/
 #EXTVLCOPT:http-user-agent=Mozilla/5.0
 #EXTVLCOPT:http-origin=https://www.detik.com
 https://video.detik.com/transtv/smil:transtv.smil/playlist.m3u8
 
-#EXTINF:-1 tvg-id="CNNIndonesia.id",CNN Indonesia
+#EXTINF:-1 tvg-id="CNNIndonesia.id",CNN Indonesia (INLINE)
 https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/laylist.m3u8|Referer=https://www.cnnindonesia.com/&User-Agent=Mozilla/5.0&Origin=https://www.cnnindonesia.com
 
-#EXTINF:-1 tvg-id="CNNIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/52/1/cnn-indonesia-logo-png_seeklogo-520453.png",CNN Indonesia (ID)
+#EXTINF:-1 tvg-id="CNNIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/52/1/cnn-indonesia-logo-png_seeklogo-520453.png",CNN Indonesia (EXTVLCOPT)
 #EXTVLCOPT:http-referrer=https://www.cnnindonesia.com/
 #EXTVLCOPT:http-user-agent=Mozilla/5.0
 #EXTVLCOPT:http-origin=https://www.cnnindonesia.com
 https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/laylist.m3u8
 
-#EXTINF:-1 tvg-id="CNBCIndonesia.id",CNBC Indonesia
+#EXTINF:-1 tvg-id="CNBCIndonesia.id",CNBC Indonesia (INLINE)
 https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8|Referer=https://www.cnbcindonesia.com/&User-Agent=Mozilla/5.0&Origin=https://www.cnbcindonesia.com
 
-#EXTINF:-1 tvg-id="CNBCIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/51/1/cnbc-indonesia-logo-png_seeklogo-511506.png",CNBC Indonesia (ID)
+#EXTINF:-1 tvg-id="CNBCIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://yt3.googleusercontent.com/So_LPmy2cMOrzc3zmyFOs333uRCcjOlHxqvc-yWAEIdTtjgcT27-_aC5dS-0WWuiGA3V7O4t=s900-c-k-c0x00ffffff-no-rj",CNBC Indonesia (EXTVLCOPT)
 #EXTVLCOPT:http-referrer=https://www.cnbcindonesia.com/
 #EXTVLCOPT:http-user-agent=Mozilla/5.0
 #EXTVLCOPT:http-origin=https://www.cnbcindonesia.com
 https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8
+
+#EXTINF:-1 tvg-id="KompasTV.id" tvg-country="ID" group-title="News" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/a/a6/UTpa5aX5_400x400.jpg",Kompas TV (POLOS)
+https://op-group1-swiftservehd-1.dens.tv/h/h234/02.m3u8
+
+#EXTINF:-1 tvg-id="KompasTV.id" group-title="News",Kompas TV (INLINE)
+https://op-group1-swiftservehd-1.dens.tv/h/h234/02.m3u8|Referer=https://www.dens.tv/&User-Agent=Mozilla/5.0&Origin=https://www.dens.tv
+
+#EXTINF:-1 tvg-id="KompasTV.id" group-title="News",Kompas TV (EXTVLCOPT)
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
+#EXTVLCOPT:http-referrer=https://www.dens.tv/
+#EXTVLCOPT:http-origin=https://www.dens.tv
+https://op-group1-swiftservehd-1.dens.tv/h/h234/02.m3u8
+
+#EXTINF:-1 tvg-id="tvOne.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/46/1/tvone-logo-png_seeklogo-461423.png",tvOne (POLOS)
+https://op-group1-swiftservehd-1.dens.tv/h/h40/index.m3u8
+
+#EXTINF:-1 tvg-id="tvOne.id" group-title="News",tvOne (INLINE)
+https://op-group1-swiftservehd-1.dens.tv/h/h40/index.m3u8|User-Agent=Mozilla/5.0
+
+#EXTINF:-1 tvg-id="tvOne.id" group-title="News",tvOne (EXTVLCOPT)
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
+#EXTVLCOPT:http-referrer=https://www.dens.tv/
+#EXTVLCOPT:http-origin=https://www.dens.tv
+https://op-group1-swiftservehd-1.dens.tv/h/h40/index.m3u8
 
 #EXTINF:-1 tvg-id="MetroTV.id" tvg-country="ID" group-title="News" tvg-logo="https://i.pinimg.com/736x/0a/03/81/0a0381180e4e9ba04b88fc345a8fe326.jpg",Metro TV (ID)
 https://edge.medcom.id/live-edge/smil:metro.smil/playlist.m3u8
@@ -77,11 +111,14 @@ https://shd-gcp-live.edgenextcdn.net/live/bitmovin-spacetoon/d8382fb9ab4b2307058
 #EXTINF:-1 tvg-id="FIFAPlus.uk" tvg-country="UK" group-title="Sports" tvg-logo="https://cdn.plus.fifa.com/images/web/logoFIFA.png",FIFA Plus (UK)
 https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8
 
+#EXTINF:-1 tvg-id="MQTV.id@SD" tvg-country="ID" group-title="Religious" tvg-logo="https://pbs.twimg.com/profile_images/2006171161382772736/55sTdTdA.jpg",MQTV (ID)
+https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8
+
+#EXTINF:-1 tvg-id="AlBahjahTV.id" tvg-country="ID" group-title="Religious" tvg-logo="https://buyayahya.org/wp-content/uploads/2018/01/AL-BAHJAH-TV-OK-3-1024x1024.png",AlBahjah TV (TES)
+http://202.150.161.117:8000/play/AlBahjahTV
+
 #EXTINF:-1 tvg-id="QuranRadio.sa" tvg-country="SA" group-title="Religious" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/0/00/Saudi_Quran_Radio_Logo_2024.png",Quran Radio (SA)
 https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8
 
 #EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
 https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
-
-#EXTINF:-1 tvg-id="MQTV.id@SD" tvg-country="ID" group-title="Religious" tvg-logo="https://pbs.twimg.com/profile_images/2006171161382772736/55sTdTdA.jpg",MQTV (ID)
-https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8
