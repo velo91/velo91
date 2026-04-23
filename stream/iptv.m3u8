@@ -83,7 +83,13 @@ https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8
 #EXTINF:-1 tvg-id="AlBahjahTV.id" tvg-country="ID" group-title="Religious" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtx_Q6CNIvMqdr-RsB-dHDCrY5IUK9nigVCA&s",AlBahjah TV (ID)
 http://202.150.161.117:8000/play/AlBahjahTV
 
-#EXTINF:-1 tvg-id="QuranRadio.sa" tvg-country="SA" group-title="Religious" tvg-logo="https://d371i8ihhgym7w.cloudfront.net/107792019.jpg",Saudi Quran (SA)
+#EXTINF:-1 tvg-id="QuranTV.sa" tvg-country="SA" group-title="Religious" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/5/56/Saudi_Quran_TV_2020.png",Saudi Quran TV (SA)
+https://op-group1-swiftservesd-1.dens.tv/s/s28/01.m3u8
+
+#EXTINF:-1 tvg-id="SunnaTV.sa" tvg-country="SA" group-title="Religious" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/a/a7/Saudi_Sunnah_TV_2020.png",Saudi Sunnah TV (SA)
+https://op-group1-swiftservesd-1.dens.tv/s/s27/01.m3u8
+
+#EXTINF:-1 tvg-id="QuranRadio.sa" tvg-country="SA" group-title="Religious" tvg-logo="https://d371i8ihhgym7w.cloudfront.net/107792019.jpg",Saudi Quran Radio (SA)
 https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8
 
 #EXTINF:-1 tvg-id="BahrainQuran.bh" tvg-country="BH" group-title="Religious" tvg-logo="https://dawa.center/images/61f7674f32bee.jpg",Bahrain Quran (BH)
