@@ -2,11 +2,17 @@
 #EXTINF:-1 tvg-id="LoveNature.ca" tvg-country="CA" group-title="Documentary" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/2/21/Lovenature2.png",Love Nature (CA)
 https://aegis-cloudfront-1.tubi.video/6d6d0f24-8445-4b4c-bdf6-44f9e38beaa4/playlist.m3u8
 
+#EXTINF:-1 tvg-id="Trans7.id",Trans7
+https://video.detik.com/trans7/smil:trans7.smil/playlist.m3u8|Referer=https://www.detik.com/&User-Agent=Mozilla/5.0&Origin=https://www.detik.com
+
 #EXTINF:-1 tvg-id="Trans7.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/32/1/trans-7-logo-png_seeklogo-326342.png",Trans7 (ID)
 #EXTVLCOPT:http-referrer=https://www.detik.com/
 #EXTVLCOPT:http-user-agent=Mozilla/5.0
 #EXTVLCOPT:http-origin=https://www.detik.com
 https://video.detik.com/trans7/smil:trans7.smil/playlist.m3u8
+
+#EXTINF:-1 tvg-id="TransTV.id",TransTV
+https://video.detik.com/transtv/smil:transtv.smil/playlist.m3u8|Referer=https://www.detik.com/&User-Agent=Mozilla/5.0&Origin=https://www.detik.com
 
 #EXTINF:-1 tvg-id="TransTV.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/61/1/trans-tv-logo-png_seeklogo-612415.png",TransTV (ID)
 #EXTVLCOPT:http-referrer=https://www.detik.com/
@@ -14,16 +20,22 @@ https://video.detik.com/trans7/smil:trans7.smil/playlist.m3u8
 #EXTVLCOPT:http-origin=https://www.detik.com
 https://video.detik.com/transtv/smil:transtv.smil/playlist.m3u8
 
+#EXTINF:-1 tvg-id="CNNIndonesia.id",CNN Indonesia
+https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/laylist.m3u8|Referer=https://www.cnnindonesia.com/&User-Agent=Mozilla/5.0&Origin=https://www.cnnindonesia.com
+
 #EXTINF:-1 tvg-id="CNNIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/52/1/cnn-indonesia-logo-png_seeklogo-520453.png",CNN Indonesia (ID)
-#EXTVLCOPT:http-referrer=https://www.detik.com/
+#EXTVLCOPT:http-referrer=https://www.cnnindonesia.com/
 #EXTVLCOPT:http-user-agent=Mozilla/5.0
-#EXTVLCOPT:http-origin=https://www.detik.com
+#EXTVLCOPT:http-origin=https://www.cnnindonesia.com
 https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/laylist.m3u8
 
+#EXTINF:-1 tvg-id="CNBCIndonesia.id",CNBC Indonesia
+https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8|Referer=https://www.cnbcindonesia.com/&User-Agent=Mozilla/5.0&Origin=https://www.cnbcindonesia.com
+
 #EXTINF:-1 tvg-id="CNBCIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/51/1/cnbc-indonesia-logo-png_seeklogo-511506.png",CNBC Indonesia (ID)
-#EXTVLCOPT:http-referrer=https://www.detik.com/
+#EXTVLCOPT:http-referrer=https://www.cnbcindonesia.com/
 #EXTVLCOPT:http-user-agent=Mozilla/5.0
-#EXTVLCOPT:http-origin=https://www.detik.com
+#EXTVLCOPT:http-origin=https://www.cnbcindonesia.com
 https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8
 
 #EXTINF:-1 tvg-id="MetroTV.id" tvg-country="ID" group-title="News" tvg-logo="https://i.pinimg.com/736x/0a/03/81/0a0381180e4e9ba04b88fc345a8fe326.jpg",Metro TV (ID)
