@@ -10,32 +10,32 @@ https://video.detik.com/trans7/smil:trans7.smil/playlist.m3u8
 
 #EXTINF:-1 tvg-id="TransTV.id" tvg-country="ID" group-title="General" tvg-logo="https://images.seeklogo.com/logo-png/61/1/trans-tv-logo-png_seeklogo-612415.png",TransTV (ID)
 #EXTVLCOPT:http-referrer=https://www.detik.com/
-#EXTVLCOPT:http-user-agent=Mozilla/5.0
 #EXTVLCOPT:http-origin=https://www.detik.com
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
 https://video.detik.com/transtv/smil:transtv.smil/playlist.m3u8
 
 #EXTINF:-1 tvg-id="CNNIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/52/1/cnn-indonesia-logo-png_seeklogo-520453.png",CNN Indonesia (ID)
 #EXTVLCOPT:http-referrer=https://www.cnnindonesia.com/
-#EXTVLCOPT:http-user-agent=Mozilla/5.0
 #EXTVLCOPT:http-origin=https://www.cnnindonesia.com
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
 https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/laylist.m3u8
 
 #EXTINF:-1 tvg-id="CNBCIndonesia.id" tvg-country="ID" group-title="News" tvg-logo="https://yt3.googleusercontent.com/So_LPmy2cMOrzc3zmyFOs333uRCcjOlHxqvc-yWAEIdTtjgcT27-_aC5dS-0WWuiGA3V7O4t=s900-c-k-c0x00ffffff-no-rj",CNBC Indonesia (ID)
 #EXTVLCOPT:http-referrer=https://www.cnbcindonesia.com/
-#EXTVLCOPT:http-user-agent=Mozilla/5.0
 #EXTVLCOPT:http-origin=https://www.cnbcindonesia.com
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
 https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8
 
 #EXTINF:-1 tvg-id="KompasTV.id" tvg-country="ID" group-title="News" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYLmjNqT1udQoxC4uD7w8WzEnDNdqS8ZAeyA&s",Kompas TV (ID)
-#EXTVLCOPT:http-user-agent=Mozilla/5.0
 #EXTVLCOPT:http-referrer=https://www.dens.tv/
 #EXTVLCOPT:http-origin=https://www.dens.tv
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
 https://op-group1-swiftservehd-1.dens.tv/h/h234/02.m3u8
 
 #EXTINF:-1 tvg-id="tvOne.id" tvg-country="ID" group-title="News" tvg-logo="https://images.seeklogo.com/logo-png/46/1/tvone-logo-png_seeklogo-461423.png",tvOne (ID)
-#EXTVLCOPT:http-user-agent=Mozilla/5.0
 #EXTVLCOPT:http-referrer=https://www.dens.tv/
 #EXTVLCOPT:http-origin=https://www.dens.tv
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
 https://op-group1-swiftservehd-1.dens.tv/h/h40/index.m3u8
 
 #EXTINF:-1 tvg-id="MetroTV.id" tvg-country="ID" group-title="News" tvg-logo="https://yt3.googleusercontent.com/qX0Or-6wqAYGXEPiWV6ELZmJGRm2JtOIYYd2r54UQqaDKFlBeezvfgT_b6SB3JZTS16RjANs=s900-c-k-c0x00ffffff-no-rj",Metro TV (ID)
@@ -60,6 +60,9 @@ https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-bollywood/546eb40d7dcf9a2
 https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00864-shemarooenterta-shemabollywood-ono/playlist.m3u8
 
 #EXTINF:-1 tvg-id="ShemarooJosh.in" tvg-country="IN" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSutWZzQySLPpaZvaSHq1SnpV0dXNSFZimyag&s",Shemaroo Josh (IN)
+#EXTVLCOPT:http-referrer=https://airtelapp.shemaroo.com/
+#EXTVLCOPT:http-origin=https://airtelapp.shemaroo.com
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
 https://airtelapp.shemaroo.com/shemarooChumbakTV/smil:shemarooChumbakTVadp.smil/playlist.m3u8
 
 #EXTINF:-1 tvg-id="9XM.in" tvg-country="IN" group-title="Music" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShNjpx9k2NgFsFsb7V8cJiHNq4ZEr0BAgN1A&s",9XM.in (IN)
@@ -93,9 +96,15 @@ https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8
 https://d25tgymtnqzu8s.cloudfront.net/main/A0jyR3/master.m3u8?id=1
 
 #EXTINF:-1 tvg-id="TV6.my" tvg-country="MY" group-title="General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/4/42/TV6_Logo.jpg",TV6 (MY)
+#EXTVLCOPT:http-referrer=https://d25tgymtnqzu8s.cloudfront.net/
+#EXTVLCOPT:http-origin=https://d25tgymtnqzu8s.cloudfront.net
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
 https://d25tgymtnqzu8s.cloudfront.net/smil:tv6/playlist.m3u8?id=6
 
 #EXTINF:-1 tvg-id="Okey.my" tvg-country="MY" group-title="General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/b/b9/Okey_RTM.png",Okey TV (MY)
+#EXTVLCOPT:http-referrer=https://d25tgymtnqzu8s.cloudfront.net/
+#EXTVLCOPT:http-origin=https://d25tgymtnqzu8s.cloudfront.net
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
 https://d25tgymtnqzu8s.cloudfront.net/smil:okey/playlist.m3u8?id=3
 
 #EXTINF:-1 tvg-id="MaahTV.my" tvg-country="MY" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWgt6885okgsoyI3veK4aNu0unf6ZkRbHvw&s",Maah TV (MY)
