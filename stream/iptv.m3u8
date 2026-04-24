@@ -68,12 +68,6 @@ https://9xjio.wiseplayout.com/9XM/HD1080/HD1080.m3u8
 #EXTINF:-1 tvg-id="YRFMusic.in" tvg-country="IN" group-title="Music" tvg-logo="https://yt3.googleusercontent.com/nf15u1K12VXgBLh5HTf0asDF5Fc36RsUICRi8xY1Cs0QhAL_jmtW07wAUdRzrYDBKwv_KIa09Q=s900-c-k-c0x00ffffff-no-rj",YRF Music (IN)
 https://amg01412-xiaomiasia-yrfmusic-xiaomi-1rmk2.amagi.tv/playlist/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8
 
-#EXTINF:-1 tvg-id="MBC3USA.us" tvg-country="US" group-title="Kids" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBgE8BVpGdvd06Cj_y3Alk6IDS12dRAQwZaw&s",MBC 3 (US)
-https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-3-usa/5d58265a862a476dc7f97694addb5ded/index.m3u8
-
-#EXTINF:-1 tvg-id="SpacetoonArabic.ae" tvg-country="AE" group-title="Kids" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5CoV1UA97JP2Kifh2kDkFOeEOR5fgzRhrbw&s",Spacetoon Arabic (AE)
-https://shd-gcp-live.edgenextcdn.net/live/bitmovin-spacetoon/d8382fb9ab4b2307058f12c7ea90db54/index.m3u8
-
 #EXTINF:-1 tvg-id="FIFAPlus.uk" tvg-country="UK" group-title="Sports" tvg-logo="https://cdn.plus.fifa.com/images/web/logoFIFA.png",FIFA Plus (UK)
 https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8
 
@@ -106,3 +100,9 @@ https://d25tgymtnqzu8s.cloudfront.net/smil:okey/playlist.m3u8?id=3
 
 #EXTINF:-1 tvg-id="MaahTV.my" tvg-country="MY" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWgt6885okgsoyI3veK4aNu0unf6ZkRbHvw&s",Maah TV (MY)
 https://hls.maahtv.live/hls/stream.m3u8
+
+#EXTINF:-1 tvg-id="MBC3USA.us" tvg-country="US" group-title="Kids" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBgE8BVpGdvd06Cj_y3Alk6IDS12dRAQwZaw&s",MBC 3 (US)
+https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-3-usa/5d58265a862a476dc7f97694addb5ded/index.m3u8
+
+#EXTINF:-1 tvg-id="SpacetoonArabic.ae" tvg-country="AE" group-title="Kids" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5CoV1UA97JP2Kifh2kDkFOeEOR5fgzRhrbw&s",Spacetoon Arabic (AE)
+https://shd-gcp-live.edgenextcdn.net/live/bitmovin-spacetoon/d8382fb9ab4b2307058f12c7ea90db54/index.m3u8
