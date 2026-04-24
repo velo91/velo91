@@ -71,6 +71,15 @@ https://9xjio.wiseplayout.com/9XM/HD1080/HD1080.m3u8
 #EXTINF:-1 tvg-id="YRFMusic.in" tvg-country="IN" group-title="Music" tvg-logo="https://yt3.googleusercontent.com/nf15u1K12VXgBLh5HTf0asDF5Fc36RsUICRi8xY1Cs0QhAL_jmtW07wAUdRzrYDBKwv_KIa09Q=s900-c-k-c0x00ffffff-no-rj",YRF Music (IN)
 https://amg01412-xiaomiasia-yrfmusic-xiaomi-1rmk2.amagi.tv/playlist/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8
 
+#EXTINF:-1 tvg-id="Okey.my" tvg-country="MY" group-title="General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/b/b9/Okey_RTM.png",Okey TV (MY)
+https://d25tgymtnqzu8s.cloudfront.net/smil:okey/playlist.m3u8?id=3
+
+#EXTINF:-1 tvg-id="TV6.my" tvg-country="MY" group-title="General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/4/42/TV6_Logo.jpg",TV6 (MY)
+https://d25tgymtnqzu8s.cloudfront.net/smil:tv6/playlist.m3u8?id=6
+
+#EXTINF:-1 tvg-id="MaahTV.my" tvg-country="MY" group-title="Movies" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWgt6885okgsoyI3veK4aNu0unf6ZkRbHvw&s",Maah TV (MY)
+https://hls.maahtv.live/hls/stream.m3u8
+
 #EXTINF:-1 tvg-id="MBC3USA.us" tvg-country="US" group-title="Kids" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBgE8BVpGdvd06Cj_y3Alk6IDS12dRAQwZaw&s",MBC 3 (US)
 https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-3-usa/5d58265a862a476dc7f97694addb5ded/index.m3u8
 
