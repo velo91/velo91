@@ -65,7 +65,7 @@ https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00864-shemarooenterta-shemabollywoo
 #EXTVLCOPT:http-user-agent=Mozilla/5.0
 https://airtelapp.shemaroo.com/shemarooChumbakTV/smil:shemarooChumbakTVadp.smil/playlist.m3u8
 
-#EXTINF:-1 tvg-id="TheMovieClub.in" tvg-country="IN" group-title="Movies" tvg-logo="",The Movie Club (IN)
+#EXTINF:-1 tvg-id="TheMovieClub.in" tvg-country="IN" group-title="Movies" tvg-logo="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS8UHsG6igPb5H-dNSQAP2-FUOLBiXVl6_BnsJ7Kgv8iUlppEC3",The Movie Club (IN)
 https://sis-global.prod.samsungtv.plus/v1/tvpprd/sc-mp2ar4ca425xo.m3u8
 
 #EXTINF:-1 tvg-id="9XM.in" tvg-country="IN" group-title="Music" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShNjpx9k2NgFsFsb7V8cJiHNq4ZEr0BAgN1A&s",9XM (IN)
