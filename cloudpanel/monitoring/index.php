@@ -41,7 +41,7 @@ $servers = [];
 // =========================
 // AMBIL DATA SQLITE DI SERVER INI
 // =========================
-$db_path = '/home/clp/htdocs/app/data/db.sq3';
+$db_path = '/var/www/monitoring/metrics/health/db.sq3';
 
 if(!file_exists($db_path)) {
     die('Database monitoring tidak ditemukan');
@@ -80,6 +80,35 @@ $load_data = get_data($db, 'instance_load_average', "WHERE period = 1", $latest_
 $cpuinfo = @file_get_contents('/proc/cpuinfo');
 preg_match_all('/^processor/m', $cpuinfo, $matches);
 $core = count($matches[0]);
+// Hitung total RAM (GB)
+$meminfo = @file_get_contents('/proc/meminfo');
+preg_match('/MemTotal:\s+(\d+)/', $meminfo, $matches);
+$ram_total_kb = $matches[1] ?? 0;
+$ram_total_gb = round($ram_total_kb / 1024 / 1024); // ke GB
+// Ambil total disk (GB)
+// $disk_total_bytes = @disk_total_space('/');
+// $disk_total_gb_raw = $disk_total_bytes / 1024 / 1024 / 1024; // ke GB
+// $disk_total_gb = ceil($disk_total_gb_raw / 10) * 10; // harus dalam puluhan
+// KHUSUS DI APACHE
+// harus jalan dulu cronjob:
+// # auto update disk total gb
+// * * * * * /bin/df -BG / --output=size | /usr/bin/tail -1 | /usr/bin/tr -d ' G' > /[LOKASI_PATH_MONITORING]/count_disk_total.txt && /bin/chown www-data:www-data /[LOKASI_PATH_MONITORING]/count_disk_total.txt && /bin/chmod 644 /[LOKASI_PATH_MONITORING]/count_disk_total.txt
+$disk_total_gb = 0;
+$file_name = 'count_disk_total.txt';
+$file_path = __DIR__ . '/' . $file_name;
+clearstatcache();
+if(is_readable($file_path)) {
+    $raw_data = file_get_contents($file_path);
+    if($raw_data !== false && trim($raw_data) !== '') {
+        $disk_total_gb_raw = (int)trim($raw_data);
+        $disk_total_gb = ceil($disk_total_gb_raw / 10) * 10;
+    }
+}
+else {
+    //echo "PHP tidak bisa membaca file di: " . $file_path;
+    //echo "<br>Pastikan Apache (www-data) punya izin baca di folder tersebut.";
+}
+
 // Hitung persentase swap dari OS
 function get_swap_usage_percent() {
     $meminfo = @file('/proc/meminfo', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -112,10 +141,12 @@ if (isset($_GET['json'])) {
     echo json_encode([
         'meta' => [
             'time' => date('c'),
+            'latest' => $latest_only,
             'range'     => $range,
             'limit'     => $limit,
             'cpu_core'  => $core,
-            'latest' => $latest_only
+            'ram_total_gb' => $ram_total_gb,
+            'disk_total_gb' => $disk_total_gb
         ],
         'cpu'    => $cpu_data,
         'memory' => $memory_data,
@@ -181,117 +212,184 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa;
-            transition: background-color 0.3s, color 0.3s;
+    body {
+        background-color: #f8f9fa;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark-mode {
+        background-color: #0b0f17;
+        color: #e4e4e4;
+    }
+    canvas {
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .container-fluid.layout-2x2 {
+        max-width: 1500px;
+        margin: 0 auto;
+    }
+    .chart-box {
+        margin-bottom: 30px;
+        opacity: 0;
+        transform: translateY(15px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .chart-box.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .range a {
+        font-weight: bold;
+    }
+    .dark-mode {
+        background-color: #121212;
+        color: #e4e4e4;
+    }
+    .dark-mode canvas {
+        background-color: #1e1e1e;
+    }
+    /* Cyber Dynamic Background */
+    :root {
+        --bg-dark: #020610;
+        --stream-color: rgba(0,255,200,0.15);
+        --orb1: #21e9ff;
+        --orb2: #7b5cff;
+        --neon-glow: rgba(0,255,200,0.25);
+    }
+    /* Background base */
+    .cyber-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        background: radial-gradient(circle at 20% 20%, rgba(33,233,255,0.08), transparent 40%), radial-gradient(circle at 80% 70%, rgba(123,92,255,0.08), transparent 40%), #0b0f17;
+    }
+    /* Aliran data diagonal */
+    .cyber-layer.streams {
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(120deg, transparent 0 40px, rgba(0,255,200,0.08) 40px 42px);
+        background-size: 400px 400px;
+        animation: moveStreams 40s linear infinite;
+        opacity: 0.15;
+    }
+    @keyframes moveStreams {
+        0% {
+            background-position: 0 0;
         }
-        canvas {
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        100% {
+            background-position: 600px 600px;
         }
-        .container-fluid.layout-2x2 {
-            max-width: 1500px;
-            margin: 0 auto;
+    }
+    /* Orb neon */
+    .cyber-orb {
+        position: absolute;
+        width: 800px;
+        height: 800px;
+        border-radius: 50%;
+        filter: blur(200px);
+        opacity: 0.45;
+        mix-blend-mode: screen;
+    }
+    .orb1 {
+        background: var(--orb1);
+        top: 20%;
+        left: 10%;
+        animation: moveOrb1 40s ease-in-out infinite alternate;
+    }
+    .orb2 {
+        background: var(--orb2);
+        top: 60%;
+        left: 60%;
+        animation: moveOrb2 55s ease-in-out infinite alternate;
+    }
+    @keyframes moveOrb1 {
+        0% {
+            transform: translate(0,0);
         }
-        .chart-box {
-            margin-bottom: 30px;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .chart-box.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .range a {
-            font-weight: bold;
-        }
-        .dark-mode {
-            background-color: #121212;
-            color: #e4e4e4;
-        }
-        .dark-mode canvas {
-            background-color: #1e1e1e;
-        }
-        /* Cyber Dynamic Background */
-        :root {
-            --bg-dark: #020610;
-            --stream-color: rgba(0,255,200,0.15);
-            --orb1: #21e9ff;
-            --orb2: #7b5cff;
-            --neon-glow: rgba(0,255,200,0.25);
-        }
-        /* Background base */
-        .cyber-bg {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-            background: radial-gradient(circle at 50% 50%, #041a26 0%, #020610 100%);
-        }
-        /* Aliran data diagonal */
-        .cyber-layer.streams {
+        /* Glow lembut */
+        .cyber-layer.glow {
             position: absolute;
             inset: 0;
-            background-image:
-            repeating-linear-gradient(120deg, transparent 0 28px, var(--stream-color) 28px 30px);
-            background-size: 300px 300px;
-            animation: moveStreams 18s linear infinite;
-            opacity: 0.25;
+            background: radial-gradient(circle at center, var(--neon-glow), transparent 70%);
+            filter: blur(100px);
+            animation: glowPulse 10s ease-in-out infinite;
         }
-        @keyframes moveStreams {
-            0% {
-                background-position: 0 0;
+        @keyframes glowPulse {
+            0%,100% {
+                opacity: 0.5;
             }
-            100% {
-                background-position: 600px 600px;
+            50% {
+                opacity: 0.85;
             }
         }
-        /* Orb neon */
-        .cyber-orb {
-            position: absolute;
-            width: 800px;
-            height: 800px;
-            border-radius: 50%;
-            filter: blur(200px);
-            opacity: 0.45;
-            mix-blend-mode: screen;
-        }
-        .orb1 {
-            background: var(--orb1);
-            top: 20%;
-            left: 10%;
-            animation: moveOrb1 40s ease-in-out infinite alternate;
-        }
-        .orb2 {
-            background: var(--orb2);
-            top: 60%;
-            left: 60%;
-            animation: moveOrb2 55s ease-in-out infinite alternate;
-        }
-        @keyframes moveOrb1 {
-            0% {
-                transform: translate(0,0);
-            }
-            /* Glow lembut */
-            .cyber-layer.glow {
-                position: absolute;
-                inset: 0;
-                background: radial-gradient(circle at center, var(--neon-glow), transparent 70%);
-                filter: blur(100px);
-                animation: glowPulse 10s ease-in-out infinite;
-            }
-            @keyframes glowPulse {
-                0%,100% {
-                    opacity: 0.5;
-                }
-                50% {
-                    opacity: 0.85;
-                }
-            }
-        }
+    }
+    /* Card */
+    .card-minimal {
+        background: rgba(30, 30, 30, 0.65);
+        backdrop-filter: blur(10px);
+        border-radius: 14px;
+        padding: 16px;
+        border: 1px solid rgba(255,255,255,0.05);
+        transition: all 0.25s ease;
+    }
+    .card-minimal:hover {
+        transform: translateY(-3px);
+        border-color: rgba(56,189,248,0.25);
+    }
+    .card-minimal::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 14px;
+        background: radial-gradient(circle at top, rgba(56,189,248,0.08), transparent 70%);
+        pointer-events: none;
+    }
+    .server-name {
+        font-size: 13px;
+        color: #94a3b8;
+        margin-bottom: 12px;
+        text-align: center;
+        letter-spacing: 0.3px;
+    }
+    .grid-metrics {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .label {
+        font-size: 10px;
+        color: #64748b;
+        letter-spacing: 0.5px;
+    }
+    .value {
+        font-size: 24px;
+        font-weight: 600;
+        margin-top: 2px;
+    }
+    .swap {
+        margin-top: 10px;
+        font-size: 12px;
+        text-align: center;
+        color: #38bdf8;
+    }
+    /* warna status: hijau */
+    .ok { 
+        color: #22c55e;
+        text-shadow: 0 0 6px rgba(34,197,94,0.5);
+    }
+    /* warna status: kuning */
+    .warn { 
+        color: #facc15;
+        text-shadow: 0 0 6px rgba(250,204,21,0.5);
+    }
+    /* warna status: merah */
+    .bad { 
+        color: #ef4444;
+        text-shadow: 0 0 6px rgba(239,68,68,0.6);
+    }
     </style>
 </head>
 <body class="dark-mode">
@@ -330,6 +428,9 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
 
     <!-- Konten Bootstrap -->
     <div class="container-fluid text-center position-relative">
+        
+        <?php
+        /*
         <div class="text-center mt-4 mb-4 range">
             <div class="btn-group">
                 <?php
@@ -370,83 +471,59 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
                 <canvas id="loadChartA"></canvas>
             </div>
         </div>
+        */
+        ?>
         
-        <style>
-        .card-minimal {
-            background: #1E1E1E;
-            border-radius: 12px;
-            padding: 16px;
-        }
-        
-        .server-name {
-            font-size: 14px;
-            color: #94a3b8;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .grid-metrics {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        
-        .label {
-            font-size: 11px;
-            color: #64748b;
-        }
-        
-        .value {
-            font-size: 22px;
-            font-weight: bold;
-            margin-top: 2px;
-        }
-        
-        .swap {
-            margin-top: 10px;
-            font-size: 12px;
-            text-align: center;
-            color: #38bdf8;
-        }
-        
-        /* warna status */
-        .ok { color: #22c55e; }     /* hijau */
-        .warn { color: #facc15; }   /* kuning */
-        .bad { color: #ef4444; }    /* merah */
-        </style>
-        
-        <?php foreach (array_chunk($servers, 6) as $row): ?>
-        <div class="row mt-3">
-            <?php foreach ($row as $srv): 
-                $id = array_search($srv, $servers) + 1;
-            ?>
-            <div class="col-lg-2 col-12">
-                <div class="card-minimal p-3">
-                    <div class="server-name"><?= $srv['name'] ?></div>
-                    <div class="grid-metrics">
-                        <div>
-                            <div class="label">CPU</div>
-                            <div id="status-cpu-<?= $id ?>" class="value"></div>
-                        </div>
-                        <div>
-                            <div class="label">RAM</div>
-                            <div id="status-memory-<?= $id ?>" class="value"></div>
-                        </div>
-                        <div>
-                            <div class="label">DISK</div>
-                            <div id="status-disk-<?= $id ?>" class="value"></div>
-                        </div>
-                        <div>
-                            <div class="label">LOAD</div>
-                            <div id="status-load-<?= $id ?>" class="value"></div>
+        <div class="row">
+            
+            <div class="col-lg-6">
+                <div class="row mt-3">
+                    <div class="col-lg-12 col-12">
+                        <div class="card-minimal p-3 mb-4" style="min-height:96vh;">
+                            space area
                         </div>
                     </div>
-                    <div id="status-swap-<?= $id ?>" class="swap"></div>
                 </div>
             </div>
-            <?php endforeach; ?>
+            
+            <div class="col-lg-6">
+                <div class="row mt-3">
+                <?php foreach (array_chunk($servers, 3) as $row): ?>
+                <!--<div class="row mt-3">-->
+                    <?php foreach ($row as $srv): 
+                        $id = array_search($srv, $servers) + 1;
+                    ?>
+                    <div class="<?php if($srv['name']=='db-core') {echo 'col-lg-12';} else {echo 'col-lg-4';}?> col-12">
+                        <div class="card-minimal p-3 mb-4">
+                            <div class="server-name"><?= $srv['name'] ?></div>
+                            <div class="grid-metrics">
+                                <div>
+                                    <div class="label" id="label-cpu-<?= $id ?>">CPU</div>
+                                    <div id="status-cpu-<?= $id ?>" class="value"></div>
+                                </div>
+                                <div>
+                                    <div class="label" id="label-memory-<?= $id ?>">RAM</div>
+                                    <div id="status-memory-<?= $id ?>" class="value"></div>
+                                </div>
+                                <div>
+                                    <div class="label" id="label-disk-<?= $id ?>">DISK</div>
+                                    <div id="status-disk-<?= $id ?>" class="value"></div>
+                                </div>
+                                <div>
+                                    <div class="label" id="label-load-<?= $id ?>">LOAD</div>
+                                    <div id="status-load-<?= $id ?>" class="value"></div>
+                                </div>
+                            </div>
+                            <div id="status-swap-<?= $id ?>" class="swap"></div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                <!--</div>-->
+                <?php endforeach; ?>
+                </div>
+            </div>
+            
         </div>
-        <?php endforeach; ?>
         
         <?php
         /*
@@ -485,12 +562,16 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
     </div>
 
     <script>
+    <?php
+    /*
     const timeLabels = <?= json_encode(array_column($cpu_data, 'created_at_wib')) ?>;
     const cpuValues = <?= json_encode(array_column($cpu_data, 'value')) ?>;
     const memoryValues = <?= json_encode(array_column($memory_data, 'value')) ?>;
     const diskValues = <?= json_encode(array_column($disk_data, 'value')) ?>;
     const loadValues = <?= json_encode(array_column($load_data, 'value')) ?>;
     const cpuCoreA = <?=$core ?>;
+    const ramTotalA = <?=$ram_total_gb ?>;
+    const diskTotal = <?=$disk_total_gb ?>;
     
     const cpuValueLast = cpuValues.at(-1) ?? 0;
     const memoryValueLast = memoryValues.at(-1) ?? 0;
@@ -673,6 +754,8 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
     function statusBadgeLoad(v) {
         if (v < cpuCoreA*0.3)return`<span class="badge text-bg-secondary fs-6">Ringan (${v})</span>`; else if (v < cpuCoreA*0.7)return`<span class="badge text-bg-success fs-6">Normal (${v})</span>`; else if (v < cpuCoreA*1.0)return`<span class="badge text-bg-warning fs-6">Sibuk (${v})</span>`; else return`<span class="badge text-bg-danger fs-6">Overload (${v})</span>`;
     }
+    */
+    ?>
     
     // Ambil data server lain
     const servers = <?= json_encode($servers) ?>.map((srv, i) => ({
@@ -694,25 +777,25 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
     function setStatus(el, value, type = 'percent', cpuCore = 1) {
         let cls = 'ok';
         let text = value;
-    
+        
         if (type === 'percent') {
             if (value >= 90) cls = 'bad';
             else if (value >= 70) cls = 'warn';
             text = value + '%';
         }
-    
+        
         if (type === 'disk') {
             if (value >= 90) cls = 'bad';
             else if (value >= 70) cls = 'warn';
             text = value + '%';
         }
-    
+        
         if (type === 'load') {
             if (value >= cpuCore) cls = 'bad';
             else if (value >= cpuCore * 0.7) cls = 'warn';
             text = value;
         }
-    
+        
         el.removeClass('ok warn bad').addClass(cls).text(text);
     }
     
@@ -725,8 +808,13 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
         const load = parseFloat(data.load?.value ?? 0);
         const swap = parseFloat(data.swap ?? data.swap_percent ?? 0);
         const cpuCore = data.meta?.cpu_core ?? 1;
+        const ramTotal = data.meta?.ram_total_gb ?? 0;
+        const diskTotal = data.meta?.disk_total_gb ?? 0;
+        $(`#label-cpu-${id}`).text(`CPU (${cpuCore} core)`);
         setStatus($(`#status-cpu-${id}`), cpu);
+        $(`#label-memory-${id}`).text(`RAM (${ramTotal} GB)`);
         setStatus($(`#status-memory-${id}`), memory);
+        $(`#label-disk-${id}`).text(`DISK (${diskTotal} GB)`);
         setStatus($(`#status-disk-${id}`), disk, 'disk');
         setStatus($(`#status-load-${id}`), load, 'load', cpuCore);
         $(`#status-swap-${id}`).text(`SWAP ${swap}%`);
@@ -759,7 +847,7 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
     //     $(`#status-load-${id}`).html(statusBadgeLoad(loadValues.at(-1) ?? 0));
     // }
     
-    // Loop semua server (ini pengganti semua kode B, C, dst)
+    // Loop semua server lain
     servers.forEach(server => {
         fetchServerData(server).then(data => {
             renderServerCharts(server, data);
