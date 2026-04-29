@@ -41,7 +41,7 @@ $servers = [];
 // =========================
 // AMBIL DATA SQLITE DI SERVER INI
 // =========================
-$db_path = '/var/www/monitoring/metrics/health/db.sq3';
+$db_path = '/[LOKASI_DB_MONITORING]/db.sq3';
 
 if(!file_exists($db_path)) {
     die('Database monitoring tidak ditemukan');
