@@ -90,7 +90,7 @@ $disk_total_bytes = @disk_total_space('/');
 $disk_total_gb_raw = $disk_total_bytes / 1024 / 1024 / 1024; // ke GB
 $disk_total_gb = ceil($disk_total_gb_raw / 10) * 10; // harus dalam puluhan
 // KHUSUS DI APACHE
-// harus jalan dulu cronjob:
+// tapi harus jalan dulu cronjob:
 // # auto update disk total gb
 // * * * * * /bin/df -BG / --output=size | /usr/bin/tail -1 | /usr/bin/tr -d ' G' > /[LOKASI_PATH_MONITORING]/count_disk_total.txt && /bin/chown www-data:www-data /[LOKASI_PATH_MONITORING]/count_disk_total.txt && /bin/chmod 644 /[LOKASI_PATH_MONITORING]/count_disk_total.txt
 //
