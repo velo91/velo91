@@ -86,28 +86,29 @@ preg_match('/MemTotal:\s+(\d+)/', $meminfo, $matches);
 $ram_total_kb = $matches[1] ?? 0;
 $ram_total_gb = round($ram_total_kb / 1024 / 1024); // ke GB
 // Ambil total disk (GB)
-// $disk_total_bytes = @disk_total_space('/');
-// $disk_total_gb_raw = $disk_total_bytes / 1024 / 1024 / 1024; // ke GB
-// $disk_total_gb = ceil($disk_total_gb_raw / 10) * 10; // harus dalam puluhan
+$disk_total_bytes = @disk_total_space('/');
+$disk_total_gb_raw = $disk_total_bytes / 1024 / 1024 / 1024; // ke GB
+$disk_total_gb = ceil($disk_total_gb_raw / 10) * 10; // harus dalam puluhan
 // KHUSUS DI APACHE
 // harus jalan dulu cronjob:
 // # auto update disk total gb
 // * * * * * /bin/df -BG / --output=size | /usr/bin/tail -1 | /usr/bin/tr -d ' G' > /[LOKASI_PATH_MONITORING]/count_disk_total.txt && /bin/chown www-data:www-data /[LOKASI_PATH_MONITORING]/count_disk_total.txt && /bin/chmod 644 /[LOKASI_PATH_MONITORING]/count_disk_total.txt
-$disk_total_gb = 0;
-$file_name = 'count_disk_total.txt';
-$file_path = __DIR__ . '/' . $file_name;
-clearstatcache();
-if(is_readable($file_path)) {
-    $raw_data = file_get_contents($file_path);
-    if($raw_data !== false && trim($raw_data) !== '') {
-        $disk_total_gb_raw = (int)trim($raw_data);
-        $disk_total_gb = ceil($disk_total_gb_raw / 10) * 10;
-    }
-}
-else {
-    //echo "PHP tidak bisa membaca file di: " . $file_path;
-    //echo "<br>Pastikan Apache (www-data) punya izin baca di folder tersebut.";
-}
+//
+// $disk_total_gb = 0;
+// $file_name = 'count_disk_total.txt';
+// $file_path = __DIR__ . '/' . $file_name;
+// clearstatcache();
+// if(is_readable($file_path)) {
+//     $raw_data = file_get_contents($file_path);
+//     if($raw_data !== false && trim($raw_data) !== '') {
+//         $disk_total_gb_raw = (int)trim($raw_data);
+//         $disk_total_gb = ceil($disk_total_gb_raw / 10) * 10;
+//     }
+// }
+// else {
+//     //echo "PHP tidak bisa membaca file di: " . $file_path;
+//     //echo "<br>Pastikan Apache (www-data) punya izin baca di folder tersebut.";
+// }
 
 // Hitung persentase swap dari OS
 function get_swap_usage_percent() {
