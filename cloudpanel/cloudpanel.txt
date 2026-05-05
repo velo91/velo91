@@ -873,6 +873,30 @@ if(isset($_GET)) {
 # to activate all default plugin: Login > Sistem > Plugin
 # to add/edit content: Login > Sistem > Konten
 # to activate visitor link, just leave empty in: Login Admin > Sistem > Pengaturan Sistem > IP Yang Diizinkan
+# to allow google tag manager and cloudflare insight, edit file csp.php in folder config:
+<?php
+/**
+ * CSP (Content Security Policy)
+ *  
+ * fell free to add your custom CSP.
+ *  
+ * original code by 2022 Hendro Wicaksono (hendrowicaksono@yahoo.com)
+ * modified by Drajat Hasan (drajathasan20@gmail.com)
+ */
+return [
+    "base-uri 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://static.cloudflareinsights.com",
+    "style-src 'self' 'unsafe-inline' *.bootstrapcdn.com *.googleapis.com",
+    "img-src 'self' data:",
+    "connect-src 'self' kutipan.herokuapp.com https://www.google-analytics.com",
+    "frame-src 'self' *.google.com",
+    "font-src 'self' *.gstatic.com",
+    "media-src 'self'",
+    "object-src 'self'",
+    "manifest-src 'self'",  
+    "worker-src 'self'",
+    "frame-ancestors 'self'"
+];
 # plugin to re-index table 'loan_history' at SLiMS 9 Bulian:
   link download : https://github.com/drajathasan/slims-loan-history-helper
   Cara :
