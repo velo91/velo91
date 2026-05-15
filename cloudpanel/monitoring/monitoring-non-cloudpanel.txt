@@ -3,6 +3,14 @@ mkdir -p /var/www/monitoring/metrics/health
 cp /home/clp/htdocs/app/data/db.sq3 /var/www/monitoring/metrics/health/
 chown www-data:www-data /var/www/monitoring/metrics/health/db.sq3
 
+atau
+
+mkdir -p /var/www/monitoring/metrics/health
+cd /var/www/monitoring/metrics/health
+wget https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/cloudpanel/monitoring/schema.sql
+sqlite3 db.sq3 < schema.sql
+rm schema.sql
+
 
 # Kalau tidak pakai CloudPanel, bisa salin terlebih dahulu struktur database SQLite dari server CloudPanel
 sqlite3 /home/clp/htdocs/app/data/db.sq3 .schema > /home/schema.sql
