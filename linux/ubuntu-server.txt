@@ -829,9 +829,16 @@ https://rclone.org/drive/#making-your-own-client-id
 # list file & dir: rclone lsf AMC:
 # storage info: rclone about AMC:
 # make dir: rclone mkdir AMC:Data
-# copy file to destination: rclone copy hello.txt AMC:Data
-# copy file to local: rclone copy AMC:Data/hello.txt /path/to/local/
-# copy folder to local: rclone copy AMC:Data /path/to/local/
+# copy file to destination:
+	rclone copy hello.txt AMC:Data
+# copy file to local:
+	rclone copy AMC:Data/hello.txt /path/to/local/
+# copy file to local fast verbose:
+	rclone copy AMC:Data/hello.txt /path/to/local/ -P --multi-thread-streams 4
+# copy folder to local:
+	rclone copy AMC:Data /path/to/local/
+# move file to destination:
+	rclone move hello.txt AMC:Data -vv --buffer-size 512M --drive-chunk-size 512M --checkers 4 --transfers 2 --bwlimit 45M --tpslimit 3 --max-transfer 750G --fast-list
 # delete all file, not dir: rclone delete AMC:Data
 # delete single file: rclone deletefile AMC:Data:info.txt
 # delete empty dir: rclone rmdir AMC:Data
