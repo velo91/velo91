@@ -1,3 +1,19 @@
+###############################################
+######### check disk & mounted result #########
+###############################################
+df -h
+
+############################################################
+######### check disk usage (sorted human readable) #########
+############################################################
+cd [PATH] && du -hx --max-depth=1 | sort -u
+OR
+du -hx --max-depth=1 [PATH] | sort -u
+OR
+du -x --max-depth=1 [PATH] | sort -n | awk '{ print $2 }' | xargs du -hx --max-depth=0
+OR
+du -xh / | sort -rh | head -40
+
 ##################################
 # Set DNS Record
 # For app with www CNAME, like: www.[YOUR_DOMAIN]
@@ -1178,20 +1194,6 @@ ALT  + A => To select text. You can combine this command with CTRL + K to cut a 
 ######### clear bash history #########
 ######################################
 history -c && > ~/.bash_history
-
-###############################################
-######### check disk & mounted result #########
-###############################################
-df -h
-
-############################################################
-######### check disk usage (sorted human readable) #########
-############################################################
-cd [PATH] && du -hx --max-depth=1 | sort -u
-OR
-du -hx --max-depth=1 [PATH] | sort -u
-OR
-du -x --max-depth=1 [PATH] | sort -n | awk '{ print $2 }' | xargs du -hx --max-depth=0
 
 ##############################################################
 ######### copy files only (not folder) #######################
