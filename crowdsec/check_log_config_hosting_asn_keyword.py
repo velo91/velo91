@@ -68,6 +68,7 @@ HOSTING_ASN_KEYWORDS = [
   'hosting',
   'hostinger',
   'hostpapa',
+  'hostroyale',
   'huawei clouds',
   'hurricane electric',
   'industri kreatif digital',
@@ -141,5 +142,6 @@ HOSTING_ASN_KEYWORDS = [
   'wowrack',
   'xneelo',
   'yandex.cloud',
-  'yisu cloud'
+  'yisu cloud',
+  'zenlayer'
 ]
