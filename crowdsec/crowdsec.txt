@@ -39,6 +39,24 @@ Firehol greensnow.co list
 # to add one, click Subscribe. choose Ban as the default action to take.
 
 
+### TELL CROWDSEC WHERE YOUR LOGS LIVE
+nano /etc/crowdsec/acquis.d/setup.nginx.yaml
+----------------------------
+filenames:
+  - /home/*/logs/nginx/*.log
+  - /var/www/logs/nginx/*.log
+  - /var/log/nginx/*.log
+labels:
+  type: nginx
+source: file
+----------------------------
+nginx -t
+nginx -s reload
+sudo systemctl restart crowdsec
+# cek apakah log terbaca
+sudo cscli metrics | grep -A 20 "Acquisition"
+# pastikan kolom "Lines read" pada path log kamu menunjukkan angka yang bertambah
+
 
 ### MUST HAVE COLLECTIONS
 sudo cscli collections list
@@ -85,7 +103,6 @@ cscli collections install mwinters-stuff/mailu-admin
 cscli collections install fulljackz/proxmox
 ----------------------------
 sudo systemctl reload crowdsec
-
 
 
 ### CREATE WHITELIST CLOUDFLARE IP
