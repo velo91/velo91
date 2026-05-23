@@ -126,20 +126,6 @@ nginx -t
 nginx -s reload
 
 ====================================================
-NGINX CUSTOM LOG FORMAT FOR SORTING WITH $time_iso8601
-====================================================
-nano /etc/nginx/nginx.conf
-# edit log format
-    log_format main '$time_iso8601 $server_name $remote_addr - $remote_user [$time_local] "$request" '
-                    '$status $body_bytes_sent "$http_referer" '
-                    '"$http_user_agent" "$http_x_forwarded_for"';
-    log_format cloudflare '$time_iso8601 $server_name $http_cf_connecting_ip - $remote_user [$time_local] "$request" '
-                          '$status $body_bytes_sent "$http_referer" '
-                          '"$http_user_agent" "$http_x_forwarded_for"';
-nginx -t
-nginx -s reload
-
-====================================================
 NGINX ADD RESOLVER CLOUDFLARE & GOOGLE
 ====================================================
 nano /etc/nginx/nginx.conf
@@ -498,17 +484,6 @@ nano /etc/nginx/nginx.conf
 	worker_connections 20000;
 	use epoll;
 	multi_accept on;
-# Disable logging for requests with HTTP status codes 2xx (Success) and 3xx (Redirection)
-nano /etc/nginx/nginx.conf
-    ##
-    # Logging Settings
-    ##
-    map $status $loggable { # excludes requests with HTTP status codes 2xx (Success) and 3xx (Redirection)
-        ~^[23]  0;
-        default 1;
-    }
-    access_log /var/log/nginx/access.log main if=$loggable;
-    error_log /var/log/nginx/error.log;
 nginx -t
 nginx -s reload
 
