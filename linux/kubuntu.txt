@@ -165,6 +165,15 @@ $ nano $HOME/.zshrc
 	cek allowlist semua_ip_kampus							cscli allowlist inspect semua_ip_kampus
 
 #############################
+# how to troubleshooting this when login as root in terminal?
+# manpath: can't set the locale; make sure $LC_* and $LANG are correct
+# run this command:
+locale
+# see that locale is active, and update new locale (ex: en_US.UTF-8 and id_ID.UTF-8)
+sudo locale-gen en_US.UTF-8
+sudo locale-gen id_ID.UTF-8
+
+#############################
 # how to display the application menu by pressing Ctrl + Shift + M
 # if in Dolphin, press Ctrl + M, usually if in Dolphin it appears once then in other applications such as GIMP/Inkscape the application menu will also appear
 
