@@ -201,12 +201,32 @@ password: phpmyadmin
 sudo nano /etc/phpmyadmin/config.inc.php
 ```
 
-Comment:
+Comment bagian ini:
 
 ```php
 // $cfg['Servers'][$i]['controluser'] = 'phpmyadmin';
 // $cfg['Servers'][$i]['controlpass'] = 'password';
 ```
+
+Tambahkan bagian ini di bawah komen tadi:
+
+```
+$cfg['Servers'][$i]['AllowNoPassword'] = false;
+$cfg['Servers'][$i]['hide_db'] = 'mysql|information_schema|performance_schema|test|phpmyadmin|sys';
+```
+
+Tambahkan bagian ini sebelum "End of servers configuration":
+
+```
+$cfg['DefaultCharset'] = 'utf8';
+$cfg['DefaultConnectionCollation'] = 'utf8mb4_general_ci';
+$cfg['MaxNavigationItems'] = 1000;
+$cfg['MaxTableList'] = 1000;
+$cfg['NavigationTreeEnableGrouping'] = false;
+$cfg['NavigationDisplayLogo'] = false;
+```
+
+Simpan.
 
 Restart:
 
