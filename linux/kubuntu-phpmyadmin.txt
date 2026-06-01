@@ -4,8 +4,47 @@
 
 ```bash
 sudo apt update
-sudo apt install nginx mariadb-server php php-fpm php-mysql php-mbstring php-xml php-gd phpmyadmin
+sudo apt install nginx mariadb-server php php-fpm php-mysql php-mbstring php-xml php-gd
 ```
+
+Tambahkan repo resmi MariaDB 11.4
+
+Install dependency:
+
+sudo apt install curl gnupg
+
+Import key:
+
+sudo mkdir -p /etc/apt/keyrings
+curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash
+
+
+Set Repo MariaDB 11.4 di Ubuntu 24.04
+
+Edit:
+
+sudo nano /etc/apt/sources.list.d/mariadb.list
+
+Ganti seluruh isi menjadi:
+
+# MariaDB 11.4 LTS
+deb [arch=amd64,arm64 signed-by=/etc/apt/keyrings/mariadb-keyring.pgp] https://mirrors.xtom.de/mariadb/repo/11.4/ubuntu noble main
+
+Simpan.
+
+Update repo:
+
+sudo apt update
+
+Install MariaDB:
+
+sudo apt install mariadb-server mariadb-client
+
+Cek versi:
+
+mysql -V
+
+
 
 Saat install phpMyAdmin:
 
