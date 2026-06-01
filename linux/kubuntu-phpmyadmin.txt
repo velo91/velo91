@@ -7,86 +7,105 @@ sudo apt update
 sudo apt install nginx mariadb-server php php-fpm php-mysql php-mbstring php-xml php-gd
 ```
 
-Tambahkan repo resmi MariaDB 11.4
 
-Install dependency:
+# Install Bersih MariaDB 11.4 di Ubuntu 24.04
 
+## Install dependency
+
+```bash
 sudo apt install curl gnupg
+```
 
-Import key:
+---
 
+## Tambahkan key MariaDB
+
+```bash
 sudo mkdir -p /etc/apt/keyrings
-curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash
 
+curl -fsSL https://mariadb.org/mariadb_release_signing_key.pgp \
+| sudo gpg --dearmor -o /etc/apt/keyrings/mariadb-keyring.pgp
+```
 
-Set Repo MariaDB 11.4 di Ubuntu 24.04
+---
 
-Edit:
+## Tambahkan repo MariaDB 11.4
 
+```bash
 sudo nano /etc/apt/sources.list.d/mariadb.list
+```
 
-Ganti seluruh isi menjadi:
+Isi:
 
-# MariaDB 11.4 LTS
-deb [arch=amd64,arm64 signed-by=/etc/apt/keyrings/mariadb-keyring.pgp] https://mirrors.xtom.de/mariadb/repo/11.4/ubuntu noble main
+```bash
+deb [signed-by=/etc/apt/keyrings/mariadb-keyring.pgp] https://mirror.mariadb.org/repo/11.4/ubuntu noble main
+```
 
-Simpan.
+---
 
-Update repo:
+## Update repo
 
+```bash
 sudo apt update
+```
 
-Install MariaDB:
+---
 
+## Install MariaDB 11.4
+
+```bash
 sudo apt install mariadb-server mariadb-client
-
-Cek versi:
-
-mysql -V
-
-
-
-Saat install phpMyAdmin:
-
-* jangan pilih apache2
-* pilih YES untuk configure database
-
----
-
-## Pastikan port 3306 kosong
-
-```bash
-sudo ss -tulpn | grep 3306
-```
-
-Kalau masih dipakai Docker:
-
-```bash
-docker ps
-docker stop NAMA_CONTAINER
-docker rm NAMA_CONTAINER
 ```
 
 ---
 
-## Jalankan MariaDB
+## Jalankan service
 
 ```bash
-sudo systemctl enable mariadb
-sudo systemctl restart mariadb
+sudo systemctl enable mariadb && sudo systemctl restart mariadb
+```
+
+---
+
+## Cek versi
+
+```bash
+mariadb -V
+```
+
+Harus muncul:
+
+```text
+MariaDB 11.4
+```
+
+---
+
+
+
+# Ubah Password Root MariaDB untuk phpMyAdmin
+
+Masuk MariaDB:
+
+```bash
 sudo mysql
 ```
 
----
-
-## Buat user admin MariaDB
+Ubah password root:
 
 ```sql
-CREATE USER 'admin'@'localhost' IDENTIFIED BY 'passwordku';
-GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
+ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('phpmyadmin');
 FLUSH PRIVILEGES;
 EXIT;
 ```
+
+Restart MariaDB:
+
+```bash
+sudo systemctl restart mariadb
+```
+
+
 
 ---
 
@@ -166,12 +185,13 @@ Buka:
 http://phpmyadmin.local
 ```
 
-Login:
+Login phpMyAdmin:
 
 ```text
-user: admin
-password: passwordku
+user: root
+password: phpmyadmin
 ```
+
 
 ---
 
@@ -195,34 +215,6 @@ sudo systemctl restart nginx
 sudo systemctl restart php8.3-fpm
 ```
 
-# Ubah Password Root MariaDB untuk phpMyAdmin
-
-Masuk MariaDB:
-
-```bash id="55oqk9"
-sudo mysql
-```
-
-Ubah password root:
-
-```sql id="kdx0v0"
-ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('passwordbaru');
-FLUSH PRIVILEGES;
-EXIT;
-```
-
-Restart MariaDB:
-
-```bash id="l8r1uk"
-sudo systemctl restart mariadb
-```
-
-Login phpMyAdmin:
-
-```text id="p5mjlwm"
-user: root
-password: passwordbaru
-```
 
 ---
 
@@ -230,20 +222,20 @@ password: passwordbaru
 
 Edit:
 
-```bash id="w2j1if"
+```bash
 sudo nano /etc/phpmyadmin/config.inc.php
 ```
 
 Comment:
 
-```php id="y7t8d7"
+```php
 // $cfg['Servers'][$i]['controluser'] = 'phpmyadmin';
 // $cfg['Servers'][$i]['controlpass'] = 'password';
 ```
 
 Restart:
 
-```bash id="a2j63v"
+```bash
 sudo systemctl restart nginx
 sudo systemctl restart php8.3-fpm
 ```
