@@ -1,0 +1,211 @@
+# Setup phpMyAdmin di Kubuntu Desktop (Nginx + MariaDB + PHP)
+
+## Install package
+
+```bash
+sudo apt update
+sudo apt install nginx mariadb-server php php-fpm php-mysql php-mbstring php-xml php-gd phpmyadmin
+```
+
+Saat install phpMyAdmin:
+
+* jangan pilih apache2
+* pilih YES untuk configure database
+
+---
+
+## Pastikan port 3306 kosong
+
+```bash
+sudo ss -tulpn | grep 3306
+```
+
+Kalau masih dipakai Docker:
+
+```bash
+docker ps
+docker stop NAMA_CONTAINER
+docker rm NAMA_CONTAINER
+```
+
+---
+
+## Jalankan MariaDB
+
+```bash
+sudo systemctl enable mariadb
+sudo systemctl restart mariadb
+sudo mysql
+```
+
+---
+
+## Buat user admin MariaDB
+
+```sql
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'passwordku';
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+---
+
+## Buat symlink phpMyAdmin
+
+```bash
+sudo ln -s /usr/share/phpmyadmin /var/www/phpmyadmin
+```
+
+---
+
+## Buat virtual host Nginx
+
+```bash
+sudo nano /etc/nginx/sites-available/phpmyadmin.local
+```
+
+Isi:
+
+```nginx
+server {
+    listen 80;
+    server_name phpmyadmin.local;
+
+    root /var/www/phpmyadmin;
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+    }
+}
+```
+
+---
+
+## Aktifkan site
+
+```bash
+sudo ln -s /etc/nginx/sites-available/phpmyadmin.local /etc/nginx/sites-enabled/
+```
+
+---
+
+## Tambahkan hosts lokal
+
+```bash
+sudo nano /etc/hosts
+```
+
+Tambahkan:
+
+```text
+127.0.0.1 phpmyadmin.local
+```
+
+---
+
+## Restart service
+
+```bash
+sudo systemctl restart nginx
+sudo systemctl restart php8.3-fpm
+```
+
+---
+
+## Login
+
+Buka:
+
+```text
+http://phpmyadmin.local
+```
+
+Login:
+
+```text
+user: admin
+password: passwordku
+```
+
+---
+
+## Hilangkan error controluser phpMyAdmin
+
+```bash
+sudo nano /etc/phpmyadmin/config.inc.php
+```
+
+Comment:
+
+```php
+// $cfg['Servers'][$i]['controluser'] = 'phpmyadmin';
+// $cfg['Servers'][$i]['controlpass'] = 'password';
+```
+
+Restart:
+
+```bash
+sudo systemctl restart nginx
+sudo systemctl restart php8.3-fpm
+```
+
+# Ubah Password Root MariaDB untuk phpMyAdmin
+
+Masuk MariaDB:
+
+```bash id="55oqk9"
+sudo mysql
+```
+
+Ubah password root:
+
+```sql id="kdx0v0"
+ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('passwordbaru');
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+Restart MariaDB:
+
+```bash id="l8r1uk"
+sudo systemctl restart mariadb
+```
+
+Login phpMyAdmin:
+
+```text id="p5mjlwm"
+user: root
+password: passwordbaru
+```
+
+---
+
+## Jika muncul error controluser phpMyAdmin
+
+Edit:
+
+```bash id="w2j1if"
+sudo nano /etc/phpmyadmin/config.inc.php
+```
+
+Comment:
+
+```php id="y7t8d7"
+// $cfg['Servers'][$i]['controluser'] = 'phpmyadmin';
+// $cfg['Servers'][$i]['controlpass'] = 'password';
+```
+
+Restart:
+
+```bash id="a2j63v"
+sudo systemctl restart nginx
+sudo systemctl restart php8.3-fpm
+```
+
