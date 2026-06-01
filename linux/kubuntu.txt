@@ -466,6 +466,8 @@ Download Only Office for Linux
 	https://www.onlyoffice.com/download-desktop.aspx
 	# settings > interface scaling: 125%
 	# settings > interface theme: dark
+Download VS Code for Linux
+	https://code.visualstudio.com
 Download Zoom Workplace for Linux
 	https://zoom.us/download
 Download TeamViewer for Linux
