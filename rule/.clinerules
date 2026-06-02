@@ -193,6 +193,29 @@ Avoid forcing PDF download when browser preview is more appropriate.
 - Use JSON API only when necessary (AJAX, realtime data, async request).
 - Prioritize simplicity and debugging ease.
 
+# Architecture Philosophy
+
+---
+
+# View Rendering Rules
+
+- Do not use template engines.
+- Do not use:
+  - Twig
+  - Blade
+  - Smarty
+  - Latte
+  - Mustache
+  - Plates
+  - or similar template systems
+- Use traditional native PHP view rendering.
+- HTML and PHP may coexist inside the same feature file when practical.
+- Prefer direct PHP rendering using:
+  require
+  include
+- Prefer lightweight server-rendered HTML output.
+- Avoid unnecessary view abstraction layers.
+
 ---
 
 # CRUD File Structure Philosophy
@@ -252,6 +275,20 @@ Examples:
 - Avoid npm-based frontend build systems unless explicitly requested.
 - Prefer CDN-based frontend libraries.
 - Avoid heavy queue systems unless explicitly required.
+
+---
+
+# Middleware Rules
+
+- Keep middleware usage minimal.
+- Use middleware only when truly necessary.
+- Avoid enterprise-style middleware architecture.
+- Prefer simple procedural helper functions for:
+  - authentication
+  - authorization
+  - validation
+- Avoid excessive middleware layers.
+- Keep application flow easy to trace and debug.
 
 ---
 
