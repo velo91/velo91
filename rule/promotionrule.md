@@ -193,7 +193,26 @@ Untuk video pendek:
 
 ---
 
-# 12. Konsistensi Identitas Brand
+# 12. Rule Voice Over
+
+Gunakan voice over:
+- perempuan
+- hangat
+- ekspresif
+- modern
+- inspiratif
+- seperti iklan televisi modern
+
+Hindari voice over:
+- monoton
+- terlalu formal
+- seperti membaca berita
+- terlalu dramatis
+- robotik
+
+---
+
+# 13. Konsistensi Identitas Brand
 
 Semua konten harus terasa:
 - Konsisten
@@ -211,7 +230,7 @@ Semua konten harus terasa:
 
 ---
 
-# 13. Penggunaan Website & Landing Page
+# 14. Penggunaan Website & Landing Page
 
 Gunakan URL sesuai target promosi.
 
@@ -265,7 +284,7 @@ Digunakan untuk:
 
 ---
 
-# 14. Aturan Penggunaan URL
+# 15. Aturan Penggunaan URL
 
 - Jangan mencampurkan URL antar program
 - Gunakan URL sesuai target promosi
@@ -275,7 +294,7 @@ Digunakan untuk:
 
 ---
 
-# 15. Penggunaan Nomor Kontak & WhatsApp
+# 16. Penggunaan Nomor Kontak & WhatsApp
 
 ## Kontak Utama Resmi UBBG
 
@@ -305,7 +324,7 @@ Nomor pribadi PIC / admin diperbolehkan sebagai kontak tambahan.
 
 ---
 
-# 16. Aturan Penggunaan Kontak
+# 17. Aturan Penggunaan Kontak
 
 - Nomor 0823-2121-1883 harus menjadi kontak utama
 - Nomor pribadi hanya sebagai pendamping
@@ -314,7 +333,7 @@ Nomor pribadi PIC / admin diperbolehkan sebagai kontak tambahan.
 
 ---
 
-# 17. Checklist Sebelum Publish
+# 18. Checklist Sebelum Publish
 
 Pastikan:
 - Tidak ada framing negatif
@@ -329,7 +348,7 @@ Pastikan:
 
 ---
 
-# 18. Prompt Default untuk AI
+# 19. Prompt Default untuk AI
 
 > Gunakan tone positif, modern, inspiratif, dan profesional. Hindari framing negatif seperti bingung, takut, gagal, atau tertinggal. Fokus pada masa depan, peluang, pengembangan diri, dan pengalaman kuliah. Gunakan gaya bahasa singkat, natural, mudah dipahami, dan cocok untuk Gen Z. Pastikan CTA jelas dan gunakan URL serta nomor kontak resmi UBBG sesuai jenis program yang dipromosikan.
 
