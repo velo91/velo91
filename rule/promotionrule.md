@@ -184,6 +184,16 @@ Konten harus memberi kesan bahwa UBBG adalah:
 
 # 11. Rule Karakter & Identitas Visual
 
+## Penggunaan Gedung Kampus
+
+- Hindari menjadikan detail arsitektur gedung kampus sebagai fokus utama scene AI.
+- Jika menampilkan gedung, gunakan depth of field dangkal, soft bokeh, atau framing parsial sehingga bentuk bangunan tidak perlu identik 100% dengan kondisi nyata.
+- Prioritaskan karakter mahasiswa, aktivitas akademik, prestasi, dan prospek karier dibandingkan visual gedung.
+- Untuk menjaga identitas kampus, gunakan warna biru khas UBBG, jas almamater UBBG, logo UBBG, dan elemen branding resmi sebagai penanda utama.
+- Footage asli gedung kampus lebih disarankan untuk opening, closing, dan establishing shot dibandingkan membuat ulang gedung dengan AI.
+
+---
+
 ## Karakter Perempuan
 
 Jika terdapat karakter perempuan:
