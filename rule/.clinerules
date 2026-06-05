@@ -1017,3 +1017,60 @@ Asia/Jakarta
 - Keep logic close to the feature.
 - Prefer practical, fast, readable, and maintainable solutions.
 - Prioritize simplicity and debugging ease.
+
+---
+
+# CONTEXT.md Rules
+
+## Location
+- CONTEXT.md is always located at the project root.
+
+## Purpose
+- Contains ONLY the current state of the project.
+- Keep it concise, maximum 150 lines.
+- Do not include change history here.
+
+## Read on Every New Task
+- Always read CONTEXT.md at the very start of every new task.
+- Use it to understand current project status before doing anything.
+
+## Auto Update
+- After completing each feature or task, update CONTEXT.md automatically.
+- Only update relevant sections — do not rewrite the entire file.
+- Keep it scannable and short.
+
+## Structure
+Always maintain this exact structure:
+
+# [Nama Project]
+
+## Tentang Project
+## Stack Aktual
+## Struktur Folder Aktual
+## Fitur Selesai
+## Tabel Database
+## Role Pengguna
+## Hal Khusus
+## Sedang Dikerjakan
+
+---
+
+# CHANGELOG.md Rules
+
+## Location
+- CHANGELOG.md is always located at the project root.
+
+## Purpose
+- Contains full history of all changes made to the project.
+- Never delete or overwrite existing entries.
+
+## Auto Update
+- After completing each feature or task, append a new entry to the TOP of CHANGELOG.md.
+- Do not wait to be asked.
+
+## Entry Format
+## [YYYY-MM-DD] - Nama Fitur
+- Perubahan 1
+- Perubahan 2
+- Tabel baru jika ada
+- File baru jika ada
