@@ -1,645 +1,216 @@
 # Project Architecture Rules
 
 ## Core Stack
-
-- Use Slim Framework 4 as lightweight routing backbone.
-- Use PHP 8.2+ procedural modern style.
-- Use PDO with raw SQL for database operations.
-- Database is always MariaDB.
-- Use Bootstrap 5 for frontend UI.
-- Use jQuery 3 for DOM interaction and AJAX.
-- Use Font Awesome 7 for icons.
-- Use ApexCharts for charts and analytics visualization.
-- Use nginx + php-fpm deployment style.
+- Slim Framework 4 for routing.
+- PHP 8.2+ procedural style.
+- PDO with raw SQL, always MariaDB.
+- Bootstrap 5, jQuery 3, Font Awesome 7, ApexCharts.
+- nginx + php-fpm deployment.
 
 ---
 
 # UI / UX Design Philosophy
-
-- Create a modern SaaS-style web app UI using Bootstrap 5.
-- Apply a clean and minimalist design.
-- Prefer generous whitespace and comfortable spacing.
-- Prefer subtle border radius using:
-  rounded-3
-- Prefer clean card components.
-- Prefer soft shadows over heavy shadows.
-- Prefer subtle borders over excessive gradients.
-- Avoid overly colorful UI unless explicitly requested.
-- Use Google Font:
-  Inter
-  as the default global typeface.
-- Implement Dark Mode / Light Mode toggle using Bootstrap native color modes:
-  data-bs-theme="dark"
-- Default theme should be:
-  light mode
-- Keep layouts professional, efficient, and mobile responsive.
-- Authentication forms should remain mobile friendly and simple.
-- Backend sidebar should be collapsible on mobile devices.
-- Prefer Bootstrap utility classes over excessive custom CSS.
-- Avoid excessive custom CSS when Bootstrap utility classes are sufficient.
+- Modern SaaS-style UI, clean and minimalist.
+- Generous whitespace, rounded-3, clean cards, soft shadows.
+- Avoid overly colorful UI unless requested.
+- Google Font: Inter as default typeface.
+- Dark/Light mode toggle using Bootstrap native: data-bs-theme="dark", default light.
+- Mobile responsive, collapsible sidebar on mobile.
+- Prefer Bootstrap utility classes over custom CSS.
 
 ---
 
 # Standard Frontend Libraries
-
-These frontend libraries are considered standard UI libraries and should be preferred over alternative plugins.
-
-Avoid duplicate frontend libraries with overlapping functionality.
-
-Use stable production versions only.
-Avoid alpha, beta, or experimental versions.
-
-Prefer CDN assets from:
-- https://cdn.jsdelivr.net
-
-Avoid mixing multiple CDN providers unless explicitly required.
-
-Maintain proper frontend asset loading order:
-- jQuery first
-- Bootstrap bundle second
-- Plugin libraries after Bootstrap
-
----
+- Use stable production versions only.
+- Prefer CDN from: https://cdn.jsdelivr.net
+- Avoid mixing multiple CDN providers.
+- Asset loading order: jQuery → Bootstrap bundle → plugins.
+- Avoid duplicate libraries with overlapping functionality.
 
 ## Alert & Confirm
-Use:
-- SweetAlert2
-
-Always replace native:
-- alert()
-- confirm()
-
----
+- Use SweetAlert2. Always replace native alert() and confirm().
 
 ## Table
-Use:
-- DataTables Core
-- DataTables Bootstrap 5
-- DataTables Buttons
-
-Requirements:
-- Use Bootstrap 5 integration
-- Include Indonesian locale (id.json)
-- Use Excel export button only
-
----
+- Use DataTables Core + Bootstrap 5 + Buttons.
+- Indonesian locale (id.json), Excel export button only.
 
 ## Select Box
-Use:
-- Select2
-
-Use for:
-- searchable dropdown
-- large select options
-- AJAX selectbox
-
----
+- Use Select2 for searchable dropdown, large options, AJAX select.
 
 ## Date & Time Picker
-Use:
-- Flatpickr
-
-Use for:
-- datepicker
-- datetime picker
-- time picker
-
----
+- Use Flatpickr for datepicker, datetime, and time picker.
 
 ## WYSIWYG Editor
-Use:
-- Summernote
-
-Use for:
-- rich text editor
-- article editor
-- content management
-
----
+- Use Summernote for rich text and article editor.
 
 ## Loading Indicator
-Use:
-- LoadingOverlay
-
-Use loading overlay:
-- during AJAX request
-- during page navigation within same hostname
-- except links using target="_blank"
-
----
+- Use LoadingOverlay during AJAX and page navigation within same hostname.
+- Exclude links with target="_blank".
 
 ## Input Masking
-Use:
-- Inputmask
-
-Use when:
-- phone number
-- currency
-- date formatting
-- formatted input
-
----
+- Use Inputmask for phone, currency, date, and formatted input.
 
 ## Form Validation
-Use:
-- Parsley.js
-
-Use for:
-- client-side form validation
-
----
+- Use Parsley.js for client-side validation.
 
 ## Password Strength Meter
-Use:
-- pwstrength-bootstrap
-
-Use for:
-- change password form
-- reset password form
-- registration form
-
----
+- Use pwstrength-bootstrap on change/reset/register password forms.
 
 ## Panorama Viewer
-Use:
-- Pannellum
-
-Use only when:
-- 360 panorama viewer is needed
-
----
+- Use Pannellum only when 360 panorama is needed.
 
 ## PDF Viewer
-Use:
-- Mozilla PDF.js
-
-Use for:
-- browser PDF preview
-- embedded PDF viewing
-- in-browser PDF reader
-
-Avoid forcing PDF download when browser preview is more appropriate.
+- Use Mozilla PDF.js for browser PDF preview.
+- Avoid forcing download when preview is appropriate.
 
 ---
 
 # Architecture Philosophy
-
-- Keep architecture simple, lightweight, fast, and maintainable.
-- Avoid enterprise patterns and over-engineering.
-- Avoid heavy MVC separation.
-- Prefer minimal file count for one feature.
-- One file may contain PHP logic, SQL query, HTML view, modal, and AJAX handler when practical.
-- Keep logic close to the view when it improves readability.
-- Use JSON API only when necessary (AJAX, realtime data, async request).
+- Simple, lightweight, fast, maintainable.
+- Avoid enterprise patterns, heavy MVC, over-engineering.
+- Prefer minimal file count per feature.
+- One file may contain PHP logic, SQL, HTML, modal, and AJAX handler when practical.
+- Use JSON API only when necessary.
 - Prioritize simplicity and debugging ease.
-
-# Architecture Philosophy
 
 ---
 
 # View Rendering Rules
-
-- Do not use template engines.
-- Do not use:
-  - Twig
-  - Blade
-  - Smarty
-  - Latte
-  - Mustache
-  - Plates
-  - or similar template systems
-- Use traditional native PHP view rendering.
-- HTML and PHP may coexist inside the same feature file when practical.
-- Prefer direct PHP rendering using:
-  require
-  include
-- Prefer lightweight server-rendered HTML output.
-- Avoid unnecessary view abstraction layers.
+- No template engines (no Twig, Blade, Smarty, Latte, Mustache, Plates, etc).
+- Use native PHP rendering with require/include.
+- HTML and PHP may coexist in the same file when practical.
 
 ---
 
 # CRUD File Structure Philosophy
-
-- Prefer combining create and update form into one:
-  [modul]-post.php
-
-- Use the same form file for:
-  - create
-  - edit/update
-
-- Differentiate create/update mode using:
-  - id parameter
-  - mode parameter
-  - existing database data
-
-- Prefer keeping:
-  [modul].php
-  as the main feature page.
-
-Examples:
-- pengguna.php
-- pengguna-post.php
-
-- Main module file should commonly handle:
-  - listing
-  - datatable
-  - filtering
-  - delete process
-  - lightweight detail actions
-
-- Avoid excessive CRUD file splitting unless explicitly required.
+- Combine create and update into one file: [modul]-post.php
+- Differentiate create/update mode using id or mode parameter.
+- Main module file [modul].php handles listing, datatable, filtering, delete, and lightweight actions.
+- Avoid excessive CRUD file splitting.
 
 ---
 
 # Modal Philosophy
-
-- Prefer inline modal implementation inside the main feature file.
-- Modal form and AJAX submit logic may remain inside the same feature file when practical.
-- Avoid unnecessary modal file separation.
-- Separate modal into:
-  [modul]-modal.php
-  only when modal complexity becomes too large or reusable.
-- Avoid creating dedicated modal folders.
+- Prefer inline modal inside the main feature file.
+- Separate into [modul]-modal.php only when complexity is too large or reusable.
+- Avoid dedicated modal folders.
 
 ---
 
 # Dependency Philosophy
-
-- Use minimal dependencies.
-- Avoid unnecessary Composer packages.
+- Minimal dependencies, avoid unnecessary Composer packages.
 - Never use ORM (Eloquent, Doctrine, etc).
-- Prefer raw SQL queries with PDO.
-- Avoid Laravel-style abstractions.
-- Avoid heavy service containers.
-- Avoid repository pattern unless absolutely necessary.
+- Avoid Laravel-style abstractions and heavy service containers.
 - Avoid npm-based frontend build systems unless explicitly requested.
 - Prefer CDN-based frontend libraries.
-- Avoid heavy queue systems unless explicitly required.
 
 ---
 
 # Middleware Rules
-
-- Keep middleware usage minimal.
-- Use middleware only when truly necessary.
-- Avoid enterprise-style middleware architecture.
-- Prefer simple procedural helper functions for:
-  - authentication
-  - authorization
-  - validation
-- Avoid excessive middleware layers.
+- Minimal middleware usage.
+- Prefer simple procedural helper functions for auth, authorization, and validation.
 - Keep application flow easy to trace and debug.
 
 ---
 
 # Standard Backend Libraries
-
-These libraries are considered pre-installed starter libraries and should be used whenever relevant functionality is needed.
-
-Prefer these libraries instead of introducing alternative packages.
-
----
+Prefer these libraries, avoid introducing alternatives.
 
 ## Framework
-Use:
-- slim/slim
-- slim/psr7
-
-For:
-- routing
-- middleware
-- HTTP request/response handling
-- REST API endpoint
-
----
+- slim/slim + slim/psr7 for routing, middleware, HTTP handling.
 
 ## Email
-Use:
-- phpmailer/phpmailer
-
-For:
-- SMTP email sending
-- HTML email
-- Attachment email
-
----
+- phpmailer/phpmailer for SMTP, HTML, and attachment email.
 
 ## PDF Generator
-Use:
-- tecnickcom/tcpdf
-
-For:
-- PDF generation
-- Invoice PDF
-- Certificate PDF
-
-Use TCPDF native QR code generation when QR code is embedded inside PDF.
-
----
+- tecnickcom/tcpdf for PDF generation.
+- Use TCPDF native QR when QR is embedded inside PDF.
+- Use pdf-kop-portrait.php and pdf-kop-landscape.php for layouts.
 
 ## Image Resize
-Use:
-- gumlet/php-image-resize
-
-For:
-- uploaded image resize
-- image compression
-- thumbnail generation
-
----
+- gumlet/php-image-resize for resize, compression, thumbnail.
 
 ## Excel
-Use:
-- phpoffice/phpspreadsheet
-
-For:
-- Excel export
-- Excel import
-- spreadsheet processing
-
----
+- phpoffice/phpspreadsheet for export and import.
 
 ## QR Code
-Use:
-- chillerlan/php-qrcode
-
-Only for:
-- standalone QR code generation outside PDF
-
-Examples:
-- QR login
-- QR attendance
-- QR download link
-
----
+- chillerlan/php-qrcode for standalone QR outside PDF only.
 
 ## CAPTCHA
-Use:
-- gregwar/captcha
-
-For:
-- numeric captcha generation
-- login security
-- brute force prevention
-- public form protection
-
----
-
-## File & Folder Utility
-Use:
-- symfony/finder
-
-For:
-- scanning upload directory
-- listing files for media manager
-- file search and filtering
-
----
+- gregwar/captcha for numeric captcha on auth forms.
 
 ## HTTP Utilities
-Use:
-- ralouphie/getallheaders
+- ralouphie/getallheaders for retrieving HTTP headers.
 
-For:
-- retrieving HTTP headers
-- middleware header processing
+## Date & Time
+- nesbot/carbon for date and time manipulation, use Carbon internally inside helper/date.php whenever practical.
 
 ---
 
 # Naming Convention
 
-## General Naming Philosophy
-
-- Use simple and commonly understood Indonesian naming whenever practical.
-- Use feature-oriented naming structure.
-- Keep naming readable, explicit, and easy to understand.
-- Avoid abbreviations unless widely understood.
-
----
+## General
+- Use simple Indonesian naming when practical.
+- Feature-oriented, readable, explicit. Avoid abbreviations.
 
 ## File Naming
-Use kebab-case for PHP files.
-
-Examples:
-- pengguna.php
-- pengguna-post.php
-- pengguna-modal.php
-- produk.php
-- produk-post.php
-
----
+- kebab-case: pengguna.php, pengguna-post.php, pengguna-modal.php
 
 ## URL Naming
-Use kebab-case for routes.
-
-Route pattern:
-- /nama-modul
-- /nama-modul/nama-aksi
-
-Examples:
-- /pengguna
-- /pengguna/pengguna-post
-- /produk
-- /produk/produk-post
-
----
+- kebab-case: /pengguna, /pengguna/pengguna-post
 
 ## Module Folder Naming
-Use singular nouns inside /module.
-
-Examples:
-- /module/frontend/auth
-- /module/frontend/qr
-- /module/backend/pengguna
-- /module/backend/produk
-
-Each feature file must be placed inside its module folder.
-
-Examples:
-- /module/backend/pengguna/pengguna.php
-- /module/backend/pengguna/pengguna-post.php
-- /module/backend/pengguna/pengguna-modal.php
-
----
+- Singular nouns inside /module: /module/backend/pengguna
+- Feature files inside their module folder.
 
 ## Function Naming
-Use snake_case for procedural functions.
-
-Examples:
-- ambil_pengguna()
-- simpan_produk()
-- hapus_pesanan()
-
----
+- snake_case: ambil_pengguna(), simpan_produk()
 
 ## Variable Naming
-Use snake_case for variables.
+- snake_case: $data_pengguna, $koneksi_pdo
 
-Examples:
-- $data_pengguna
-- $daftar_produk
-- $koneksi_pdo
+## Database Naming
+- Tables: singular snake_case, sub-tables extend main: produk, produk_gambar
+- Columns: snake_case: dibuat_pada, nomor_telepon
+- Primary key: id_[nama_tabel]: id_pengguna, id_produk
+- Foreign key: snake_case matching primary key
 
----
+## Database Relationship Philosophy
+- Foreign key columns are used for logical relationships only.
+- Create INDEX on foreign key columns.
+- Do not use FOREIGN KEY CONSTRAINTS by default.
+- Relationship integrity should be handled by application logic.
+- Avoid database-level cascading rules unless explicitly required.
 
-## Database Table Naming
-Use feature-oriented singular snake_case table naming.
+## HTML & CSS Naming
+- HTML ID: kebab-case: tabel-pengguna, modal-pengguna
+- CSS class: kebab-case: kartu-pengguna, custom-alert-box
 
-Main table should use the main feature name.
-
-Sub tables should extend the main table name using underscore suffixes.
-
-Examples:
-- produk
-- produk_gambar
-- produk_kategori
-- pesanan
-- pesanan_item
-- pesanan_pembayaran
-
----
-
-## Database Column Naming
-Use snake_case for columns.
-
-Examples:
-- dibuat_pada
-- diperbarui_pada
-- nomor_telepon
-
----
-
-## Primary Key Naming
-Use format:
-- id_[nama_tabel]
-
-Examples:
-- id_pengguna
-- id_produk
-- id_pesanan
-
----
-
-## Foreign Key Naming
-Use snake_case matching target primary key.
-
-Examples:
-- id_pengguna
-- id_produk
-
----
-
-## API Endpoint Naming
-Use singular kebab-case prefixed with /api.
-
-Examples:
-- /api/pengguna
-- /api/produk-detail
-
----
-
-## HTML ID Naming
-Use kebab-case.
-
-Examples:
-- tabel-pengguna
-- modal-pengguna
-- tombol-simpan
-
----
-
-## CSS Class Naming
-Use kebab-case for custom classes.
-
-Examples:
-- kartu-pengguna
-- custom-alert-box
+## API Endpoint
+- Singular kebab-case prefixed /api: /api/pengguna, /api/produk-detail
 
 ---
 
 # Coding Style
-
 - Follow PSR-12 formatting.
-- Prefer readable and explicit code over clever abstractions.
-- Keep code easy to trace and debug.
-- Keep SQL queries readable and properly formatted.
-- Always uppercase SQL keywords.
-
-Example:
-
-SELECT *
-FROM pengguna
-WHERE id_pengguna = :id_pengguna
-
-- Avoid magic methods and hidden abstractions.
-- Avoid unnecessary class creation.
+- Readable and explicit over clever abstractions.
+- SQL keywords always uppercase, queries properly formatted.
+- Avoid magic methods, hidden abstractions, unnecessary classes.
 - Prefer procedural helper functions.
 
 ---
 
 # Application Area Separation
 
-The application must separate frontend and backend areas.
-
----
-
 ## Frontend Area
-
-Used for public visitors.
-
-Examples:
-- Landing page
-- Public article
-- Public form
-- Public information page
-- Login page
-- Register page
-- QR scan result page
-
-Requirements:
-- Use:
-/module/frontend
-
-Examples:
-- /module/frontend/auth/login.php
-- /module/frontend/auth/register.php
-- /module/frontend/auth/forgot-password.php
-- /module/frontend/auth/reset-password.php
-- /module/frontend/auth/logout.php
-
----
-
-# QR Frontend Rules
-
-- Public QR display pages should be placed inside:
-  /module/frontend/qr
-
-Examples:
-- qr-sertifikat.php
-- qr-kartu-ujian.php
-- qr-kartu-peserta.php
-
-- QR pages are intended for public HTML display after QR scan.
-- Prefer responsive mobile-friendly layouts for QR pages.
-
----
+- Public visitors: landing page, articles, auth, QR scan pages.
+- Files in /module/frontend
+- QR public pages in /module/frontend/qr
 
 ## Backend Area
-
-Used after authentication/login.
-
-Examples:
-- Dashboard
-- CRUD management
-- Analytics
-- Administration panel
-
-Requirements:
-- Use:
-/module/backend
-
-- Frontend and backend must use separate layouts.
-- Frontend and backend assets should also be separated.
+- Authenticated users: dashboard, CRUD, analytics, admin panel.
+- Files in /module/backend
+- Separate layouts and assets between frontend and backend.
 
 ---
 
@@ -647,372 +218,142 @@ Requirements:
 
 /project-root
 ├── /public
-│   ├── index.php
-│   ├── favicon.ico
-│   ├── robots.txt
-│   ├── manifest.json
-│   ├── service-worker.js
-│   ├── icon-256.png
-│   ├── icon-512.png
-│   │
-│   ├── /assets
-│   │   ├── /frontend
-│   │   ├── /backend
-│   │   ├── /css
-│   │   ├── /js
-│   │   ├── /img
-│
+│   ├── index.php, favicon.ico, robots.txt, manifest.json, service-worker.js, icon-256.png, icon-512.png
+│   └── /assets
+│       ├── /frontend, /backend, /css, /js, /img
 ├── /config
-│   ├── database.php
-│
+│   └── database.php
 ├── /route
-│   ├── web.php
-│   ├── api.php
-│
+│   ├── web.php, api.php
 ├── /module
 │   ├── /frontend
 │   │   ├── /_layout
 │   │   │   ├── frontend-header.php
 │   │   │   ├── frontend-topmenu.php
-│   │   │   ├── frontend-footer.php
-│   │   │
-│   │   ├── /beranda
-│   │   ├── /artikel
-│   │   ├── /kontak
-│   │   ├── /auth
-│   │   ├── /qr
-│   │   │   ├── qr-sertifikat.php
-│   │   │   ├── qr-kartu-ujian.php
-│   │   │   ├── qr-kartu-peserta.php
-│   │
-│   ├── /backend
-│   │   ├── /_layout
-│   │   │   ├── backend-header.php
-│   │   │   ├── backend-sidebar.php
-│   │   │   ├── backend-footer.php
-│   │   │   ├── backend-menu-superadmin.php
-│   │   │   ├── backend-menu-admin.php
-│   │   │   ├── backend-menu-staff.php
-│   │   │   ├── pdf-kop-portrait.php
-│   │   │   ├── pdf-kop-landscape.php
-│   │   │
-│   │   ├── /dashboard
-│   │   ├── /pengguna
-│   │   │   ├── pengguna.php
-│   │   │   ├── pengguna-post.php
-│   │   │
-│   │   ├── /produk
-│   │   ├── /pesanan
-│
+│   │   │   └── frontend-footer.php
+│   │   └── /beranda, /artikel, /kontak, /auth, /qr
+│   └── /backend
+│       ├── /_layout
+│       │   ├── backend-header.php
+│       │   ├── backend-sidebar.php
+│       │   ├── backend-footer.php
+│       │   ├── backend-menu-[role].php
+│       │   ├── pdf-kop-portrait.php
+│       │   └── pdf-kop-landscape.php
+│       ├── /dashboard
+│       ├── /pengguna
+│       │   ├── pengguna.php
+│       │   ├── pengguna-post.php
+│       ├── /produk
+│       ├── /pesanan
 ├── /helper
-│   ├── app.php
-│   ├── auth.php
-│   ├── captcha.php
-│   ├── csrf.php
-│   ├── database.php
-│   ├── env.php
-│   ├── format.php
-│   ├── fungsi.php
-│   ├── tanggal.php
-│   ├── upload.php
-│   ├── validasi.php
-│
+│   └── app.php, auth.php, captcha.php, csrf.php, database.php, env.php, format.php, function.php, date.php, upload.php, validation.php
 ├── /cron
-│   ├── index.php
-│   ├── email-reminder.php
-│   ├── cleanup-temp.php
-│   ├── sync-data.php
-│
+│   └── index.php, email-reminder.php, cleanup-temp.php, sync-data.php
 ├── /storage
-│   ├── /logs
-│   │   ├── cron.log
-│   │
-│   ├── /uploads
-│   │   ├── /pengguna-foto
-│   │   ├── /pengguna-foto-thumb
-│
+│   ├── /logs/cron.log
+│   └── /uploads
 ├── /vendor
-│
 ├── .env
 ├── composer.json
+├── CONTEXT.md
+└── CHANGELOG.md
 
 ---
 
 # Routing Rules
-
-- Use /route/web.php for standard web routes.
-- Use /route/api.php for JSON API routes.
-- Slim route callback should load files from /module.
+- /route/web.php for web routes, /route/api.php for API routes.
+- Slim route callbacks load files from /module.
 
 ---
 
 # Database Rules
-
-- Always use PDO prepared statements.
-- Never use mysqli.
-- Never use ORM.
-- Always use raw SQL with bound parameters.
-- Database credentials must come from .env file.
-- Global PDO connection variable must use:
-  $koneksi_pdo
+- Always PDO prepared statements, never mysqli, never ORM.
+- Raw SQL with bound parameters only.
+- Credentials from .env file.
+- Global PDO variable: $koneksi_pdo
 
 ---
 
 # Frontend Rules
-
-- Use Bootstrap 5 utility classes whenever possible.
-- Use jQuery for DOM interaction and AJAX requests.
-- Use ApexCharts for charts and dashboard analytics.
-- Avoid frontend frameworks unless explicitly requested.
-- Prefer server-rendered HTML.
-- Use CDN links for frontend libraries whenever possible.
-- Use JSON response only when needed for AJAX.
+- Bootstrap 5 utilities, jQuery for DOM and AJAX.
+- ApexCharts for dashboard analytics.
+- Server-rendered HTML, CDN libraries, JSON only for AJAX.
 
 ---
 
 # AJAX UX Rules
-
-- All AJAX requests must provide user feedback using SweetAlert2.
-
-- AJAX responses should clearly handle:
-  - success
-  - validation error
-  - server error
-  - network/disconnected error
-
-- Success notifications should auto close without requiring OK button interaction.
-
-- Prefer short auto-close delay before:
-  - redirect
-  - reload
-  - refresh datatable
-
-- Network connection failures should display clear user-friendly error messages.
-
-- Prefer responsive loading indicators during AJAX processing.
+- Always use SweetAlert2 for user feedback.
+- Handle: success, validation error, server error, network error.
+- Success notifications auto-close without OK button.
+- Short auto-close delay before redirect, reload, or datatable refresh.
+- Show loading indicator during AJAX processing.
 
 ---
 
 # Authentication Security Rules
-
-- Captcha is mandatory on:
-  - login.php
-  - register.php
-  - forgot-password.php
-  - reset-password.php
-
-- Use simple 4-digit numeric captcha only.
-
-- Captcha should remain mobile friendly.
-
-- Prefer numeric-only captcha because forms primarily use:
-  input type="number"
-
-- Avoid overly complex captcha challenges.
-
-- Avoid third-party captcha services unless explicitly required.
-
-- Regenerate captcha after failed authentication attempt.
-
-- Login form must always provide:
-  Remember Me
-  option.
-
-- If Remember Me is not checked:
-  user session lifetime should expire automatically after maximum 10 hours.
-
-- If Remember Me is checked:
-  allow persistent login session for maximum 7 days using secure remember token.
-
-- Use secure PHP session configuration.
-
-- Regenerate PHP session ID after successful login.
-
-- Completely destroy session during logout.
-
-- Remember token should never store plain password.
-
-- Store remember token securely inside database.
-
-- Remove remember token during logout.
-
-- Session handling should prioritize security and simplicity.
-
-- If user fails login 3 consecutive times:
-  temporarily lock login attempt for 2 minutes.
-
-- During temporary lock period:
-  login form submission should be blocked.
-
-- Display user-friendly cooldown message during temporary lock period.
-
-- Failed login protection should reset automatically after successful login.
-
-- Prefer lightweight session-based login throttling.
-
-- Avoid database-heavy login throttling unless explicitly required.
-
-- Remember Me cookies should use:
-  - HttpOnly
-  - Secure
-  - SameSite=Lax
-
----
-
-# Helper Rules
-
-- Helper files should contain reusable procedural utility functions only.
-- Avoid placing large business logic inside /helper.
-
----
-
-# Cron Rules
-
-- Cron scripts must be executable independently from CLI.
-- Cron jobs must write logs into:
-  /storage/logs/cron.log
+- Captcha mandatory on: login, register, forgot-password, reset-password.
+- Simple 4-digit numeric captcha, mobile friendly, regenerate after failure.
+- Login must have Remember Me option.
+- Without Remember Me: session expires after 10 hours.
+- With Remember Me: persistent session for 7 days using secure remember token.
+- Secure PHP session config, regenerate session ID after login.
+- Destroy session completely on logout.
+- Remember token: never store plain password, store in DB, remove on logout.
+- Lock login for 2 minutes after 3 consecutive failures, reset after success.
+- Remember Me cookies: HttpOnly, Secure, SameSite=Lax.
 
 ---
 
 # Upload Rules
-
-- Store uploads inside:
-  /storage/uploads
-
-- Never store uploads directly inside /public.
-- Always validate uploaded file extension and MIME type.
-- Always validate maximum upload file size.
-- Uploaded files must never retain executable extensions.
-- User profile images must be converted into WebP format.
-- Store profile image in 512x512 resolution.
-- Generate additional thumbnail version in 128x128 resolution.
-- Use proportional resize while preserving aspect ratio.
-- Prevent image upscaling when original image is smaller.
-- Thumbnail images should be used in tables and listing pages for performance optimization.
-- Do not store original uploaded image after conversion.
-- Profile image filenames should use sanitized kebab-case usernames.
-- Thumbnail images should use suffix:
-  -thumb.webp
-
-Examples:
-- achyar-munandar.webp
-- achyar-munandar-thumb.webp
-
-- Use gumlet/php-image-resize when uploaded image resizing is needed.
-
----
-
-# PDF Rules
-
-- Use tecnickcom/tcpdf for all PDF generation.
-- Use TCPDF native QR code generation when QR code is embedded inside PDF.
-- Use:
-  pdf-kop-portrait.php
-  for portrait PDF layouts.
-- Use:
-  pdf-kop-landscape.php
-  for landscape PDF layouts.
-
----
-
-# PWA Rules
-
-- Provide default PWA manifest file:
-  /public/manifest.json
-
-- Provide default service worker:
-  /public/service-worker.js
-
-- Provide default favicon:
-  /public/favicon.ico
-
-- Provide default PWA icons:
-  /public/icon-256.png
-  /public/icon-512.png
-
-- favicon.ico must remain accessible from:
-  /favicon.ico
-
-- robots.txt must remain accessible from:
-  /robots.txt
-
-- Include manifest in HTML layouts:
-  <link rel="manifest" href="/manifest.json">
-
-- Include favicon in HTML layouts:
-  <link rel="icon" href="/favicon.ico">
-
-- Include Apple touch icon:
-  <link rel="apple-touch-icon" href="/icon-256.png">
-
-- Include theme color meta:
-  <meta name="theme-color" content="#ffffff">
-
-- Use local assets instead of external icon URLs.
-
-- PWA setup should remain lightweight and avoid overly complex offline caching unless explicitly required.
-
----
-
-# Excel Rules
-
-- Use phpoffice/phpspreadsheet for Excel export/import features.
-
----
-
-# Email Rules
-
-- Use phpmailer/phpmailer for SMTP and email sending functionality.
-
----
-
-# QR Code Rules
-
-- Use chillerlan/php-qrcode only for standalone QR code generation outside PDF.
-
----
-
-# PHP Security Hardening Rules
-
-- Prefer pure PHP application logic over shell command execution.
-- Avoid dangerous PHP functions unless explicitly required.
-- Do not use eval().
-- Do not use exec().
-- Do not use shell_exec().
-- Do not use system().
-- Do not use passthru().
-- Do not use popen().
-- Do not use proc_open().
-- Do not use create_function().
-- Avoid dynamic file inclusion from user input.
-- Avoid arbitrary file execution.
-- Avoid writing executable PHP files dynamically.
-- Never allow unrestricted file upload.
+- Store in /storage/uploads, never inside /public.
+- Validate file extension, MIME type, and max size.
+- No executable extensions allowed.
+- Profile images: convert to WebP, 512x512, thumbnail 128x128.
+- Proportional resize, no upscaling, use thumbnail in listings.
+- Do not store original after conversion.
+- Filename: sanitized kebab-case username, suffix -thumb.webp for thumbnails.
+- Use gumlet/php-image-resize for resizing.
 
 ---
 
 # Security Rules
-
-- Always validate user input.
-- Always sanitize output when rendering HTML.
-- Always use prepared statements.
+- Always validate input, sanitize HTML output, use prepared statements.
 - Never trust client-side validation alone.
+- Avoid: eval(), exec(), shell_exec(), system(), passthru(), popen(), proc_open(), create_function().
+- Avoid dynamic file inclusion from user input.
+- Never allow unrestricted file upload.
 
 ---
 
-# Default Timezone:
+# Helper Rules
+- Reusable procedural utility functions only.
+- Avoid large business logic inside /helper.
 
+---
+
+# Cron Rules
+- Executable independently from CLI.
+- Write logs to /storage/logs/cron.log
+
+---
+
+# PWA Rules
+- Provide: manifest.json, service-worker.js, favicon.ico, icon-256.png, icon-512.png.
+- Include in HTML layouts: manifest, favicon, apple-touch-icon, theme-color meta.
+- Use local assets, lightweight offline caching only.
+
+---
+
+# Default Timezone
 Asia/Jakarta
 
 ---
 
 # AI Behavior Rules
-
-- Do not convert project into enterprise architecture.
-- Do not introduce unnecessary OOP.
-- Do not introduce unnecessary Classes, Interfaces, Traits, or Design Patterns.
-- Do not introduce unnecessary abstractions.
-- Do not introduce unnecessary dependencies.
+- Do not convert to enterprise architecture.
+- Do not introduce unnecessary OOP, Classes, Interfaces, Traits, or Design Patterns.
+- Do not introduce unnecessary abstractions or dependencies.
 - Do not split one feature into too many files.
 - Keep logic close to the feature.
 - Prefer practical, fast, readable, and maintainable solutions.
@@ -1023,49 +364,29 @@ Asia/Jakarta
 # PROJECT KNOWLEDGE MANAGEMENT
 
 ## Documentation Files
-The following files are the project's source of truth:
-- CONTEXT.md
-- CHANGELOG.md
-
-All files are located in the project root.
-If any file does not exist, create it automatically.
-
----
+- CONTEXT.md and CHANGELOG.md are the project's source of truth.
+- Both located at project root.
+- If either file does not exist, create it automatically.
 
 ## Read Before Starting
-At the start of every new task:
-1. Read CONTEXT.md
-2. Do not start implementation before understanding the current project state.
-
----
+- Always read CONTEXT.md at the start of every new task.
+- Do not start implementation before understanding the current project state.
 
 ## CONTEXT.md Rules
+Purpose: store CURRENT project state only. Keep concise and scannable.
 
-Purpose:
-- Store the CURRENT state of the project.
-- Keep concise, accurate, and easy to scan.
-- Do not store historical logs.
-
-Update CONTEXT.md ONLY if project knowledge changes:
-- New feature added
-- Existing feature removed
+Update ONLY when:
+- Feature added or removed
 - Database schema changed
 - User roles changed
 - Folder structure changed
-- Architecture changed
-- Important project decisions made
+- Architecture or important decisions changed
 
-Do NOT update CONTEXT.md for:
-- Minor bug fixes
-- Code cleanup
-- Refactoring without behavior changes
-- Formatting changes
-- Cosmetic UI changes
+Do NOT update for:
+- Bug fixes, cleanup, refactoring, formatting, cosmetic changes
 
 Maintain this structure:
-
 # [Project Name]
-
 ## About Project
 ## Current Stack
 ## Current Folder Structure
@@ -1077,34 +398,21 @@ Maintain this structure:
 ## Special Notes
 ## Work In Progress
 
----
-
 ## CHANGELOG.md Rules
-
-Purpose:
-- Store the complete history of project changes.
-
-Rules:
-- Never delete previous entries.
-- Never rewrite previous entries.
-- Add newest entries at the TOP.
-- Update automatically after every completed task.
+Purpose: complete history of all project changes.
+- Never delete or rewrite previous entries.
+- Always append newest entry at the TOP.
+- Update after every completed task.
 
 Entry format:
-
 ## [YYYY-MM-DD] - Feature Name
 - Change 1
 - Change 2
-- New table if any
-- New file if any
-
----
 
 ## End Of Task Requirements
-
 Before considering a task complete:
 1. Update CONTEXT.md if required.
 2. Update CHANGELOG.md.
-3. Verify documentation reflects the latest project state.
+3. Verify documentation reflects latest project state.
 
 Documentation maintenance is part of the task and must not be skipped.
