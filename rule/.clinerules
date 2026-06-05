@@ -3,7 +3,7 @@
 ## Core Stack
 - Slim Framework 4 for routing.
 - PHP 8.2+ procedural style.
-- PDO with raw SQL, always MariaDB.
+- MySQLi Procedural with raw SQL, always MariaDB.
 - Bootstrap 5, jQuery 3, Font Awesome 7, ApexCharts.
 - nginx + php-fpm deployment.
 
@@ -167,7 +167,7 @@ Prefer these libraries, avoid introducing alternatives.
 - snake_case: ambil_pengguna(), simpan_produk()
 
 ## Variable Naming
-- snake_case: $data_pengguna, $koneksi_pdo
+- snake_case: $data_pengguna, $koneksi_db
 
 ## Database Naming
 - Tables: singular snake_case, sub-tables extend main: produk, produk_gambar
@@ -268,10 +268,31 @@ Prefer these libraries, avoid introducing alternatives.
 ---
 
 # Database Rules
-- Always PDO prepared statements, never mysqli, never ORM.
-- Raw SQL with bound parameters only.
-- Credentials from .env file.
-- Global PDO variable: $koneksi_pdo
+- Always use MySQLi Procedural, never PDO, never ORM.
+- Use raw SQL only.
+- All external input must be validated and sanitized in PHP before being used in SQL queries.
+- Validate input as early as possible in the request lifecycle.
+- Cast numeric values to their expected types.
+- Whitelist values for enums, status fields, sorting fields, and similar inputs.
+- Escape string values using project-standard helper functions before building SQL queries.
+- Prefer simple and readable SQL over unnecessary abstraction.
+- Do not introduce prepared statements unless explicitly requested.
+- Credentials must be loaded from .env.
+- Global database connection variable: $koneksi_db.
+- Maintain compatibility with existing MySQLi Procedural code.
+
+---
+
+# Input Validation Rules
+- Validate and sanitize all external input before use.
+- Never trust raw $_GET, $_POST, $_REQUEST, route parameters, uploaded files, or JSON input.
+- Use (int) and (float) directly for numeric values.
+- Centralize reusable validation and sanitization functions in helper/validation.php.
+- Use sanitize_text() for plain text (HTML not allowed).
+- Use sanitize_html() for content that allows HTML.
+- Reuse existing validation and sanitization functions whenever possible.
+- Date, email, username, password, file upload, and business-specific validation must be handled in helper/validation.php.
+- Validate and sanitize data before database queries, business logic, file operations, or output rendering.
 
 ---
 
