@@ -1020,57 +1020,91 @@ Asia/Jakarta
 
 ---
 
-# CONTEXT.md Rules
+# PROJECT KNOWLEDGE MANAGEMENT
 
-## Location
-- CONTEXT.md is always located at the project root.
+## Documentation Files
+The following files are the project's source of truth:
+- CONTEXT.md
+- CHANGELOG.md
 
-## Purpose
-- Contains ONLY the current state of the project.
-- Keep it concise, maximum 150 lines.
-- Do not include change history here.
-
-## Read on Every New Task
-- Always read CONTEXT.md at the very start of every new task.
-- Use it to understand current project status before doing anything.
-
-## Auto Update
-- After completing each feature or task, update CONTEXT.md automatically.
-- Only update relevant sections — do not rewrite the entire file.
-- Keep it scannable and short.
-
-## Structure
-Always maintain this exact structure:
-
-# [Nama Project]
-
-## Tentang Project
-## Stack Aktual
-## Struktur Folder Aktual
-## Fitur Selesai
-## Tabel Database
-## Role Pengguna
-## Hal Khusus
-## Sedang Dikerjakan
+All files are located in the project root.
+If any file does not exist, create it automatically.
 
 ---
 
-# CHANGELOG.md Rules
+## Read Before Starting
+At the start of every new task:
+1. Read CONTEXT.md
+2. Do not start implementation before understanding the current project state.
 
-## Location
-- CHANGELOG.md is always located at the project root.
+---
 
-## Purpose
-- Contains full history of all changes made to the project.
-- Never delete or overwrite existing entries.
+## CONTEXT.md Rules
 
-## Auto Update
-- After completing each feature or task, append a new entry to the TOP of CHANGELOG.md.
-- Do not wait to be asked.
+Purpose:
+- Store the CURRENT state of the project.
+- Keep concise, accurate, and easy to scan.
+- Do not store historical logs.
 
-## Entry Format
-## [YYYY-MM-DD] - Nama Fitur
-- Perubahan 1
-- Perubahan 2
-- Tabel baru jika ada
-- File baru jika ada
+Update CONTEXT.md ONLY if project knowledge changes:
+- New feature added
+- Existing feature removed
+- Database schema changed
+- User roles changed
+- Folder structure changed
+- Architecture changed
+- Important project decisions made
+
+Do NOT update CONTEXT.md for:
+- Minor bug fixes
+- Code cleanup
+- Refactoring without behavior changes
+- Formatting changes
+- Cosmetic UI changes
+
+Maintain this structure:
+
+# [Project Name]
+
+## About Project
+## Current Stack
+## Current Folder Structure
+## Completed Features
+## Database Tables
+## User Roles
+## Next Tasks
+## Known Issues
+## Special Notes
+## Work In Progress
+
+---
+
+## CHANGELOG.md Rules
+
+Purpose:
+- Store the complete history of project changes.
+
+Rules:
+- Never delete previous entries.
+- Never rewrite previous entries.
+- Add newest entries at the TOP.
+- Update automatically after every completed task.
+
+Entry format:
+
+## [YYYY-MM-DD] - Feature Name
+- Change 1
+- Change 2
+- New table if any
+- New file if any
+
+---
+
+## End Of Task Requirements
+
+Before considering a task complete:
+1. Update CONTEXT.md if required.
+2. Update CHANGELOG.md.
+3. Verify documentation reflects the latest project state.
+
+Documentation maintenance is part of the task and must not be skipped.
