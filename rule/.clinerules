@@ -2,7 +2,7 @@
 
 ## Core Stack
 - Slim Framework 4 for routing.
-- PHP 8.2+ procedural style.
+- PHP 8.3+ procedural style.
 - MySQLi Procedural with raw SQL, always MariaDB.
 - Bootstrap 5, jQuery 3, Font Awesome 7, ApexCharts.
 - nginx + php-fpm deployment.
