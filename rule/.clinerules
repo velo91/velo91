@@ -437,3 +437,16 @@ Before considering a task complete:
 3. Verify documentation reflects latest project state.
 
 Documentation maintenance is part of the task and must not be skipped.
+
+---
+
+# Focus Chain Rules
+- Focus Chain Task List is the source of truth for task status.
+- Completed items must be marked `[x]`.
+- Incomplete items must remain `[ ]`.
+- Before declaring a task complete, verify and synchronize:
+  - Implementation
+  - CONTEXT.md
+  - CHANGELOG.md
+  - Focus Chain Task List
+- Do not declare a task complete if any of the above are out of sync.
