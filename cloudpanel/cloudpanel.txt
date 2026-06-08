@@ -373,9 +373,10 @@ nano /home/clp/htdocs/app/files/public/phpmyadmin/config.inc.php
 	//$cfg['ShowCreateDb'] = false;
 # put this line to change maximum viewable tables from default 250
 	$cfg['MaxTableList'] = 600;
-# Manual import database:
-	gunzip < file.sql.gz | mysql -u [DB_USER] -p [DB_NAME]
-	mysql -u [DB_USER] -p [DB_NAME] < file.sql
+# Manual import database (no extract):
+	mariadb -u [DB_USER] -p [DB_NAME] < file.sql
+# Manual import database (with extract):
+	gunzip < file.sql.gz | mariadb -u [DB_USER] -p [DB_NAME]
 
 ==========
 PHPMYADMIN (install another phpmyadmin for non cloudpanel projects: auth_type='cookie')
