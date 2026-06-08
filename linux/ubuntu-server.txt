@@ -1290,17 +1290,17 @@ service fail2ban restart
 ######### Export Database #########
 ###################################
 # export no gzip
-date=$(date +%Y-%m-%d_%H-%M) && mysqldump -u root -p [DB_NAME] > /path/to/destination/[DB_NAME]_DB_${date}.sql
+	date=$(date +%Y-%m-%d_%H-%M) && mariadb-dump -u root -p [DB_NAME] > /path/to/destination/[DB_NAME]_DB_${date}.sql
 # export and gzip (-9 is highest compression)
-date=$(date +%Y-%m-%d_%H-%M) && mysqldump -u root -p [DB_NAME] | gzip -9 > /path/to/destination/[DB_NAME]_DB_${date}.sql.gz
+	date=$(date +%Y-%m-%d_%H-%M) && mariadb-dump -u root -p [DB_NAME] | gzip -9 > /path/to/destination/[DB_NAME]_DB_${date}.sql.gz
 ###################################
 ######### Import Database #########
 # make sure the database is EMPTY #
 ###################################
 # import no extract
-mysql -u root -p [DB_NAME] < file.sql
+	mariadb -u [DB_USER] -p [DB_NAME] < file.sql
 # import with extract
-gunzip < file.sql.gz | mysql -u root -p [DB_NAME]
+	gunzip < file.sql.gz | mariadb -u [DB_USER] -p [DB_NAME]
 
 #########################################
 ######### Force HTTPS Wordpress #########
