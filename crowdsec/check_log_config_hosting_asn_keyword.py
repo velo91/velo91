@@ -91,7 +91,6 @@ HOSTING_ASN_KEYWORDS = [
   'mevspace',
   'microsoft corporation',
   'modat b.v.',
-  'mora telematika indonesia',
   'netcup',
   'nexet',
   'next layer',
