@@ -86,7 +86,6 @@ HOSTING_ASN_KEYWORDS = [
   'linode',
   'm247',
   'master web network',
-  'media antar nusa',
   'meteverse',
   'mevspace',
   'microsoft corporation',
