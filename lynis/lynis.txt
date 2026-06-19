@@ -59,9 +59,10 @@ sudo chmod +x /usr/local/bin/lynis-scheduled.sh
 sudo crontab -e
 ```
 
-Tambahkan baris (jalan tiap Senin jam 3 pagi, di luar jam kerja):
+Tambahkan baris (jalan tiap Senin jam 4 pagi, di luar jam kerja):
 ```
-0 3 * * 1 /usr/local/bin/lynis-scheduled.sh
+# auto lynis audit every monday at 04:00 AM
+0 4 * * 1 /usr/local/bin/lynis-scheduled.sh
 ```
 
 Flag `--cronjob` penting — itu yang membuat Lynis jalan non-interactive (tidak nunggu input keyboard, cocok untuk cron/CI).
