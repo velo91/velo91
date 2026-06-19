@@ -1,0 +1,85 @@
+## Install Lynis
+
+CloudPanel biasanya jalan di Ubuntu/Debian, jadi cara paling aman pakai repo resmi (bukan apt default yang sering versinya lawas):
+Hasil cukup jelas. Berikut step-by-step lengkap, dari install sampai otomatis jalan sendiri dan hasilnya bisa langsung kamu ajak diskusikan dengan AI.
+
+## 1. Install Lynis dari repo resmi CISOfy (bukan apt default, biar selalu update)Jalankan ini di server CloudPanel kamu via SSH:
+
+```bash
+# Setup keyring & repo resmi CISOfy
+sudo install -d -m 0755 /etc/apt/keyrings
+wget -O - https://packages.cisofy.com/keys/cisofy-software-public.key | \
+  sudo gpg --dearmor -o /etc/apt/keyrings/cisofy-software-public.gpg
+
+echo "deb [signed-by=/etc/apt/keyrings/cisofy-software-public.gpg] https://packages.cisofy.com/community/lynis/deb/ stable main" | \
+  sudo tee /etc/apt/sources.list.d/cisofy-lynis.list
+
+sudo apt update
+sudo apt install lynis -y
+lynis --version
+```
+
+## 2. Jalankan audit pertama (manual, buat baseline)
+
+```bash
+sudo lynis audit system
+```
+
+Hasilnya muncul di terminal dengan warning/suggestion berwarna, dan tersimpan di dua file penting:
+- `/var/log/lynis-report.dat` — data terstruktur (key=value), ini yang nanti dibaca AI
+- `/var/log/lynis.log` — log proses lengkap
+
+Cek dulu manual sebelum diotomatisasi:
+```bash
+sudo grep -E "^warning|^suggestion" /var/log/lynis-report.dat
+```
+
+## 3. Otomatisasi via cron
+
+Buat script wrapper supaya hasil tiap run tidak saling menimpa dan ada histori:
+
+```bash
+sudo nano /usr/local/bin/lynis-scheduled.sh
+```
+
+Isi:
+```bash
+#!/bin/bash
+DATE=$(date +%Y%m%d)
+REPORT_DIR="/var/log/lynis-history"
+mkdir -p "$REPORT_DIR"
+
+lynis audit system --cronjob \
+  --report-file "$REPORT_DIR/lynis-report-$DATE.dat" \
+  > "$REPORT_DIR/lynis-output-$DATE.log" 2>&1
+```
+
+```bash
+sudo chmod +x /usr/local/bin/lynis-scheduled.sh
+sudo crontab -e
+```
+
+Tambahkan baris (jalan tiap Senin jam 3 pagi, di luar jam kerja):
+```
+0 3 * * 1 /usr/local/bin/lynis-scheduled.sh
+```
+
+Flag `--cronjob` penting — itu yang membuat Lynis jalan non-interactive (tidak nunggu input keyboard, cocok untuk cron/CI).
+
+## 4. Biar hasilnya bisa "diajak ngobrol" dengan AI assistant kamu
+
+Karena workflow kamu sudah pakai OpenCode/Cline, cara paling simpel: arahkan agent untuk baca file report itu saat kamu tanya. Contoh prompt yang bisa kamu pakai langsung:
+
+> "Baca `/var/log/lynis-history/lynis-report-[tanggal_terbaru].dat`, ringkas semua warning dan suggestion, urutkan berdasarkan severity untuk server yang menjalankan Nginx + PHP-FPM + MariaDB + CrowdSec."
+
+Atau biar lebih otomatis lagi, tambahkan script kecil yang extract baris penting saja jadi file ringkas (`lynis-summary-$DATE.txt`) supaya AI tidak perlu parse seluruh file mentah:
+
+```bash
+grep -E "^warning|^suggestion" "$REPORT_DIR/lynis-report-$DATE.dat" > "$REPORT_DIR/lynis-summary-$DATE.txt"
+```
+
+## Catatan penting
+
+- **Index database**: Lynis akan tanya soal "lynis-index" saat pertama jalan, biarkan default kecuali kamu punya alasan khusus.
+- **False positive itu normal** — banyak suggestion Lynis sifatnya generic best-practice, tidak semua relevan untuk stack CloudPanel kamu (misal soal SELinux di Ubuntu yang memang biasanya pakai AppArmor). Ini justru salah satu nilai tambah AI assistant: kamu bisa minta dia filter mana yang benar-benar relevan vs noise.
+- **Jangan auto-apply rekomendasi Lynis** tanpa review — beberapa suggestion (misal disable service tertentu) bisa break aplikasi produksi kalau diterapkan membabi-buta.
