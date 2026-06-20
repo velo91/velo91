@@ -1,0 +1,36 @@
+# update sistem
+sudo apt update
+sudo apt upgrade -y
+
+# pastikan ada git
+sudo apt install curl git -y
+
+# PENTING: jangan pernah install sebagai root!
+# kalau nanti hermes perlu jalankan perintah administratif seperti nginx -t dan nginx -s reload
+# cukup sesuaikan saja Sudoers Rule untuk user biasa yang akan didelegasikan
+# INSTALL HERMES AGENT TANPA ROOT:
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+# nanti file berada di ~/.hermes/
+
+# reload shell kalau pakai Bash: source ~/.bashrc
+# reload shell kalau pakai Zsh: source ~/.zshrc
+
+# cek instalasi:
+hermes --version
+
+# pastikan semua dependency sudah benar:
+hermes doctor
+
+# setup provider AI:
+hermes setup
+
+# pilih provider yang ingin dipakai:
+# misalnya: OpenRouter
+# masukkan API key OpenRouter
+# pilih model
+
+# jalankan Hermes:
+hermes
+# atau untuk tampilan terminal yang lebih modern:
+hermes --tui
+
