@@ -474,7 +474,6 @@ Download VS Code for Linux
 	# extensions
 		Auto Rename Tag
 		DotENV
-		Error Lens
 		Hermes AI Agent
 		NGINX Configuration Language Support
 		PHP Debug
