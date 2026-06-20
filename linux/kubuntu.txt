@@ -468,6 +468,8 @@ Download Only Office for Linux
 	# settings > interface theme: dark
 Download VS Code for Linux
 	https://code.visualstudio.com
+	# user setting > font size: 15
+	# user setting > font family: 'Ubuntu Mono', 'Droid Sans Mono', monospace
 Download Zoom Workplace for Linux
 	https://zoom.us/download
 Download TeamViewer for Linux
