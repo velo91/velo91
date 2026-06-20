@@ -468,8 +468,23 @@ Download Only Office for Linux
 	# settings > interface theme: dark
 Download VS Code for Linux
 	https://code.visualstudio.com
-	# user setting > font size: 15
-	# user setting > font family: 'Ubuntu Mono', 'Droid Sans Mono', monospace
+	# user settings
+		font size: 15
+		font family: 'Ubuntu Mono', 'Droid Sans Mono', monospace
+	# extensions
+		Auto Rename Tag
+		DotENV
+		Error Lens
+		Hermes AI Agent
+		NGINX Configuration Language Support
+		PHP Debug
+		PHP Intelephense
+		PHP Namespace Resolver
+		Prettier - Code formatter
+		Remote - SSH
+		Remote - SSH: Editing Configuration Files
+		Remote Explorer
+		REST Client
 Download Zoom Workplace for Linux
 	https://zoom.us/download
 Download TeamViewer for Linux
