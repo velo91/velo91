@@ -60,6 +60,9 @@ hermes
 # atau untuk tampilan terminal yang lebih modern:
 hermes --tui
 
+# update versi:
+hermes update
+
 ─────────────────────────────────────────────────────────
 VERY USEFUL: Install VS Code Extension "Hermes AI Agent" by joaompfp
 ─────────────────────────────────────────────────────────
