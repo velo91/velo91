@@ -10,10 +10,36 @@ sudo apt install curl git -y
 # cukup sesuaikan saja Sudoers Rule untuk user biasa yang akan didelegasikan
 # INSTALL HERMES AGENT TANPA ROOT:
 curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
-# nanti file berada di ~/.hermes/
 
-# reload shell kalau pakai Bash: source ~/.bashrc
+# How would you like to set up Hermes? → (●) Full setup — configure every provider, tool & option yourself (bring your own keys)
+# Select provider: → (●) OpenRouter (Pay-per-use API aggregator)
+# Enter OpenRouter API Key
+# Select default model: poolside/laguna-m.1:free (gratisnya lebih privasi menjaga privasi, sudah teruji, coding lebih kuat dibanding Owl Alpha)
+# Select terminal backend: → (●) Local - run directly on this machine (default)
+# Select platforms to configure: Jangan mencentang apa pun (biarkan semua kotak [ ] kosong). Tekan ENTER untuk melanjutkan ke langkah berikutnya.
+# Tools for CLI: pertahankan default namun hapus centang pada [ ] Computer Use (macOS)  (background desktop control via cua-driver) → karena kamu install di Linux.
+# Choose a provider: → (●) Local Browser [★ recommended · free] — Headless Chromium, no API key needed
+# Choose a provider: → (●) Skip — keep defaults / configure later
+
+┌─────────────────────────────────────────────────────────┐
+│              ✓ Installation Complete!                        │
+└─────────────────────────────────────────────────────────┘
+📁 Your files:
+   Config:    ~/.hermes/config.yaml
+   API Keys:  ~/.hermes/.env
+   Data:      ~/.hermes/cron/, sessions/, logs/
+   Code:      ~/.hermes/hermes-agent
+─────────────────────────────────────────────────────────
+🚀 Commands:
+   hermes              Start chatting
+   hermes setup        Configure API keys & settings
+   hermes config       View/edit configuration
+   hermes config edit  Open config in editor
+   hermes gateway install Install gateway service (messaging + cron)
+   hermes update       Update to latest version
+
 # reload shell kalau pakai Zsh: source ~/.zshrc
+# reload shell kalau pakai Bash: source ~/.bashrc
 
 # cek instalasi:
 hermes --version
@@ -33,4 +59,6 @@ hermes setup
 hermes
 # atau untuk tampilan terminal yang lebih modern:
 hermes --tui
+
+
 
