@@ -61,9 +61,5 @@ hermes
 hermes --tui
 
 ─────────────────────────────────────────────────────────
-Hermes Agent for VS Code
+VERY USEFUL: Install VS Code Extension "Hermes AI Agent" by joaompfp
 ─────────────────────────────────────────────────────────
-1. Install the "ACP Client" extension (by Jun Han).
-2. Open the ACP Client panel from the Activity Bar.
-3. Select Hermes Agent from the built-in agent list.
-4. Connect and start chatting.
