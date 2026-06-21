@@ -5,6 +5,9 @@ tar -xvzf maldetect-current.tar.gz
 cd maldetect-*
 ./install.sh
 
+# update signature database dulu
+sudo maldet -u
+
 # file eksekusi berada di?
 which maldet
 	/usr/local/sbin/maldet
