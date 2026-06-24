@@ -66,3 +66,24 @@ hermes update
 ─────────────────────────────────────────────────────────
 VERY USEFUL: Install VS Code Extension "Hermes AI Agent" by joaompfp
 ─────────────────────────────────────────────────────────
+
+#####################
+# INSTALL WEB UI
+#####################
+git clone https://github.com/nesquena/hermes-webui.git
+
+# Start Web UI
+cd hermes-webui && python3 bootstrap.py
+# or
+cd hermes-webui && ./start.sh
+# or (run in background daemon)
+cd hermes-webui && ./ctl.sh start
+   ./ctl.sh status ===> check status
+   ./ctl.sh stop   ===> stop background daemon
+
+#####################
+# INSTALL DESKTOP UI (The same cross-platform desktop app)
+# must installed web ui first
+#####################
+download .DEB or .EXE from:
+   https://github.com/hermes-webui/hermes-desktop-rust/releases
