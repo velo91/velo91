@@ -81,6 +81,9 @@ cd hermes-webui && ./ctl.sh start
    ./ctl.sh status ===> check status
    ./ctl.sh stop   ===> stop background daemon
 
+# URL Web UI: http://localhost:8787
+# Check Health: http://localhost:8787/health
+
 #####################
 # INSTALL DESKTOP UI (The same cross-platform desktop app)
 # must installed web ui first
