@@ -66,7 +66,9 @@ hermes update
 ─────────────────────────────────────────────────────────
 VERY USEFUL:
 1. Perbesar kapasitas ingatan, jalankan ini di terminal:
-   hermes config set memory_char_limit 10000
+   nano ~/.hermes/config.yaml
+   # cari baris memory_char_limit lalu set menjadi 10000, lalu simpan
+   hermes gateway restart
 2. Install VS Code Extension "Hermes AI Agent" by joaompfp
 ─────────────────────────────────────────────────────────
 
