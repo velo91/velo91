@@ -73,8 +73,14 @@ VERY USEFUL: Install VS Code Extension "Hermes AI Agent" by joaompfp
 # if you already have Hermes installed, simply run:
 hermes desktop
 # that uses your current config, keys, sessions, and skills.
-
-
+# add to menu editor:
+ Name=Hermes
+ Comment=Native desktop shell for Hermes Agent
+ Exec=/home/ideapad/.hermes/hermes-agent/apps/desktop/release/linux-unpacked/Hermes
+ Icon=/home/ideapad/.hermes/hermes-agent/apps/bootstrap-installer/src-tauri/icons/128x128.png
+ Type=Application
+ Categories=Office;Development;
+ Terminal=false
 
 
 
