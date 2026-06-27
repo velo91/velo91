@@ -64,7 +64,10 @@ hermes --tui
 hermes update
 
 ─────────────────────────────────────────────────────────
-VERY USEFUL: Install VS Code Extension "Hermes AI Agent" by joaompfp
+VERY USEFUL:
+1. Perbesar kapasitas ingatan, jalankan ini di terminal:
+   hermes config set memory_char_limit 10000
+2. Install VS Code Extension "Hermes AI Agent" by joaompfp
 ─────────────────────────────────────────────────────────
 
 #####################
