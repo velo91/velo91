@@ -68,6 +68,21 @@ VERY USEFUL: Install VS Code Extension "Hermes AI Agent" by joaompfp
 ─────────────────────────────────────────────────────────
 
 #####################
+# INSTALL HERMES DESKTOP (OFFICIAL)
+#####################
+# if you already have Hermes installed, simply run:
+hermes desktop
+# that uses your current config, keys, sessions, and skills.
+
+
+
+
+
+
+
+
+
+#####################
 # INSTALL WEB UI
 #####################
 git clone https://github.com/nesquena/hermes-webui.git
