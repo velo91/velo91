@@ -17,7 +17,7 @@ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 # Select default model: poolside/laguna-m.1:free (gratisnya lebih privasi menjaga privasi, sudah teruji, coding lebih kuat dibanding Owl Alpha)
 # Select terminal backend: → (●) Local - run directly on this machine (default)
 # Select platforms to configure: Jangan mencentang apa pun (biarkan semua kotak [ ] kosong). Tekan ENTER untuk melanjutkan ke langkah berikutnya.
-# Tools for CLI: pertahankan default namun hapus centang pada [ ] Computer Use (macOS)  (background desktop control via cua-driver) → karena kamu install di Linux.
+# Tools for CLI: pertahankan default
 # Choose a provider: → (●) Local Browser [★ recommended · free] — Headless Chromium, no API key needed
 # Choose a provider: → (●) Skip — keep defaults / configure later
 
