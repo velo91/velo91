@@ -38,8 +38,8 @@ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
    hermes gateway install Install gateway service (messaging + cron)
    hermes update       Update to latest version
 
-# reload shell kalau pakai Zsh: source ~/.zshrc
 # reload shell kalau pakai Bash: source ~/.bashrc
+# reload shell kalau pakai Zsh: source ~/.zshrc
 
 # cek instalasi:
 hermes --version
@@ -79,8 +79,8 @@ VERY USEFUL:
 hermes desktop
 # that uses your current config, keys, sessions, and skills.
 # add to menu editor:
- Name=Hermes
- Comment=Native desktop shell for Hermes Agent
+ Name=Hermes Desktop
+ Comment=Hermes Agent — AI Desktop Assistant
  Exec=/home/ideapad/.hermes/hermes-agent/apps/desktop/release/linux-unpacked/Hermes
  Icon=/home/ideapad/.hermes/hermes-agent/apps/bootstrap-installer/src-tauri/icons/128x128.png
  Type=Application
