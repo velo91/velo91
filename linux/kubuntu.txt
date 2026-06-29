@@ -53,16 +53,23 @@ just make sure Windows is "Disable Fast Boot" so that partition permissions on N
 3. click "Change settings that are currently unavailable" and the give consent to continue or enter an administrator username and password as prompted
 4. under Shutdown settings, uncheck "Turn on fast startup (recommended)" and click Save changes
 
-=======================================
-Setting Up 1.1.1.1 DNS
-=======================================
-System Settings > Connections > IPv4
-	Method: Automatic (Only addressess)
-	DNS Server: 1.1.1.1
-System Settings > Connections > IPv6
-	Method: Automatic (Only addressess)
-	DNS Server: 1.1.1.1
-Apply
+=================
+CHANGE TO DNS CLOUDFLARE & GOOGLE
+=================
+# Usually, /etc/resolv.conf is where you can configure the resolver IPs that your system is using. BUT, if you use systemd-resolved utility and the resolver IPs configuration is in /etc/systemd/resolved.conf, consider the steps below:
+sudo nano /etc/systemd/resolved.conf
+# use this setting:
+[Resolve]
+DNS=1.1.1.1#cloudflare-dns.com 1.0.0.1#cloudflare-dns.com 2606:4700:4700::1111#cloudflare-dns.com 2606:4700:4700::1001#cloudflare-dns.com
+FallbackDNS=8.8.8.8#dns.google 8.8.4.4#dns.google 2001:4860:4860::8888#dns.google 2001:4860:4860::8844#dns.google
+DNSOverTLS=yes
+DNSStubListener=yes
+Cache=yes
+# restart & check
+sudo resolvectl status && sudo resolvectl statistics
+sudo systemctl restart systemd-resolved
+sudo resolvectl flush-caches
+sudo resolvectl status && sudo resolvectl statistics
 
 =======================================
 Update & Upgrade System
@@ -79,6 +86,17 @@ Install Google Chrome & Remove Firefox
 	https://www.google.com/intl/id_id/chrome/
 # download .DEB, install, launch, make as default browser
 # remove firefox from Discover
+==========
+OR VIA CLI
+==========
+$ sudo -i
+$ wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmour -o /usr/share/keyrings/chrome-keyring.gpg
+$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
+$ sudo apt update && sudo apt install -y google-chrome-stable && sudo apt purge -y firefox && sudo apt autoremove -y
+# open Google Chrome: Settings > Performance > Memory Saver: Maximum
+# open Google Chrome: Settings > Appearance > Theme: Use GTK
+# open Google Chrome: Settings > Appearance > Disable "Use system title and borders"
+# open Google Chrome: Settings > Appearance > Page Zoom: 125%
 
 =====================================
 Install Fonts
@@ -96,64 +114,8 @@ Install libwebkit2gtk-4.1-0 (Web content engine library for GTK)
 =====================================
 $ sudo apt update && sudo apt install -y libwebkit2gtk-4.1-0 && sudo apt autoremove
 
-=====================================
-Install ZSH & OhMyPosh
-=====================================
-# download Meslo LGS font with icon and install it
-$ wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf && wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf && wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf && wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
-# install ZSH
-$ sudo apt install -y zsh wget git && zsh --version && echo $SHELL
-# EXIT FROM ROOT:
-Ctrl+D
-# make your default shell
-$ chsh -s $(which zsh)
-# install oh-my-zsh and some plugins
-$ sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-# change default? Y
-$ git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-$ git clone https://github.com/zsh-users/zsh-history-substring-search ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
-# install oh-my-posh
-$ sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
-$ sudo chmod +x /usr/local/bin/oh-my-posh
-# download and extract "zsh-ohmyposh-config.zip" from https://www.pling.com/p/2200488/
-$ unzip -o $HOME/Downloads/zsh-ohmyposh-config.zip -d $HOME
-$ chmod u+rw $HOME/.poshthemes/*.json
-# download and extract "plasma6macos-konsole-profile.zip" from https://www.pling.com/p/2200488/
-$ unzip -o $HOME/Downloads/plasma6macos-konsole-profile.zip -d $HOME/.local/share/
-# choose Konsole profile "Everforest Dark Hard" and set default, OK
-# Konsole: Open Settings → Edit Current Profile
-# General: general setting > change "command" to:
-	/usr/bin/zsh
-# Appearance: click Select Font and select "MesloLGS NF" 12 pt
-# Appearance: change background color from #272e33 to #14181a
-# Appearance: change color 3 from #a7c080 to #00aa00
-# Appearance: change color 5 from #7fbbb3 to #4646d3
-# Appearance: disable blur background with 0% tranparency
-$ nano $HOME/.zshrc
-# add this line before export to enable automatic update without confirmation prompt:
-	zstyle ':omz:update' mode auto
 #############################
-# install Oh My Zsh for root user
-	# run this command as ROOT
-	$ sudo -i
-	# make your default shell
-	$ sudo chsh -s $(which zsh)
-	# install oh-my-zsh and some plugins
-	$ sudo sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-	# change default? Y
-	$ sudo git clone https://github.com/zsh-users/zsh-autosuggestions.git /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-	$ sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-	$ sudo git clone https://github.com/zsh-users/zsh-history-substring-search /root/.oh-my-zsh/custom/plugins/zsh-history-substring-search
-	# install oh-my-posh
-	$ sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
-	$ sudo chmod +x /usr/local/bin/oh-my-posh
-	# download and extract "zsh-ohmyposh-config.zip" from https://www.pling.com/p/2200488/
-	$ sudo unzip -o /home/ideapad/Downloads/zsh-ohmyposh-config.zip -d /root/
-	$ chmod u+rw /root/.poshthemes/*.json
-	$ sudo unzip -o /home/ideapad/Downloads/plasma6macos-konsole-profile.zip -d /root/.local/share/
-#############################
-# setup bookmark
+# setup konsole bookmark
 # Konsole: Bookmarks > Edit Bookmarks > New Bookmark:
 	sudo apt update				sudo apt update
 	sudo apt list --upgradable		sudo apt list --upgradable
@@ -242,34 +204,6 @@ $ ssh-copy-id -p port_number username@hostname
 # now you can try connecting to the server without a password
 # all ssh connection stored in ~/.config/konsolesshconfig
 
-=================================
-Install Driver Radeon™ Software for Linux® version 24.10.3 for Ubuntu 22.04.4 HWE
-=================================
-Download driver from https://www.amd.com/en/support/download/linux-drivers.html
-# install kernel mode driver
-$ sudo apt install amdgpu-dkms
-	# or
-	$ amdgpu-install -y --usecase=graphics
-# if secure boot is enabled during driver installation, a MOK will be automatically generated during install, reboot the system
-$ sudo reboot
-# select "Enroll MOK" and "View key 0" to confirm that the key is correct, select "Continue", "Yes", and enter the temporary password to finish enrolling the key certificate, select "Reboot" to exit the MOK manager
-# verifying kernel mode driver installation
-$ dkms status
-# installing packages within ROCm
-$ sudo apt install rocm-hip-sdk
-# verifying ROCm installation
-$ /opt/rocm/bin/rocminfo
-	# or
-	$ /opt/rocm/opencl/bin/clinfo
-# update PATH for user profile, run this command on root and on non-root user
-export PATH=/opt/amdgpu-pro/bin:/opt/amdgpu/bin:$PATH && echo $PATH
-# done
-# if you encounter errors related to permissions while running ROCm applications like rocminfo, follow these steps to address the issue
-	# add user to the "render" group:
-	$ sudo usermod -aG render <your_username>
-	# retry running rocminfo
-	$ /opt/rocm/bin/rocminfo
-
 ======================================
 Completely Remove Flatpak Apps from System
 ======================================
@@ -306,18 +240,6 @@ $ sudo nano /etc/apt/preferences.d/no-snap
 	Pin: release a=*
 	Pin-Priority: -10
 
-=======================================
-Install Google Chrome from Official Repository (and remove Firefox completely)
-=======================================
-$ sudo -i
-$ wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmour -o /usr/share/keyrings/chrome-keyring.gpg
-$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
-$ sudo apt update && sudo apt install -y google-chrome-stable && sudo apt purge -y firefox && sudo apt autoremove -y
-# open Google Chrome: Settings > Performance > Memory Saver: Maximum
-# open Google Chrome: Settings > Appearance > Theme: Use GTK
-# open Google Chrome: Settings > Appearance > Disable "Use system title and borders"
-# open Google Chrome: Settings > Appearance > Page Zoom: 125%
-
 =================================
 Fix "preinstalled" Repo Warning on apt update
 =================================
@@ -338,9 +260,11 @@ $ sudo dpkg --configure -a && sudo apt update
 =======================================
 Install Apps From APT via Konsole
 =======================================
-$ sudo apt install neofetch yakuake lsb-release net-tools whois inxi kcalc okular audacious ffmpeg ffmpegthumbnailer vlc kdenlive remmina qbittorrent android-file-transfer filelight partitionmanager
-!!! pdfsam xserver-xorg-input-evdev xserver-xorg-input-mouse
-$ sudo apt remove kate kwalletmanager && sudo apt autoremove
+$ sudo apt install fastfetch ktorrent filelight gimp inkscape kdenlive obs-studio
+!!!
+!!! pdfsam xserver-xorg-input-evdev xserver-xorg-input-mouse android-file-transfer partitionmanager yakuake lsb-release net-tools whois inxi kcalc okular audacious ffmpeg ffmpegthumbnailer vlc remmina 
+!!!
+!!!$ sudo apt remove kate kwalletmanager && sudo apt autoremove
 # TIPS: if you want to remove a package and install a different package IN ONE STEP, try: sudo apt remove htop nano+ ===> will remove htop and install nano
 # another way to do the same thing: sudo apt install htop- nano  ===> also will remove htop and install nano
 
@@ -382,7 +306,7 @@ $ inxi -F
 =======================================
 Install GIMP from Ubuntu PPA for More Up-to-Date Version
 =======================================
-$ sudo add-apt-repository ppa:ubuntuhandbook1/gimp && sudo apt install -y gimp gegl libgexiv2-2
+!!! $ sudo add-apt-repository ppa:ubuntuhandbook1/gimp && sudo apt install -y gimp gegl libgexiv2-2
 # open gimp
 # Edit > preferences > interface > theme: dark
 # Edit > preferences > interface > icon theme: color; custom icon size: small
@@ -392,7 +316,7 @@ $ sudo add-apt-repository ppa:ubuntuhandbook1/gimp && sudo apt install -y gimp g
 =======================================
 Install Inkscape from Ubuntu PPA for More Up-to-Date Version
 =======================================
-$ sudo add-apt-repository ppa:inkscape.dev/stable && sudo apt install -y inkscape
+!!! $ sudo add-apt-repository ppa:inkscape.dev/stable && sudo apt install -y inkscape
 # open inkscape
 # Edit > preferences > interface > theming > gtk: adwaita; theme: use dark theme; icon: multicolor
 # [if needed] Edit > preferences > interface > windows > dialogs on top: none
@@ -400,7 +324,7 @@ $ sudo add-apt-repository ppa:inkscape.dev/stable && sudo apt install -y inkscap
 =======================================
 Install OBS Studio from Ubuntu PPA for More Up-to-Date Version
 =======================================
-$ sudo add-apt-repository ppa:obsproject/obs-studio && sudo apt install -y obs-studio
+!!!$ sudo add-apt-repository ppa:obsproject/obs-studio && sudo apt install -y obs-studio
 
 =======================================
 Install GNOME Network Displays to connect to a Smart TV wirelessly
@@ -1399,3 +1323,107 @@ kwriteconfig6 --file powermanagementprofilesrc --group AC --group HandleButtonEv
 - **Screen blank ≠ Sleep**: Screen blank cuma matikan display (aman), sleep = seluruh sistem mati
 - Kalau cuma mau matikan lock screen tapi tetap bisa sleep, skip langkah 2 dan 3
 - Setting langsung berlaku tanpa restart. Kalau mau yakin, logout-login kembali
+
+
+
+
+
+
+
+
+
+
+
+
+
+=====================================
+Install ZSH & OhMyPosh
+=====================================
+# download Meslo LGS font with icon and install it
+$ wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf && wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf && wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf && wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+# install ZSH
+$ sudo apt install -y zsh wget git && zsh --version && echo $SHELL
+# EXIT FROM ROOT:
+Ctrl+D
+# make your default shell
+$ chsh -s $(which zsh)
+# install oh-my-zsh and some plugins
+$ sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+# change default? Y
+$ git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+$ git clone https://github.com/zsh-users/zsh-history-substring-search ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
+# install oh-my-posh
+$ sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
+$ sudo chmod +x /usr/local/bin/oh-my-posh
+# download and extract "zsh-ohmyposh-config.zip" from https://www.pling.com/p/2200488/
+$ unzip -o $HOME/Downloads/zsh-ohmyposh-config.zip -d $HOME
+$ chmod u+rw $HOME/.poshthemes/*.json
+# download and extract "plasma6macos-konsole-profile.zip" from https://www.pling.com/p/2200488/
+$ unzip -o $HOME/Downloads/plasma6macos-konsole-profile.zip -d $HOME/.local/share/
+# choose Konsole profile "Everforest Dark Hard" and set default, OK
+# Konsole: Open Settings → Edit Current Profile
+# General: general setting > change "command" to:
+	/usr/bin/zsh
+# Appearance: click Select Font and select "MesloLGS NF" 12 pt
+# Appearance: change background color from #272e33 to #14181a
+# Appearance: change color 3 from #a7c080 to #00aa00
+# Appearance: change color 5 from #7fbbb3 to #4646d3
+# Appearance: disable blur background with 0% tranparency
+$ nano $HOME/.zshrc
+# add this line before export to enable automatic update without confirmation prompt:
+	zstyle ':omz:update' mode auto
+#############################
+# install Oh My Zsh for root user
+	# run this command as ROOT
+	$ sudo -i
+	# make your default shell
+	$ sudo chsh -s $(which zsh)
+	# install oh-my-zsh and some plugins
+	$ sudo sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+	# change default? Y
+	$ sudo git clone https://github.com/zsh-users/zsh-autosuggestions.git /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	$ sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	$ sudo git clone https://github.com/zsh-users/zsh-history-substring-search /root/.oh-my-zsh/custom/plugins/zsh-history-substring-search
+	# install oh-my-posh
+	$ sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
+	$ sudo chmod +x /usr/local/bin/oh-my-posh
+	# download and extract "zsh-ohmyposh-config.zip" from https://www.pling.com/p/2200488/
+	$ sudo unzip -o /home/ideapad/Downloads/zsh-ohmyposh-config.zip -d /root/
+	$ chmod u+rw /root/.poshthemes/*.json
+	$ sudo unzip -o /home/ideapad/Downloads/plasma6macos-konsole-profile.zip -d /root/.local/share/
+
+
+
+
+
+
+
+
+=================================
+Install Driver Radeon™ Software for Linux® version 24.10.3 for Ubuntu 22.04.4 HWE
+=================================
+Download driver from https://www.amd.com/en/support/download/linux-drivers.html
+# install kernel mode driver
+$ sudo apt install amdgpu-dkms
+	# or
+	$ amdgpu-install -y --usecase=graphics
+# if secure boot is enabled during driver installation, a MOK will be automatically generated during install, reboot the system
+$ sudo reboot
+# select "Enroll MOK" and "View key 0" to confirm that the key is correct, select "Continue", "Yes", and enter the temporary password to finish enrolling the key certificate, select "Reboot" to exit the MOK manager
+# verifying kernel mode driver installation
+$ dkms status
+# installing packages within ROCm
+$ sudo apt install rocm-hip-sdk
+# verifying ROCm installation
+$ /opt/rocm/bin/rocminfo
+	# or
+	$ /opt/rocm/opencl/bin/clinfo
+# update PATH for user profile, run this command on root and on non-root user
+export PATH=/opt/amdgpu-pro/bin:/opt/amdgpu/bin:$PATH && echo $PATH
+# done
+# if you encounter errors related to permissions while running ROCm applications like rocminfo, follow these steps to address the issue
+	# add user to the "render" group:
+	$ sudo usermod -aG render <your_username>
+	# retry running rocminfo
+	$ /opt/rocm/bin/rocminfo
