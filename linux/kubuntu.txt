@@ -396,7 +396,7 @@ Install Apps Manually From .DEB Package
 =======================================
 Download Only Office for Linux
 	https://www.onlyoffice.com/download-desktop.aspx
-	# settings > interface scaling: 125%
+	# settings > interface scaling: 100%
 	# settings > interface theme: dark
 Download VS Code for Linux
 	https://code.visualstudio.com
