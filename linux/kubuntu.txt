@@ -260,11 +260,14 @@ $ sudo dpkg --configure -a && sudo apt update
 =======================================
 Install Apps From APT via Konsole
 =======================================
-$ sudo apt install fastfetch ktorrent filelight gimp inkscape kdenlive obs-studio
+$ sudo apt install fastfetch ktorrent filelight gimp inkscape kdenlive obs-studio elisa shortwave vlc
 !!!
 !!! pdfsam xserver-xorg-input-evdev xserver-xorg-input-mouse android-file-transfer partitionmanager yakuake lsb-release net-tools whois inxi kcalc okular audacious ffmpeg ffmpegthumbnailer vlc remmina 
 !!!
+$ sudo apt remove haruna && sudo apt autoremove
+!!!
 !!!$ sudo apt remove kate kwalletmanager && sudo apt autoremove
+!!!
 # TIPS: if you want to remove a package and install a different package IN ONE STEP, try: sudo apt remove htop nano+ ===> will remove htop and install nano
 # another way to do the same thing: sudo apt install htop- nano  ===> also will remove htop and install nano
 
@@ -428,8 +431,8 @@ Download Burp Suite (for active scanning, collaborator payloads, or BApp extensi
 	https://portswigger.net/burp/communitydownload
 Download Caido (for recon, data visualization, endpoint tracking, manual fuzzing. Use Caido to collect endpoints, tag potential IDORs, note interesting responses.)
 	https://caido.io/download
-Download Goodvibes (Radio Player) Playlist => https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/stream/radio.txt
-	https://pkgs.org/download/goodvibes
+Download Shortwave (Radio Player) Playlist => https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/stream/radio.txt
+	(download from terminal or discovery) info from official website: https://apps.gnome.org/id/Shortwave/
 
 =======================================
 Install Apps Manually From .SH File
