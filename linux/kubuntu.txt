@@ -272,6 +272,22 @@ $ sudo apt remove haruna && sudo apt autoremove
 # another way to do the same thing: sudo apt install htop- nano  ===> also will remove htop and install nano
 
 =======================================
+Shortwave: Internet Radio Playlist
+=======================================
+	https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/stream/radio.txt
+# or:
+	Saudi Quran
+	http://stream.radiojar.com/0tpy1h0kxtzuv
+	Era FM
+	https://n17a-eu.rcs.revma.com/crec9cmbv4uvv/23_11p2ghidfhj2d02/playlist.m3u8?rj-ttl=5&rj-tok=AAABlF2WiCgAJUPufokb6G0b3Q
+	Smooth Jazz
+	https://playerservices.streamtheworld.com/api/livestream-redirect/ACIR22_s01AAC.aac
+	Mirchi One Qatar
+	https://streams.radio.co/s8d06d0298/listen
+	Radio Mirchi Hindi
+	https://eu8.fastcast4u.com/proxy/clyedupq/stream
+
+=======================================
 Check the OS version
 =======================================
 $ lsb_release -a
@@ -431,8 +447,6 @@ Download Burp Suite (for active scanning, collaborator payloads, or BApp extensi
 	https://portswigger.net/burp/communitydownload
 Download Caido (for recon, data visualization, endpoint tracking, manual fuzzing. Use Caido to collect endpoints, tag potential IDORs, note interesting responses.)
 	https://caido.io/download
-Download Shortwave (Radio Player) Playlist => https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/stream/radio.txt
-	(download from terminal or discovery) info from official website: https://apps.gnome.org/id/Shortwave/
 
 =======================================
 Install Apps Manually From .SH File
