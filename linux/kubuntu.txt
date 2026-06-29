@@ -338,7 +338,7 @@ $ sudo dpkg --configure -a && sudo apt update
 =======================================
 Install Apps From APT via Konsole
 =======================================
-$ sudo apt install neofetch yakuake lsb-release net-tools whois inxi kcalc okular audacious ffmpeg ffmpegthumbnailer vlc peek kdenlive remmina qbittorrent android-file-transfer filelight partitionmanager
+$ sudo apt install neofetch yakuake lsb-release net-tools whois inxi kcalc okular audacious ffmpeg ffmpegthumbnailer vlc kdenlive remmina qbittorrent android-file-transfer filelight partitionmanager
 !!! pdfsam xserver-xorg-input-evdev xserver-xorg-input-mouse
 $ sudo apt remove kate kwalletmanager && sudo apt autoremove
 # TIPS: if you want to remove a package and install a different package IN ONE STEP, try: sudo apt remove htop nano+ ===> will remove htop and install nano
@@ -1236,3 +1236,166 @@ Section "InputClass"
 	MatchDevicePath "/dev/input/event*"
 EndSection
 $ reboot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Disable Sleep, Suspend & Lock Screen di Kubuntu KDE Plasma
+
+> Tanggal dibuat: 2026-06-29
+> Sistem: Kubuntu 24.04 KDE Plasma (juga berlaku untuk KDE Plasma 5/6)
+> Tujuan: Laptop tidak pernah sleep/suspend, dan tidak ada lock screen (form password) saat wake up.
+
+---
+
+## Masalah
+
+Setelah sleep/suspend di KUbuntu KDE, kadang:
+- Layar tidak bisa wake up
+- Keyboard tidak menerima input di form password
+- Harus hard reset (matikan paksa)
+
+## Solusi
+
+Matikan sleep/suspend DAN lock screen sepenuhnya.
+
+---
+
+## Langkah-langkah
+
+### 1. Matikan Lock Screen
+
+```bash
+# Matikan auto lock & lock on resume
+kwriteconfig6 --file kscreensimmerrc --group Daemon --key Autolock false
+kwriteconfig6 --file kscreensimmerrc --group Daemon --key LockOnResume false
+kwriteconfig6 --file kscreenlockerrc --group Daemon --key Autolock false
+kwriteconfig6 --file kscreenlockerrc --group Daemon --key LockOnResume false
+```
+
+> **Catatan:** `kwriteconfig5` untuk KDE Plasma 5, `kwriteconfig6` untuk Plasma 6.
+
+### 2. Matikan Suspend/Sleep via PowerDevil
+
+```bash
+# AC Power - jangan pernah sleep
+kwriteconfig6 --file powermanagementprofilesrc --group AC --group SuspendSession --key idleTime 0
+kwriteconfig6 --file powermanagementprofilesrc --group AC --group SuspendSession --key suspendType 0
+kwriteconfig6 --file powermanagementprofilesrc --group AC --group HandleButtonEvents --key lidAction 0
+
+# Battery - jangan pernah sleep
+kwriteconfig6 --file powermanagementprofilesrc --group Battery --group SuspendSession --key idleTime 0
+kwriteconfig6 --file powermanagementprofilesrc --group Battery --group SuspendSession --key suspendType 0
+kwriteconfig6 --file powermanagementprofilesrc --group Battery --group HandleButtonEvents --key lidAction 0
+
+# Low Battery - jangan pernah sleep
+kwriteconfig6 --file powermanagementprofilesrc --group LowBattery --group SuspendSession --key idleTime 0
+kwriteconfig6 --file powermanagementprofilesrc --group LowBattery --group SuspendSession --key suspendType 0
+kwriteconfig6 --file powermanagementprofilesrc --group LowBattery --group HandleButtonEvents --key lidAction 0
+```
+
+### 3. Mask systemd Sleep Targets (Hard Disable)
+
+```bash
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+```
+
+Ini mencegah sleep/suspend dipanggil dari mana pun (GUI, CLI, lid close, dll).
+
+### 4. (Opsional) Tetap Biarkan Screen Blank (Display Off)
+
+```bash
+# Screen mati setelah 10 menit idle di AC (hemat daya tapi tidak sleep)
+kwriteconfig6 --file powermanagementprofilesrc --group AC --group DimDisplay --key idleTime 600
+
+# Screen mati setelah 5 menit idle di Battery
+kwriteconfig6 --file powermanagementprofilesrc --group Battery --group DimDisplay --key idleTime 300
+```
+
+### 5. Verifikasi
+
+```bash
+# Cek systemd targets (harusnya "masked")
+systemctl is-enabled sleep.target suspend.target hibernate.target hybrid-sleep.target
+
+# Cek lock settings
+grep -E "Autolock|LockOnResume" ~/.config/kscreenlockerrc ~/.config/kscreensimmerrc
+
+# Cek suspend settings
+grep -A1 "SuspendSession" ~/.config/powermanagementprofilesrc
+```
+
+---
+
+## Cara Restore (Aktifkan Lagi)
+
+Kalau suatu hari mau sleep/suspend lagi:
+
+```bash
+# Unmask systemd targets
+sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+
+# Aktifkan lock screen lagi
+kwriteconfig6 --file kscreenlockerrc --group Daemon --key Autolock true
+kwriteconfig6 --file kscreenlockerrc --group Daemon --key LockOnResume true
+
+# Aktifkan sleep setelah 30 menit idle (AC)
+kwriteconfig6 --file powermanagementprofilesrc --group AC --group SuspendSession --key idleTime 1800
+kwriteconfig6 --file powermanagementprofilesrc --group AC --group HandleButtonEvents --key lidAction 1
+```
+
+---
+
+## Penjelasan File Konfigurasi
+
+| File | Fungsi |
+|---|---|
+| `~/.config/kscreenlockrrc` | Pengaturan screen locker (autolock, lock on resume) |
+| `~/.config/kscreensimmerrc` | Pengaturan screen blanker |
+| `~/.config/powermanagementprofilesrc` | Profil PowerDevil (suspend, lid action, dim display) |
+| `/etc/systemd/sleep.conf` | Konfigurasi systemd sleep (tidak perlu edit langsung) |
+
+## Penjelasan Nilai `lidAction`
+
+| Nilai | Aksi saat lid ditutup |
+|---|---|
+| 0 | Nothing (tidak melakukan apa-apa) |
+| 1 | Sleep |
+| 2 | Hibernate |
+| 3 | Shutdown |
+
+## Penjelasan Nilai `suspendType`
+
+| Nilai | Aksi |
+|---|---|
+| 0 | Never / Disabled |
+| 1 | Sleep (suspend to RAM) |
+| 2 | Hibernate (suspend to disk) |
+| 3 | Hybrid sleep |
+
+---
+
+## Tips
+
+- **Screen blank ≠ Sleep**: Screen blank cuma matikan display (aman), sleep = seluruh sistem mati
+- Kalau cuma mau matikan lock screen tapi tetap bisa sleep, skip langkah 2 dan 3
+- Setting langsung berlaku tanpa restart. Kalau mau yakin, logout-login kembali
