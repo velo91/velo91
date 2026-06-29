@@ -73,6 +73,14 @@ $ sudo apt autoremove --purge
 $ sudo apt autoclean -y
 
 =====================================
+Install Google Chrome & Remove Firefox
+=====================================
+# open URL on firefox:
+	https://www.google.com/intl/id_id/chrome/
+# download .DEB, install, launch, make as default browser
+# remove firefox from Discover
+
+=====================================
 Install Fonts
 =====================================
 $ cd ~/Downloads
