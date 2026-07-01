@@ -1,0 +1,30 @@
+curl -fsSL https://ollama.com/install.sh | sh
+>>> wait untill 100.0%
+>>> The Ollama API is now available at http://127.0.0.1:11434
+>>> Install complete. Run "ollama" from the command line.
+>>> AMD GPU ready.
+ollama --version
+systemctl status ollama
+# agar otomatis aktif saat boot: sudo systemctl enable ollama
+ollama list
+# download model:
+ollama pull qwen3.5:4b
+# kalau qwen3.5:9b butuh RAM yang besar, nyaman kalau RAM 32 GB dan didukung CPU ryzen7/corei7
+# hapus mode:
+ollama rm qwen3.5:9b
+
+https://hermes-agent.nousresearch.com/docs/guides/local-ollama-setup 
+# configure Hermes with local/self hosted AI:
+hermes setup
+Base URL: http://localhost:11434/v1
+http://127.0.0.1:11434
+API Key: Leave empty or type no-key (Ollama doesn't need one)
+Model: qwen3.5:2b (or whichever model you pulled)
+
+# Hapus ollama
+systemctl --user stop ollama 2>/dev/null || true
+curl -fsSL https://ollama.com/install.sh | sh -s -- --uninstall 2>/dev/null || true
+sudo rm -f /usr/local/bin/ollama
+rm -rf ~/.ollama
+rm -f ~/.config/systemd/user/ollama.service
+systemctl --user daemon-reload 2>/dev/null || true
