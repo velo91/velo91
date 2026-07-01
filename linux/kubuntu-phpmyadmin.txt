@@ -271,28 +271,34 @@ sudo systemctl restart nginx
 sudo systemctl restart php8.5-fpm
 ```
 
-
 ---
 
 ## Jika muncul error controluser phpMyAdmin
 
 Edit:
-
-```bash
 sudo nano /etc/phpmyadmin/config.inc.php
-```
 
 Comment:
-
-```php
 // $cfg['Servers'][$i]['controluser'] = 'phpmyadmin';
 // $cfg['Servers'][$i]['controlpass'] = 'password';
-```
 
 Restart:
-
-```bash
 sudo systemctl restart nginx
 sudo systemctl restart php8.5-fpm
-```
 
+
+###################################
+######### Export Database #########
+###################################
+# export no gzip
+	date=$(date +%Y-%m-%d_%H-%M) && mariadb-dump -u root -p [DB_NAME] > /path/to/destination/[DB_NAME]_DB_${date}.sql
+# export and gzip (-9 is highest compression)
+	date=$(date +%Y-%m-%d_%H-%M) && mariadb-dump -u root -p [DB_NAME] | gzip -9 > /path/to/destination/[DB_NAME]_DB_${date}.sql.gz
+###################################
+######### Import Database #########
+# make sure the database is EMPTY #
+###################################
+# import no extract
+	mariadb -u [DB_USER] -p [DB_NAME] < file.sql
+# import with extract
+	gunzip < file.sql.gz | mariadb -u [DB_USER] -p [DB_NAME]
