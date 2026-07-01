@@ -1,11 +1,59 @@
-# Setup phpMyAdmin di Kubuntu Desktop (Nginx + MariaDB + PHP)
+# Setup phpMyAdmin di Kubuntu Desktop (Nginx + PHP + MariaDB)
 
 ## Install package
 
 ```bash
 sudo apt update
-sudo apt install nginx mariadb-server php php-fpm php-mysql php-mbstring php-xml php-gd
+sudo apt install nginx php php-fpm php-mysql php-mbstring php-xml php-gd
 ```
+
+
+sudo apt update && sudo apt install \
+php8.5-bcmath \
+php8.5-bz2 \
+php8.5-cgi \
+php8.5-cli \
+php8.5-common \
+php8.5-curl \
+php8.5-decimal \
+php8.5-dev \
+php8.5-fpm \
+php8.5-gd \
+php8.5-igbinary \
+php8.5-imagick \
+php8.5-intl \
+php8.5-mbstring \
+php8.5-memcached \
+php8.5-msgpack \
+php8.5-mysql \
+php8.5-oauth \
+php8.5-phpdbg \
+php8.5-readline \
+php8.5-redis \
+php8.5-soap \
+php8.5-sqlite3 \
+php8.5-uploadprogress \
+php8.5-xml \
+php8.5-xmlrpc \
+php8.5-xsl \
+php8.5-zip
+
+
+# cek versi php terinstall (terpilih) di OS ini
+php -v
+####################################################
+# 1 #
+# biasanya kalau install php8.5 maka apache2 ikut terpasang, maka WAJIB hukumnya untuk disable apache agar tidak jalan supaya saat reboot nanti nginx tidak error karena konflik berebut port 80 dengan apache, berikut cara matikan apache2 lalu uninstall:
+    systemctl stop apache2
+    systemctl disable apache2
+    systemctl mask apache2
+    apt purge apache2 apache2-bin apache2-data apache2-utils
+    apt autoremove
+# 2 #
+# biasanya kalau install php8.5 maka xdebug ikut terpasang, maka WAJIB disable mod ini karena akan mempengaruhi tampilan var_dump terutama di log yang pakai var_dump, berikut cara disable:
+    sudo phpdismod -v 8.5 -s fpm xdebug
+    sudo systemctl restart php8.5-fpm
+####################################################
 
 
 # Install Bersih MariaDB 11.4 di Ubuntu 24.04
@@ -35,7 +83,7 @@ curl -fsSL https://mariadb.org/mariadb_release_signing_key.pgp \
 sudo nano /etc/apt/sources.list.d/mariadb.list
 ```
 
-Isi:
+Isi (cara ini tidak support untuk ubuntu 26.04 karena saat ini belum ada metadata 26.04 untuk versi 11.4, yang ada versi 11.8):
 
 ```bash
 deb [signed-by=/etc/apt/keyrings/mariadb-keyring.pgp] https://mirror.mariadb.org/repo/11.4/ubuntu noble main
@@ -52,6 +100,7 @@ sudo apt update
 ---
 
 ## Install MariaDB 11.4
+## kalau ubuntu 26.04, versinya MariaDB 11.8
 
 ```bash
 sudo apt install mariadb-server mariadb-client
@@ -109,6 +158,10 @@ sudo systemctl restart mariadb
 
 ---
 
+```bash
+apt install phpmyadmin
+```
+
 ## Buat symlink phpMyAdmin
 
 ```bash
@@ -120,7 +173,7 @@ sudo ln -s /usr/share/phpmyadmin /var/www/phpmyadmin
 ## Buat virtual host Nginx
 
 ```bash
-sudo nano /etc/nginx/sites-available/phpmyadmin.local
+sudo nano /etc/nginx/sites-enabled/phpmyadmin.local
 ```
 
 Isi:
@@ -139,17 +192,9 @@ server {
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+        fastcgi_pass unix:/run/php/php8.5-fpm.sock;
     }
 }
-```
-
----
-
-## Aktifkan site
-
-```bash
-sudo ln -s /etc/nginx/sites-available/phpmyadmin.local /etc/nginx/sites-enabled/
 ```
 
 ---
@@ -172,7 +217,7 @@ Tambahkan:
 
 ```bash
 sudo systemctl restart nginx
-sudo systemctl restart php8.3-fpm
+sudo systemctl restart php8.5-fpm
 ```
 
 ---
@@ -195,20 +240,11 @@ password: phpmyadmin
 
 ---
 
-## Hilangkan error controluser phpMyAdmin
-
 ```bash
 sudo nano /etc/phpmyadmin/config.inc.php
 ```
 
-Comment bagian ini:
-
-```php
-// $cfg['Servers'][$i]['controluser'] = 'phpmyadmin';
-// $cfg['Servers'][$i]['controlpass'] = 'password';
-```
-
-Tambahkan bagian ini di bawah komen tadi:
+Tambahkan bagian ini di atas "phpMyAdmin configuration storage settings":
 
 ```
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
@@ -232,7 +268,7 @@ Restart:
 
 ```bash
 sudo systemctl restart nginx
-sudo systemctl restart php8.3-fpm
+sudo systemctl restart php8.5-fpm
 ```
 
 
@@ -257,6 +293,6 @@ Restart:
 
 ```bash
 sudo systemctl restart nginx
-sudo systemctl restart php8.3-fpm
+sudo systemctl restart php8.5-fpm
 ```
 
