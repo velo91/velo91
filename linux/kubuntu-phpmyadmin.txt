@@ -170,6 +170,41 @@ sudo ln -s /usr/share/phpmyadmin /var/www/phpmyadmin
 
 ---
 
+# Install mkcert
+sudo apt update
+sudo apt install libnss3-tools
+wget https://github.com/FiloSottile/mkcert/releases/latest/download/mkcert-v1.4.4-linux-amd64
+chmod +x mkcert-v1.4.4-linux-amd64
+sudo mv mkcert-v1.4.4-linux-amd64 /usr/local/bin/mkcert
+mkcert -version
+
+# Install Local CA (Jalankan mkcert sebagai user biasa)
+mkcert -install
+# Outputnya biasanya seperti:
+    Created a new local CA
+    The local CA is now installed in the system trust store!
+    The local CA is now installed in the Firefox and/or Chrome/Chromium trust store (requires browser restart)!
+# Mulai sekarang Chrome akan mempercayai semua sertifikat yang dibuat oleh mkcert.
+
+# Tambahkan hostname
+sudo nano /etc/hosts
+# Tambahkan:
+127.0.0.1  opensimka.local
+# Simpan
+
+# Buat folder sertifikat (Jalankan mkcert sebagai user biasa)
+mkdir ~/.ssl && cd ~/.ssl
+# Jika generate sertifikat biasa (Jalankan mkcert sebagai user biasa):
+    mkcert opensimka.local localhost 127.0.0.1 ::1
+# Nantinya akan muncul dua file baru, masukkan ke vhost nginx
+    ssl_certificate     /home/ideapad/.ssl/phpmyadmin.local+3.pem;
+    ssl_certificate_key /home/ideapad/.ssl/phpmyadmin.local+3-key.pem;
+
+sudo nginx -t
+sudo nginx -s reload
+
+---
+
 ## Buat virtual host Nginx
 
 ```bash
