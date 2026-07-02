@@ -422,7 +422,7 @@ Download Only Office for Linux
 Download VS Code for Linux
 	https://code.visualstudio.com
 	# user settings
-		font size: 13
+		font size: 14
 		font family: 'Ubuntu Mono', 'Droid Sans Mono', monospace
 	# extensions
 		Auto Rename Tag
