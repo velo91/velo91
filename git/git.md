@@ -1,4 +1,4 @@
-# BTIK Git Workflow
+# Git Workflow
 
 #### Clone Repository
 
@@ -87,12 +87,32 @@ git pull
 ---
 
 
-## Aturan BTIK
+## Aturan
 
 - Pastikan file dan folder yang tidak perlu dipublikasikan sudah masuk ke `.gitignore`.
 - Periksa hasil `git status` sebelum melakukan `git commit`.
 - Gunakan email yang terdaftar pada akun GitHub Anda agar riwayat commit dapat dikaitkan dengan akun GitHub yang benar, boleh email pribadi (tidak mesti email resmi).
 
+
+---
+
+## Ketika mahasiswa selesai magang
+
+Admin buka repo terkait, klik setting, pada menu Collaborators and teams, pilih dia, lalu:
+
+`Remove dari Collaborator`
+
+Selesai.
+
+---
+
+## Ketika tendik BTIK tidak bekerja lagi
+
+Admin buka organization, klik people, pada tab member, pilih dia, lalu:
+
+`Remove from Organization`
+
+Selesai.
 
 ---
 
