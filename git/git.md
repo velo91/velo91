@@ -24,6 +24,39 @@ git pull
 git status
 ```
 
+## Tes koneksi SSH
+
+```bash
+ssh -T git@github.com
+```
+
+Kalau berhasil biasanya muncul seperti:
+Hi username! You've successfully authenticated...
+Artinya SSH Key masih berfungsi.
+
+## Verifikasi Nama dan Email
+
+```bash
+git config user.name
+git config user.email
+```
+
+## Ubah Nama (Semua Repository)
+
+```bash
+git config --global user.name "Achyar Munandar"
+```
+
+## Ubah Email (Semua Repository)
+
+```bash
+git config --global user.email "email@example.com"
+```
+
+
+---
+
+
 ## Tambahkan Perubahan
 
 ```bash
@@ -36,29 +69,33 @@ git add .
 git commit -m "Perbaiki validasi login"
 ```
 
-## Kirim ke GitHub
+## Dari folder tersebut, Kirim ke GitHub
 
 ```bash
 git push
 ```
 
-## Terapkan ke production
+## Dari GitHub, Terapkan ke production
 
-masuk ke folder project tersebut, lalu
+masuk ke folder project tersebut yang production, lalu
 
 ```bash
 git pull
 ```
 
+
 ---
+
 
 ## Aturan BTIK
 
-- Pastikan file yang tidak perlu dipublikasikan sudah masuk ke `.gitignore`.
+- Pastikan file dan folder yang tidak perlu dipublikasikan sudah masuk ke `.gitignore`.
 - Periksa hasil `git status` sebelum melakukan `git commit`.
-- Jangan melakukan `git push --force` tanpa persetujuan maintainer.
+- Gunakan email yang terdaftar pada akun GitHub Anda agar riwayat commit dapat dikaitkan dengan akun GitHub yang benar, boleh email pribadi (tidak mesti email resmi).
+
 
 ---
+
 
 ## Jika Repository Berpindah
 
