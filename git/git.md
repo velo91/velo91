@@ -1,30 +1,30 @@
 # BTIK Git Workflow
 
-## Clone Repository
+### Clone Repository
 
 ```bash
 git clone git@github.com:ubbg-dev/siakad.git
 ```
 
-## Masuk ke Project
+### Masuk ke Project
 
 ```bash
 cd siakad
 ```
 
-## Ambil Perubahan Terbaru
+### Ambil Perubahan Terbaru
 
 ```bash
 git pull
 ```
 
-## Cek Status
+### Cek Status
 
 ```bash
 git status
 ```
 
-## Tes koneksi SSH
+### Tes koneksi SSH
 
 ```bash
 ssh -T git@github.com
@@ -34,20 +34,20 @@ Kalau berhasil biasanya muncul seperti:
 Hi username! You've successfully authenticated...
 Artinya SSH Key masih berfungsi.
 
-## Verifikasi Nama dan Email
+### Verifikasi Nama dan Email
 
 ```bash
 git config user.name
 git config user.email
 ```
 
-## Ubah Nama (Semua Repository)
+### Ubah Nama (Semua Repository)
 
 ```bash
 git config --global user.name "Achyar Munandar"
 ```
 
-## Ubah Email (Semua Repository)
+### Ubah Email (Semua Repository)
 
 ```bash
 git config --global user.email "email@example.com"
