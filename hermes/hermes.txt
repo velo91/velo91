@@ -31,12 +31,12 @@ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
    Code:      ~/.hermes/hermes-agent
 ─────────────────────────────────────────────────────────
 🚀 Commands:
-   hermes              Start chatting
-   hermes setup        Configure API keys & settings
-   hermes config       View/edit configuration
-   hermes config edit  Open config in editor
-   hermes gateway install Install gateway service (messaging + cron)
-   hermes update       Update to latest version
+   hermes                    Start chatting
+   hermes setup              Configure API keys & settings
+   hermes config             View/edit configuration
+   hermes config edit        Open config in editor
+   hermes gateway install    Install gateway service (messaging + cron)
+   hermes update             Update to latest version
 
 # reload shell kalau pakai Bash: source ~/.bashrc
 # reload shell kalau pakai Zsh: source ~/.zshrc
