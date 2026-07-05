@@ -525,17 +525,23 @@ Auto Mount NTFS Partition
 =================================
 $ sudo -i
 $ mkdir /drive_ntfs
-$ fdisk -l
-# what dev is NTFS partition, example: dev2
+$ lsblk -f -e 7
+# what UUID is ntfs partition, example:
+				NAME        FSTYPE FSVER LABEL       UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+				nvme0n1                                                                                  
+				├─nvme0n1p1 vfat   FAT32 SYSTEM_DRV  361B-D719                                           
+				├─nvme0n1p2                                                                              
+				├─nvme0n1p3 ntfs         Windows-SSD 864E1DD74E1DC0BB                                    
+				├─nvme0n1p4 ntfs         WINRE_DRV   EC241F35241F026E                                    
+				├─nvme0n1p5 vfat   FAT32 EFI         B760-206E                             490,9M     2% /boot/efi
+				├─nvme0n1p6 swap   1     SWAP        fe499035-a47a-4bb9-adb0-b66d21005edc                [SWAP]
+				├─nvme0n1p7 ext4   1.0   ROOT        f8da653a-6dd0-451c-8759-6b11cc88ee16  106,1G    30% /
+		=====>	└─nvme0n1p8 ntfs         NTFS        48F201A573BD3531                       92,4G    59% /drive_ntfs
 $ nano /etc/fstab
 # add this line:
-/dev/nvme0n1p8 /drive_ntfs ntfs defaults,noatime 0 0
-	$ mkdir /drive_windows_ssd
-	$ fdisk -l
-	# what dev is NTFS partition, example: dev2
-	$ nano /etc/fstab
-	# add this line:
-	/dev/nvme0n1p3 /drive_windows_ssd ntfs defaults,noatime 0 0
+UUID=48F201A573BD3531                     /drive_ntfs    ntfs-3g defaults,noatime,nofail,x-systemd.device-timeout=5  0 0
+$ systemctl daemon-reload
+$ sudo mount -a
 $ reboot
 # boot into Windows
 # make sure "fast startup" in Windows is disabled
