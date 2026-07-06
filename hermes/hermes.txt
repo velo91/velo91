@@ -87,6 +87,10 @@ whatsapp:
 hermes cron list
 # tes jalankan cepat salah satu cron
 hermes cron run [ID_CRON]
+# jangan lupa restart gateway
+   hermes gateway restart
+   atau
+   sudo hermes gateway restart
 
 ─────────────────────────────────────────────────────────
 VERY USEFUL:
