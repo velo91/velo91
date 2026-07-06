@@ -67,7 +67,8 @@ hermes --continue
 hermes update
 
 # aktifkan whatsapp:
-hermes gateway setup → pilih WhatsApp
+hermes gateway setup
+# lalu pilih WhatsApp
 
 # install gateway sebagai system service agar aktif tiap reboot
 hermes gateway install --system
