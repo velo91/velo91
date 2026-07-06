@@ -60,8 +60,19 @@ hermes
 # atau untuk tampilan terminal yang lebih modern:
 hermes --tui
 
+# kalau mau lanjut sesi obrolan:
+hermes --continue
+
 # update versi:
 hermes update
+
+# aktifkan whatsapp:
+hermes gateway setup → pilih WhatsApp
+
+# install gateway sebagai system service agar aktif tiap reboot
+hermes gateway install --system
+# kalau cuma install gateway tapi jangan otomatis aktif tiap reboot
+hermes gateway install
 
 ─────────────────────────────────────────────────────────
 VERY USEFUL:
