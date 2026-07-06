@@ -71,11 +71,10 @@ hermes gateway setup
 # lalu pilih WhatsApp
 # aktifkan whatsapp
 hermes whatsapp
-# agar gateway aktif tiap reboot
-which hermes
-# nanti [output] tersebut dijadikan sebagai path lengkap si hermes, lalu jalankan dengan sudo karena biar masuk ke systemd perlu digandeng dengan sudo:
-sudo [output] gateway install --system
-# kalau cuma install gateway tapi jangan otomatis aktif tiap reboot: hermes gateway install
+# aktifkan gateway
+hermes gateway install --force
+   Start the gateway now after installing the service? [Y/n]: y
+   Start the gateway automatically on login/boot with systemd? [Y/n]: y
 # agar di pesan whatsapp tidak ada prefix Hermes Agent, maka edit file konfigurasi:
 nano ~/.hermes/config.yaml
 # tambahkan/edit bagian ini:
