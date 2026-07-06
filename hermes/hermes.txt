@@ -71,11 +71,11 @@ hermes gateway setup
 # lalu pilih WhatsApp
 # aktifkan whatsapp
 hermes whatsapp
-# aktifkan gateway
-hermes gateway install --force
+# aktifkan gateway: hermes gateway install
    Start the gateway now after installing the service? [Y/n]: y
    Start the gateway automatically on login/boot with systemd? [Y/n]: y
-# agar di pesan whatsapp tidak ada prefix Hermes Agent, maka edit file konfigurasi:
+# atau kalau sudah jalan, tinggal restart aja: hermes gateway restart
+# TIPS: agar di pesan whatsapp tidak ada prefix Hermes Agent, maka edit file konfigurasi:
 nano ~/.hermes/config.yaml
 # tambahkan/edit bagian ini:
 whatsapp:
