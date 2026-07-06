@@ -70,8 +70,10 @@ hermes update
 hermes gateway setup
 # lalu pilih WhatsApp
 
-# install gateway sebagai system service agar aktif tiap reboot
-hermes gateway install --system
+# agar gateway aktif tiap reboot
+which hermes
+# nanti [output] tersebut dijadikan sebagai path lengkap si hermes, lalu jalankan dengan sudo karena biar masuk ke systemd perlu digandeng dengan sudo:
+sudo [output] gateway install --system
 # kalau cuma install gateway tapi jangan otomatis aktif tiap reboot
 hermes gateway install
 
