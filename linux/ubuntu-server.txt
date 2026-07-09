@@ -815,7 +815,7 @@ https://rclone.org/drive/#making-your-own-client-id
 # enter "n" for New Remote Storage
 # give it a name. ex: AMC
 # enter the number for Google Drive
-# just leave blank the client_id & client_secret
+# just leave blank the client_id & client_secret =============> ============> ========> SANGAT DISARANKAN MEMAKAI API GOOGLE DRIVE SENDIRI, JANGAN KOSONG KARENA KALAU KOSONG MAKA Semua pengguna rclone di dunia berbagi client OAuth yang sama dan rentan kena rate limiting dari Google. Value client_id & client_secret (Pilih yang for Desktop) bisa didapat setelah membuat project, enable api google drive dan membuat oauth khusus di credential.
 # enter "1" for Full Access
 # just leave blank the service_account_file
 # enter "y" for Advanced Config
