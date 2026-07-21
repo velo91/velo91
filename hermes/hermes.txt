@@ -86,8 +86,10 @@ whatsapp:
 hermes cron list
 # tes jalankan cepat salah satu cron
 hermes cron run [ID_CRON]
-# jangan lupa restart gateway
+# jangan lupa restart gateway jika cron menggunakan layanan platform messaging (Telegram, WhatsApp, Discord, dll).
 hermes gateway restart
+# jika ingin hapus cron, caranya:
+hermes cron remove [ID_CRON]
 
 ─────────────────────────────────────────────────────────
 VERY USEFUL:
