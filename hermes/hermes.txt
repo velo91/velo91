@@ -72,8 +72,8 @@ hermes fallback add
 hermes fallback list
    Primary:   poolside/laguna-s-2.1:free  (via nous)
    Fallback chain (2 entries):
-    1. stepfun/step-3.7-flash:free  (via nous)  [https://inference-api.nousresearch.com/v1]
-    2. tencent/hy3:free  (via nous)  [https://inference-api.nousresearch.com/v1]
+    1. stepfun/step-3.7-flash:free  (via nous)
+    2. tencent/hy3:free  (via nous)
 
 # konfigurasi awal untuk whatsapp:
 hermes gateway setup
