@@ -1072,32 +1072,6 @@ s5cmd --endpoint-url [S3_ENDPOINT] ls s3://[S3_BUCKET_NAME]
 
 # more documentation about s5cmd at https://github.com/peak/s5cmd/blob/master/README.md
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! Install Clamav (GAK PERLU)
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-sudo apt install clamav clamav-daemon clamav-freshclam && clamdscan -V
-sudo /etc/init.d/clamav-freshclam stop
-sudo freshclam
-sudo /etc/init.d/clamav-freshclam start
-
-# enable notify and schedule the scan
-curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/clamscan_daily.sh > /clamscan_daily.sh
-chmod +x /clamscan_daily.sh && chmod 0755 /clamscan_daily.sh
-
-# add script to crontab
-	# Let’s create a hard link as below:
-	ln /clamscan_daily.sh /etc/cron.daily/clamscan_daily
-	# Check to make sure that the hard link was created:
-	# ls -li /etc/cron.daily/clamscan_daily
-
-# if you get the following error: LibClamAV Error: cli_loaddb(): No supported database files found in /var/lib/clamav/
-# just update the database manually:
-freshclam -v
-
-# if you get the following error: Clamd was NOT notified
-# just restart the daemon
-service clamav-daemon restart
-
 ##################################
 ##################################
 ######### TIPS AND TRICK #########
