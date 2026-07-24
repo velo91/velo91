@@ -9,7 +9,9 @@ sudo systemctl enable clamav-daemon
 
 # cek status harus running
 systemctl status clamav-daemon
+	# biasanya belum berjalan (inactive) — ini normal, bisa langsung pakai clamscan saja
 systemctl status clamav-freshclam
+	# biasanya langsung berjalan (update database berhasil)
 
 # cara scan folder
 clamscan -r /var/www
