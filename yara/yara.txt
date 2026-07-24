@@ -42,8 +42,12 @@ yara -r /tmp/webshell.yar /var/www
 # atau cara update rule otomatis bisa juga dengan
 cd /opt/yara-rules
 git clone https://github.com/Neo23x0/signature-base.git
-# kemudian scan:
-yara -r /opt/signature-base/yara /var/www
+# kemudian scan dengan Signature Base:
+yara -r /opt/yara-rules/signature-base/yara /var/www
+# atau scan dengan YARA-Rules (hanya webshell):
+yara -r /opt/yara-rules/yara-rules/webshells /var/www
+# atau scan dengan YARA-Rules (hanya malware):
+yara -r /opt/yara-rules/yara-rules/malware /var/www
 
 # kombinasi dengan ClamAV (banyak administrator server menjalankan keduanya)
     # Signature antivirus
