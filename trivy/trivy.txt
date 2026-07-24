@@ -1,0 +1,27 @@
+### INSTALL TRIVY ===> Deteksi CVE, dependency rentan, secret, misconfiguration
+
+sudo apt update
+sudo apt install -y wget gnupg
+
+# tambahkan GPG key
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key \
+| gpg --dearmor \
+| sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+
+# tambahkan repository
+echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" \
+| sudo tee /etc/apt/sources.list.d/trivy.list
+
+sudo apt update
+sudo apt install -y trivy
+
+# cek versi
+trivy --version
+
+# update database vulnerability
+# saat pertama kali dijalankan, Trivy akan mengunduh database CVE secara otomatis.
+# atau bisa diunduh manual:
+trivy image --download-db-only
+
+# scan direktori tertentu
+trivy fs /var/www
