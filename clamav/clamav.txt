@@ -1,0 +1,50 @@
+### INSTALL CLAMAV
+sudo apt update
+sudo apt install -y clamav clamav-daemon && clamscan --version
+sudo systemctl stop clamav-freshclam
+sudo freshclam
+sudo systemctl start clamav-freshclam
+sudo systemctl enable clamav-freshclam
+sudo systemctl enable clamav-daemon
+
+# cek status harus running
+systemctl status clamav-daemon
+systemctl status clamav-freshclam
+
+# cara scan folder
+clamscan -r /var/www
+
+# scan dan tampilkan hanya file yang terinfeksi
+clamscan -r --infected /var/www
+
+# scan lebih cepat
+clamdscan --multiscan /var/www
+# ini jauh lebih cepat dibanding clamscan
+
+# karantina
+mkdir -p /quarantine
+clamscan -r --move=/quarantine /var/www
+# atau mau langsung hapus otomatis (gunakan dengan sangat hati-hati):
+clamscan -r --remove /var/www
+
+# otomatis scan harian (cron), misalnya scan setiap pukul 02:00
+sudo crontab -e
+0 2 * * * clamdscan --multiscan --fdpass /var/www
+
+# enable notify and schedule the scan
+curl -sSL https://raw.githubusercontent.com/achyaryalyal/fastron/master/clamscan_daily.sh > /clamscan_daily.sh
+chmod +x /clamscan_daily.sh && chmod 0755 /clamscan_daily.sh
+
+# add script to crontab
+	# Let’s create a hard link as below:
+	ln /clamscan_daily.sh /etc/cron.daily/clamscan_daily
+	# Check to make sure that the hard link was created:
+	# ls -li /etc/cron.daily/clamscan_daily
+
+# if you get the following error: LibClamAV Error: cli_loaddb(): No supported database files found in /var/lib/clamav/
+# just update the database manually:
+freshclam -v
+
+# if you get the following error: Clamd was NOT notified
+# just restart the daemon
+service clamav-daemon restart
