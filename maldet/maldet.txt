@@ -2,8 +2,12 @@
 cd /tmp
 wget http://www.rfxn.com/downloads/maldetect-current.tar.gz
 tar -xvzf maldetect-current.tar.gz
+rm maldetect-current.tar.gz
 cd maldetect-*
 ./install.sh
+
+# check version
+maldet --version
 
 # update signature database dulu
 sudo maldet -u
