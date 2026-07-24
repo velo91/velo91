@@ -62,6 +62,8 @@ hermes --tui
 
 # kalau mau lanjut sesi obrolan:
 hermes --continue
+   or
+hermes -c
 
 # update versi:
 hermes update
