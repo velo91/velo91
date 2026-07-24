@@ -1,0 +1,45 @@
+### INSTALL CLAMAV
+sudo apt update
+sudo apt install -y yara
+yara --version
+
+# tes instalasi
+# buat file:
+nano test.yar
+# isi:
+rule HelloWorld
+{
+    strings:
+        $a = "hello"
+
+    condition:
+        $a
+}
+# buat file yang akan diuji:
+echo "hello world" > test.txt
+# jalankan:
+yara test.yar test.txt
+# hasil:
+HelloWorld test.txt
+
+# scan folder
+yara -r test.yar /var/www
+
+# mendapatkan rule malware
+# beberapa sumber rule yang banyak digunakan:
+    Neo23x0 Signature Base (berisi banyak rule YARA untuk malware, webshell, ransomware, dll.)
+    YARA-Rules Project
+# rule yang diterbitkan oleh berbagai vendor keamanan seperti Kaspersky, ESET, Elastic, dan Mandiant dalam laporan analisis malware mereka.
+
+# update rule otomatis
+# misalnya:
+cd /opt
+git clone https://github.com/Neo23x0/signature-base.git
+# kemudian scan:
+yara -r /opt/signature-base/yara /var/www
+
+# kombinasi dengan ClamAV (banyak administrator server menjalankan keduanya)
+    # Signature antivirus
+    clamdscan --multiscan /var/www
+    # Rule-based detection
+    yara -r rules/ /var/www
