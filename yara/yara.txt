@@ -1,39 +1,46 @@
-### INSTALL CLAMAV
+### INSTALL YARA
 sudo apt update
 sudo apt install -y yara
 yara --version
 
-# tes instalasi
-# buat file:
-nano test.yar
+# buat rule sederhana untuk webshell
+cd /tmp
+nano webshell.yar
 # isi:
-rule HelloWorld
-{
+rule PHP_WebShell_Simple {
+    meta:
+        description = "Webshell sederhana"
+        severity = "high"
     strings:
-        $a = "hello"
-
+        $cmd1 = "system("
+        $cmd2 = "exec("
+        $cmd3 = "shell_exec("
+        $cmd4 = "passthru("
+        $cmd5 = "eval("
+        $cmd6 = "base64_decode("
     condition:
-        $a
+        any of them
 }
-# buat file yang akan diuji:
-echo "hello world" > test.txt
-# jalankan:
-yara test.yar test.txt
-# hasil:
-HelloWorld test.txt
-
-# scan folder
-yara -r test.yar /var/www
+# scan dengan yara
+yara -r /tmp/webshell.yar /var/www
 
 # mendapatkan rule malware
 # beberapa sumber rule yang banyak digunakan:
     Neo23x0 Signature Base (berisi banyak rule YARA untuk malware, webshell, ransomware, dll.)
+        sudo mkdir -p /opt/yara-rules
+        cd /opt/yara-rules
+        sudo git clone https://github.com/Neo23x0/signature-base.git
+        # cara update rule:
+        cd /opt/yara-rules/signature-base && git pull
     YARA-Rules Project
-# rule yang diterbitkan oleh berbagai vendor keamanan seperti Kaspersky, ESET, Elastic, dan Mandiant dalam laporan analisis malware mereka.
+        sudo mkdir -p /opt/yara-rules
+        cd /opt/yara-rules
+        sudo git clone https://github.com/Yara-Rules/rules.git yara-rules
+        # cara update rule:
+        cd /opt/yara-rules/yara-rules && git pull
 
-# update rule otomatis
-# misalnya:
-cd /opt
+# atau cara update rule otomatis bisa juga dengan
+cd /opt/yara-rules
 git clone https://github.com/Neo23x0/signature-base.git
 # kemudian scan:
 yara -r /opt/signature-base/yara /var/www
