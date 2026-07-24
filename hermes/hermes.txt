@@ -57,13 +57,10 @@ hermes setup
 
 # jalankan Hermes:
 hermes
-# atau untuk tampilan terminal yang lebih modern:
-hermes --tui
-
-# kalau mau lanjut sesi obrolan:
-hermes --continue
-   or
+# kalau mau lanjut sesi obrolan terakhir:
 hermes -c
+   or
+hermes --continue
 
 # update versi:
 hermes update
