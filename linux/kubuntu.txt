@@ -80,7 +80,7 @@ $ sudo apt autoremove --purge
 $ sudo apt autoclean -y
 
 ======================================
-Install Google Chrome + Brave & Remove Firefox
+Install Google Chrome + Chromium (untuk CDP AI Agent di luar Google Chrome) & Remove Firefox
 ======================================
 # open URL on firefox:
 	https://www.google.com/intl/id_id/chrome/
@@ -95,15 +95,8 @@ Install Google Chrome + Brave & Remove Firefox
 	# open Google Chrome: Settings > Performance > Memory Saver: Moderate (biar tidak boros CPU atau cepat bikin naik suhu temperatur)
 	# open Google Chrome: Settings > Appearance > Theme: QT
 	# open Google Chrome: Settings > Appearance > Disable "Use system title and borders"
-# open URL on firefox:
-	https://brave.com/linux/
-	# follow instruction install via CLI
-	$ sudo -i
-	$ sudo apt install curl
-	$ sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-	$ sudo curl -fsSLo /etc/apt/sources.list.d/brave-browser-release.sources https://brave-browser-apt-release.s3.brave.com/brave-browser.sources
-	$ sudo apt update
-	$ sudo apt install brave-browser
+# open Discover install:
+	Chromium
 # remove firefox from Discover
 	==========
 	OR VIA CLI
