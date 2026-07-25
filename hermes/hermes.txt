@@ -69,10 +69,11 @@ hermes update
 hermes fallback add
 # lihat daftar fallback
 hermes fallback list
-   Primary:   poolside/laguna-s-2.1:free  (via nous)
-   Fallback chain (2 entries):
-    1. stepfun/step-3.7-flash:free  (via nous)
-    2. tencent/hy3:free  (via nous)
+  Primary:   poolside/laguna-s-2.1:free  (via nous)
+  Fallback chain (3 entries):
+    1. tencent/hy3:free  (via nous)  [https://inference-api.nousresearch.com/v1]
+    2. stepfun/step-3.7-flash:free  (via nous)  [https://inference-api.nousresearch.com/v1]
+    3. inclusionai/ling-3.0-flash:free  (via nous)  [https://inference-api.nousresearch.com/v1]
 # hapus fallback lalu pilih yang mana
 hermes fallback remove
 
