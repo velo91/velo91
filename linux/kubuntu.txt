@@ -92,10 +92,10 @@ Install Google Chrome + Chromium (untuk CDP AI Agent di luar Google Chrome) & Re
 	$ wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmour -o /usr/share/keyrings/chrome-keyring.gpg
 	$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
 	$ sudo apt update && sudo apt install -y google-chrome-stable
-	# open Google Chrome: Settings > Performance > Memory Saver: Moderate (biar tidak boros CPU atau cepat bikin naik suhu temperatur)
+	# open Google Chrome: Settings > Performance > Memory Saver: Moderate
 	# open Google Chrome: Settings > Appearance > Theme: QT
 	# open Google Chrome: Settings > Appearance > Disable "Use system title and borders"
-# open Discover install:
+# open Discover, install:
 	Chromium
 # remove firefox from Discover
 	==========
