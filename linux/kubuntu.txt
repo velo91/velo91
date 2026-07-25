@@ -53,9 +53,9 @@ just make sure Windows is "Disable Fast Boot" so that partition permissions on N
 3. click "Change settings that are currently unavailable" and the give consent to continue or enter an administrator username and password as prompted
 4. under Shutdown settings, uncheck "Turn on fast startup (recommended)" and click Save changes
 
-=================
+======================================
 CHANGE TO DNS CLOUDFLARE & GOOGLE
-=================
+======================================
 # Usually, /etc/resolv.conf is where you can configure the resolver IPs that your system is using. BUT, if you use systemd-resolved utility and the resolver IPs configuration is in /etc/systemd/resolved.conf, consider the steps below:
 sudo nano /etc/systemd/resolved.conf
 # use this setting:
@@ -71,32 +71,44 @@ sudo systemctl restart systemd-resolved
 sudo resolvectl flush-caches
 sudo resolvectl status && sudo resolvectl statistics
 
-=======================================
+======================================
 Update & Upgrade System
-=======================================
+======================================
 $ sudo apt update
 $ sudo apt upgrade
 $ sudo apt autoremove --purge
 $ sudo apt autoclean -y
 
-=====================================
-Install Google Chrome & Remove Firefox
-=====================================
+======================================
+Install Google Chrome + Brave & Remove Firefox
+======================================
 # open URL on firefox:
 	https://www.google.com/intl/id_id/chrome/
-# download .DEB, install, launch, make as default browser
+	# download .DEB, install, launch, make as default browser
+	==========
+	OR VIA CLI
+	==========
+	$ sudo -i
+	$ wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmour -o /usr/share/keyrings/chrome-keyring.gpg
+	$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
+	$ sudo apt update && sudo apt install -y google-chrome-stable
+	# open Google Chrome: Settings > Performance > Memory Saver: Maximum
+	# open Google Chrome: Settings > Appearance > Theme: QT
+	# open Google Chrome: Settings > Appearance > Disable "Use system title and borders"
+# open URL on firefox:
+	https://brave.com/linux/
+	# follow instruction install via CLI
+	$ sudo -i
+	$ sudo apt install curl
+	$ sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+	$ sudo curl -fsSLo /etc/apt/sources.list.d/brave-browser-release.sources https://brave-browser-apt-release.s3.brave.com/brave-browser.sources
+	$ sudo apt update
+	$ sudo apt install brave-browser
 # remove firefox from Discover
-==========
-OR VIA CLI
-==========
-$ sudo -i
-$ wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmour -o /usr/share/keyrings/chrome-keyring.gpg
-$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
-$ sudo apt update && sudo apt install -y google-chrome-stable && sudo apt purge -y firefox && sudo apt autoremove -y
-# open Google Chrome: Settings > Performance > Memory Saver: Maximum
-# open Google Chrome: Settings > Appearance > Theme: Use GTK
-# open Google Chrome: Settings > Appearance > Disable "Use system title and borders"
-# open Google Chrome: Settings > Appearance > Page Zoom: 125%
+	==========
+	OR VIA CLI
+	==========
+	sudo apt purge -y firefox && sudo apt autoremove -y
 
 =====================================
 Install Fonts
