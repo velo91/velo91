@@ -73,6 +73,8 @@ hermes fallback list
    Fallback chain (2 entries):
     1. stepfun/step-3.7-flash:free  (via nous)
     2. tencent/hy3:free  (via nous)
+# hapus fallback lalu pilih yang mana
+hermes fallback remove
 
 # konfigurasi awal untuk whatsapp:
 hermes gateway setup
