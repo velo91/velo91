@@ -38,8 +38,10 @@ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
    hermes gateway install    Install gateway service (messaging + cron)
    hermes update             Update to latest version
 
-# reload shell kalau pakai Bash: source ~/.bashrc
-# reload shell kalau pakai Zsh: source ~/.zshrc
+# reload shell kalau pakai Bash:
+   source ~/.bashrc
+# reload shell kalau pakai Zsh:
+   source ~/.zshrc
 
 # cek instalasi:
 hermes --version
