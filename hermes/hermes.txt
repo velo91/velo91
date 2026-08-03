@@ -79,6 +79,15 @@ hermes fallback list
 # hapus fallback lalu pilih yang mana
 hermes fallback remove
 
+─────────────────────────────────────────────────────────
+VERY USEFUL:
+1. Perbesar kapasitas ingatan, jalankan ini di terminal:
+   nano ~/.hermes/config.yaml
+   # cari baris memory_char_limit lalu set menjadi 50000, lalu simpan
+   hermes gateway restart
+2. Install VS Code Extension "Hermes AI Agent" by joaompfp
+─────────────────────────────────────────────────────────
+
 # konfigurasi awal untuk whatsapp:
 hermes gateway setup
 # lalu pilih WhatsApp
@@ -103,15 +112,6 @@ hermes cron run [ID_CRON]
 hermes gateway restart
 # jika ingin hapus cron, caranya:
 hermes cron remove [ID_CRON]
-
-─────────────────────────────────────────────────────────
-VERY USEFUL:
-1. Perbesar kapasitas ingatan, jalankan ini di terminal:
-   nano ~/.hermes/config.yaml
-   # cari baris memory_char_limit lalu set menjadi 50000, lalu simpan
-   hermes gateway restart
-2. Install VS Code Extension "Hermes AI Agent" by joaompfp
-─────────────────────────────────────────────────────────
 
 #####################
 # INSTALL HERMES DESKTOP (OFFICIAL)
