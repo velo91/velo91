@@ -90,6 +90,12 @@ sudo apt autoremove --purge
 sudo apt autoclean -y
 
 ======================================
+Install AI Agent
+======================================
+Hermes Agent:
+	https://github.com/velo91/velo91/blob/main/hermes/hermes.txt
+
+======================================
 Install Google Chrome + Chromium (untuk CDP AI Agent di luar Google Chrome) & Remove Firefox
 ======================================
 # open URL on firefox:
