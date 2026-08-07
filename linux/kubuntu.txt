@@ -18,6 +18,12 @@ just make sure Windows is "Disable Fast Startup" so that partition permissions o
 3. click "Change settings that are currently unavailable" and the give consent to continue or enter an administrator username and password as prompted
 4. under Shutdown settings, uncheck "Turn on fast startup (recommended)" and click Save changes
 
+=====================================
+Setup Konsole
+=====================================
+Settings > Toolbars Shown: Main Toolbar
+Settings > Manage Profiles > New: ideapad (set as default) > Edit > Appearance > Color scheme: Campbell > Font: Ubuntu Moto 11pt
+
 ======================================
 Change to DNS Cloudflare & Google
 ======================================
@@ -55,7 +61,7 @@ sudo apt autoremove --purge
 sudo apt autoclean -y
 
 ======================================
-Install AI Agent
+Install AI Agent as non-root user
 ======================================
 Hermes Agent:
 	https://github.com/velo91/velo91/blob/main/hermes/hermes.txt
@@ -94,26 +100,6 @@ $ unzip mscorefonts*.zip
 $ unzip penting*.zip
 # extract and copy folder with sudo privileges
 $ sudo cp -a ~/Downloads/mscorefonts/ ~/Downloads/penting/ /usr/share/fonts/
-
-#############################
-# setup konsole bookmark
-# Konsole: Bookmarks > Edit Bookmarks > New Bookmark:
-	sudo apt update				sudo apt update
-	sudo apt list --upgradable	sudo apt list --upgradable
-	sudo apt upgrade			sudo apt upgrade
-	sudo apt autoremove			sudo apt autoremove
-	enable pointer				ids=$(xinput list %7C grep 'pointer' %7C cut -d '=' -f 2 %7C cut -f 1 %7C tr ' ' '%5Cn' %7C tail -1) && xinput --disable $ids && xinput --enable $ids
-	fix external drive no longer mounting	sudo -i && MY_EXTERNAL_DRIVE="$(fdisk -l | grep NTFS | awk -F' ' '{print $1}')" && sudo ntfsfix -d ${MY_EXTERNAL_DRIVE}
-	ping cloudflare				ping 1.1.1.1
-	-----------------------------------
-	kilat on [domain]			ssh://[username]@[domain]:[port]
-	check log ssh + nginx + ipinfo + crowdsec				printf %22%5Cn%22 && /usr/bin/python3 /var/www/logs/check_log_error_ssh_ipinfo_crowdsec.py && /usr/bin/python3 /var/www/logs/check_log_error_nginx_ipinfo_crowdsec.py && /usr/bin/python3 /var/www/logs/check_log_access_nginx_ipinfo_crowdsec.py
-	show netstat + nginx + ipinfo + crowdsec				clear && cat /var/www/logs/ipinfo_netstat_nginx.log && cat /var/www/logs/ipinfo_error_ssh.log && cat /var/www/logs/ipinfo_error_nginx.log && cat /var/www/logs/ipinfo_access_nginx.log
-	watch netstat + nginx + ipinfo + crowdsec				watch -n 10 'cat /var/www/logs/ipinfo_netstat_nginx.log /var/www/logs/ipinfo_error_ssh.log /var/www/logs/ipinfo_error_nginx.log /var/www/logs/ipinfo_access_nginx.log'
-	cek iptables milik crowdsec								sudo iptables -L CROWDSEC_CHAIN -v -n
-	lihat list decision crowdsec							cscli decision list
-	cek ip dalam list decision crowdsec						cscli decision list | grep 1.1.1.1
-	cek allowlist semua_ip_kampus							cscli allowlist inspect semua_ip_kampus
 
 #############################
 # how to display the application menu by pressing Ctrl + Shift + M
@@ -1487,3 +1473,24 @@ locale
 # see that locale is active, and update new locale (ex: en_US.UTF-8 and id_ID.UTF-8)
 sudo locale-gen en_US.UTF-8
 sudo locale-gen id_ID.UTF-8
+
+
+#############################
+# setup konsole bookmark
+# Konsole: Bookmarks > Edit Bookmarks > New Bookmark:
+	sudo apt update				sudo apt update
+	sudo apt list --upgradable	sudo apt list --upgradable
+	sudo apt upgrade			sudo apt upgrade
+	sudo apt autoremove			sudo apt autoremove
+	enable pointer				ids=$(xinput list %7C grep 'pointer' %7C cut -d '=' -f 2 %7C cut -f 1 %7C tr ' ' '%5Cn' %7C tail -1) && xinput --disable $ids && xinput --enable $ids
+	fix external drive no longer mounting	sudo -i && MY_EXTERNAL_DRIVE="$(fdisk -l | grep NTFS | awk -F' ' '{print $1}')" && sudo ntfsfix -d ${MY_EXTERNAL_DRIVE}
+	ping cloudflare				ping 1.1.1.1
+	-----------------------------------
+	kilat on [domain]			ssh://[username]@[domain]:[port]
+	check log ssh + nginx + ipinfo + crowdsec				printf %22%5Cn%22 && /usr/bin/python3 /var/www/logs/check_log_error_ssh_ipinfo_crowdsec.py && /usr/bin/python3 /var/www/logs/check_log_error_nginx_ipinfo_crowdsec.py && /usr/bin/python3 /var/www/logs/check_log_access_nginx_ipinfo_crowdsec.py
+	show netstat + nginx + ipinfo + crowdsec				clear && cat /var/www/logs/ipinfo_netstat_nginx.log && cat /var/www/logs/ipinfo_error_ssh.log && cat /var/www/logs/ipinfo_error_nginx.log && cat /var/www/logs/ipinfo_access_nginx.log
+	watch netstat + nginx + ipinfo + crowdsec				watch -n 10 'cat /var/www/logs/ipinfo_netstat_nginx.log /var/www/logs/ipinfo_error_ssh.log /var/www/logs/ipinfo_error_nginx.log /var/www/logs/ipinfo_access_nginx.log'
+	cek iptables milik crowdsec								sudo iptables -L CROWDSEC_CHAIN -v -n
+	lihat list decision crowdsec							cscli decision list
+	cek ip dalam list decision crowdsec						cscli decision list | grep 1.1.1.1
+	cek allowlist semua_ip_kampus							cscli allowlist inspect semua_ip_kampus
