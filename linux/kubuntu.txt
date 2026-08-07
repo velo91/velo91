@@ -1,40 +1,5 @@
-=========================
-Useful Keyboard Shortcuts
-=========================
-Meta		⭐ Open the Application Launcher
-Ctrl+Q		⭐ Quit
-Ctrl+Space	⭐ [Manual Setup] Peek at Desktop (show the desktop by moving windows away)
-Ctrl+Alt+Space	⭐ [Manual Setup] Show Sticky Note
-Alt+Tab		⭐ Walk through windows
-Meta+=		Zoom In
-Meta+-		Zoom Out
-Meta+0		Zoom Normal
-Meta+Up		Pan Up
-Meta+Down	Pan Down
-Meta+Left	⭐ Pan left, move window to monitor to the left[a]
-Meta+Right	⭐ Pan right, move window to monitor to the right[a]
-Meta+[Fn]PgUp	⭐ Maximize/Restore window
-Meta+[Fn]PgDn	⭐ Minimize window
-F5		Refresh
-F12		[Manual Setup] Yakuake (dropdown terminal)
-Ctrl+A		Select All
-Ctrl+Z		Undo
-Ctrl+Shift+Z	Redo
-Ctrl+X		Cut
-Ctrl+C		Copy
-Ctrl+V		Paste
-Ctrl+N		New
-Ctrl+P		Print
-Ctrl+S		Save
-Ctrl+F		Find
-Ctrl+W		⭐ Close Document/Tab
-Alt+Up		⭐ Go up folder
-Delete		⭐ Move to Trash
-Shift+Delete	⭐ Delete Permanently
-Ctrl+Alt+L	⭐ Lock Screen
-
 ======================================
-Download Kubuntu ISO Live Images => https://kubuntu.org/getkubuntu/
+Download Kubuntu ISO => https://kubuntu.org/download/
 =======================================
 # You can install Kubuntu with "Erase Disk" (this will DELETE all data currently present on the selected storage device)
 # or "Manual Partition" like this:
@@ -44,9 +9,9 @@ Download Kubuntu ISO Live Images => https://kubuntu.org/getkubuntu/
 	Size: Any MiB; Type: ntfs; Label: NTFS
 # make sure your username not same with computer name
 # after installed, this is typical way of updating system in KDE Neon
-######################################
+#########################
 Installation If Dual Boot
-######################################
+#########################
 just make sure Windows is "Disable Fast Startup" so that partition permissions on NTFS don't clash
 1. type "control panel" into the search box on the taskbar and then click Control Panel in the search results
 2. in the search box in the top right of the control panel, type power and then click Change what the power buttons do under Power Options
@@ -54,7 +19,7 @@ just make sure Windows is "Disable Fast Startup" so that partition permissions o
 4. under Shutdown settings, uncheck "Turn on fast startup (recommended)" and click Save changes
 
 ======================================
-CHANGE TO DNS CLOUDFLARE & GOOGLE
+Change to DNS Cloudflare & Google
 ======================================
 # Usually, /etc/resolv.conf is where you can configure the resolver IPs that your system is using. BUT, if you use systemd-resolved utility and the resolver IPs configuration is in /etc/systemd/resolved.conf, consider the steps below:
 sudo nano /etc/systemd/resolved.conf
@@ -108,11 +73,11 @@ Install Google Chrome + Chromium (untuk CDP AI Agent di luar Google Chrome) & Re
 	$ wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmour -o /usr/share/keyrings/chrome-keyring.gpg
 	$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
 	$ sudo apt update && sudo apt install -y google-chrome-stable
-	# open Google Chrome: Settings > Performance > Memory Saver: Moderate
+	# open Google Chrome: Settings > Performance > [Enable] Memory Saver: Balanced
 	# open Google Chrome: Settings > Appearance > Theme: QT
-	# open Google Chrome: Settings > Appearance > Disable "Use system title and borders"
+	# open Google Chrome: Settings > Appearance > [Disable] Use system title and borders
 # open Discover, install:
-	Chromium
+	Chromium (from snap)
 # remove firefox from Discover
 	==========
 	OR VIA CLI
@@ -130,16 +95,11 @@ $ unzip penting*.zip
 # extract and copy folder with sudo privileges
 $ sudo cp -a ~/Downloads/mscorefonts/ ~/Downloads/penting/ /usr/share/fonts/
 
-=====================================
-Install libwebkit2gtk-4.1-0 (Web content engine library for GTK)
-=====================================
-$ sudo apt update && sudo apt install -y libwebkit2gtk-4.1-0 && sudo apt autoremove
-
 #############################
 # setup konsole bookmark
 # Konsole: Bookmarks > Edit Bookmarks > New Bookmark:
 	sudo apt update				sudo apt update
-	sudo apt list --upgradable		sudo apt list --upgradable
+	sudo apt list --upgradable	sudo apt list --upgradable
 	sudo apt upgrade			sudo apt upgrade
 	sudo apt autoremove			sudo apt autoremove
 	enable pointer				ids=$(xinput list %7C grep 'pointer' %7C cut -d '=' -f 2 %7C cut -f 1 %7C tr ' ' '%5Cn' %7C tail -1) && xinput --disable $ids && xinput --enable $ids
@@ -156,139 +116,29 @@ $ sudo apt update && sudo apt install -y libwebkit2gtk-4.1-0 && sudo apt autorem
 	cek allowlist semua_ip_kampus							cscli allowlist inspect semua_ip_kampus
 
 #############################
-# how to troubleshooting this when login as root in terminal?
-# manpath: can't set the locale; make sure $LC_* and $LANG are correct
-# run this command:
-locale
-# see that locale is active, and update new locale (ex: en_US.UTF-8 and id_ID.UTF-8)
-sudo locale-gen en_US.UTF-8
-sudo locale-gen id_ID.UTF-8
-
-#############################
 # how to display the application menu by pressing Ctrl + Shift + M
 # if in Dolphin, press Ctrl + M, usually if in Dolphin it appears once then in other applications such as GIMP/Inkscape the application menu will also appear
 
-=====================================
-Install LFM (Last File Manager)
-=====================================
-$ sudo apt install lfm
-#################### Key -> Action ####################
-!          ->   ⭐ tab_close
-#          ->   ⭐ show_dirs_size		-> loading scan directory size
-,          ->   ⭐ panes_swap
-.          ->   ⭐ panes_cycle_view
-/          ->   ⭐ find_grep
-:          ->   ⭐ tab_new
-<          ->   ⭐ tab_left
-=          ->   ⭐ pane_other_tab_equal
->          ->   ⭐ tab_right
-@          ->   ⭐ exec_on_file			->   type: nano
-backspace  ->   ⭐ cursor_pageup
-down       ->   ⭐ cursor_down
-end        ->   ⭐ cursor_end
-enter      ->   ⭐ dir_enter
-f12        ->   ⭐ file_menu
-f2         ->   ⭐ rename_file
-f5         ->   ⭐ copy_file
-f6         ->   ⭐ move_file
-f7         ->   ⭐ make_dir
-f8         ->   ⭐ delete_file
-f9         ->   ⭐ main_menu
-g          ->   ⭐ goto
-h          ->   ⭐ help_menu
-i          ->   ⭐ show_file_info
-l          ->   ⭐ link_create
-left       ->   ⭐ dir_up
-pagedown   ->   ⭐ cursor_pagedown
-pageup     ->   ⭐ cursor_pageup
-q          ->   ⭐ quit_chdir
-right      ->   ⭐ dir_enter
-s          ->   ⭐ sort_files			->   by date: D or d		by size: S or s		by name: N or n		by extension: E or e
-spc        ->   ⭐ cursor_pagedown
-t          ->   ⭐ touch_file
-tab        ->   ⭐ pane_change_focus
-up         ->   ⭐ cursor_up
-
-======================================
-SSH Key
-======================================
-# you can download ssh key from your google drive (never share it)
-# or create a new one
-$ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-# press Enter to use the default location (~/.ssh/id_rsa)
-# just leave blank the passphrase
-# once done, an SSH key pair will be created and stored in the ~/.ssh/ directory:
-	id_rsa: This is the private key (never share or show it).
-	id_rsa.pub: This is the public key (this is what you can share with the server).
-# add the public key to the server where you want to make a passwordless SSH connection
-$ ssh-copy-id -p port_number username@hostname
-# now you can try connecting to the server without a password
-# all ssh connection stored in ~/.config/konsolesshconfig
-
-======================================
-Completely Remove Flatpak Apps from System
-======================================
-flatpak uninstall --all --delete-data    OR    flatpak uninstall --all
-flatpak repair
-sudo apt remove --autoremove flatpak
-
-=======================================
-Completely Disable Snap from System + Install Firefox & Thunderbird from Ubuntu PPA for More Up-to-Date Version
-=======================================
-$ sudo systemctl disable snapd.service && sudo systemctl disable snapd.socket && sudo systemctl disable snapd.seeded.service
-$ sudo snap list
-	$ sudo snap remove firefox
-	$ sudo snap remove snap-store
-	(…)
-	Repeat this with all the snap packages in the snap list list
-$ sudo apt autoremove --purge snapd
-$ sudo rm -rf /var/cache/snapd/ && rm -rf ~/snap
-# with snap removed, you will need to install Firefox/Thunderbird from a PPA. Because apt will still try to install the Snap version of Firefox, you will run into an error. There's a trick to overcome that issue: pinning Firefox with Apt.
-$ sudo nano /etc/apt/preferences.d/firefox-no-snap
-	Package: firefox*
-	Pin: release o=Ubuntu*
-	Pin-Priority: -1
-$ sudo nano /etc/apt/preferences.d/thunderbird-no-snap
-	Package: thunderbird*
-	Pin: release o=Ubuntu*
-	Pin-Priority: -1
-$ sudo add-apt-repository ppa:mozillateam/ppa && sudo apt install -y firefox thunderbird
-# so, you should now have a snap-free Ubuntu with Firefox/Thunderbird installed.
-#############################
-# Keep Snapd Dead (forbids snapd from ever being installed by APT)
-$ sudo nano /etc/apt/preferences.d/no-snap
-	Package: snapd
-	Pin: release a=*
-	Pin-Priority: -10
-
 =================================
-Fix "preinstalled" Repo Warning on apt update
+Fix annoying KDE Wallet popup
 =================================
-$ sudo rm /etc/apt/sources.list.d/preinstalled-pool.list
-
-=================================
-Fix "sub-process /usr/bin/dpkg returned an error code (1)"
-=================================
-$ sudo dpkg --configure -a
-$ sudo apt install -f
-
-=================================
-Fix "Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable)"
-=================================
-$ sudo rm /var/lib/apt/lists/lock && sudo rm /var/cache/apt/archives/lock && sudo rm /var/lib/dpkg/lock*
-$ sudo dpkg --configure -a && sudo apt update
+# DON'T UNINSTALL KDE Wallet package, as core KDE components and apps rely on it as a dependency.
+# instead, JUST DISABLE the service completely or stop the annoying pop-ups by turning off the subsystem in the settings or by configuring an empty password
+# Step:
+1. Open KWalletManager.
+2. Go to Settings and select Configure Wallet.
+3. Uncheck the box for "Enable the KDE wallet subsystem".
+4. Restart your computer or log out and log back in for the changes to apply.
 
 =======================================
 Install Apps From APT via Konsole
+# include libwebkit2gtk-4.1-0 (web content engine library for GTK)
 =======================================
-$ sudo apt install fastfetch ktorrent filelight gimp inkscape kdenlive obs-studio elisa shortwave vlc
+$ sudo apt install libwebkit2gtk-4.1-0 fastfetch ktorrent filelight gimp inkscape kdenlive obs-studio elisa shortwave vlc
 !!!
 !!! pdfsam xserver-xorg-input-evdev xserver-xorg-input-mouse android-file-transfer partitionmanager yakuake lsb-release net-tools whois inxi kcalc okular audacious ffmpeg ffmpegthumbnailer vlc remmina 
 !!!
-$ sudo apt remove haruna && sudo apt autoremove
-!!!
-!!!$ sudo apt remove kate kwalletmanager && sudo apt autoremove
-!!!
+$ sudo apt remove kate haruna && sudo apt autoremove
 # TIPS: if you want to remove a package and install a different package IN ONE STEP, try: sudo apt remove htop nano+ ===> will remove htop and install nano
 # another way to do the same thing: sudo apt install htop- nano  ===> also will remove htop and install nano
 
@@ -1473,3 +1323,169 @@ export PATH=/opt/amdgpu-pro/bin:/opt/amdgpu/bin:$PATH && echo $PATH
 	$ sudo usermod -aG render <your_username>
 	# retry running rocminfo
 	$ /opt/rocm/bin/rocminfo
+
+
+
+
+
+
+
+
+
+
+
+
+======================================
+Completely Remove Flatpak Apps from System
+======================================
+flatpak uninstall --all --delete-data    OR    flatpak uninstall --all
+flatpak repair
+sudo apt remove --autoremove flatpak
+
+=======================================
+Completely Disable Snap from System + Install Firefox & Thunderbird from Ubuntu PPA for More Up-to-Date Version
+=======================================
+$ sudo systemctl disable snapd.service && sudo systemctl disable snapd.socket && sudo systemctl disable snapd.seeded.service
+$ sudo snap list
+	$ sudo snap remove firefox
+	$ sudo snap remove snap-store
+	(…)
+	Repeat this with all the snap packages in the snap list list
+$ sudo apt autoremove --purge snapd
+$ sudo rm -rf /var/cache/snapd/ && rm -rf ~/snap
+# with snap removed, you will need to install Firefox/Thunderbird from a PPA. Because apt will still try to install the Snap version of Firefox, you will run into an error. There's a trick to overcome that issue: pinning Firefox with Apt.
+$ sudo nano /etc/apt/preferences.d/firefox-no-snap
+	Package: firefox*
+	Pin: release o=Ubuntu*
+	Pin-Priority: -1
+$ sudo nano /etc/apt/preferences.d/thunderbird-no-snap
+	Package: thunderbird*
+	Pin: release o=Ubuntu*
+	Pin-Priority: -1
+$ sudo add-apt-repository ppa:mozillateam/ppa && sudo apt install -y firefox thunderbird
+# so, you should now have a snap-free Ubuntu with Firefox/Thunderbird installed.
+#############################
+# Keep Snapd Dead (forbids snapd from ever being installed by APT)
+$ sudo nano /etc/apt/preferences.d/no-snap
+	Package: snapd
+	Pin: release a=*
+	Pin-Priority: -10
+
+
+=====================================
+Install LFM (Last File Manager)
+=====================================
+$ sudo apt install lfm
+#################### Key -> Action ####################
+!          ->   ⭐ tab_close
+#          ->   ⭐ show_dirs_size		-> loading scan directory size
+,          ->   ⭐ panes_swap
+.          ->   ⭐ panes_cycle_view
+/          ->   ⭐ find_grep
+:          ->   ⭐ tab_new
+<          ->   ⭐ tab_left
+=          ->   ⭐ pane_other_tab_equal
+>          ->   ⭐ tab_right
+@          ->   ⭐ exec_on_file			->   type: nano
+backspace  ->   ⭐ cursor_pageup
+down       ->   ⭐ cursor_down
+end        ->   ⭐ cursor_end
+enter      ->   ⭐ dir_enter
+f12        ->   ⭐ file_menu
+f2         ->   ⭐ rename_file
+f5         ->   ⭐ copy_file
+f6         ->   ⭐ move_file
+f7         ->   ⭐ make_dir
+f8         ->   ⭐ delete_file
+f9         ->   ⭐ main_menu
+g          ->   ⭐ goto
+h          ->   ⭐ help_menu
+i          ->   ⭐ show_file_info
+l          ->   ⭐ link_create
+left       ->   ⭐ dir_up
+pagedown   ->   ⭐ cursor_pagedown
+pageup     ->   ⭐ cursor_pageup
+q          ->   ⭐ quit_chdir
+right      ->   ⭐ dir_enter
+s          ->   ⭐ sort_files			->   by date: D or d		by size: S or s		by name: N or n		by extension: E or e
+spc        ->   ⭐ cursor_pagedown
+t          ->   ⭐ touch_file
+tab        ->   ⭐ pane_change_focus
+up         ->   ⭐ cursor_up
+
+======================================
+SSH Key
+======================================
+# you can download ssh key from your google drive (never share it)
+# or create a new one
+$ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+# press Enter to use the default location (~/.ssh/id_rsa)
+# just leave blank the passphrase
+# once done, an SSH key pair will be created and stored in the ~/.ssh/ directory:
+	id_rsa: This is the private key (never share or show it).
+	id_rsa.pub: This is the public key (this is what you can share with the server).
+# add the public key to the server where you want to make a passwordless SSH connection
+$ ssh-copy-id -p port_number username@hostname
+# now you can try connecting to the server without a password
+# all ssh connection stored in ~/.config/konsolesshconfig
+
+=================================
+Fix "preinstalled" Repo Warning on apt update
+=================================
+$ sudo rm /etc/apt/sources.list.d/preinstalled-pool.list
+
+=================================
+Fix "sub-process /usr/bin/dpkg returned an error code (1)"
+=================================
+$ sudo dpkg --configure -a
+$ sudo apt install -f
+
+=================================
+Fix "Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable)"
+=================================
+$ sudo rm /var/lib/apt/lists/lock && sudo rm /var/cache/apt/archives/lock && sudo rm /var/lib/dpkg/lock*
+$ sudo dpkg --configure -a && sudo apt update
+
+=========================
+Useful Keyboard Shortcuts
+=========================
+Meta		⭐ Open the Application Launcher
+Ctrl+Q		⭐ Quit
+Ctrl+Space	⭐ [Manual Setup] Peek at Desktop (show the desktop by moving windows away)
+Ctrl+Alt+Space	⭐ [Manual Setup] Show Sticky Note
+Alt+Tab		⭐ Walk through windows
+Meta+=		Zoom In
+Meta+-		Zoom Out
+Meta+0		Zoom Normal
+Meta+Up		Pan Up
+Meta+Down	Pan Down
+Meta+Left	⭐ Pan left, move window to monitor to the left[a]
+Meta+Right	⭐ Pan right, move window to monitor to the right[a]
+Meta+[Fn]PgUp	⭐ Maximize/Restore window
+Meta+[Fn]PgDn	⭐ Minimize window
+F5		Refresh
+F12		[Manual Setup] Yakuake (dropdown terminal)
+Ctrl+A		Select All
+Ctrl+Z		Undo
+Ctrl+Shift+Z	Redo
+Ctrl+X		Cut
+Ctrl+C		Copy
+Ctrl+V		Paste
+Ctrl+N		New
+Ctrl+P		Print
+Ctrl+S		Save
+Ctrl+F		Find
+Ctrl+W		⭐ Close Document/Tab
+Alt+Up		⭐ Go up folder
+Delete		⭐ Move to Trash
+Shift+Delete	⭐ Delete Permanently
+Ctrl+Alt+L	⭐ Lock Screen
+
+#############################
+# how to troubleshooting this when login as root in terminal?
+# manpath: can't set the locale; make sure $LC_* and $LANG are correct
+# run this command:
+locale
+# see that locale is active, and update new locale (ex: en_US.UTF-8 and id_ID.UTF-8)
+sudo locale-gen en_US.UTF-8
+sudo locale-gen id_ID.UTF-8
