@@ -213,6 +213,14 @@ sudo nginx -s reload
 
 ---
 
+INFO USER GROUP PROJECT:
+karena phpyadmin ini berada di /var/www maka bisa diakses dengan lancar via nginx karena user nginx adalah www-data,
+namun jika ada project yang berada di lokasi lain (misalnya /home/ideapad/htdocs),
+maka perlu tambah user www-data ke dalam grup ideapad:
+	sudo usermod -a -G ideapad www-data
+
+---
+
 ## Buat virtual host Nginx
 
 ```bash
