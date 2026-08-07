@@ -254,6 +254,8 @@ Download TeamViewer for Linux
 	https://www.teamviewer.com/apac/download/linux/
 Download Sejda PDF Desktop (PDF Editor)
 	https://www.sejda.com/desktop
+Download LocalSend (cross-platform file sharing for everyone)
+	https://localsend.org/download
 Download CrossFTP Version 1.99.6 (can manage S3 bucket)
 	https://www.crossftp.com/crossftp_1.99.9.deb
 Download Caido (for recon, data visualization, endpoint tracking, manual fuzzing. Use Caido to collect endpoints, tag potential IDORs, note interesting responses.)
