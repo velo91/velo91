@@ -112,10 +112,6 @@ $ unzip penting*.zip
 # extract and copy folder with sudo privileges
 $ sudo cp -a ~/Downloads/mscorefonts/ ~/Downloads/penting/ /usr/share/fonts/
 
-#############################
-# how to display the application menu by pressing Ctrl + Shift + M
-# if in Dolphin, press Ctrl + M, usually if in Dolphin it appears once then in other applications such as GIMP/Inkscape the application menu will also appear
-
 =======================================
 Install Apps From APT via Konsole
 # include libwebkit2gtk-4.1-0 (web content engine library for GTK)
@@ -168,7 +164,6 @@ Setup Remmina
 # open remmina > preferences
 	options: disable fetch news from remmina.org
 	appearance: prefer dark theme
-	applet: start in tray upon user login
 # click on remmina applet > enable service discovery
 
 =======================================
@@ -356,23 +351,28 @@ $ sudo mount -a
 $ reboot
 # boot into Windows
 # make sure "fast startup" in Windows is disabled
-# Win 7: Power Options > Choose what the power buttons do > Change settings that are currently unavailable > uncheck Turn on fast startup > Save changes
-# Win 10: Power & Sleep Setting > Additional Power Setting > Choose what the power buttons does > Change settings that are currently unavailable > uncheck Turn on fast startup > Save changes
+# Win 7: Power Options > Choose what the power buttons do > Change settings that are currently unavailable > UNCHECK "Turn on fast startup" > Save changes
+# Win 10: Power & Sleep Setting > Additional Power Setting > Choose what the power buttons does > Change settings that are currently unavailable > UNCHECK "Turn on fast startup" > Save changes
 # run cmd.exe as administrator, type command to shutdown properly : shutdown /s /f /t 0
 # after shutdown, turn on & boot into Linux & mounting NTFS would be no issue like can't copy/rename/delete file
 
 =====================================
 System Setting
 =====================================
-# Input & Output: Keyboard > Shortcuts > Add new > Google Chrome > Add custom shortcut Ctrl + Alt + G
-# Input & Output: Keyboard > Shortcuts > search "power" > click on "KDE Power Management System"
-	Decrease Screen Brightness: Ctrl + ,			OR Monitor Brightness Down
-	Decrease Screen Brightness by 1%: Ctrl + Shift + ,	OR Shift + Monitor Brightness Down
-	Increase Screen Brightness: Ctrl + .			OR Monitor Brightness Up
-	Increase Screen Brightness by 1%: Ctrl + Shift + .	OR Shift + Monitor Brightness Up
-# Input & Output: Mouse & Touchpad > Mouse > Pointer speed: 0,80
-# Input & Output: Mouse & Touchpad > Mouse > Pointer acceleration: Standard
-# Input & Output: Mouse & Touchpad > Touchpad > Screen Edges > click on top left corner > No Action
+# Input & Output: Mouse & Touchpad > Mouse
+	device: UGREEN Mouse
+	touchpad: pointer speed 0,00
+	mouse: [enable] invert scroll direction
+# Input & Output: Display & Monitor > Screen Edges
+	click on top left corner > No Action
+# Input & Output: Keyboard > Shortcuts
+	Add new > Google Chrome > Add custom shortcut Ctrl + Alt + G
+# Input & Output: Keyboard > Shortcuts
+	search "power" > click on "Power Management"
+		Decrease Screen Brightness: Monitor Brightness Down
+		Decrease Screen Brightness by 1%: Shift + Monitor Brightness Down
+		Increase Screen Brightness: Monitor Brightness Up
+		Increase Screen Brightness by 1%: Shift + Monitor Brightness Up
 # Right click on desktop wallper > Configure Desktop and Wallpaper
 	Layout: Folder View
 	Wallpaper type: Picture of the Day
@@ -381,92 +381,92 @@ System Setting
 	Positioning: Scaled & Cropped
 	Background color: #000000
 # Appearance & Style: Colors & Themes (Global Theme)
-	Colors: Breeze Dark
+	Colors: Kubuntu Dark
 	Application Style: Breeze
-		Configure GNOME/GTK Application Style:
-			Get New GNOME/GTK Application Style > WhiteSur GTK Theme by vinceliuice: WhiteSur-Dark
-		GTK theme: WhiteSur-Dark
-	Plasma Style: Breeze Dark
-	Windows Decorations:
-		Get New Theme: Summaculate Aurorae Plasma 6 by doncsugar => Summaculate Night Blur > Edit > Button Size: Normal (use Large for 1920 resolution)
-		Configure Titlebar Buttons: (from left to right) Close, Minimize, Maximize ___ Titlebar ___ [empty]
+	Plasma Style: Kubuntu Dark
+	Windows Decorations: Breeze
 	Icons: Breeze Dark
-	Cursors: Breeze
+	Cursors: Breeze Dark
 	System Sounds: Ocean
-	Splash Screen:
-		Get New Splash: Get New -> QuarksSplashDark
-	Login Screen (SSDM):
-		Get New -> Apple Sonoma v2 SDDM by Adolfo
-	Boot Splash Screen:
-		Get New -> Linux Distro Logos Colored -> kubuntu-mac-style
+	Splash Screen: -
+	Login Screen (SSDM): Kubuntu
+	Boot Splash Screen: -
 # Appearance & Style: Text & Fonts
 	Fonts:
-		General: Ubuntu 10pt (use 12pt for 1920 resolution)
-		Fixed width: Ubuntu Mono 10pt (use 12pt for 1920 resolution)
-		Small: Ubuntu 8pt (use 10pt for 1920 resolution)
-		Toolbar: Ubuntu 10pt (use 12pt for 1920 resolution)
-		Menu: Ubuntu 10pt (use 12pt for 1920 resolution)
-		Windows title: Ubuntu 10pt (use 12pt for 1920 resolution)
+		General: Noto Sans 10pt
+		Fixed width: Hack 10pt
+		Small: Noto Sans 8pt
+		Toolbar: Noto Sans 10pt
+		Menu: Noto Sans 10pt
+		Windows title: Noto Sans 10pt
 		Anti-Aliasing: Enabled
 # Apps & Windows: Window Management > Window Behavior > tab Advanced
 	Window placement: Centered
 # Apps & Windows: Window Management > Task Switcher
-	change to Thumbnail Grid
+	change to Compact
 # Apps & Windows: Window Management > Dekstop Effects > Blur > configure
-	Set Blur Strength 50%
-	Set Noise Strength 0%
-# Apps & Windows: Window Management > Desktop Effects > Woobly Windows > disable
-# Apps & Windows: Window Management > Desktop Effects > Magic Lamp > enable and configure
-	Animation duration: 400ms
-# Apps & Windows: Window Management > Desktop Effects > Fade
+	Blur Strength: 15
+	Noise Strength: 6
+	Saturation: 2
+# Apps & Windows: Window Management > Desktop Effects > Woobly Windows
+	Wobbliness: Less
 # Workspace: General Behavior
 	Clicking files or folders: Opens them
 # Security & Privacy: Screen Locking > Configure Appearance:
 		enable: Keep visible when unlocking prompt disappears
 		enable: Show under unlocking prompt
-	Layout: Folder View
-	Wallpaper type: Picture of the Day
-	Provider: Bing
-		enable: Update when using metered network connection
+	Wallpaper type: Image
+	Images: Kubuntu
 	Positioning: Scaled & Cropped
-	Background color: #000000
-# System: Power Management > Advanced Power Settings
-	Battery protection: Limit the maximum battery charge
 
 =======================================
-Setup Widget
-	Position: Top
+Setup Panel Configuration
+=======================================
+	Position: Bottom
 	Alignment: Center
 	Width: Fill width
 	Visibility: Always visible
-	Opacity: Opaque
-	Style: No floating
-	Panel Height: 38
+	Opacity: Adaptive
+	Floating: Disabled
+	Panel Height: 32
+
 =======================================
-Application Launcher
-	Icon: bluegriffon
+Manage Widget
+=======================================
+Application Launcher (default)
+	Icon: [ALL] start-here-kubuntu
 	Text label: LINUX
 	Sidebar position: left
 	Show favourites: In a grid
 	Show other applications: In a list
 	Show buttons for: Power (show action button captions)
+Pager
 Icon-only Task Manager
 	Appearance > Use multi-row view: Never
-	Spacing between icon: Large
+	Spacing between icon: Normal
 	Behavior > Group: Do not group
 Sticky Note
-	Text font size: 11pt
+	Text font size: 10pt
 	Theme: A transparent sticky with light text
 	Shortcut: Ctrl + Alt + Space
+KVitals
+	Display mode: Icon + Text
+	Layout: Horizontal
+	Icon size: 16px
+	Font: Ubuntu Condensed
+	Font size: 16px
+	Bold font: -
+	Label opacity: 40%
+	Separator opacity: 40%
+	Update interval: 2.0 seconds
+	### Metrics ###
+	CPU
+	RAM
+	TEMP
+	BAT
 System Tray
 	Panel icon size: Small
 	Panel icon spacing: Normal
-Spacer
-	Flexible size: no
-	Width: 10
-Resources Monitor - fork by orblazer
-Network Bandwidth Monitor by leevd
-Network Monitor by clearmartin
 Digital Clock
 	Information: Show date (always beside time)
 	Show seconds: Only in the tooltip
@@ -474,19 +474,9 @@ Digital Clock
 	Display time zone as: Code
 	Time display: 24-Hour
 	Date format: Long Date (Rabu, 31 Juli 2024)
-	Text display: Manual 8pt
+	Text display: Automatic
 Peek at Desktop (Show the desktop & minimize all windows)
 	Shortcut: Ctrl + Space
-
-=====================================
-Install Tor Browser
-=====================================
-sudo apt install torbrowser-launcher
-# updating TOR screwed up my client : "Download Error: 404"
-sudo -i
-# https://askubuntu.com/questions/1445050/updating-tor-screwed-up-my-client-download-error-404 
-# exit from root
-# launch tor browser
 
 =======================================
 Install pip for Python 3
@@ -502,59 +492,8 @@ $ pip3 --version
 # slowloris --randuseragents [DOMAIN]
 # slowloris --randuseragents example.com
 
-=====================================
-Install Docker with MariaDB & phpMyAdmin
-=====================================
-$ sudo apt install -y python3-distutils-extra docker.io docker-compose && sudo systemctl start docker && sudo systemctl enable docker && docker --version
-$ mkdir /opt/docker-mariadb-phpmyadmin && cd /opt/docker-mariadb-phpmyadmin
-$ nano docker-compose.yml
-# copy dan paste line berikut:
-version: '3.8'
 
-services:
-  mariadb:
-    image: mariadb:latest
-    container_name: mariadb
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: my_database
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user
-    volumes:
-      - mariadb_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
 
-  phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: mariadb
-      PMA_USER: root
-      PMA_PASSWORD: root_password
-      UPLOAD_LIMIT: 2G
-    ports:
-      - "8080:80"
-
-volumes:
-  mariadb_data:
-$ docker-compose up -d
-# open phpMyAdmin on the browser: http://localhost:8080
-
-=======================================
-Install Spotify + Calaboka (ads silencer) from Snap [no longer need]
-=======================================
-# open Discover, search "Spotify" and install
-# open Discover, search "Calaboka" and install
-$ sudo snap connect calaboka:mpris spotify:spotify-mpris
-# open Menu Editor, in category Multimedia > New Item "Spotify"
-	Name: Spotify
-	Desc: 
-	Comment: Music for everyone
-	program: /snap/bin/spotify
-	Icon: spotify
 
 >>>>>>>>>>>>
 >>>>>>>>>>>>
@@ -571,6 +510,10 @@ $ sudo snap connect calaboka:mpris spotify:spotify-mpris
 >>>>>>>>>>>>
 >>>>>>>>>>>>
 >>>>>>>>>>>>
+
+
+
+
 
 =====================================
 [ARCHIEVED] Install Postman from Snap
@@ -1474,3 +1417,71 @@ Install Spotify from APT Repo
 $ curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
 $ echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
 $ sudo apt update && sudo apt install -y spotify-client
+
+#############################
+# how to display the application menu by pressing Ctrl + Shift + M
+# if in Dolphin, press Ctrl + M, usually if in Dolphin it appears once then in other applications such as GIMP/Inkscape the application menu will also appear
+
+=====================================
+Install Tor Browser
+=====================================
+sudo apt install torbrowser-launcher
+# updating TOR screwed up my client : "Download Error: 404"
+sudo -i
+# https://askubuntu.com/questions/1445050/updating-tor-screwed-up-my-client-download-error-404 
+# exit from root
+# launch tor browser
+
+=====================================
+Install Docker with MariaDB & phpMyAdmin
+=====================================
+$ sudo apt install -y python3-distutils-extra docker.io docker-compose && sudo systemctl start docker && sudo systemctl enable docker && docker --version
+$ mkdir /opt/docker-mariadb-phpmyadmin && cd /opt/docker-mariadb-phpmyadmin
+$ nano docker-compose.yml
+# copy dan paste line berikut:
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: root
+      PMA_PASSWORD: root_password
+      UPLOAD_LIMIT: 2G
+    ports:
+      - "8080:80"
+
+volumes:
+  mariadb_data:
+$ docker-compose up -d
+# open phpMyAdmin on the browser: http://localhost:8080
+
+=======================================
+Install Spotify + Calaboka (ads silencer) from Snap [no longer need]
+=======================================
+# open Discover, search "Spotify" and install
+# open Discover, search "Calaboka" and install
+$ sudo snap connect calaboka:mpris spotify:spotify-mpris
+# open Menu Editor, in category Multimedia > New Item "Spotify"
+	Name: Spotify
+	Desc: 
+	Comment: Music for everyone
+	program: /snap/bin/spotify
+	Icon: spotify
