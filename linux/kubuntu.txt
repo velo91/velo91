@@ -183,28 +183,16 @@ $ sudo apt update && sudo apt install -y sublime-text
 #
 # Ctrl + Shift + P: install package control
 # Ctrl + Shift + P: install package
-# Preferences > Select Theme: Default Dark Sublime Theme
-# Preferences > Settings:
-	{
+# Preferences > Select Color Scheme: Monokai
+# Preferences > Select Theme: Adaptive
+# Preferences > Font > Choose: Ubuntu Mono, 11
+# Preferences > Package Control > Settings.
+	# add there:
 		"update_check": false,
-		"theme": "Default Dark.sublime-theme",
-		"ignored_packages":
-		[
-			"Vintage",
-		],
-		"color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
-		"always_show_minimap_viewport" : true,
-		"bold_folder_labels"           : true,
-		"font_face"                    : "Ubuntu Mono",
-		"font_size"                    : 12,
-		"font_options"                 : ["gray_antialias", "subpixel_antialias"], // On retina Mac & Windows
-		"indent_guide_options"         : ["draw_normal", "draw_active"], // Highlight active indent
-		"line_padding_bottom"          : 1,
-		"line_padding_top"             : 1,
-		"overlay_scroll_bars"          : "enabled",
-	}
+#
 # INFO: menu View > Layout to set single or split layout
-# For unlimited user license in linux:
+#
+# Other way for unlimited user license in linux:
 	# first go to site https://hexed.it/
 	# click on Open file and put file "sublime_text" is in /opt/sublime_text/sublime_text
 	# go to section Search in left of page
