@@ -18,11 +18,22 @@ just make sure Windows is "Disable Fast Startup" so that partition permissions o
 3. click "Change settings that are currently unavailable" and the give consent to continue or enter an administrator username and password as prompted
 4. under Shutdown settings, uncheck "Turn on fast startup (recommended)" and click Save changes
 
+=================================
+Fix Annoying KDE Wallet Popup
+=================================
+# DON'T UNINSTALL KDE Wallet package, as core KDE components and apps rely on it as a dependency.
+# instead, JUST DISABLE the service completely or stop the annoying pop-ups by turning off the subsystem in the settings or by configuring an empty password
+# Step:
+1. Open KWalletManager.
+2. Go to Settings and select Configure Wallet.
+3. Uncheck the box for "Enable the KDE wallet subsystem".
+4. Restart your computer or log out and log back in for the changes to apply.
+
 =====================================
 Setup Konsole
 =====================================
-Settings > Toolbars Shown: Main Toolbar
-Settings > Manage Profiles > New: ideapad (set as default) > Edit > Appearance > Color scheme: Campbell > Font: Ubuntu Moto 11pt
+# Settings > Toolbars Shown: Main Toolbar
+# Settings > Manage Profiles > New: ideapad (set as default) > Edit > Appearance > Color scheme: Campbell > Font: Ubuntu Moto 11pt
 
 ======================================
 Change to DNS Cloudflare & Google
@@ -88,7 +99,7 @@ Install Google Chrome + Chromium (untuk CDP AI Agent di luar Google Chrome) & Re
 	==========
 	OR VIA CLI
 	==========
-	sudo apt purge -y firefox && sudo apt autoremove -y
+	sudo apt purge -y firefox && sudo snap remove firefox && sudo apt autoremove -y
 
 =====================================
 Install Fonts
@@ -105,17 +116,6 @@ $ sudo cp -a ~/Downloads/mscorefonts/ ~/Downloads/penting/ /usr/share/fonts/
 # how to display the application menu by pressing Ctrl + Shift + M
 # if in Dolphin, press Ctrl + M, usually if in Dolphin it appears once then in other applications such as GIMP/Inkscape the application menu will also appear
 
-=================================
-Fix annoying KDE Wallet popup
-=================================
-# DON'T UNINSTALL KDE Wallet package, as core KDE components and apps rely on it as a dependency.
-# instead, JUST DISABLE the service completely or stop the annoying pop-ups by turning off the subsystem in the settings or by configuring an empty password
-# Step:
-1. Open KWalletManager.
-2. Go to Settings and select Configure Wallet.
-3. Uncheck the box for "Enable the KDE wallet subsystem".
-4. Restart your computer or log out and log back in for the changes to apply.
-
 =======================================
 Install Apps From APT via Konsole
 # include libwebkit2gtk-4.1-0 (web content engine library for GTK)
@@ -129,23 +129,15 @@ $ sudo apt remove kate haruna && sudo apt autoremoveins
 =======================================
 Shortwave: Internet Radio Playlist
 =======================================
-	https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/stream/radio.txt
-# or:
-	Saudi Quran
-	http://stream.radiojar.com/0tpy1h0kxtzuv
-	Era FM
-	https://n17a-eu.rcs.revma.com/crec9cmbv4uvv/23_11p2ghidfhj2d02/playlist.m3u8?rj-ttl=5&rj-tok=AAABlF2WiCgAJUPufokb6G0b3Q
-	Smooth Jazz
-	https://playerservices.streamtheworld.com/api/livestream-redirect/ACIR22_s01AAC.aac
-	Mirchi One Qatar
-	https://streams.radio.co/s8d06d0298/listen
+	Best Radio Dangdut
+	DENGERIN MUSIK INDONESIA
+	ERA FM
+	Mirchi Love
+	Mirchi One 89.6 Qatar
+	MQFM Bandung - Indonesia
 	Radio Mirchi Hindi
-	https://eu8.fastcast4u.com/proxy/clyedupq/stream
-
-=======================================
-Check the OS version
-=======================================
-$ lsb_release -a
+	Saudi Quran
+	SMOOTH JAZZ
 
 =================================
 Setup VLC
@@ -164,6 +156,13 @@ Setup Spectacle
 	after taking screenshot: enable "Save file to default folder" and select "Copy image to clipboard"
 
 =======================================
+Setup GIMP
+=======================================
+# open gimp
+# Edit > preferences > interface > toolbox: disable "use tool groups"
+# INFO: use TAB shortkey to hide & show sidebar
+
+=======================================
 Setup Remmina
 =======================================
 # open remmina > preferences
@@ -173,51 +172,9 @@ Setup Remmina
 # click on remmina applet > enable service discovery
 
 =======================================
-Show full system information with inxi
-=======================================
-$ inxi -F
-
-=======================================
-Install GIMP from Ubuntu PPA for More Up-to-Date Version
-=======================================
-!!! $ sudo add-apt-repository ppa:ubuntuhandbook1/gimp && sudo apt install -y gimp gegl libgexiv2-2
-# open gimp
-# Edit > preferences > interface > theme: dark
-# Edit > preferences > interface > icon theme: color; custom icon size: small
-# Edit > preferences > interface > toolbox: disable "use tool groups"
-# INFO: use TAB shortkey to hide & show sidebar
-
-=======================================
-Install Inkscape from Ubuntu PPA for More Up-to-Date Version
-=======================================
-!!! $ sudo add-apt-repository ppa:inkscape.dev/stable && sudo apt install -y inkscape
-# open inkscape
-# Edit > preferences > interface > theming > gtk: adwaita; theme: use dark theme; icon: multicolor
-# [if needed] Edit > preferences > interface > windows > dialogs on top: none
-
-=======================================
-Install OBS Studio from Ubuntu PPA for More Up-to-Date Version
-=======================================
-!!!$ sudo add-apt-repository ppa:obsproject/obs-studio && sudo apt install -y obs-studio
-
-=======================================
 Install GNOME Network Displays to connect to a Smart TV wirelessly
 =======================================
 $ sudo apt install gnome-network-displays
-
-=====================================
-Install Telegram from Ubuntu PPA for More Up-to-Date Version 
-=====================================
-$ sudo add-apt-repository ppa:atareao/telegram && sudo apt install -y telegram
-# setup Night Mode: On
-# Settings > Default interface scale: 125%
-
-=======================================
-Install Spotify from APT Repo
-=======================================
-$ curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
-$ echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-$ sudo apt update && sudo apt install -y spotify-client
 
 =====================================
 Install Sublime Text from APT Repo
@@ -273,7 +230,6 @@ Install Apps Manually From .DEB Package
 Download Only Office for Linux
 	https://www.onlyoffice.com/download-desktop.aspx
 	# settings > interface scaling: 100%
-	# settings > interface theme: dark
 Download VS Code for Linux
 	https://code.visualstudio.com
 	# user settings
@@ -300,8 +256,6 @@ Download Sejda PDF Desktop (PDF Editor)
 	https://www.sejda.com/desktop
 Download CrossFTP Version 1.99.6 (can manage S3 bucket)
 	https://www.crossftp.com/crossftp_1.99.9.deb
-Download Burp Suite (for active scanning, collaborator payloads, or BApp extensions. Use Burp to send SSRF payloads with Collaborator or test race conditions using Turbo Intruder.)
-	https://portswigger.net/burp/communitydownload
 Download Caido (for recon, data visualization, endpoint tracking, manual fuzzing. Use Caido to collect endpoints, tag potential IDORs, note interesting responses.)
 	https://caido.io/download
 
@@ -1494,3 +1448,27 @@ sudo locale-gen id_ID.UTF-8
 	lihat list decision crowdsec							cscli decision list
 	cek ip dalam list decision crowdsec						cscli decision list | grep 1.1.1.1
 	cek allowlist semua_ip_kampus							cscli allowlist inspect semua_ip_kampus
+
+=======================================
+Check the OS version
+=======================================
+lsb_release -a
+
+=======================================
+Show full system information with inxi
+=======================================
+$ inxi -F
+
+=====================================
+Install Telegram from Ubuntu PPA for More Up-to-Date Version 
+=====================================
+$ sudo add-apt-repository ppa:atareao/telegram && sudo apt install -y telegram
+# setup Night Mode: On
+# Settings > Default interface scale: 125%
+
+=======================================
+Install Spotify from APT Repo
+=======================================
+$ curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+$ echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+$ sudo apt update && sudo apt install -y spotify-client
