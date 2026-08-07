@@ -474,7 +474,7 @@ Digital Clock
 	Display time zone as: Code
 	Time display: 24-Hour
 	Date format: Long Date (Rabu, 31 Juli 2024)
-	Text display: Automatic
+	Text display: Manual, 8pt Ubuntu Mono
 Peek at Desktop (Show the desktop & minimize all windows)
 	Shortcut: Ctrl + Space
 
