@@ -10,7 +10,7 @@ Download Kubuntu ISO => https://kubuntu.org/download/
 # make sure your username not same with computer name
 # after installed, this is typical way of updating system in KDE Neon
 #########################
-Installation If Dual Boot
+Installation if dual boot, "Disable Fast Startup" on Windows
 #########################
 just make sure Windows is "Disable Fast Startup" so that partition permissions on NTFS don't clash
 1. type "control panel" into the search box on the taskbar and then click Control Panel in the search results
@@ -135,10 +135,8 @@ Install Apps From APT via Konsole
 # include libwebkit2gtk-4.1-0 (web content engine library for GTK)
 =======================================
 $ sudo apt install libwebkit2gtk-4.1-0 fastfetch ktorrent filelight gimp inkscape kdenlive obs-studio elisa shortwave vlc
-!!!
-!!! pdfsam xserver-xorg-input-evdev xserver-xorg-input-mouse android-file-transfer partitionmanager yakuake lsb-release net-tools whois inxi kcalc okular audacious ffmpeg ffmpegthumbnailer vlc remmina 
-!!!
-$ sudo apt remove kate haruna && sudo apt autoremove
+$ sudo apt remove kate haruna && sudo apt autoremoveins
+#
 # TIPS: if you want to remove a package and install a different package IN ONE STEP, try: sudo apt remove htop nano+ ===> will remove htop and install nano
 # another way to do the same thing: sudo apt install htop- nano  ===> also will remove htop and install nano
 
