@@ -165,6 +165,15 @@ hermes desktop
  Categories=Office;Development;
  Terminal=false
 
+#####################
+Storing the Password for Automation
+#####################
+# if you are running automated workflows or want to bypass the manual prompt, you can define the password permanently in your local configuration. Using the Environment File. Add the password variable to your hidden environment file located at ~/.hermes/.env:bash
+SUDO_PASSWORD="your_actual_password"
+
+
+
+
 
 
 
@@ -175,7 +184,6 @@ hermes desktop
 # INSTALL WEB UI
 #####################
 git clone https://github.com/nesquena/hermes-webui.git
-
 # Start Web UI
 cd hermes-webui && python3 bootstrap.py
 # or
@@ -184,7 +192,6 @@ cd hermes-webui && ./start.sh
 cd hermes-webui && ./ctl.sh start
    ./ctl.sh status ===> check status
    ./ctl.sh stop   ===> stop background daemon
-
 # URL Web UI: http://localhost:8787
 # Check Health: http://localhost:8787/health
 
