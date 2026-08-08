@@ -215,6 +215,10 @@ Download Only Office for Linux
 	# settings > interface scaling: 100%
 Download VS Code for Linux
 	https://code.visualstudio.com
+	# fix "You're running in a KDE environment but the OS keyring is not available for encryption. Ensure you have kwallet running."
+		nano ~/.vscode/argv.json
+		# add this:
+		"password-store": "basic"
 	# user settings
 		font size: 14
 		font family: 'Ubuntu Mono', 'Droid Sans Mono', monospace
@@ -225,7 +229,6 @@ Download VS Code for Linux
 		Auto Rename Tag
 		Claude Code for VS Code
 		DotENV
-		Error Lens
 		Hermes Agent Chat
 		Hermes Agent for Cursor & VS Code
 		Hermes AI Agent
