@@ -218,10 +218,18 @@ Download VS Code for Linux
 	# user settings
 		font size: 14
 		font family: 'Ubuntu Mono', 'Droid Sans Mono', monospace
+		editor wrap: on
+		color theme: Monokai Night (installed from extension Monokai Night Theme)
 	# extensions
+		ACP Client
 		Auto Rename Tag
+		Claude Code for VS Code
 		DotENV
+		Error Lens
+		Hermes Agent Chat
+		Hermes Agent for Cursor & VS Code
 		Hermes AI Agent
+		Monokai Night Theme
 		NGINX Configuration Language Support
 		PHP Debug
 		PHP Intelephense
