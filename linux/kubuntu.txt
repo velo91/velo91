@@ -226,6 +226,7 @@ Download VS Code for Linux
 		color theme: Monokai Night (installed from extension Monokai Night Theme)
 	# extensions
 		ACP Client
+		Auto Commit Message
 		Auto Rename Tag
 		Claude Code for VS Code
 		DotENV
