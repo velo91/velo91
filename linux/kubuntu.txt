@@ -115,8 +115,9 @@ $ sudo cp -a ~/Downloads/mscorefonts/ ~/Downloads/penting/ /usr/share/fonts/
 =======================================
 Install Apps From APT via Konsole
 # include libwebkit2gtk-4.1-0 (web content engine library for GTK)
+# include gimp-help-en (complete language support for system)
 =======================================
-$ sudo apt install libwebkit2gtk-4.1-0 fastfetch ktorrent filelight gimp inkscape kdenlive obs-studio elisa shortwave vlc
+$ sudo apt install libwebkit2gtk-4.1-0 fastfetch ktorrent filelight gimp gimp-help-en inkscape kdenlive obs-studio elisa shortwave vlc
 $ sudo apt remove kate haruna && sudo apt autoremoveins
 #
 # TIPS: if you want to remove a package and install a different package IN ONE STEP, try: sudo apt remove htop nano+ ===> will remove htop and install nano
@@ -388,9 +389,9 @@ System Setting
 	Icons: Breeze Dark
 	Cursors: Breeze Dark
 	System Sounds: Ocean
-	Splash Screen: -
+	Splash Screen: Overload (Get New: Overload login splash by bermer)
 	Login Screen (SSDM): Kubuntu
-	Boot Splash Screen: -
+	Boot Splash Screen: Kubuntu Logo
 # Appearance & Style: Text & Fonts
 	Fonts:
 		General: Noto Sans 10pt
