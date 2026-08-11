@@ -194,7 +194,7 @@ touch /var/www/monitoring/index.php
 nano /var/www/monitoring/metrics/health/index.php
 chown -R www-data:www-data /var/www/monitoring
 chmod -R 750 /var/www/monitoring
-nano /etc/php/8.4/fpm/pool.d/monitoring.conf
+nano /etc/php/8.5/fpm/pool.d/monitoring.conf
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [default]
 listen = 127.0.0.1:12345
@@ -212,7 +212,7 @@ rlimit_files = 131072
 rlimit_core = unlimited
 catch_workers_output = yes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-systemctl restart php8.4-fpm
+systemctl restart php8.5-fpm
 mkdir -p /etc/nginx/ssl
 openssl req -x509 -nodes -days 36500 -newkey rsa:2048 -keyout /etc/nginx/ssl/monitoring.key -out /etc/nginx/ssl/monitoring.crt -subj "/CN=[IP_SERVER_TERSEBUT]" -addext "subjectAltName = IP:[IP_SERVER_TERSEBUT]"
 # kalau punya /etc/nginx/sites-enabled/default.conf di cloudpanel, pastikan di bagian listen 443 (ip4) jangan ada default_server biar tidak konflik dengan monitoring-ip.conf versi https yang akan kita buat, jadi kalau ada default_server di /etc/nginx/sites-enabled/default.conf silakan dihapus dulu
