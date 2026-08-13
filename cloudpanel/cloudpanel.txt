@@ -228,6 +228,25 @@ wget https://raw.githubusercontent.com/velo91/velo91/refs/heads/master/nginx/cek
 =======
 IMAGICK
 =======
+# cek imagick di setiap versi php
+for v in 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4 8.5; do
+    if [ -x "/usr/bin/php${v}" ]; then
+        echo "===== PHP ${v} ====="
+        /usr/bin/php${v} -v 2>/dev/null | head -1
+        echo -n "imagick   : "
+        /usr/bin/php${v} -m 2>/dev/null | grep -qi '^imagick$' && echo YES || echo NO
+        echo -n "redis     : "
+        /usr/bin/php${v} -m 2>/dev/null | grep -qi '^redis$' && echo YES || echo NO
+        echo -n "memcached : "
+        /usr/bin/php${v} -m 2>/dev/null | grep -qi '^memcached$' && echo YES || echo NO
+    fi
+done
+#
+#
+# kalau yang NO, perlu jalankan ini:
+apt install php-imagick php-redis php-memcached
+#
+#
 # edit imagick policy for pdf file in order to convert PDF-to-image with Imagick, the version could be -6 or -7
 nano /etc/ImageMagick-6/policy.xml
 # change line
