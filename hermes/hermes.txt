@@ -76,10 +76,9 @@ hermes update
 hermes fallback add
 # lihat daftar fallback
 hermes fallback list
-  Primary: upstage/solar-pro4:free
+  Primary: stepfun/step-3.7-flash:free
   Fallback chain:
-    1. tencent/hy3:free  (via nous)  [https://inference-api.nousresearch.com/v1]
-    2. stepfun/step-3.7-flash:free  (via nous)  [https://inference-api.nousresearch.com/v1]
+    1. upstage/solar-pro4:free  (via nous)  [https://inference-api.nousresearch.com/v1]
 # hapus fallback lalu pilih yang mana
 hermes fallback remove
 
