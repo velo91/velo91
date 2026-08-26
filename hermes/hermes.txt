@@ -76,7 +76,7 @@ hermes update
 hermes fallback add
 # lihat daftar fallback
 hermes fallback list
-  Primary:   ...BEBAS...
+  Primary: upstage/solar-pro4:free
   Fallback chain:
     1. tencent/hy3:free  (via nous)  [https://inference-api.nousresearch.com/v1]
     2. stepfun/step-3.7-flash:free  (via nous)  [https://inference-api.nousresearch.com/v1]
