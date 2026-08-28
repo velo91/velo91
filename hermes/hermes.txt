@@ -54,6 +54,14 @@ hermes config get memory
 hermes config set memory.memory_char_limit 1000000
 hermes config set memory.user_char_limit 1000000
 
+# real profile browsing (use your own logins)
+# secara default, local browser berjalan menggunakan profil bersih yang bersifat sementara, Hermes tidak login ke akun mana pun. coba aktifkan browser dengan profil asli agar Hermes dapat menjelajah sebagai Anda, menggunakan login dan cookie yang sudah ada:
+# nano ~/.hermes/config.yaml
+browser:
+  use_real_profile: true
+# saat diaktifkan, Hermes menyalin profil aktif dari browser bawaan Anda, yaitu profil yang sebenarnya Anda gunakan untuk menjelajah (Local State → profile.last_used), beserta cookie, data login tersimpan, dan preferensinya—ke dalam snapshot terkelola di lokasi `~/.hermes/browser-profile/<browser>/`, lalu menjalankan snapshot tersebut menggunakan Chromium yang disertakan di dalamnya.
+# saat Anda mematikan kembali fiturnya, Hermes akan menghapus penyimpanan snapshot tersebut (`~/.hermes/browser-profile/`) pada penggunaan browser berikutnya, sehingga kredensial yang disalin tidak tertinggal setelah Anda mencabut izin akses.
+
 # setup provider AI:
 hermes setup
 
