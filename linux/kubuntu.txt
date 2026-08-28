@@ -78,7 +78,7 @@ Hermes Agent:
 	https://github.com/velo91/velo91/blob/main/hermes/hermes.txt
 
 ======================================
-Install Google Chrome + Chromium (untuk CDP AI Agent di luar Google Chrome) & Remove Firefox
+Install Google Chrome & Remove Firefox
 ======================================
 # open URL on firefox:
 	https://www.google.com/intl/id_id/chrome/
@@ -93,8 +93,6 @@ Install Google Chrome + Chromium (untuk CDP AI Agent di luar Google Chrome) & Re
 	# open Google Chrome: Settings > Performance > [Enable] Memory Saver: Balanced
 	# open Google Chrome: Settings > Appearance > Theme: QT
 	# open Google Chrome: Settings > Appearance > [Disable] Use system title and borders
-# open Discover, install:
-	Chromium (from snap)
 # remove firefox from Discover
 	==========
 	OR VIA CLI
