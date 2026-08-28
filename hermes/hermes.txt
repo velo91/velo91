@@ -99,6 +99,9 @@ hermes fallback remove
    /learn https://docs.phpmyadmin.net/en/latest/
    /learn https://wordpress.org/documentation/
    /learn https://docs.pkp.sfu.ca/learning-ojs/
+   /learn https://docs.moodle.org/405/en/Main_page
+   /learn https://docs.moodle.org/502/en/Main_page
+   /learn https://docs.openwebui.com/
 
 # install skill tambahan dari official hermes agent:
 hermes skills install official/security/web-pentest
