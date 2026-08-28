@@ -97,10 +97,11 @@ hermes fallback remove
    /learn https://github.com/acmesh-official/acme.sh/blob/master/README.md
    /learn https://www.jenkins.io/doc/
       https://www.jenkins.io/solutions/github/
-      https://github.com/industrial-edge/jenkins-cicd/blob/main/README.md
-      https://github.com/industrial-edge/jenkins-cicd/blob/main/docs/implementation.md
-      https://github.com/industrial-edge/jenkins-cicd/blob/main/docs/installation.md
-      https://github.com/industrial-edge/jenkins-cicd/blob/main/docs/pipeline.md
+      https://www.jenkins.io/doc/book/pipeline/pipeline-as-code/
+      https://www.jenkins.io/doc/book/pipeline/jenkinsfile/
+      https://www.jenkins.io/doc/book/pipeline/multibranch/
+      https://www.jenkins.io/doc/book/security/credentials/
+      https://www.jenkins.io/doc/book/using/using-credentials/
    /learn https://nginx.org/en/docs/
    /learn https://www.cloudpanel.io/docs/v2/introduction/
    /learn https://www.php.net/manual/en/
@@ -108,8 +109,8 @@ hermes fallback remove
    /learn https://www.w3schools.com/PhP/php_ref_mysqli.asp
    /learn https://www.slimframework.com/docs/v4/
    /learn https://mariadb.com/docs/server/reference/sql-functions
-   # /learn https://docs.phpmyadmin.net/en/latest/
-   # /learn https://docs.openwebui.com/
+   /learn https://docs.phpmyadmin.net/en/latest/
+   /learn https://docs.openwebui.com/
    # /learn https://getbootstrap.com/docs/3.4/
    # /learn https://getbootstrap.com/docs/5.3/getting-started/introduction/
    # /learn https://wordpress.org/documentation/
