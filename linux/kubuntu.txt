@@ -328,6 +328,9 @@ sudo usermod -aG docker [USER, contoh: ideapad]
 # Logout + login ulang, lalu verifikasi:
 docker version
 docker compose version
+### Install Docker Desktop on Linux:
+	https://www.docker.com/products/docker-desktop/
+	https://docs.docker.com/desktop/setup/install/linux/
 
 =======================================
 Add swap space equals to RAM size
