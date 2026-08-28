@@ -96,7 +96,11 @@ hermes fallback remove
    /learn https://rclone.org/docs/
    /learn https://github.com/acmesh-official/acme.sh/blob/master/README.md
    /learn https://www.jenkins.io/doc/
-   /learn https://www.jenkins.io/solutions/github/
+      https://www.jenkins.io/solutions/github/
+      https://github.com/industrial-edge/jenkins-cicd/blob/main/README.md
+      https://github.com/industrial-edge/jenkins-cicd/blob/main/docs/implementation.md
+      https://github.com/industrial-edge/jenkins-cicd/blob/main/docs/installation.md
+      https://github.com/industrial-edge/jenkins-cicd/blob/main/docs/pipeline.md
    /learn https://nginx.org/en/docs/
    /learn https://www.cloudpanel.io/docs/v2/introduction/
    /learn https://www.php.net/manual/en/
