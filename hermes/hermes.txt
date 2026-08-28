@@ -91,18 +91,27 @@ hermes fallback list
 hermes fallback remove
 
 # pelajari skill tambahan:
+   /learn https://docs.docker.com/
+   /learn https://docs.crowdsec.net/
+   /learn https://rclone.org/docs/
+   /learn https://github.com/acmesh-official/acme.sh/blob/master/README.md
+   /learn https://www.jenkins.io/doc/
+   /learn https://www.jenkins.io/solutions/github/
    /learn https://nginx.org/en/docs/
    /learn https://www.cloudpanel.io/docs/v2/introduction/
    /learn https://www.php.net/manual/en/
+   /learn https://www.php.net/manual/en/book.mysqli.php
    /learn https://www.w3schools.com/PhP/php_ref_mysqli.asp
    /learn https://www.slimframework.com/docs/v4/
    /learn https://mariadb.com/docs/server/reference/sql-functions
-   /learn https://docs.phpmyadmin.net/en/latest/
-   /learn https://wordpress.org/documentation/
-   /learn https://docs.pkp.sfu.ca/learning-ojs/
-   /learn https://docs.moodle.org/405/en/Main_page
-   /learn https://docs.moodle.org/502/en/Main_page
-   /learn https://docs.openwebui.com/
+   # /learn https://docs.phpmyadmin.net/en/latest/
+   # /learn https://docs.openwebui.com/
+   # /learn https://getbootstrap.com/docs/3.4/
+   # /learn https://getbootstrap.com/docs/5.3/getting-started/introduction/
+   # /learn https://wordpress.org/documentation/
+   # /learn https://docs.pkp.sfu.ca/learning-ojs/
+   # /learn https://docs.moodle.org/405/en/Main_page
+   # /learn https://docs.moodle.org/502/en/Main_page
 
 # install skill tambahan dari official hermes agent:
 hermes skills install official/security/web-pentest
