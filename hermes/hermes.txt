@@ -93,15 +93,6 @@ hermes fallback remove
 # install skill tambahan dari official hermes agent:
 hermes skills install official/security/web-pentest
 
-# install skill tambahan dari trusted source:
-hermes skills install anthropics/skills/skills/docx
-hermes skills install anthropics/skills/skills/doc-coauthoring
-hermes skills install anthropics/skills/skills/pptx
-hermes skills install anthropics/skills/skills/xlsx
-hermes skills install anthropics/skills/skills/pdf
-hermes skills install anthropics/skills/skills/canvas-design
-hermes skills install anthropics/skills/skills/frontend-design
-
 # install skill tambahan dari community source:
 hermes skills install skills-sh/asyrafhussin/agent-skills/php-best-practices
 hermes skills install skills-sh/mindrally/skills/php-development
