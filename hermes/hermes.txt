@@ -94,6 +94,7 @@ hermes fallback remove
    /learn https://nginx.org/en/docs/
    /learn https://www.cloudpanel.io/docs/v2/introduction/
    /learn https://www.php.net/manual/en/
+   /learn https://www.w3schools.com/PhP/php_ref_mysqli.asp
    /learn https://www.slimframework.com/docs/v4/
    /learn https://mariadb.com/docs/server/reference/sql-functions
    /learn https://docs.phpmyadmin.net/en/latest/
