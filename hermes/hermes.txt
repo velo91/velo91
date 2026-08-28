@@ -90,6 +90,97 @@ hermes fallback list
 # hapus fallback lalu pilih yang mana
 hermes fallback remove
 
+# install skill tambahan dari official hermes agent:
+hermes skills install official/security/web-pentest
+
+# install skill tambahan dari trusted source:
+hermes skills install anthropics/skills/skills/docx
+hermes skills install anthropics/skills/skills/doc-coauthoring
+hermes skills install anthropics/skills/skills/pptx
+hermes skills install anthropics/skills/skills/xlsx
+hermes skills install anthropics/skills/skills/pdf
+hermes skills install anthropics/skills/skills/canvas-design
+hermes skills install anthropics/skills/skills/frontend-design
+
+# install skill tambahan dari community source:
+hermes skills install skills-sh/asyrafhussin/agent-skills/php-best-practices
+hermes skills install skills-sh/mindrally/skills/php-development
+hermes skills install skills-sh/github/awesome-copilot/php-mcp-server-generator
+hermes skills install skills-sh/netresearch/php-modernization-skill/php-modernization
+hermes skills install skills-sh/jeffallan/claude-skills/php-pro  
+hermes skills install php-analyzer
+hermes skills install php-full-stack-developer
+hermes skills install skills-sh/planetscale/database-skills/mysql
+hermes skills install skills-sh/sanjay3290/ai-skills/mysql
+hermes skills install skills-sh/mindrally/skills/mysql-best-practices
+hermes skills install mysql
+hermes skills install mariadb
+hermes skills install skills-sh/sickn33/antigravity-awesome-skills/pentest-checklist
+hermes skills install skills-sh/sickn33/antigravity-awesome-skills/pentest-commands
+hermes skills install skills-sh/duck4nh/antigravity-kit/pentest-expert
+hermes skills install pentest-auth-bypass
+hermes skills install linux
+hermes skills install linux-service-triage
+hermes skills install linux-ai-server
+hermes skills install linux-patcher
+hermes skills install ubuntu-ai
+hermes skills install ubuntu-pro-auditor
+hermes skills install toolweb-ubuntu-hardening
+hermes skills install toolweb-ubuntu-hardening-v2
+hermes skills install os-update-checker
+hermes skills install skills-sh/bagelhole/devops-security-agent-skills/linux-administration
+hermes skills install skills-sh/bagelhole/devops-security-agent-skills/linux-hardening
+hermes skills install skills-sh/mohitmishra786/low-level-dev-skills/linux-kernel-modules
+hermes skills install skills-sh/yaklang/hack-skills/linux-privilege-escalation
+hermes skills install skills-sh/davila7/claude-code-templates/linux-production-shell-scripts
+hermes skills install skills-sh/yaklang/hack-skills/linux-security-bypass
+hermes skills install skills-sh/duck4nh/antigravity-kit/linux-server-expert
+hermes skills install vps-proactive-defense
+hermes skills install skills-sh/cloudflare/skills/cloudflare
+hermes skills install skills-sh/dmmulroy/cloudflare-skill/cloudflare
+hermes skills install nginx
+hermes skills install skills-sh/patricio0312rev/skills/nginx-config-optimizer
+hermes skills install skills-sh/aj-geddes/useful-ai-prompts/nginx-configuration
+hermes skills install skills-sh/personamanagmentlayer/pcl/nginx-expert
+hermes skills install nginx-config
+hermes skills install nginx-hosting
+hermes skills install acmesh
+hermes skills install ssl
+hermes skills install skills-sh/aj-geddes/useful-ai-prompts/ssl-certificate-management
+hermes skills install cert-expiry-checker
+hermes skills install ssl-certificate-checker
+hermes skills install ssl-certificate-manager
+hermes skills install ssl-certcheck
+hermes skills install ssl-certificate-monitor
+hermes skills install ssl-checker
+hermes skills install openssl
+hermes skills install skills-sh/everyinc/compound-engineering-plugin/rclone
+hermes skills install openclaw-backup-rclone
+hermes skills install rhandus-backup-recovery
+hermes skills install backup-full-system-jaskies
+hermes skills install openclaw-skill-backup-manager
+hermes skills install claw-backup
+hermes skills install dr-backup-gui
+hermes skills install google-drive-setup
+hermes skills install copy
+hermes skills install ssh-tunnel
+hermes skills install skills-sh/openhands/skills/ssh
+hermes skills install skills-sh/dicklesworthstone/agent_flywheel_clawdbot_skills_and_integrations/ssh
+hermes skills install skills-sh/zhinkgit/embeddedskills/ssh
+hermes skills install skills-sh/sickn33/antigravity-awesome-skills/ssh-penetration-testing
+hermes skills install skills-sh/artwist-polyakov/polyakov-claude-skills/ssh-remote-connection
+hermes skills install ssh-config-manager
+
+# pelajari skill tambahan:
+   /learn https://nginx.org/en/docs/
+   /learn https://www.cloudpanel.io/docs/v2/introduction/
+   /learn https://www.php.net/manual/en/
+   /learn https://www.slimframework.com/docs/v4/
+   /learn https://mariadb.com/docs/server/reference/sql-functions
+   /learn https://docs.phpmyadmin.net/en/latest/
+   /learn https://wordpress.org/documentation/
+   /learn https://docs.pkp.sfu.ca/learning-ojs/
+
 ===========================
 Prompt Perdana Hermes di Cloud Server dengan CloudPanel:
 ===========================
