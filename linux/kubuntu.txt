@@ -305,6 +305,31 @@ Download Burp Suite Community Edition (Free): popular web security testing tool 
 		=> Browse any website. Burp Suite will capture and let you inspect or modify HTTP/HTTPS traffic in Proxy > Intercept or HTTP history.
 
 =======================================
+Install Docker Engine dari official repo untuk Ubuntu/Kubuntu:
+=======================================
+# Hapus paket docker lama kalau ada
+sudo apt remove -y docker docker.io containerd runc
+# Install prerequisites
+sudo apt update
+sudo apt install -y ca-certificates curl gnupg
+# Tambah Docker GPG key
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+# Tambah Docker repo
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# Install Docker Engine + Compose plugin
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# Start + enable service
+sudo systemctl enable --now docker
+# Tambah user ke group docker (tanpa sudo tiap perintah)
+sudo usermod -aG docker [USER, contoh: ideapad]
+# Logout + login ulang, lalu verifikasi:
+docker version
+docker compose version
+
+=======================================
 Add swap space equals to RAM size
 =======================================
 # check has swap enabled, if output is empty, it means that your system does not have swap space enabled
@@ -1419,7 +1444,7 @@ sudo -i
 =====================================
 Install Docker with MariaDB & phpMyAdmin
 =====================================
-$ sudo apt install -y python3-distutils-extra docker.io docker-compose && sudo systemctl start docker && sudo systemctl enable docker && docker --version
+# harus sudah install docker enginge, cek: docker version && docker compose version
 $ mkdir /opt/docker-mariadb-phpmyadmin && cd /opt/docker-mariadb-phpmyadmin
 $ nano docker-compose.yml
 # copy dan paste line berikut:
