@@ -488,29 +488,85 @@ Akses awal Dokploy:
 Timezone Dokploy:
   Asia/Jakarta (WIB)
 
-Jika menggunakan Cloudflare:
-  Pastikan SSL/TLS Encryption Mode di Cloudflare
-  menggunakan:
+------------------------------------------------------------
+CLOUDFLARE
+------------------------------------------------------------
 
+Jika menggunakan Cloudflare:
+
+  Pastikan SSL/TLS Encryption Mode:
       Full (Strict)
 
   Cloudflare Dashboard:
-    SSL/TLS → Overview → Full (Strict)
+    SSL/TLS → Overview
+    → Configure SSL/TLS Encryption
+    → Full (Strict)
 
-  Jangan gunakan Flexible untuk konfigurasi HTTPS
-  normal dengan Dokploy.
+  Dokploy menyediakan dua pilihan certificate untuk
+  Full (Strict):
 
-Setelah membuat akun admin dan memasang domain HTTPS
-untuk panel Dokploy, akses IP:3000 dapat dinonaktifkan.
+  1. Let's Encrypt
+  2. Cloudflare Origin CA
 
-Perintah resmi Dokploy untuk menghapus published port 3000
-setelah HTTPS/domain panel sudah berfungsi:
+  Jika menggunakan Cloudflare Origin CA:
+
+  1. Cloudflare Dashboard
+       → SSL/TLS
+       → Origin Server
+       → Create Certificate
+
+  2. Pilih:
+       Generate private key and CSR with Cloudflare
+
+  3. Pilih hostname yang akan digunakan.
+
+  4. Setelah certificate dibuat, salin dalam format PEM.
+
+  5. Masuk ke Dokploy:
+
+     Certificates → Add Certificate
+
+   Kemudian isi:
+
+     Certificate Data
+       → paste Origin Certificate dalam format PEM
+
+     Private Key
+       → paste Private Key dalam format PEM
+
+   Lalu simpan/create certificate.
+
+  6. Saat membuat Domain di Dokploy:
+
+       HTTPS       : ON
+       Certificate : pilih certificate Origin CA
+
+  7. Pastikan hostname Domain Dokploy sama dengan
+     hostname yang tercakup dalam certificate.
+
+  Pastikan DNS Cloudflare sudah menunjuk ke IP server
+  sebelum membuat Domain di Dokploy.
+
+------------------------------------------------------------
+SETELAH HTTPS BERFUNGSI
+------------------------------------------------------------
+
+Setelah domain HTTPS untuk panel Dokploy sudah berhasil
+dan dapat diakses, published port 3000 dapat dinonaktifkan:
 
   sudo docker service update \
     --publish-rm "published=3000,target=3000,mode=host" \
     dokploy
 
-Verifikasi:
+Dengan demikian panel Dokploy tidak lagi perlu diakses
+langsung melalui:
+
+  http://IP-SERVER:3000
+
+------------------------------------------------------------
+VERIFIKASI
+------------------------------------------------------------
+
   sudo docker service ls
   sudo docker ps
   sudo ss -lntp
