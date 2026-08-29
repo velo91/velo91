@@ -7,10 +7,11 @@ set -uo pipefail
 #
 # IMPORTANT:
 # - Run from the non-root admin user that will remain as the server admin.
-# - Dokploy currently documents Ubuntu 24.04 LTS as a tested distro.
+# - Target OS: Ubuntu 24.04 LTS.
 # - Do NOT blindly apply historical kernel CVE module blocks.
-# - Dokploy needs ports 80, 443 and 3000 free at installation time.
-# - The Dokploy installer must run as root and will install Docker if needed.
+# - Dokploy requires ports 80, 443 and 3000 to be free at installation time.
+# - The Dokploy installer must run as root and installs Docker if needed.
+# - Dokploy timezone can be set with TZ=Asia/Jakarta after installation.
 
 SCRIPT_VERSION="2026-08-29-dokploy"
 LOG_FILE="/tmp/harden-server-$(date +%Y%m%d-%H%M%S).log"
