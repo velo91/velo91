@@ -537,7 +537,8 @@ Jika menggunakan Cloudflare:
   6. Saat membuat Domain di Dokploy:
 
      HTTPS       : ON
-     Certificate : pilih None (bukan Let's Encrypt)
+     Certificate : pilih None
+                   (bukan Let's Encrypt karena sudah Origin CA)
 
   7. Pastikan hostname Domain Dokploy sama dengan
      hostname yang tercakup dalam certificate.
