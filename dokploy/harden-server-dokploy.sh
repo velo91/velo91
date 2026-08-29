@@ -518,34 +518,31 @@ Jika menggunakan Cloudflare:
   2. Pilih:
        Generate private key and CSR with Cloudflare
 
-  3. Pilih hostname yang akan digunakan.
+  3. Masukkan hostname yang akan dicakup certificate, misalnya:
+     *.contoh.com
+     contoh.com
 
   4. Setelah certificate dibuat, salin dalam format PEM.
 
   5. Masuk ke Dokploy:
-
      Certificates → Add Certificate
 
-   Kemudian isi:
+     Kemudian isi:
+     Certificate Data → paste Origin Certificate
+     Private Key → paste Private Key
 
-     Certificate Data
-       → paste Origin Certificate dalam format PEM
-
-     Private Key
-       → paste Private Key dalam format PEM
-
-   Lalu simpan/create certificate.
+     Lalu simpan/create certificate.
 
   6. Saat membuat Domain di Dokploy:
 
-       HTTPS       : ON
-       Certificate : pilih certificate Origin CA
+     HTTPS       : ON
+     Certificate : pilih certificate Origin CA
 
   7. Pastikan hostname Domain Dokploy sama dengan
      hostname yang tercakup dalam certificate.
 
-  Pastikan DNS Cloudflare sudah menunjuk ke IP server
-  sebelum membuat Domain di Dokploy.
+Pastikan DNS Cloudflare sudah menunjuk ke IP server
+sebelum membuat Domain di Dokploy.
 
 ------------------------------------------------------------
 SETELAH HTTPS BERFUNGSI
