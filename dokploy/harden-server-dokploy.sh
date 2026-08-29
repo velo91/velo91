@@ -528,6 +528,7 @@ Jika menggunakan Cloudflare:
      Certificates → Add Certificate
 
      Kemudian isi:
+     Certificate Name → *.contoh.com Cloudflare's Origin CA
      Certificate Data → paste Origin Certificate
      Private Key → paste Private Key
 
