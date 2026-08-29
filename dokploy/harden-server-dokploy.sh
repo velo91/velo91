@@ -312,14 +312,6 @@ EOF"
     info "CVE module-specific dilewati."
   fi
 
-  # No HTTPS iptables rate limit here.
-  # Dokploy uses Docker/Swarm/Traefik and Docker manipulates iptables.
-  # A host INPUT rule is not a reliable way to rate-limit published Docker
-  # traffic and may create a false sense of protection.
-  log "━━━ Firewall / Docker compatibility ━━━"
-  warn "HTTPS iptables rate-limit dari versi lama TIDAK diterapkan."
-  info "Dokploy/Docker akan mengelola networking/iptables untuk published services."
-
   if ! $DRY_RUN; then
     touch "$HARDENING_MARKER"
   fi
