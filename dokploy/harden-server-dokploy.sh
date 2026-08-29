@@ -460,6 +460,14 @@ log "━━━ Installing Dokploy latest stable ━━━"
 # Run the official installer as root, as required by Dokploy.
 curl -sSL https://dokploy.com/install.sh | sudo sh
 
+# Set timezone Dokploy ke WIB
+if sudo docker service ls --format '{{.Name}}' | grep -qx 'dokploy'; then
+    sudo docker service update --env-add TZ=Asia/Jakarta dokploy
+    ok "Timezone Dokploy diubah ke Asia/Jakarta"
+else
+    warn "Service dokploy belum ditemukan, timezone tidak diubah."
+fi
+
 if command -v docker &>/dev/null && sudo docker service ls 2>/dev/null | grep -q dokploy; then
   touch "$DOKPLOY_MARKER"
   ok "Dokploy terdeteksi berjalan."
