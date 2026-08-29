@@ -485,6 +485,21 @@ HARDENING + DOKPLOY SELESAI
 Akses awal Dokploy:
   http://IP-SERVER:3000
 
+Timezone Dokploy:
+  Asia/Jakarta (WIB)
+
+Jika menggunakan Cloudflare:
+  Pastikan SSL/TLS Encryption Mode di Cloudflare
+  menggunakan:
+
+      Full (Strict)
+
+  Cloudflare Dashboard:
+    SSL/TLS → Overview → Full (Strict)
+
+  Jangan gunakan Flexible untuk konfigurasi HTTPS
+  normal dengan Dokploy.
+
 Setelah membuat akun admin dan memasang domain HTTPS
 untuk panel Dokploy, akses IP:3000 dapat dinonaktifkan.
 
