@@ -90,6 +90,30 @@ hermes fallback list
 # hapus fallback lalu pilih yang mana
 hermes fallback remove
 
+# reasoning effort (atur seberapa banyak "proses berpikir" yang dilakukan model sebelum memberikan respons)
+# beberapa pilihan pada level effort:
+   none
+   minimal
+   low
+   medium
+   high
+   xhigh
+   max
+   ultra
+# perubahan effort secara default berlaku untuk sesi saat ini; tambahkan --global untuk menyimpan level baru tersebut sebagai nilai default bagi agent
+   --global
+# tampilkan level effort dan status tampilan saat ini
+/reasoning
+# atur reasoning effort ke tingkat tinggi (hanya untuk sesi ini)
+/reasoning high
+# atur effort dan simpan secara permanen ke config.yaml
+/reasoning high --global
+# Nonaktifkan reasoning (hanya untuk sesi ini)
+/reasoning none
+# atur tampilan proses berpikir di setiap respons
+/reasoning show           # Tampilkan proses berpikir model di setiap respons
+/reasoning hide           # Sembunyikan proses berpikir model
+
 # pelajari skill tambahan:
    /learn https://docs.docker.com/
    /learn https://docs.crowdsec.net/
