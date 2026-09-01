@@ -219,29 +219,20 @@ Download VS Code for Linux
 		# add this:
 		"password-store": "basic"
 	# user settings
-		font size: 14
+		font size: 13
 		font family: 'Ubuntu Mono', 'Droid Sans Mono', monospace
 		editor wrap: on
 		color theme: Monokai Night (installed from extension Monokai Night Theme)
 	# extensions
-		ACP Client
 		Auto Commit Message
 		Auto Rename Tag
-		Claude Code for VS Code
 		DotENV
-		Hermes Agent Chat
-		Hermes Agent for Cursor & VS Code
-		Hermes AI Agent
 		Monokai Night Theme
 		NGINX Configuration Language Support
-		PHP Debug
-		PHP Intelephense
-		PHP Namespace Resolver
 		Prettier - Code formatter
 		Remote - SSH
 		Remote - SSH: Editing Configuration Files
 		Remote Explorer
-		REST Client
 Download Zoom Workplace for Linux
 	https://zoom.us/download
 Download TeamViewer for Linux
