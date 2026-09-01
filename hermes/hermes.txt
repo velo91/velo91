@@ -80,6 +80,11 @@ hermes --continue
 # update versi:
 hermes update
 
+# free model dari nous portal cocok untuk computer desktop:
+   stepfun/step-3.7-flash:free
+# free model dari nous portal cocok untuk computer desktop:
+   poolside/laguna-s-2.1:free
+
 # tambah fallback (When your main LLM provider encounters errors — rate limits, server overload, auth failures, connection drops — Hermes can automatically switch to a backup provider:model pair mid-session without losing your conversation)
 hermes fallback add
 # lihat daftar fallback
