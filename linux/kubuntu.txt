@@ -219,20 +219,29 @@ Download VS Code for Linux
 		# add this:
 		"password-store": "basic"
 	# user settings
-		font size: 13
-		font family: 'Ubuntu Mono', 'Droid Sans Mono', monospace
-		editor wrap: on
-		color theme: Monokai Night (installed from extension Monokai Night Theme)
+		editor.fontSize: 13
+		editor.fontFamily: 'Ubuntu Mono', 'Droid Sans Mono', monospace
+		editor.wordWrap: on
+		terminal.integrated.fontSize: 13
+		workbench.colorTheme: Dark 2026
 	# extensions
 		Auto Commit Message
 		Auto Rename Tag
+		change-case
+		Cline
+		Container Tools
+		Dev Containers
+		Docker
 		DotENV
-		Monokai Night Theme
+		Github Repositories
+		Kilo Code: AI Coding
 		NGINX Configuration Language Support
-		Prettier - Code formatter
 		Remote - SSH
 		Remote - SSH: Editing Configuration Files
+		Remote Development
 		Remote Explorer
+		Remote Repositories
+		vscode-pdf
 Download Zoom Workplace for Linux
 	https://zoom.us/download
 Download TeamViewer for Linux
