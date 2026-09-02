@@ -222,14 +222,20 @@ Download VS Code for Linux
 		URL: https://github.com/velo91/velo91/raw/refs/heads/main/vscode/campbell-theme-1.0.6.vsix
 		install: code --install-extension ~/Downloads/campbell-theme-1.0.6.vsix
 	# edit user settings type ">" and run:
-			Preferences: Color Theme
-		set to: Campbell
-		
-		editor.fontSize: 13
-		editor.fontFamily: 'Ubuntu Mono', 'Droid Sans Mono', monospace
-		editor.wordWrap: on
-		terminal.integrated.fontSize: 13
-		workbench.colorTheme: Dark 2026
+		Developer: Reload Windows
+	# edit user settings type ">" and run:
+		Preferences: Open User Settings (JSON)
+{
+    "editor.fontFamily": "'Ubuntu Mono', 'Droid Sans Mono', monospace",
+    "editor.wordWrap": "on",
+    "git.enableSmartCommit": true,
+    "git.autofetch": true,
+    "terminal.integrated.initialHint": false,
+    "editor.fontSize": 13,
+    "terminal.integrated.fontSize": 13,
+    "workbench.colorTheme": "Campbell"
+}
+	save it
 	# extensions
 		Auto Commit Message
 		Auto Rename Tag
