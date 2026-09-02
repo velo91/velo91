@@ -218,7 +218,13 @@ Download VS Code for Linux
 		nano ~/.vscode/argv.json
 		# add this:
 		"password-store": "basic"
-	# user settings
+	# download Campbell color scheme:
+		URL: https://github.com/velo91/velo91/raw/refs/heads/main/vscode/campbell-theme-1.0.6.vsix
+		install: code --install-extension ~/Downloads/campbell-theme-1.0.6.vsix
+	# edit user settings type ">" and run:
+			Preferences: Color Theme
+		set to: Campbell
+		
 		editor.fontSize: 13
 		editor.fontFamily: 'Ubuntu Mono', 'Droid Sans Mono', monospace
 		editor.wordWrap: on
