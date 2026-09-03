@@ -227,13 +227,22 @@ Download VS Code for Linux
 		Preferences: Open User Settings (JSON)
 {
     "editor.fontFamily": "'Ubuntu Mono', 'Droid Sans Mono', monospace",
+    "editor.fontSize": 14,
+    "editor.fontLigatures": true,
+    "editor.lineHeight": 1.35,
+    "editor.cursorBlinking": "smooth",
+    "editor.minimap.enabled": true,
+    "editor.renderWhitespace": "boundary",
+    "editor.guides.bracketPairs": true,
+    "editor.stickyScroll.enabled": true,
     "editor.wordWrap": "on",
     "git.enableSmartCommit": true,
     "git.autofetch": true,
-    "terminal.integrated.initialHint": false,
-    "editor.fontSize": 14,
     "terminal.integrated.fontSize": 14,
-    "workbench.colorTheme": "Campbell"
+    "terminal.integrated.scrollback": 10000,
+    "terminal.integrated.initialHint": false,
+    "workbench.colorTheme": "Campbell",
+    "workbench.statusBar.visible": false
 }
 	save it
 	# extensions
