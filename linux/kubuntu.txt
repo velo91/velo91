@@ -93,6 +93,7 @@ Install Google Chrome & Remove Firefox
 	# open Google Chrome: Settings > Performance > [Enable] Memory Saver: Balanced
 	# open Google Chrome: Settings > Appearance > Theme: QT
 	# open Google Chrome: Settings > Appearance > [Disable] Use system title and borders
+	# open Google Chrome: Settings > Accessibility > Swipe between pages: Off
 # remove firefox from Discover
 	==========
 	OR VIA CLI
@@ -217,7 +218,7 @@ Download VS Code for Linux
 	# fix "You're running in a KDE environment but the OS keyring is not available for encryption. Ensure you have kwallet running."
 		nano ~/.vscode/argv.json
 		# add this:
-		"password-store": "basic"
+		"password-store": "basic"z
 	# download Campbell color scheme:
 		URL: https://github.com/velo91/velo91/raw/refs/heads/main/vscode/campbell-theme-1.0.8.vsix
 		install: code --install-extension ~/Downloads/campbell-theme-1.0.8.vsix
