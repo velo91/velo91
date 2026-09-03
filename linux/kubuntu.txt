@@ -243,8 +243,11 @@ Download VS Code for Linux
     "terminal.integrated.fontSize": 14,
     "terminal.integrated.scrollback": 10000,
     "terminal.integrated.initialHint": false,
+    "workbench.statusBar.visible": false,
     "workbench.colorTheme": "Dark Velo",
-    "workbench.statusBar.visible": false
+    "workbench.startupEditor": "none",
+    "chat.agent.enabled": false,
+    "chat.agentsControl.enabled": "hidden"
 }
 	save it
 	# extensions
