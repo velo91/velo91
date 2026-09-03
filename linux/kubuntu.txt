@@ -220,8 +220,8 @@ Download VS Code for Linux
 		# add this:
 		"password-store": "basic"z
 	# download Campbell color scheme:
-		URL: https://github.com/velo91/velo91/raw/refs/heads/main/vscode/dark-velo-1.0.0.vsix
-		install: code --install-extension ~/Downloads/dark-velo-1.0.0.vsix
+		URL: https://github.com/velo91/velo91/raw/refs/heads/main/vscode/dark-velo-1.1.0.vsix
+		install: code --install-extension ~/Downloads/dark-velo-1.1.0.vsix
 	# edit user settings type ">" and run:
 		Developer: Reload Windows
 	# edit user settings type ">" and run:
