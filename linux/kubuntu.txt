@@ -227,23 +227,23 @@ Download VS Code for Linux
 	# edit user settings type ">" and run:
 		Preferences: Open User Settings (JSON)
 {
+    "editor.wordWrap": "on",
     "editor.fontFamily": "'Ubuntu Mono', 'Droid Sans Mono', monospace",
     "editor.fontSize": 14,
     "editor.fontLigatures": true,
-    "editor.lineHeight": 1.35,
+    "editor.lineHeight": 1.2,
     "editor.cursorBlinking": "smooth",
     "editor.minimap.enabled": true,
     "editor.renderWhitespace": "boundary",
     "editor.guides.bracketPairs": true,
     "editor.stickyScroll.enabled": true,
-    "editor.wordWrap": "on",
     "git.autofetch": true,
     "git.enableSmartCommit": true,
     "git.postCommitCommand": "push",
     "terminal.integrated.fontSize": 14,
     "terminal.integrated.scrollback": 10000,
     "terminal.integrated.initialHint": false,
-    "workbench.colorTheme": "Campbell",
+    "workbench.colorTheme": "Dark Velo",
     "workbench.statusBar.visible": false
 }
 	save it
