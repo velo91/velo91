@@ -219,8 +219,8 @@ Download VS Code for Linux
 		# add this:
 		"password-store": "basic"
 	# download Campbell color scheme:
-		URL: https://github.com/velo91/velo91/raw/refs/heads/main/vscode/campbell-theme-1.0.6.vsix
-		install: code --install-extension ~/Downloads/campbell-theme-1.0.6.vsix
+		URL: https://github.com/velo91/velo91/raw/refs/heads/main/vscode/campbell-theme-1.0.8.vsix
+		install: code --install-extension ~/Downloads/campbell-theme-1.0.8.vsix
 	# edit user settings type ">" and run:
 		Developer: Reload Windows
 	# edit user settings type ">" and run:
