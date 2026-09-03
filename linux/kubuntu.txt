@@ -231,8 +231,8 @@ Download VS Code for Linux
     "git.enableSmartCommit": true,
     "git.autofetch": true,
     "terminal.integrated.initialHint": false,
-    "editor.fontSize": 13,
-    "terminal.integrated.fontSize": 13,
+    "editor.fontSize": 14,
+    "terminal.integrated.fontSize": 14,
     "workbench.colorTheme": "Campbell"
 }
 	save it
