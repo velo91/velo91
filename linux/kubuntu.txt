@@ -220,8 +220,10 @@ Download VS Code for Linux
 		# add this:
 		"password-store": "basic"z
 	# download Campbell color scheme:
-		URL: https://github.com/velo91/velo91/raw/refs/heads/main/vscode/dark-velo-1.1.0.vsix
-		install: code --install-extension ~/Downloads/dark-velo-1.1.0.vsix
+		URL:
+			https://github.com/velo91/velo91/raw/refs/heads/main/vscode/dark-velo-1.1.1.vsix
+		install:
+			code --install-extension ~/Downloads/dark-velo-1.1.1.vsix
 	# edit user settings type ">" and run:
 		Developer: Reload Windows
 	# edit user settings type ">" and run:
@@ -240,14 +242,16 @@ Download VS Code for Linux
     "git.autofetch": true,
     "git.enableSmartCommit": true,
     "git.postCommitCommand": "push",
+    "github.copilot.chat.copilotDebugCommand.enabled": false,
     "terminal.integrated.fontSize": 14,
     "terminal.integrated.scrollback": 10000,
     "terminal.integrated.initialHint": false,
+    "chat.agent.enabled": false,
+    "chat.agentsControl.enabled": "hidden",
+    "chat.titleBar.signIn.enabled": false,
     "workbench.statusBar.visible": false,
     "workbench.colorTheme": "Dark Velo",
-    "workbench.startupEditor": "none",
-    "chat.agent.enabled": false,
-    "chat.agentsControl.enabled": "hidden"
+    "window.commandCenter": true
 }
 	save it
 	# extensions
