@@ -54,6 +54,9 @@ hermes config get memory
 hermes config set memory.memory_char_limit 1000000
 hermes config set memory.user_char_limit 1000000
 
+# menggunakan mode banner ringkas agar tampilan nampak padat (tercatat di ~/.hermes/config.yaml)
+hermes config set display.compact true
+
 # real profile browsing (use your own logins)
 # secara default, local browser berjalan menggunakan profil bersih yang bersifat sementara, Hermes tidak login ke akun mana pun. coba aktifkan browser dengan profil asli agar Hermes dapat menjelajah sebagai Anda, menggunakan login dan cookie yang sudah ada:
 # nano ~/.hermes/config.yaml
