@@ -123,6 +123,21 @@ $ sudo apt remove kate haruna && sudo apt autoremoveins
 # another way to do the same thing: sudo apt install htop- nano  ===> also will remove htop and install nano
 
 =======================================
+Merekam Audio YouTube di Audacity — Ubuntu
+=======================================
+Setelan di Audio Setup harus:
+├── Host               → PulseAudio
+├── Recording Device   → ...analog-stereo.monitor
+└── Recording Channels → 2 (Stereo)
+Kemudian:
+	Buka YouTube di Chrome.
+	Putar video.
+	Klik Record di Audacity.
+	Lihat meter Audacity — harus bergerak mengikuti suara YouTube.
+	Stop setelah selesai.
+	Kalau meter bergerak, berarti berhasil.
+
+=======================================
 Shortwave: Internet Radio Playlist
 =======================================
 	Best Radio Dangdut
