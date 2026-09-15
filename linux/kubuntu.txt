@@ -247,23 +247,25 @@ Download VS Code for Linux
 			https://raw.githubusercontent.com/velo91/velo91/refs/heads/main/vscode/settings.json
 		# save it (ctrl + s)
 	# extensions
-		Auto Commit Message
-		Auto Rename Tag
-		change-case
-		Cline
+		Auto Commit Message (MichaelCurrin)
+		Auto Rename Tag (Jun Han)
+		change-case (wmaurer)
+		Close All (Benjamin Pasero)
 		Container Tools
+		Dark Velo (local)
 		Dev Containers
 		Docker
-		DotENV
+		DotENV (mikestead)
 		Github Repositories
-		Kilo Code: AI Coding
-		NGINX Configuration Language Support
+		NGINX Configuration Language Support (ahmadalli)
 		Remote - SSH
 		Remote - SSH: Editing Configuration Files
 		Remote Development
 		Remote Explorer
 		Remote Repositories
-		vscode-pdf
+		Save All (nanlei)
+		Save Button (tendererdegree)
+		vscode-pdf (tomoki1207)
 Download Zoom Workplace for Linux
 	https://zoom.us/download
 Download TeamViewer for Linux
