@@ -23,5 +23,6 @@
     "chat.titleBar.signIn.enabled": false,
     "workbench.statusBar.visible": false,
     "workbench.colorTheme": "Dark Velo",
+    "workbench.editor.highlightModifiedTabs": true,
     "window.commandCenter": true
 }
