@@ -1,0 +1,713 @@
+CATATAN MAILCOW + CLOUDPANEL + CLOUDFLARE
+
+Dokumentasi instalasi dan konfigurasi Mailcow pada server CloudPanel.
+
+STATUS DOKUMEN
+
+Dokumen ini menggantikan catatan lama “mailu.txt” yang sudah usang.
+Setup saat ini menggunakan MAILCOW, bukan Mailu.
+
+Tanggal dokumentasi: 17 September 2026
+
+================================================
+1. TOPOLOGI SERVER
+================================================
+
+Server: - Public IP: 103.127.xxx.xxx - Host Mailcow:
+mail.mucharaya.com - Mailcow directory: /opt/mailcow-dockerized -
+CloudPanel sudah terpasang pada server - Cloudflare digunakan sebagai
+DNS - CloudPanel tetap mengelola web port 80/443 - Mailcow web service
+tidak langsung memakai public port 80/443
+
+Arsitektur:
+
+Internet | | HTTPS v Cloudflare | v CloudPanel :80/:443 | | Reverse
+Proxy HTTPS v 127.0.0.1:7443 | v Mailcow nginx | +– SOGo Webmail +–
+Mailcow UI +– PHP-FPM +– Rspamd +– dll
+
+SMTP/IMAP: Internet | +– SMTP 25 ——> Mailcow Postfix +– SMTPS 465 —->
+Mailcow Postfix +– Submission 587 -> Mailcow Postfix +– IMAP 143/993 ->
+Mailcow Dovecot +– POP3 110/995 -> Mailcow Dovecot
+
+================================================
+2. KONFIGURASI MAILCOW
+================================================
+
+Lokasi:
+
+cd /opt/mailcow-dockerized
+
+File konfigurasi:
+
+/opt/mailcow-dockerized/mailcow.conf
+
+Konfigurasi penting:
+
+MAILCOW_HOSTNAME=mail.mucharaya.com
+
+HTTP_PORT=7080 HTTP_BIND=127.0.0.1
+
+HTTPS_PORT=7443 HTTPS_BIND=127.0.0.1
+
+ENABLE_IPV6=false
+
+Catatan: - Mailcow HTTP internal: 127.0.0.1:7080 - Mailcow HTTPS
+internal: 127.0.0.1:7443 - CloudPanel reverse proxy mengarah ke HTTPS
+127.0.0.1:7443 - Jangan mengubah konfigurasi ini tanpa memahami konflik
+port dengan CloudPanel.
+
+================================================
+3. VALIDASI KONFIGURASI MAILCOW
+================================================
+
+Sebelum menjalankan Mailcow:
+
+cd /opt/mailcow-dockerized
+
+docker compose config –quiet
+
+Jika tidak ada output/error, konfigurasi Compose valid.
+
+Menjalankan Mailcow:
+
+docker compose up -d
+
+Melihat status:
+
+docker compose ps
+
+Melihat log:
+
+docker compose logs -f
+
+atau per service:
+
+docker compose logs -f nginx-mailcow docker compose logs -f
+postfix-mailcow docker compose logs -f dovecot-mailcow docker compose
+logs -f sogo-mailcow
+
+================================================
+4. CLOUDPANEL REVERSE PROXY
+================================================
+
+Domain:
+
+mail.mucharaya.com
+
+CloudPanel digunakan sebagai reverse proxy karena CloudPanel sudah
+memakai port 80/443.
+
+Target reverse proxy:
+
+https://127.0.0.1:7443
+
+CloudPanel juga digunakan untuk mendapatkan sertifikat Let’s Encrypt
+untuk:
+
+mail.mucharaya.com
+
+Status yang sudah berhasil: - HTTPS aktif - Sertifikat Let’s Encrypt
+aktif - mail.mucharaya.com dapat dibuka melalui browser
+
+================================================
+5. CLOUDFLARE DNS UNTUK MAILCOW
+================================================
+
+Record utama:
+
+A Name: mail
+
+IPv4: 103.127.xxx.xxx
+
+Proxy: DNS ONLY
+
+PENTING: mail.mucharaya.com harus DNS only. Jangan menggunakan
+Cloudflare orange-cloud/proxy untuk hostname SMTP/IMAP Mailcow.
+
+Untuk domain mucharaya.com:
+
+MX Name: @
+
+Mail server: mail.mucharaya.com
+
+Priority: 10
+
+SPF:
+
+TXT Name: @
+
+Value: v=spf1 mx a -all
+
+DMARC:
+
+TXT Name: _dmarc
+
+Value: v=DMARC1;p=none;rua=mailto:dmarc@mucharaya.com
+
+DKIM:
+
+TXT Name: dkim._domainkey
+
+Value: Ambil key persis dari Mailcow. Jangan mengetik ulang atau membuat
+key sendiri.
+
+Autodiscover:
+
+CNAME Name: autodiscover
+
+Target: mail.mucharaya.com
+
+Autoconfig:
+
+CNAME Name: autoconfig
+
+Target: mail.mucharaya.com
+
+SRV autodiscover (opsional):
+
+Name: _autodiscover._tcp
+
+Priority: 0
+
+Weight: 1
+
+Port: 443
+
+Target: mail.mucharaya.com
+
+================================================
+6. PTR / REVERSE DNS
+================================================
+
+IP: 103.127.xxx.xxx
+
+Hostname yang diinginkan:
+
+mail.mucharaya.com
+
+PTR aktual sebelumnya: ip-161-138-127-103.wjv-1.biznetg.io.
+
+PTR tidak dikelola melalui DNS forward zone mucharaya.com.
+
+Jika suatu saat ingin memperbaiki PTR: minta provider/IP owner (Biznet)
+mengatur reverse DNS:
+
+103.127.xxx.xxx -> mail.mucharaya.com
+
+Untuk setup ini PTR sengaja tidak dijadikan blocker dan tidak digunakan
+sebagai syarat melanjutkan konfigurasi.
+
+JANGAN membuat record palsu seperti:
+
+161.138.127.103.in-addr.arpa
+
+di zone normal mucharaya.com dengan asumsi itu otomatis mengubah PTR.
+Reverse DNS harus berada pada reverse zone yang memang
+dikelola/delegasikan oleh pemilik blok IP.
+
+================================================
+7. AKUN ADMIN MAILCOW
+================================================
+
+Mailcow memiliki akun administrator untuk masuk ke Mailcow UI.
+
+Akun admin Mailcow berbeda dengan mailbox email.
+
+Jika password admin bermasalah, gunakan helper reset admin Mailcow dari
+direktori instalasi sesuai dokumentasi/versi Mailcow yang digunakan.
+
+Jangan menggunakan akun admin Mailcow sebagai akun mailbox.
+
+================================================
+8. DOMAIN PERTAMA: MUCHARAYA.COM
+================================================
+
+Domain:
+
+mucharaya.com
+
+Sudah ditambahkan ke Mailcow.
+
+Mailbox yang dibuat:
+
+info@mucharaya.com
+
+Webmail:
+
+https://mail.mucharaya.com
+
+Login mailbox:
+
+info@mucharaya.com
+
+PENTING: URL webmail tetap mail.mucharaya.com walaupun mailbox berasal
+dari domain berbeda.
+
+================================================
+9. TEST EMAIL MUCHARAYA.COM
+================================================
+
+Test outbound:
+
+info@mucharaya.com -> Gmail
+
+Test berhasil.
+
+Header Gmail menunjukkan:
+
+SPF: PASS DKIM: PASS DMARC: PASS
+
+Contoh hasil autentikasi:
+
+dkim=pass header.i=@mucharaya.com spf=pass dmarc=pass
+header.from=mucharaya.com
+
+Koneksi SMTP juga berhasil menggunakan:
+
+TLS 1.3 TLS_AES_256_GCM_SHA384
+
+Artinya: - Mailcow dapat mengirim ke Gmail - Gmail menerima email - SPF
+valid - DKIM valid - DMARC valid - TLS valid
+
+================================================
+10. SPAM / DELIVERABILITY
+================================================
+
+Pada tahap awal email dapat masuk ke Spam Gmail.
+
+Ini tidak berarti konfigurasi SPF/DKIM/DMARC salah.
+
+Untuk domain/server baru: - reputasi IP belum terbentuk - reputasi
+domain belum terbentuk - volume pengiriman masih rendah - Gmail dapat
+menempatkan email baru di Spam
+
+Jangan mengubah SPF/DKIM/DMARC yang sudah PASS hanya karena email masuk
+Spam.
+
+Lakukan warming secara normal: - kirim email yang memang diperlukan -
+jangan melakukan bulk spam - penerima dapat menandai email sebagai “Not
+spam” - gunakan mailbox secara normal
+
+================================================
+11. DOMAIN KEDUA: TEUNULEHJOURNAL.COM
+================================================
+
+Mailcow yang sama digunakan.
+
+TIDAK perlu: - instal Mailcow kedua - Docker Compose kedua - server
+kedua - reverse proxy kedua - mail.teunulehjournal.com
+
+Server mail tetap:
+
+mail.mucharaya.com 103.127.xxx.xxx
+
+Domain:
+
+teunulehjournal.com
+
+Mailbox:
+
+info@teunulehjournal.com
+
+================================================
+12. DNS TEUNULEHJOURNAL.COM
+================================================
+
+MX:
+
+Type: MX
+
+Name: @
+
+Mail server: mail.mucharaya.com
+
+Priority: 10
+
+SPF:
+
+Type: TXT
+
+Name: @
+
+Value: v=spf1 mx a -all
+
+DMARC:
+
+Type: TXT
+
+Name: _dmarc
+
+Value: v=DMARC1;p=none;rua=mailto:dmarc@teunulehjournal.com
+
+DKIM:
+
+Type: TXT
+
+Name: dkim._domainkey
+
+Value: Gunakan key DKIM yang dibuat Mailcow untuk domain
+teunulehjournal.com.
+
+Jangan memakai DKIM key dari mucharaya.com.
+
+Autodiscover:
+
+Type: CNAME
+
+Name: autodiscover
+
+Target: mail.mucharaya.com
+
+Autoconfig:
+
+Type: CNAME
+
+Name: autoconfig
+
+Target: mail.mucharaya.com
+
+SRV autodiscover (opsional):
+
+Type: SRV
+
+Name: _autodiscover._tcp
+
+Priority: 0
+
+Weight: 1
+
+Port: 443
+
+Target: mail.mucharaya.com
+
+================================================
+13. CATATAN TLSA
+================================================
+
+Mailcow dapat menampilkan record TLSA seperti:
+
+_25._tcp.mail.mucharaya.com
+
+Jangan membuat record TLSA secara asal.
+
+Jika sedang berada di Cloudflare zone teunulehjournal.com, jangan
+memasukkan:
+
+_25._tcp.mail.mucharaya.com
+
+ke kolom Name secara langsung.
+
+Cloudflare akan menganggapnya sebagai:
+
+_25._tcp.mail.mucharaya.com.teunulehjournal.com
+
+yang salah.
+
+Untuk konfigurasi saat ini: TLSA/DANE tidak diperlukan untuk membuat
+email bekerja.
+
+TLSA sengaja diabaikan.
+
+================================================
+14. MEMBUAT MAILBOX TEUNULEHJOURNAL.COM
+================================================
+
+Di Mailcow:
+
+Email -> Mailboxes -> Add mailbox
+
+Isi:
+
+Local part: info
+
+Domain: teunulehjournal.com
+
+Hasil:
+
+info@teunulehjournal.com
+
+Webmail tetap:
+
+https://mail.mucharaya.com
+
+Login:
+
+info@teunulehjournal.com
+
+================================================
+15. TEST TEUNULEHJOURNAL.COM
+================================================
+
+Outbound:
+
+info@teunulehjournal.com -> Gmail
+
+Periksa header Gmail:
+
+SPF = PASS DKIM = PASS DMARC = PASS
+
+Inbound:
+
+Gmail -> info@teunulehjournal.com -> SOGo Inbox
+
+================================================
+16. VERIFIKASI DNS DARI SERVER
+================================================
+
+MX:
+
+dig MX mucharaya.com +short
+
+dig MX teunulehjournal.com +short
+
+Target:
+
+mail.mucharaya.com.
+
+SPF:
+
+dig TXT mucharaya.com +short
+
+dig TXT teunulehjournal.com +short
+
+DKIM:
+
+dig TXT dkim._domainkey.mucharaya.com +short
+
+dig TXT dkim._domainkey.teunulehjournal.com +short
+
+DMARC:
+
+dig TXT _dmarc.mucharaya.com +short
+
+dig TXT _dmarc.teunulehjournal.com +short
+
+Mail hostname:
+
+dig mail.mucharaya.com +short
+
+Target:
+
+103.127.xxx.xxx
+
+================================================
+17. AUTO START SETELAH SERVER REBOOT
+================================================
+
+Docker sudah dikonfigurasi:
+
+systemctl is-enabled docker
+
+Hasil:
+
+enabled
+
+Semua container Mailcow juga menggunakan:
+
+RestartPolicy: always
+
+Verifikasi:
+
+docker inspect -f ‘{{.Name}} -> {{.HostConfig.RestartPolicy.Name}}’
+$(docker compose ps -q)
+
+Hasil yang sudah diverifikasi: - acme-mailcow -> always - clamd-mailcow
+-> always - dockerapi-mailcow -> always - dovecot-mailcow -> always -
+memcached-mailcow -> always - mysql-mailcow -> always -
+netfilter-mailcow -> always - nginx-mailcow -> always - ofelia-mailcow
+-> always - olefy-mailcow -> always - php-fpm-mailcow -> always -
+postfix-mailcow -> always - postfix-tlspol-mailcow -> always -
+redis-mailcow -> always - rspamd-mailcow -> always - sogo-mailcow ->
+always - unbound-mailcow -> always - watchdog-mailcow -> always
+
+Kesimpulan: Setelah server reboot: 1. Docker otomatis start. 2.
+Container Mailcow otomatis start. 3. Webmail kembali tersedia. 4.
+SMTP/IMAP kembali tersedia.
+
+Tidak perlu membuat systemd service tambahan khusus untuk Mailcow.
+
+================================================
+18. PERINTAH OPERASIONAL HARIAN
+================================================
+
+Masuk ke direktori Mailcow:
+
+cd /opt/mailcow-dockerized
+
+Cek semua container:
+
+docker compose ps
+
+Start:
+
+docker compose up -d
+
+Stop:
+
+docker compose down
+
+Restart:
+
+docker compose restart
+
+Restart service tertentu:
+
+docker compose restart nginx-mailcow
+
+Lihat log:
+
+docker compose logs -f
+
+Lihat log Postfix:
+
+docker compose logs -f postfix-mailcow
+
+Lihat log Dovecot:
+
+docker compose logs -f dovecot-mailcow
+
+Lihat log SOGo:
+
+docker compose logs -f sogo-mailcow
+
+Lihat resource:
+
+docker stats
+
+================================================
+19. PORT PENTING
+================================================
+
+Web internal Mailcow:
+
+127.0.0.1:7080 127.0.0.1:7443
+
+SMTP:
+
+25 465 587
+
+IMAP:
+
+143 993
+
+POP3:
+
+110 995
+
+ManageSieve:
+
+4190
+
+CloudPanel: 80 443
+
+Jangan mengubah port CloudPanel ke port Mailcow secara sembarangan
+karena keduanya berada pada server yang sama.
+
+================================================
+20. CHECKLIST JIKA EMAIL BERMASALAH
+================================================
+
+1.  Cek container:
+
+docker compose ps
+
+2.  Cek Postfix:
+
+docker compose logs –tail=100 postfix-mailcow
+
+3.  Cek Dovecot:
+
+docker compose logs –tail=100 dovecot-mailcow
+
+4.  Cek Rspamd:
+
+docker compose logs –tail=100 rspamd-mailcow
+
+5.  Cek DNS MX:
+
+dig MX domain.tld +short
+
+6.  Cek SPF:
+
+dig TXT domain.tld +short
+
+7.  Cek DKIM:
+
+dig TXT dkim._domainkey.domain.tld +short
+
+8.  Cek DMARC:
+
+dig TXT _dmarc.domain.tld +short
+
+9.  Pastikan mail hostname:
+
+dig mail.mucharaya.com +short
+
+10. Pastikan mail.mucharaya.com tetap DNS ONLY di Cloudflare.
+
+================================================
+21. PRINSIP KONFIGURASI
+================================================
+
+-   Satu Mailcow dapat melayani banyak domain.
+-   Setiap domain harus memiliki MX sendiri yang menunjuk ke mail
+    server.
+-   Setiap domain memiliki SPF sendiri.
+-   Setiap domain memiliki DKIM sendiri.
+-   Setiap domain memiliki DMARC sendiri.
+-   Mail hostname tetap satu: mail.mucharaya.com.
+-   Jangan membuat mail.teunulehjournal.com hanya karena domain baru
+    ditambahkan.
+-   Jangan menggunakan Cloudflare Proxy untuk hostname mail.
+-   Jangan membuat DKIM secara manual jika Mailcow sudah menghasilkan
+    key.
+-   Jangan mengubah SPF yang sudah PASS tanpa alasan.
+-   DMARC awal menggunakan p=none untuk monitoring.
+-   TLSA/DANE tidak diperlukan untuk setup dasar ini.
+-   PTR tidak dijadikan blocker dalam setup ini.
+
+================================================
+22. KONFIGURASI SAAT INI - RINGKAS
+================================================
+
+MAILCOW HOSTNAME: mail.mucharaya.com
+
+SERVER IP: 103.127.xxx.xxx
+
+MAILCOW PATH: /opt/mailcow-dockerized
+
+CLOUDPANEL: Reverse proxy mail.mucharaya.com -> https://127.0.0.1:7443
+
+DOMAIN 1: mucharaya.com
+
+MAILBOX: info@mucharaya.com
+
+DOMAIN 2: teunulehjournal.com
+
+MAILBOX: info@teunulehjournal.com
+
+MAIL SERVER: mail.mucharaya.com
+
+SMTP: 25 / 465 / 587
+
+IMAP: 143 / 993
+
+POP3: 110 / 995
+
+SPF: v=spf1 mx a -all
+
+DMARC: v=DMARC1;p=none;rua=mailto:dmarc@DOMAIN
+
+DKIM: Dibuat otomatis oleh Mailcow per domain.
+
+PTR: Diabaikan untuk sementara.
+
+================================================
+SELESAI
+================================================
+
+Catatan ini menggantikan konfigurasi Mailu lama.
+
+Jika server dipindahkan, domain mail diganti, IP berubah, atau
+CloudPanel diganti, bagian topologi, DNS, reverse proxy, mailcow.conf,
+dan PTR harus ditinjau ulang.
