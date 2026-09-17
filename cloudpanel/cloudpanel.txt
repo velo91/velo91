@@ -798,6 +798,15 @@ disable_functions=pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexite
 # $string['invalidrecordunknown'] = 'Can\'t find data record in database.';
 # change to:
 # $string['invalidrecordunknown'] = 'Can\'t find data record in database. If this happens on the course page, please open course settings and then click save button again.';
+# Paksa http status tetap 200 walaupun untuk mengakses /course/info.php harus login dulu, caranya edit /course/info.php, ganti:
+    if (!core_course_category::can_view_course_info($course) && !is_enrolled($context, null, '', true)) {
+        throw new \moodle_exception('cannotviewcategory', '', $CFG->wwwroot .'/');
+    }
+# menjadi:
+    if (!core_course_category::can_view_course_info($course) && !is_enrolled($context, null, '', true)) {
+        // diberi komentar saja agar walaupun access denied, http status tetap 200 (bukan 404) biar data di google search console lebih indah
+        //throw new \moodle_exception('cannotviewcategory', '', $CFG->wwwroot .'/');
+    }
 # ADDITIONAL FOR MOUNTING "FILEDIR" WITH GOOGLE DRIVE
 nano /home/bbg-spada/mount-spada-google-drive.sh
 # paste it
