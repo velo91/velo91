@@ -1,0 +1,109 @@
+<?php
+
+die('
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OJS - Maintenance</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fa;
+            color: #1f2937;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            text-align: center;
+            background: #ffffff;
+            padding: 50px 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0 0 15px;
+            font-size: 30px;
+            color: #111827;
+        }
+
+        p {
+            margin: 10px 0;
+            font-size: 16px;
+            line-height: 1.7;
+            color: #6b7280;
+        }
+
+        .notice {
+            margin-top: 25px;
+            padding: 15px 20px;
+            background: #f3f4f6;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+        .server-info {
+            margin-top: 8px;
+            font-size: 10px;
+            color: #e5e7eb;
+            letter-spacing: 0.3px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="icon">🔧</div>
+
+    <h1>OJS Sedang Dalam Maintenance</h1>
+
+    <p>
+        Sistem <strong>Open Journal Systems (OJS)</strong> sedang dalam
+        proses pemeliharaan dan pemindahan server.
+    </p>
+
+    <p>
+        Untuk sementara waktu, layanan OJS belum dapat diakses.
+        Kami mohon maaf atas ketidaknyamanan yang terjadi.
+    </p>
+
+    <div class="notice">
+        Sistem akan kembali dapat diakses setelah proses pemindahan
+        dan konfigurasi server selesai.
+    </div>
+
+    <div class="footer">
+        Terima kasih atas pengertian dan kesabarannya.
+        <div class="server-info">
+            Server ___
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+');
