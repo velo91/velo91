@@ -5,6 +5,7 @@ sudo apt install gnome-browser-connector
 	https://extensions.gnome.org/extension/4839/clipboard-history/?utm_source=chatgpt.com
 	https://extensions.gnome.org/extension/10548/notedock/
 sudo apt install tilix
+	preferences > profile > general > custom font: enabled > Ubuntu Mono 11pt
 
 ======================================
 Download Kubuntu ISO => https://kubuntu.org/download/
