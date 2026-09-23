@@ -4,7 +4,7 @@ sudo apt install gnome-shell-extension-manager
 sudo apt install gnome-browser-connector
 	https://extensions.gnome.org/extension/4839/clipboard-history/?utm_source=chatgpt.com
 	https://extensions.gnome.org/extension/10548/notedock/
-TILIX: sudo apt install tilix
+sudo apt install tilix
 
 ======================================
 Download Kubuntu ISO => https://kubuntu.org/download/
