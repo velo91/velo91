@@ -1,3 +1,7 @@
+GNOME
+https://extensions.gnome.org/extension/4839/clipboard-history/?utm_source=chatgpt.com
+https://extensions.gnome.org/extension/10548/notedock/
+
 ======================================
 Download Kubuntu ISO => https://kubuntu.org/download/
 =======================================
