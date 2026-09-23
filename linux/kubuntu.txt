@@ -1,4 +1,5 @@
 GNOME
+sudo apt-get install gnome-browser-connector
 https://extensions.gnome.org/extension/4839/clipboard-history/?utm_source=chatgpt.com
 https://extensions.gnome.org/extension/10548/notedock/
 
