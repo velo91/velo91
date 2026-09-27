@@ -6,6 +6,13 @@ sudo apt install gnome-browser-connector
 	https://extensions.gnome.org/extension/10548/notedock/
 sudo apt install tilix
 	preferences > profile > general > custom font: enabled > Ubuntu Mono 11pt
+sudo apt install dolphin
+	# to set Dolphin as the default for folders, run:
+	xdg-mime default org.kde.dolphin.desktop inode/directory
+	# then check:
+	xdg-mime query default inode/directory
+	# the result should be:
+	org.kde.dolphin.desktop
 
 ======================================
 Download Kubuntu ISO => https://kubuntu.org/download/
