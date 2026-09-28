@@ -3,6 +3,7 @@
 DOMAIN
 
 service name: phpmyadmin
+host: example-phpmyadmin.example.com
 strip path: off
 container port: 80
 custom entry point: off
