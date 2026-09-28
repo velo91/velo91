@@ -211,6 +211,7 @@ $ echo -e 'Types: deb\nURIs: https://download.sublimetext.com/\nSuites: apt/stab
 $ sudo apt update && sudo apt install -y sublime-text
 #
 # register version 4200: sudo perl -pi -e 's/\x0F\xB6\x51\x05\x83\xF2\x01/\xC6\x41\x05\x01\xB2\x00\x90/' /opt/sublime_text/sublime_text
+# register version 4215: sudo perl -pi -e 's/\x0F\xB6\x51\x0C\x83\xF2\x01/\xC6\x41\x0C\x01\x31\xD2\x90/' /opt/sublime_text/sublime_text
 #
 # Ctrl + Shift + P: install package control
 # Ctrl + Shift + P: install package
