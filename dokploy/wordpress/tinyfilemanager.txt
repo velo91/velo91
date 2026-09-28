@@ -1,0 +1,22 @@
+services:
+
+  tinyfilemanager:
+    image: tinyfilemanager/tinyfilemanager:master
+    restart: unless-stopped
+    volumes:
+      - wordpress_data:/var/www/html/data
+    networks:
+      - dokploy-network
+
+
+volumes:
+
+  wordpress_data:
+    external: true
+    name: wordpress-web-ljiscd_wordpress_data
+
+
+networks:
+
+  dokploy-network:
+    external: true
