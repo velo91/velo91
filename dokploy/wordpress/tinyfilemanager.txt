@@ -3,6 +3,7 @@
 DOMAIN
 
 service name: tinyfilemanager
+host: example-tinyfilemanager.example.com
 strip path: off
 container port: 80
 custom entry point: off
