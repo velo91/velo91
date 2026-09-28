@@ -1,0 +1,16 @@
+services:
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    environment:
+      PMA_HOST: wordpress-db-d0tzsq
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 0
+    networks:
+      - dokploy-network
+
+networks:
+
+  dokploy-network:
+    external: true
