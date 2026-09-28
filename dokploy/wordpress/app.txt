@@ -1,0 +1,178 @@
+services:
+
+  php:
+    image: php:8.5-fpm
+    restart: unless-stopped
+    configs:
+      - source: php_custom
+        target: /usr/local/etc/php/conf.d/zz-custom.ini
+      - source: fpm_pool
+        target: /usr/local/etc/php-fpm.d/zz-www.conf
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - dokploy-network
+
+  nginx:
+    image: nginx:stable
+    restart: unless-stopped
+    configs:
+      - source: nginx_config
+        target: /etc/nginx/conf.d/default.conf
+    volumes:
+      - wordpress_data:/var/www/html:ro
+    networks:
+      - dokploy-network
+    depends_on:
+      - php
+
+
+configs:
+
+  php_custom:
+    content: |
+      upload_max_filesize = 128M
+      post_max_size = 128M
+      memory_limit = 512M
+      max_execution_time = 180
+      max_input_time = 180
+      max_input_vars = 10000
+      date.timezone = Asia/Jakarta
+      display_errors = Off
+      expose_php = Off
+      disable_functions = pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,pcntl_unshare
+      opcache.enable = 1
+      opcache.memory_consumption = 128
+      opcache.interned_strings_buffer = 16
+      opcache.max_accelerated_files = 20000
+      opcache.revalidate_freq = 60
+
+  fpm_pool:
+    content: |
+      [www]
+      user = www-data
+      group = www-data
+      listen = 9000
+      pm = dynamic
+      pm.max_children = 20
+      pm.start_servers = 4
+      pm.min_spare_servers = 2
+      pm.max_spare_servers = 6
+      pm.max_requests = 500
+      request_terminate_timeout = 180s
+      catch_workers_output = yes
+
+
+  nginx_config:
+    content: |
+      limit_req_zone $$binary_remote_addr zone=general:10m rate=20r/s;
+
+      map $$http_x_forwarded_proto $$fcgi_https {
+          default off;
+          https on;
+      }
+
+      server {
+
+          listen 80;
+
+          server_name ccgs.ac.id *.ccgs.ac.id;
+
+          root /var/www/html;
+
+          index index.php index.html index.htm;
+
+          client_max_body_size 128M;
+          client_body_timeout 60s;
+          send_timeout 60s;
+
+
+          # --------------------------------------------------
+          # SECURITY
+          # --------------------------------------------------
+
+          # Block hidden files except .well-known
+          location ~ /\.(?!well-known).* {
+              deny all;
+          }
+
+          # Block Git repository
+          location ~ /\.git {
+              deny all;
+          }
+
+          # Block PHP execution inside common upload directories
+          location ~* /(?:uploads|files)/.*\.php$ {
+              deny all;
+          }
+
+          # Block PHP execution inside .well-known
+          location ~ ^/\.well-known/.*\.php$ {
+              deny all;
+          }
+
+
+          # --------------------------------------------------
+          # APPLICATION
+          # --------------------------------------------------
+
+          location / {
+
+              limit_req zone=general burst=40;
+
+              try_files $$uri $$uri/ /index.php?$$args;
+          }
+
+
+          # --------------------------------------------------
+          # PHP
+          # --------------------------------------------------
+
+          location ~ \.php$ {
+
+              try_files $$uri =404;
+
+              include fastcgi_params;
+
+              fastcgi_param SCRIPT_FILENAME $$document_root$$fastcgi_script_name;
+
+              fastcgi_param HTTP_X_FORWARDED_PROTO $$http_x_forwarded_proto;
+              fastcgi_param HTTP_X_FORWARDED_HOST $$http_x_forwarded_host;
+              fastcgi_param HTTP_X_FORWARDED_FOR $$http_x_forwarded_for;
+              fastcgi_param HTTPS $$fcgi_https;
+
+              fastcgi_connect_timeout 60s;
+              fastcgi_send_timeout 300s;
+              fastcgi_read_timeout 300s;
+
+              fastcgi_pass php:9000;
+          }
+
+
+          # --------------------------------------------------
+          # STATIC FILES
+          # --------------------------------------------------
+
+          location ~* \.(css|js|jpg|jpeg|png|gif|ico|svg|svgz|webp|avif|woff|woff2|ttf|otf|eot|mp4|ogg|ogv|webm|zip|pdf|doc|docx|xls|xlsx|rar|tar|7z)$ {
+
+              expires 7d;
+
+              add_header Cache-Control "public";
+
+              access_log off;
+              log_not_found off;
+
+              try_files $$uri =404;
+          }
+      }
+
+
+volumes:
+
+  wordpress_data:
+
+
+networks:
+
+  dokploy-network:
+    external: true
