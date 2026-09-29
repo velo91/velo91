@@ -115,10 +115,10 @@ hermes fallback remove
    --global
 # tampilkan level effort dan status tampilan saat ini
 /reasoning
-# atur reasoning effort ke tingkat tinggi (hanya untuk sesi ini)
-/reasoning high
+# atur reasoning effort ke tingkat rendah (hanya untuk sesi ini)
+/reasoning low
 # atur effort dan simpan secara permanen ke config.yaml
-/reasoning high --global
+/reasoning low --global
 # Nonaktifkan reasoning (hanya untuk sesi ini)
 /reasoning none
 # atur tampilan proses berpikir di setiap respons
