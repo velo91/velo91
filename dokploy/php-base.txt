@@ -64,3 +64,10 @@ php:
 
 # Verifikasi di container
 docker exec <container_php> php -m
+
+
+
+# Cek dukungan HEIC/HEIF
+docker exec <container_php> php -r 'echo Imagick::getVersion()["versionString"], "\n"; print_r(Imagick::queryFormats("HEI*"));'
+
+
