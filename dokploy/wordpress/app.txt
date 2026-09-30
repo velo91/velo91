@@ -1,21 +1,13 @@
 ===========================================================
 ===========================================================
-DOMAIN
-
-service name: nginx
-host: example.com
-strip path: off
-container port: 80
-custom entry point: off
-https: ON
-certificate provider: none
+DOMAIN: EMPTY (biar setel lewat label traefik di baris nginx
 ===========================================================
 ===========================================================
 
 services:
 
   php:
-    image: php:8.5-fpm
+    image: php-base:8.5-fpm
     restart: unless-stopped
     configs:
       - source: php_custom
@@ -30,6 +22,14 @@ services:
   nginx:
     image: nginx:stable
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wordpress-wildcard.rule=Host(`example.com`) || HostRegexp(`^[a-z0-9-]+\\.example\\.com$`)"
+      - "traefik.http.routers.wordpress-wildcard.entrypoints=websecure"
+      - "traefik.http.routers.wordpress-wildcard.tls=true"
+      - "traefik.http.routers.wordpress-wildcard.tls.certresolver=none"
+      - "traefik.http.routers.wordpress-wildcard.service=wordpress-wildcard"
+      - "traefik.http.services.wordpress-wildcard.loadbalancer.server.port=80"
     configs:
       - source: nginx_config
         target: /etc/nginx/conf.d/default.conf
@@ -40,9 +40,7 @@ services:
     depends_on:
       - php
 
-
 configs:
-
   php_custom:
     content: |
       upload_max_filesize = 128M
@@ -76,7 +74,6 @@ configs:
       request_terminate_timeout = 180s
       catch_workers_output = yes
 
-
   nginx_config:
     content: |
       limit_req_zone $$binary_remote_addr zone=general:10m rate=20r/s;
@@ -87,69 +84,43 @@ configs:
       }
 
       server {
-
           listen 80;
-
-          server_name ccgs.ac.id *.ccgs.ac.id;
+          server_name bbg.ac.id *.bbg.ac.id;
 
           root /var/www/html;
-
           index index.php index.html index.htm;
 
           client_max_body_size 128M;
           client_body_timeout 60s;
           send_timeout 60s;
 
-
-          # --------------------------------------------------
-          # SECURITY
-          # --------------------------------------------------
-
-          # Block hidden files except .well-known
           location ~ /\.(?!well-known).* {
               deny all;
           }
 
-          # Block Git repository
           location ~ /\.git {
               deny all;
           }
 
-          # Block PHP execution inside common upload directories
           location ~* /(?:uploads|files)/.*\.php$ {
               deny all;
           }
 
-          # Block PHP execution inside .well-known
           location ~ ^/\.well-known/.*\.php$ {
               deny all;
           }
 
-
-          # --------------------------------------------------
-          # APPLICATION
-          # --------------------------------------------------
-
           location / {
-
               limit_req zone=general burst=40;
-
               try_files $$uri $$uri/ /index.php?$$args;
           }
 
-
-          # --------------------------------------------------
-          # PHP
-          # --------------------------------------------------
-
           location ~ \.php$ {
-
               try_files $$uri =404;
 
               include fastcgi_params;
 
               fastcgi_param SCRIPT_FILENAME $$document_root$$fastcgi_script_name;
-
               fastcgi_param HTTP_X_FORWARDED_PROTO $$http_x_forwarded_proto;
               fastcgi_param HTTP_X_FORWARDED_HOST $$http_x_forwarded_host;
               fastcgi_param HTTP_X_FORWARDED_FOR $$http_x_forwarded_for;
@@ -162,17 +133,9 @@ configs:
               fastcgi_pass php:9000;
           }
 
-
-          # --------------------------------------------------
-          # STATIC FILES
-          # --------------------------------------------------
-
           location ~* \.(css|js|jpg|jpeg|png|gif|ico|svg|svgz|webp|avif|woff|woff2|ttf|otf|eot|mp4|ogg|ogv|webm|zip|pdf|doc|docx|xls|xlsx|rar|tar|7z)$ {
-
               expires 7d;
-
               add_header Cache-Control "public";
-
               access_log off;
               log_not_found off;
 
@@ -180,13 +143,9 @@ configs:
           }
       }
 
-
 volumes:
-
   wordpress_data:
 
-
 networks:
-
   dokploy-network:
     external: true
