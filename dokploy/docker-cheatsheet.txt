@@ -1,0 +1,438 @@
+DOCKER CHEATSHEET
+=================
+
+Catatan singkat perintah Docker yang umum digunakan pada server.
+
+
+1. LIHAT CONTAINER
+------------------
+
+Lihat container yang sedang berjalan:
+
+docker ps
+
+Lihat semua container:
+
+docker ps -a
+
+Format ringkas:
+
+docker ps -a --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'
+
+Cari container berdasarkan nama:
+
+docker ps -a --filter name=wordpress
+
+
+2. LIHAT IMAGE
+--------------
+
+Lihat semua image:
+
+docker images
+
+Lihat ukuran penggunaan Docker:
+
+docker system df
+
+Lihat dangling image:
+
+docker images --filter dangling=true
+
+
+3. START / STOP / RESTART
+-------------------------
+
+Start container:
+
+docker start NAMA_CONTAINER
+
+Stop container:
+
+docker stop NAMA_CONTAINER
+
+Restart container:
+
+docker restart NAMA_CONTAINER
+
+
+4. LOG CONTAINER
+----------------
+
+Lihat log:
+
+docker logs NAMA_CONTAINER
+
+100 baris terakhir:
+
+docker logs --tail 100 NAMA_CONTAINER
+
+Log realtime:
+
+docker logs -f NAMA_CONTAINER
+
+Log 10 menit terakhir:
+
+docker logs NAMA_CONTAINER --since 10m
+
+
+5. MASUK KE DALAM CONTAINER
+----------------------------
+
+Masuk menggunakan sh:
+
+docker exec -it NAMA_CONTAINER sh
+
+Jika bash tersedia:
+
+docker exec -it NAMA_CONTAINER bash
+
+Menjalankan command tanpa masuk:
+
+docker exec NAMA_CONTAINER COMMAND
+
+
+6. LIHAT ISI FOLDER CONTAINER
+-----------------------------
+
+Lihat isi folder:
+
+docker exec NAMA_CONTAINER ls -lah /var/www/html
+
+Lihat isi folder tertentu:
+
+docker exec NAMA_CONTAINER ls -lah /var/www/html/wp-content
+
+Masuk ke container:
+
+docker exec -it NAMA_CONTAINER sh
+
+Kemudian:
+
+cd /var/www/html
+ls -lah
+
+Cari file:
+
+docker exec NAMA_CONTAINER \
+  find /var/www/html -name "NAMA_FILE"
+
+Cari folder:
+
+docker exec NAMA_CONTAINER \
+  find /var/www/html -type d -name "NAMA_FOLDER"
+
+
+7. CEK FILE DAN UKURAN FOLDER
+-----------------------------
+
+Cek file:
+
+docker exec NAMA_CONTAINER \
+  ls -lah /path/to/file
+
+Cek ukuran folder:
+
+docker exec NAMA_CONTAINER \
+  du -sh /path/to/folder
+
+Cek ukuran isi folder:
+
+docker exec NAMA_CONTAINER \
+  du -sh /path/to/folder/*
+
+
+8. COPY FILE
+------------
+
+Copy dari container ke host:
+
+docker cp NAMA_CONTAINER:/path/file /path/host/
+
+Copy dari host ke container:
+
+docker cp /path/host/file NAMA_CONTAINER:/path/
+
+
+9. LIHAT VOLUME
+---------------
+
+Lihat semua volume:
+
+docker volume ls
+
+Detail volume:
+
+docker volume inspect NAMA_VOLUME
+
+Cari lokasi volume di host:
+
+docker volume inspect NAMA_VOLUME \
+  --format '{{.Mountpoint}}'
+
+Lihat isi volume dari host:
+
+ls -lah /var/lib/docker/volumes/NAMA_VOLUME/_data
+
+
+10. CEK MOUNT / VOLUME CONTAINER
+--------------------------------
+
+docker inspect NAMA_CONTAINER \
+  --format '{{json .Mounts}}'
+
+Atau lihat konfigurasi lengkap:
+
+docker inspect NAMA_CONTAINER | less
+
+
+11. CEK NETWORK
+---------------
+
+Lihat network:
+
+docker network ls
+
+Detail network:
+
+docker network inspect NAMA_NETWORK
+
+Lihat IP container:
+
+docker inspect NAMA_CONTAINER \
+  --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
+
+
+12. CEK ENVIRONMENT
+-------------------
+
+Lihat environment variable:
+
+docker inspect NAMA_CONTAINER \
+  --format '{{range .Config.Env}}{{println .}}{{end}}'
+
+PERHATIAN:
+Jangan membagikan output command ini ke publik.
+Environment variable dapat berisi password, token, API key,
+atau informasi sensitif lainnya.
+
+
+13. CEK IMAGE YANG DIGUNAKAN CONTAINER
+--------------------------------------
+
+docker inspect NAMA_CONTAINER \
+  --format '{{.Config.Image}}'
+
+
+14. CEK LABEL TRAEFIK
+---------------------
+
+Lihat label:
+
+docker inspect NAMA_CONTAINER \
+  --format '{{json .Config.Labels}}' | tr ',' '\n'
+
+Filter label Traefik:
+
+docker inspect NAMA_CONTAINER \
+  --format '{{json .Config.Labels}}' |
+  tr ',' '\n' | grep -i traefik
+
+
+15. CEK PROSES DALAM CONTAINER
+------------------------------
+
+docker top NAMA_CONTAINER
+
+Atau:
+
+docker exec NAMA_CONTAINER ps aux
+
+
+16. CEK RESOURCE
+----------------
+
+Lihat penggunaan resource semua container:
+
+docker stats
+
+Container tertentu:
+
+docker stats NAMA_CONTAINER
+
+
+17. DOCKER COMPOSE
+------------------
+
+Lihat status:
+
+docker compose ps
+
+Restart service:
+
+docker compose restart
+
+Menjalankan / membuat ulang container:
+
+docker compose up -d
+
+Melihat konfigurasi Compose:
+
+docker compose config
+
+
+18. HAPUS CONTAINER
+-------------------
+
+Hapus container yang berhenti:
+
+docker rm NAMA_CONTAINER
+
+Force:
+
+docker rm -f NAMA_CONTAINER
+
+
+19. HAPUS IMAGE
+---------------
+
+Hapus image:
+
+docker rmi IMAGE
+
+Contoh:
+
+docker rmi php:8.5-fpm
+
+
+20. CLEANUP
+-----------
+
+Lihat penggunaan disk:
+
+docker system df
+
+Hapus dangling image:
+
+docker image prune
+
+Hapus container yang sudah berhenti:
+
+docker container prune
+
+HATI-HATI:
+
+docker system prune -a
+
+Jangan menjalankan perintah ini sembarangan
+pada server production karena dapat menghapus
+resource Docker yang masih dibutuhkan.
+
+
+21. CONTOH WORDPRESS
+--------------------
+
+Contoh nama container:
+
+NAMA_CONTAINER_PHP
+NAMA_CONTAINER_NGINX
+
+Masuk ke PHP:
+
+docker exec -it NAMA_CONTAINER_PHP sh
+
+Masuk ke Nginx:
+
+docker exec -it NAMA_CONTAINER_NGINX sh
+
+Folder WordPress:
+
+/var/www/html
+
+Volume WordPress:
+
+NAMA_VOLUME_WORDPRESS
+
+Cari lokasi volume di host:
+
+docker volume inspect NAMA_VOLUME_WORDPRESS \
+  --format '{{.Mountpoint}}'
+
+Cek file WordPress:
+
+docker exec NAMA_CONTAINER_PHP \
+  ls -lah /var/www/html
+
+Cek wp-content:
+
+docker exec NAMA_CONTAINER_PHP \
+  ls -lah /var/www/html/wp-content
+
+Cek versi PHP:
+
+docker exec NAMA_CONTAINER_PHP php -v
+
+Cek PHP extensions:
+
+docker exec NAMA_CONTAINER_PHP php -m
+
+
+22. TIPS DEBUGGING CEPAT
+------------------------
+
+Jika website bermasalah:
+
+1. Cek container:
+
+docker ps -a
+
+2. Cek log:
+
+docker logs --tail 100 NAMA_CONTAINER
+
+3. Cek resource:
+
+docker stats
+
+4. Cek image:
+
+docker inspect NAMA_CONTAINER \
+  --format '{{.Config.Image}}'
+
+5. Cek mount/volume:
+
+docker inspect NAMA_CONTAINER \
+  --format '{{json .Mounts}}'
+
+6. Masuk ke container:
+
+docker exec -it NAMA_CONTAINER sh
+
+7. Cek file aplikasi:
+
+ls -lah /var/www/html
+
+
+CATATAN KEAMANAN
+----------------
+
+Jangan commit ke repository public:
+
+- Password
+- API key
+- API token
+- SSH private key
+- Database credential
+- Cloudflare token
+- WordPress salts
+- File .env
+- File .htpasswd
+- Output docker inspect yang mengandung credential
+
+Gunakan placeholder seperti:
+
+NAMA_CONTAINER
+NAMA_VOLUME
+NAMA_NETWORK
+example.com
+/path/to/file
