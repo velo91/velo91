@@ -1,0 +1,66 @@
+cd ~/php-base
+nano Dockerfile
+
+
+
+----------------------------------------------------------
+FROM php:8.5-fpm
+
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+RUN install-php-extensions \
+    bcmath \
+    bz2 \
+    gd \
+    intl \
+    zip \
+    soap \
+    xsl \
+    mysqli \
+    pdo_mysql \
+    igbinary \
+    msgpack \
+    redis \
+    memcached \
+    imagick \
+    oauth \
+    uploadprogress \
+    decimal
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libheif1 \
+        libheif-plugin-libde265 \
+        libheif-plugin-x265 \
+        libheif-plugin-aomdec \
+        libheif-plugin-aomenc \
+        libmagickcore-7.q16-10-extra \
+    && rm -rf /var/lib/apt/lists/*
+----------------------------------------------------------
+
+
+
+# Build image
+docker build -t php-base:8.5-fpm .
+
+
+
+# Cek hasilnya
+docker run --rm php-base:8.5-fpm php -m | grep -Ei "mysqli|gd|zip|intl|imagick|redis"
+
+
+
+# Ubah compose di Dokploy
+# Buka aplikasi WordPress kamu, tab General/Compose, lalu ganti satu baris di service php:
+php:
+  image: php-base:8.5-fpm
+# Simpan, lalu klik Deploy (bukan Restart).
+
+
+
+# Deploy ulang di tampilan dokploy
+
+
+
+# Verifikasi di container
+docker exec <container_php> php -m
