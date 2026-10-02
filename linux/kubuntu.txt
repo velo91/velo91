@@ -1,19 +1,3 @@
-GNOME
-sudo apt install gnome-shell-extension-manager
-	search: Dash to Panel => install
-sudo apt install gnome-browser-connector
-	https://extensions.gnome.org/extension/4839/clipboard-history/?utm_source=chatgpt.com
-	https://extensions.gnome.org/extension/10548/notedock/
-sudo apt install tilix
-	preferences > profile > general > custom font: enabled > Ubuntu Mono 11pt
-sudo apt install dolphin
-	# to set Dolphin as the default for folders, run:
-	xdg-mime default org.kde.dolphin.desktop inode/directory
-	# then check:
-	xdg-mime query default inode/directory
-	# the result should be:
-	org.kde.dolphin.desktop
-
 ======================================
 Download Kubuntu ISO => https://kubuntu.org/download/
 =======================================
@@ -46,10 +30,10 @@ Fix Annoying KDE Wallet Popup
 4. Restart your computer or log out and log back in for the changes to apply.
 
 =====================================
-Setup Konsole
+Download Tillix (replace Konsole)
 =====================================
-# Settings > Toolbars Shown: Main Toolbar
-# Settings > Manage Profiles > New: ideapad (set as default) > Edit > Appearance > Color scheme: Campbell > Font: Ubuntu Moto 11pt
+sudo apt install tilix
+	preferences > profile > general > custom font: enabled > Ubuntu Mono 11pt
 
 ======================================
 Change to DNS Cloudflare & Google
@@ -128,7 +112,7 @@ $ unzip penting*.zip
 $ sudo cp -a ~/Downloads/mscorefonts/ ~/Downloads/penting/ /usr/share/fonts/
 
 =======================================
-Install Apps From APT via Konsole
+Install Apps From APT via Tillix
 # include libwebkit2gtk-4.1-0 (web content engine library for GTK)
 # include gimp-help-en (complete language support for system)
 =======================================
@@ -1167,6 +1151,12 @@ Section "InputClass"
 	MatchDevicePath "/dev/input/event*"
 EndSection
 $ reboot
+
+=====================================
+Setup Konsole
+=====================================
+# Settings > Toolbars Shown: Main Toolbar
+# Settings > Manage Profiles > New: ideapad (set as default) > Edit > Appearance > Color scheme: Campbell > Font: Ubuntu Moto 11pt
 
 =====================================
 Install ZSH & OhMyPosh
