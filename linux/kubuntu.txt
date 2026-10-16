@@ -495,7 +495,7 @@ Application Launcher (default)
 Pager
 Icon-only Task Manager
 	Appearance > Use multi-row view: Never
-	Spacing between icon: Normal
+	Spacing between icon: Large
 	Behavior > Group: Do not group
 Sticky Note
 	Text font size: 10pt
@@ -518,7 +518,8 @@ KVitals
 	BAT
 System Tray
 	Panel icon size: Small
-	Panel icon spacing: Normal
+	Panel icon spacing: Large
+	Power and Battery: Always show
 Digital Clock
 	Information: Show date (always beside time)
 	Show seconds: Only in the tooltip
