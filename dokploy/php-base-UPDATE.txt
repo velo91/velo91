@@ -1,0 +1,177 @@
+PHP BASE IMAGE UPDATE — WORDPRESS / DOKPLOY
+============================================
+
+Tujuan
+------
+Panduan umum untuk memperbarui image PHP kustom WordPress di Docker/Dokploy.
+Image kustom ini menyertakan ekstensi PHP tambahan dan dukungan HEIC/HEIF.
+
+PENTING
+-------
+1. Periksa versi patch PHP yang memperbaiki kerentanan yang sedang ditangani.
+   Nomor versi pada contoh di bawah hanya contoh dan tidak selalu versi terbaru.
+2. Jangan jalankan `docker compose down -v` dan jangan menghapus volume WordPress.
+3. Jangan menghapus image lama sampai website dan fitur penting selesai diuji.
+4. Build image baru dan uji dahulu sebelum mengubah container produksi.
+5. Sesuaikan nama aplikasi, container, image, dan path dengan lingkungan sendiri.
+6. Backup file WordPress tidak mencakup database jika database dikelola terpisah.
+
+A. BACKUP FILE WORDPRESS (OPSIONAL, DISARANKAN)
+----------------------------------------------
+Cari nama volume yang benar:
+  docker volume ls
+
+Periksa volume yang dipakai container PHP:
+  docker inspect NAMA_CONTAINER_PHP \
+    --format '{{range .Mounts}}{{println "Volume:" .Name "Destination:" .Destination}}{{end}}'
+
+Buat direktori backup:
+  mkdir -p /root/backup-wordpress
+
+Buat arsip dari volume dalam mode baca-saja:
+  docker run --rm \
+    -v NAMA_VOLUME_WORDPRESS:/source:ro \
+    -v /root/backup-wordpress:/backup \
+    alpine:3.22 \
+    sh -c 'cd /source && tar czf /backup/wordpress-files-$(date +%F-%H%M).tar.gz .'
+
+Periksa arsip:
+  ls -lh /root/backup-wordpress/
+  gzip -t /root/backup-wordpress/NAMA_ARSIP.tar.gz
+
+Ganti NAMA_VOLUME_WORDPRESS dan NAMA_ARSIP.tar.gz sesuai hasil yang sebenarnya.
+Backup ini mencakup file dalam volume, bukan database eksternal.
+
+Simpan juga salinan konfigurasi Compose sebelum mengeditnya. Contoh:
+  cp /PATH/KE/docker-compose.yml /root/backup-wordpress/docker-compose.yml
+
+B. PERBARUI VERSI DASAR PHP
+---------------------------
+Masuk ke direktori yang berisi Dockerfile:
+  cd /PATH/KE/DIREKTORI-BUILD
+
+Periksa baris basis image:
+  head -n 3 Dockerfile
+
+Edit Dockerfile:
+  nano Dockerfile
+
+Ubah hanya baris FROM ke versi patch yang sudah diverifikasi, contoh:
+  FROM php:8.5.X-fpm
+
+Ganti 8.5.X dengan versi patch yang benar-benar tersedia dan sesuai kebutuhan.
+Pertahankan instruksi ekstensi dan dependensi yang digunakan aplikasi, misalnya
+dukungan Imagick/HEIC/HEIF. Simpan lalu periksa kembali:
+  head -n 3 Dockerfile
+
+C. BUILD IMAGE PENGUJIAN
+------------------------
+Gunakan nomor versi yang sesuai. Contoh berikut memakai placeholder 8.5.X:
+
+  docker build --pull -t php-base:8.5.X-test .
+
+Build dapat memerlukan beberapa menit karena ekstensi tertentu dikompilasi ulang.
+Tag `-test` tidak mengganti image produksi yang sedang berjalan.
+
+Jika build gagal, jangan lanjutkan deployment. Periksa error build terlebih dahulu.
+
+D. UJI VERSI DAN EKSTENSI
+-------------------------
+Periksa versi PHP:
+  docker run --rm php-base:8.5.X-test php -v
+
+Periksa ekstensi penting:
+  docker run --rm php-base:8.5.X-test php -m \
+    | grep -Ei 'bcmath|bz2|gd|intl|mysqli|pdo_mysql|zip|soap|xsl|redis|memcached|imagick|oauth|uploadprogress|decimal|igbinary|msgpack'
+
+Periksa dukungan HEIC/HEIF jika digunakan:
+  docker run --rm php-base:8.5.X-test php -r '
+  echo Imagick::getVersion()["versionString"], PHP_EOL;
+  print_r(Imagick::queryFormats("HEI*"));
+  '
+
+Pastikan versi PHP benar, ekstensi yang dibutuhkan tersedia, dan format HEIC/HEIF
+muncul jika aplikasi memerlukannya. Jika pemeriksaan gagal, jangan deploy.
+
+E. BERI TAG RILIS
+-----------------
+Jika pemeriksaan lulus, beri tag rilis unik. Contoh:
+
+  docker tag php-base:8.5.X-test php-base:8.5.X-r1
+
+Gunakan tag baru untuk setiap rilis. Hindari menimpa tag rilis lama agar rollback mudah.
+
+F. PERBARUI IMAGE DI DOKPLOY
+----------------------------
+1. Buka aplikasi WordPress di Dokploy.
+2. Buka konfigurasi Compose.
+3. Pada service PHP, ubah nilai image, contoh:
+     image: php-base:8.5.X-r1
+4. Jangan mengubah konfigurasi Nginx, PHP-FPM, atau volume jika tidak diperlukan.
+5. Simpan konfigurasi.
+6. Klik Deploy, bukan hanya Restart.
+
+Pastikan nama image pada Compose sama persis dengan tag yang tersedia pada host Docker.
+Jika image bersifat lokal, build harus dilakukan pada host tersebut atau image perlu
+didistribusikan terlebih dahulu ke host tujuan.
+
+G. VERIFIKASI SETELAH DEPLOY
+----------------------------
+Periksa container dan image:
+  docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'
+
+Periksa versi PHP pada container aktif:
+  docker exec NAMA_CONTAINER_PHP php -v
+
+Periksa ekstensi:
+  docker exec NAMA_CONTAINER_PHP php -m
+
+Periksa log terbaru:
+  docker logs --since 5m NAMA_CONTAINER_PHP
+
+Uji secara manual:
+- Halaman utama website
+- Login dashboard WordPress
+- Unggah media
+- Fitur yang memakai Imagick/HEIC/HEIF jika digunakan
+
+H. RESTART NGINX JIKA DIPERLUKAN
+-------------------------------
+Restart Nginx tidak selalu wajib. Jika website belum normal setelah penggantian
+container PHP atau koneksi ke PHP-FPM belum pulih, periksa nama container Nginx:
+
+  docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'
+
+Lalu restart container yang sesuai:
+  docker restart NAMA_CONTAINER_NGINX
+
+Tunggu beberapa detik, periksa status container, dan uji website kembali.
+
+I. ROLLBACK JIKA ADA MASALAH
+----------------------------
+1. Jangan hapus image lama.
+2. Ubah image service PHP di Compose ke tag sebelumnya yang masih tersedia.
+3. Deploy ulang melalui Dokploy.
+4. Jika diperlukan, restart Nginx menggunakan nama container yang benar.
+5. Verifikasi website dan fitur penting.
+
+Jangan menghapus volume WordPress. Backup file tidak mencakup database eksternal.
+
+CHECKLIST SINGKAT
+-----------------
+[ ] Versi patch PHP yang tepat sudah diverifikasi.
+[ ] Dockerfile diperbarui.
+[ ] Image pengujian berhasil dibangun.
+[ ] Versi PHP dan ekstensi lolos pemeriksaan.
+[ ] HEIC/HEIF lolos pemeriksaan jika diperlukan.
+[ ] Image diberi tag rilis baru.
+[ ] Compose diperbarui dan aplikasi di-deploy.
+[ ] Website, dashboard, unggah media, dan fitur penting diuji.
+[ ] Nginx direstart hanya jika diperlukan.
+[ ] Image lama dan backup dipertahankan untuk rollback.
+
+Catatan keamanan
+----------------
+Pembaruan PHP menutup kerentanan yang diperbaiki pada versi tersebut, tetapi tidak
+membuktikan bahwa server tidak pernah disusupi sebelum patch diterapkan. Jika ada
+indikasi eksploitasi, periksa log dan indikasi kompromi secara terpisah.
