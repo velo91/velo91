@@ -21,8 +21,9 @@
     "chat.disableAIFeatures": true,
     "chat.inlineChat.agentHost.enabled": false,
     "chat.titleBar.signIn.enabled": false,
-    "workbench.statusBar.visible": false,
     "workbench.colorTheme": "Dark Velo",
     "workbench.editor.highlightModifiedTabs": true,
+    "workbench.statusBar.visible": false,
+    "workbench.startupEditor": "none",
     "window.commandCenter": true
 }
