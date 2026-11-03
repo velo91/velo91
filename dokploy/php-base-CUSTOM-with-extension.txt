@@ -98,9 +98,18 @@ docker logs --since 5m NAMA_CONTAINER_PHP
 
 
 
-# Cek image yang tidak dipakai lagi
+# ⭐ Opsional: Auto rebuild mingguan via cron (patch PHP terbaru otomatis)
+sudo crontab -e
+# Paste ini untuk setup cron untuk rebuild otomatis setiap hari Minggu jam 00:00
+0 0 * * 0 cd ~/php-base && docker build -t php-base:8.5-fpm-custom . && docker tag php-base:8.5-fpm-custom docker.io/ubbg/php-base:8.5-fpm-custom && docker push docker.io/ubbg/php-base:8.5-fpm-custom
+# Cek cron terpasang
+crontab -l
+
+
+
+# Opsional: Cek image yang tidak dipakai lagi
 docker ps -a --filter ancestor=NAMA_CONTAINER_PHP --format "table {{.Names}}\t{{.Status}}"
-# Jika hasilnya kosong maka aman dihapus. Cara hapus image:
+# Opsional: Jika hasilnya kosong maka aman dihapus, cara hapus image:
 docker rmi NAMA_CONTAINER_PHP 2>/dev/null || true
 
 
