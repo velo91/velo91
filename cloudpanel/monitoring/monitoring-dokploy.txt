@@ -1,0 +1,303 @@
+PANDUAN MONITORING SERVER VIA DOKPLOY
+=====================================
+
+KONSEP
+------
+- Stack monitoring di-deploy sebagai Docker Compose di Dokploy
+- Container PHP-FPM + Nginx melayani dashboard via HTTP (port 8080)
+- Database SQLite menyimpan data metrik, disimpan di host dan di-mount ke container
+- Agent monitoring berupa bash script berjalan di HOST OS (bukan di container)
+- Agent membaca metrik dari sistem host dan menulis ke SQLite tiap 1 menit via cron
+
+ALUR KERJA
+----------
+1. Agent (update_monitoring.sh) berjalan via cron di host
+2. Agent membaca /proc/stat, free, df, /proc/loadavg
+3. Agent menyimpan hasil ke /home/web-main/server-stats/db.sq3
+4. Container PHP-FPM + Nginx melayani index.php yang baca db.sq3
+5. User akses http://<IP>:8080/metrics/health/index.php
+
+STRUKTUR FOLDER
+---------------
+/home/<USER>/server-stats/
+├── docker-compose.yml
+├── nginx.conf
+├── init-db.sh
+├── update_monitoring.sh
+├── db.sq3
+├── metrics/
+│   └── health/
+│       └── index.php
+└── monitoring-dokploy.txt (panduan ini)
+
+FILE 1: docker-compose.yml
+---------------------------
+services:
+  app:
+    image: php:fpm
+    volumes:
+      - /home/web-main/server-stats:/var/www/monitoring
+    restart: always
+
+  nginx:
+    image: nginx:stable
+    ports:
+      - "8080:80"
+    volumes:
+      - /home/web-main/server-stats/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /home/web-main/server-stats:/usr/share/nginx/html:ro
+    depends_on:
+      - app
+    restart: always
+
+Penjelasan:
+- app: PHP-FPM menggunakan custom image milik sendiri (sudah ada extension yang dibutuhkan)
+- nginx: Nginx stable, expose port 8080 ke host (tidak 80 agar tidak konflik dengan WordPress)
+- Volume mount folder server-stats ke dua container:
+  * ke PHP-FPM: /var/www/monitoring (read-write, untuk akses db.sq3)
+  * ke Nginx: /usr/share/nginx/html (read-only, untuk serve file statis)
+- nginx.conf di-mount sebagai config Nginx
+
+FILE 2: nginx.conf
+------------------
+server {
+    listen 80;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass app:9000;
+        fastcgi_param SCRIPT_FILENAME /var/www/monitoring$fastcgi_script_name;
+    }
+}
+
+Penjelasan:
+- Listen di port 80 (di dalam container network)
+- Root document: /usr/share/nginx/html (yang ter-mount dari host)
+- Location /: hanya serve file yang ada, jika tidak ada return 404
+- Location ~ .php$: proxy ke PHP-FPM container "app" di port 9000
+- SCRIPT_FILENAME menggunakan path literal /var/www/monitoring (bukan $document_root karena di Dokploy variabel terkadang kosong)
+
+FILE 3: init-db.sh
+------------------
+#!/bin/bash
+DB="/home/<USER>/server-stats/db.sq3"
+mkdir -p "$(dirname "$DB")"
+sqlite3 "$DB" << 'EOF'
+CREATE TABLE IF NOT EXISTS instance_cpu (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT,
+    value INTEGER
+);
+CREATE TABLE IF NOT EXISTS instance_memory (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT,
+    value INTEGER
+);
+CREATE TABLE IF NOT EXISTS instance_disk_usage (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT,
+    disk TEXT,
+    value INTEGER
+);
+CREATE TABLE IF NOT EXISTS instance_load_average (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT,
+    period INTEGER,
+    value REAL
+);
+CREATE TABLE IF NOT EXISTS instance_db_status (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT,
+    processlist INTEGER,
+    threads_connected INTEGER,
+    max_used_connections INTEGER,
+    max_connections INTEGER,
+    percent_connected INTEGER,
+    percent_used INTEGER
+);
+EOF
+echo "Database initialized at $DB"
+
+Penjelasan:
+- Membuat database SQLite di /home/<USER>/server-stats/db.sq3
+- Tabel instance_cpu: menyimpan persentase CPU usage
+- Tabel instance_memory: menyimpan persentase memory usage
+- Tabel instance_disk_usage: menyimpan persentase disk usage per mount point
+- Tabel instance_load_average: menyimpan load average 1, 5, 15 menit
+- Tabel instance_db_status: untuk monitoring MariaDB (opsional, tidak digunakan jika DB remote)
+
+FILE 4: update_monitoring.sh
+-----------------------------
+#!/bin/bash
+DB="/home/<USER>/server-stats/db.sq3"
+NOW=$(date -u '+%Y-%m-%d %H:%M:%S')
+
+# CPU: baca /proc/stat, hitung total vs idle
+read cpu user nice system idle iowait irq softirq steal guest guest_nice < /proc/stat
+TOTAL=$((user+nice+system+idle+iowait+irq+softirq+steal))
+BUSY=$((TOTAL - idle - iowait))
+CPU_USAGE=$((BUSY * 100 / TOTAL))
+
+sqlite3 "$DB" <<EOF
+INSERT INTO instance_cpu (created_at, value) VALUES ('$NOW', $CPU_USAGE);
+EOF
+
+# MEMORY: baca free -m, hitung persentase used
+read total used free shared buff_cache available < <(free -m | awk '/Mem:/ {print $2, $3, $4, $5, $6, $7}')
+MEM_USED_PERCENT=$(( (used * 100) / total ))
+
+sqlite3 "$DB" <<EOF
+INSERT INTO instance_memory (created_at, value) VALUES ('$NOW', $MEM_USED_PERCENT);
+EOF
+
+# DISK: baca df, exclude tmpfs/devtmpfs/overlay/squashfs, simpan setiap mount
+df -P -x tmpfs -x devtmpfs -x overlay -x squashfs | tail -n +2 | while read -r filesystem size used avail pcent mount; do
+    if [[ "$mount" == "/boot/efi" ]] || [[ "$mount" == "/snap"* ]]; then
+        continue
+    fi
+    USAGE=$(echo $pcent | tr -d '%')
+    sqlite3 "$DB" <<EOF
+INSERT INTO instance_disk_usage (created_at, disk, value) VALUES ('$NOW', '$mount', $USAGE);
+EOF
+done
+
+# LOAD AVERAGE: baca /proc/loadavg
+read LOAD1 LOAD5 LOAD15 rest < /proc/loadavg
+sqlite3 "$DB" <<EOF
+INSERT INTO instance_load_average (created_at, period, value) VALUES ('$NOW', 1, $LOAD1);
+INSERT INTO instance_load_average (created_at, period, value) VALUES ('$NOW', 5, $LOAD5);
+INSERT INTO instance_load_average (created_at, period, value) VALUES ('$NOW', 15, $LOAD15);
+EOF
+
+Penjelasan:
+- Berjalan di host, bukan di container
+- Membaca metrik langsung dari kernel (/proc/stat, /proc/loadavg) dan free/df
+- Menulis ke SQLite di /home/web-main/server-stats/db.sq3
+- Waktu disimpan dalam UTC agar konsisten lintas server
+- Tidak ada bagian MariaDB karena DB berada di server remote
+
+FILE 5: metrics/health/index.php
+---------------------------------
+<?php
+$db = __DIR__ . '/../../db.sq3';
+if (!file_exists($db)) {
+    die("Database not found.");
+}
+$pdo = new PDO('sqlite:' . $db);
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// JSON mode
+if (isset($_GET['json'])) {
+    $cpu = $pdo->query("SELECT * FROM instance_cpu ORDER BY id DESC LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+    $mem = $pdo->query("SELECT * FROM instance_memory ORDER BY id DESC LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+    $loads = $pdo->query("SELECT * FROM instance_load_average ORDER BY id DESC LIMIT 3")->fetchAll(PDO::FETCH_ASSOC);
+    $disk = $pdo->query("SELECT * FROM instance_disk_usage ORDER BY id DESC LIMIT 10")->fetchAll(PDO::FETCH_ASSOC);
+    
+    $response = [
+        'cpu' => $cpu ? (int)$cpu['value'] : null,
+        'memory' => $mem ? (int)$mem['value'] : null,
+        'load_average' => [],
+        'disk_usage' => [],
+        'swap' => null,
+        'timestamp' => $cpu['created_at'] ?? null
+    ];
+    
+    foreach ($loads as $l) {
+        $response['load_average'][$l['period']] = (float)$l['value'];
+    }
+    
+    $diskLatest = [];
+    foreach ($disk as $d) {
+        $diskLatest[$d['disk']] = $d;
+    }
+    $response['disk_usage'] = $diskLatest;
+    
+    // Hitung swap dari /proc/meminfo (host)
+    $meminfo = @file('/proc/meminfo', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if ($meminfo) {
+        $swap_total = 0; $swap_free = 0;
+        foreach ($meminfo as $line) {
+            if (strpos($line, 'SwapTotal:') === 0) $swap_total = (int)filter_var($line, FILTER_SANITIZE_NUMBER_INT);
+            if (strpos($line, 'SwapFree:') === 0) $swap_free = (int)filter_var($line, FILTER_SANITIZE_NUMBER_INT);
+        }
+        if ($swap_total > 0) {
+            $swap_used = $swap_total - $swap_free;
+            $response['swap'] = round(($swap_used / $swap_total) * 100, 1);
+        }
+    }
+    
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
+
+// HTML mode (dashboard)
+// Gunakan source code dashboard milik sendiri di sini
+// dengan login, chart, multi-server proxy, object storage, dll.
+?>
+
+Penjelasan:
+- Path DB: __DIR__ . '/../../db.sq3' karena file ada di metrics/health/, naik 2 level ke /home/web-main/server-stats/
+- Mode JSON: di-trigger oleh parameter ?json=1&latest=1
+- Mode HTML: dashboard lengkap dengan login, chart, dll (gunakan source code milik sendiri)
+- Swap dihitung langsung dari /proc/meminfo host (bukan dari DB)
+
+SETUP LANGKAH DEMI LANGKAH
+---------------------------
+
+1. Buat folder struktur
+   mkdir -p /home/<USER>/server-stats/metrics/health
+
+2. Buat semua file sesuai source code di atas
+   - docker-compose.yml
+   - nginx.conf
+   - init-db.sh
+   - update_monitoring.sh
+   - metrics/health/index.php (dengan source code lengkap)
+
+3. Install sqlite3 di host
+   sudo apt-get update && sudo apt-get install -y sqlite3
+
+4. Inisialisasi database
+   bash /home/<USER>/server-stats/init-db.sh
+
+5. Setup agent dan cron
+   sudo cp /home/<USER>/server-stats/update_monitoring.sh /usr/local/bin/
+   sudo chmod +x /usr/local/bin/update_monitoring.sh
+   (crontab -l 2>/dev/null; echo "* * * * * /usr/local/bin/update_monitoring.sh") | crontab -
+
+6. Test agent manual
+   /usr/local/bin/update_monitoring.sh
+   sqlite3 /home/<USER>/server-stats/db.sq3 "SELECT * FROM instance_cpu ORDER BY id DESC LIMIT 1;"
+
+7. Deploy di Dokploy
+   - Buat Stack baru → Docker Compose
+   - Paste isi docker-compose.yml
+   - Deploy
+
+8. Verifikasi
+   curl -s http://<IP>:8080/metrics/health/index.php?json=1&latest=1
+
+TROUBLESHOOTING
+--------------
+- "Database tidak ditemukan": Jalankan init-db.sh dulu, pastikan db.sq3 ada di /home/web-main/server-stats/
+- Data null di JSON: Jalankan update_monitoring.sh manual, cek apakah ada error
+- Permission denied script: chmod +x /usr/local/bin/update_monitoring.sh
+- Nginx error fastcgi_param: Pastikan nginx.conf pakai path literal /var/www/monitoring$fastcgi_script_name
+- Port 8080 refused: Cek apakah port dipakai aplikasi lain, atau cek status container di Dokploy
+- Swap tinggi: Normal di server 4GB RAM, tapi bisa ditambahkan RAM jika perlu
+- MariaDB remote lambat: Tambahkan object cache (Redis/Memcached) di WordPress
+
+CATATAN PENTING
+--------------
+- Port 8080 digunakan agar tidak konflik dengan WordPress (yang menggunakan port lain)
+- db.sq3 persisten di host, tidak hilang saat container restart
+- Agent berjalan di host karena butuh akses ke /proc, free, df
+- Jika nanti perlu monitoring DB MariaDB remote, tambahkan client mariadb di host dan modifikasi script
