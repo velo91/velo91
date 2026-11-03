@@ -41,34 +41,71 @@ RUN apt-get update \
 
 
 
-# Build image
-docker build -t php-base:8.5-fpm .
+# Build image dengan tag rilis
+docker build -t php-base:8.5.12-r1 .
 
 
 
-# Cek hasilnya
-docker run --rm php-base:8.5-fpm php -m | grep -Ei "mysqli|gd|zip|intl|imagick|redis"
+# Verifikasi versi PHP
+docker run --rm php-base:8.5.12-r1 php -v
 
 
 
-# Ubah compose di Dokploy
-# Buka aplikasi WordPress kamu, tab General/Compose, lalu ganti satu baris di service php:
-php:
-  image: php-base:8.5-fpm
-# Simpan, lalu klik Deploy (bukan Restart).
-
-
-
-# Deploy ulang di tampilan dokploy
-
-
-
-# Verifikasi di container
-docker exec <container_php> php -m
+# Cek ekstensi terpasang
+docker run --rm php-base:8.5.12-r1 php -m
 
 
 
 # Cek dukungan HEIC/HEIF
-docker exec <container_php> php -r 'echo Imagick::getVersion()["versionString"], "\n"; print_r(Imagick::queryFormats("HEI*"));'
+docker run --rm php-base:8.5.12-r1 php -r 'echo Imagick::getVersion()["versionString"], "\n"; print_r(Imagick::queryFormats("HEI*"));'
+
+
+
+# Pastikan sudah login akun docker hub
+docker info | grep Username
+# Kalau belum login, silakan login
+# Kalau belum ada akun docker hub silakan daftar di https://app.docker.com/login
+# Buat PAT => Personal Access Tokens (read & write) di https://app.docker.com/settings
+# Lalu login pakai username akun docker hub
+docker login -u <USERNAME>
+# Isikan PAT hingga Login Succeeded
+# Cek info login akun docker hub
+docker info | grep Username
+
+
+
+# Push ke Docker Hub agar image tidak hilang
+docker tag php-base:8.5.12-r1 docker.io/<USERNAME>/php-base:8.5.12-r1
+docker push docker.io/<USERNAME>/php-base:8.5.12-r1
+
+
+
+# Update compose di Dokploy
+# Buka aplikasi → tab General/Compose → Ganti satu baris di service php:
+php:
+  image: docker.io/<USERNAME>/php-base:8.5.12-r1
+# Simpan, lalu klik Deploy (bukan Restart)
+Jika deploy sudah berhasil, biasanya container nginx perlu di-restart sekali
+
+
+
+# Verifikasi setelah deploy di container produksi
+    # Periksa container dan image:
+    docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'
+    # Periksa versi PHP pada container aktif:
+    docker exec NAMA_CONTAINER_PHP php -v
+    # Periksa ekstensi:
+    docker exec NAMA_CONTAINER_PHP php -m
+    # Cek dukungan HEIC/HEIF
+    docker exec NAMA_CONTAINER_PHP php -r 'echo Imagick::getVersion()["versionString"], "\n"; print_r(Imagick::queryFormats("HEI*"));'
+    # Periksa log terbaru:
+    docker logs --since 5m NAMA_CONTAINER_PHP
+
+
+
+# Cek image yang tidak dipakai lagi
+docker ps -a --filter ancestor=php-base:8.5.12-test --format "table {{.Names}}\t{{.Status}}"
+# Jika hasilnya kosong maka aman dihapus. Cara hapus image:
+docker rmi php-base:8.5.12-test 2>/dev/null || true
 
 
