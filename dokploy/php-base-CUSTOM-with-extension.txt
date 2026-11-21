@@ -101,7 +101,7 @@ docker logs --since 5m NAMA_CONTAINER_PHP
 # ⭐⭐⭐ Auto rebuild mingguan via cron (patch PHP 8.5 versi terbaru otomatis)
 sudo crontab -e
 # Paste ini untuk setup cron untuk rebuild otomatis setiap hari Minggu jam 00:00
-0 0 * * 0 cd ~/php-base && docker build -t php-base:8.5-fpm-custom . && docker tag php-base:8.5-fpm-custom docker.io/ubbg/php-base:8.5-fpm-custom && docker push docker.io/ubbg/php-base:8.5-fpm-custom
+0 0 * * 0 cd ~/php-base && docker build --pull -t php-base:8.5-fpm-custom . && docker tag php-base:8.5-fpm-custom docker.io/ubbg/php-base:8.5-fpm-custom && docker push docker.io/ubbg/php-base:8.5-fpm-custom
 # Cek cron terpasang
 crontab -l
 
