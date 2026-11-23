@@ -70,6 +70,9 @@ hermes config set memory.memory_char_limit 1000000
 hermes config set memory.user_char_limit 1000000
 hermes config set display.compact true
 hermes config set display.interface cli
+hermes config set display.bell_on_prompt true
+   # pastikan di tilix sudah tersetel terminal-bell = 'sound' (default)
+   # kalau di vscode sudah tersetel "accessibility.signals.terminalBell": {"sound": "on", "announcement": "off"}
 hermes model
 # choose openrouter
 # open hermes, type:
