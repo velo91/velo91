@@ -70,9 +70,19 @@ hermes config set memory.memory_char_limit 1000000
 hermes config set memory.user_char_limit 1000000
 hermes config set display.compact true
 hermes config set display.interface cli
-hermes config set display.bell_on_prompt true
-   # pastikan di tilix sudah tersetel terminal-bell = 'sound' (default)
-   # kalau di vscode sudah tersetel "accessibility.signals.terminalBell": {"sound": "on", "announcement": "off"}
+
+    # Hermes: bel saat approval
+    hermes config set display.bell_on_prompt true
+    # Tilix wajib setel:
+    #   profil -> terminal-bell = 'sound' (default). CATATAN: di Wayland ini TIDAK berbunyi, karena Tilix memakai gtk_widget_error_bell -> GdkWaylandDisplay.beep (no-op).
+    # VSCode (settings.json) wajib setel:
+    #   "accessibility.signals.terminalBell": {"sound": "on", "announcement": "off"}
+    #
+    # Penawar untuk Tilix: plugin approval-bell (~/.hermes/plugins/approval-bell/)
+    hermes plugins enable approval-bell     # lalu restart Hermes
+    paplay ~/.hermes/plugins/approval-bell/sound.oga   # tes suara
+    # kalau mau ganti suara: timpa sound.oga (atau set HERMES_APPROVAL_SOUND=/path/suara.oga)
+
 hermes model
 # choose openrouter
 # open hermes, type:
